@@ -50,4 +50,4 @@ format:
     theme: Yeti
     
 execute: 
-  freeze: auto
+  freeze: true
