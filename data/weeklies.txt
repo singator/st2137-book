@@ -1,0 +1,20 @@
+magazine,current,lastyear
+Business Week,88.36,118.03
+The Economist,48,65
+Newsweek,17.73,42.78
+The New Republic,9.33,10.47
+Time,19.46,71.37
+US News & World Report,11,38.09
+The Weekly Standard,10,14
+Auto Week,25.41,22.33
+Entertainment Weekly,36,29.36
+Golf World,33.67,14.32
+New York,44,88.8
+People,55.73,85.62
+The Sporting News,7.7,7
+Sports Illustrated,38.14,74.7
+The New Yorker,27.37,33.53
+TV Guide,82.02,41.44
+US Weekly,38.33,20
+Parade,9.63,13.04
+USA Weekend,8,10.75

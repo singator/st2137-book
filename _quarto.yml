@@ -1,0 +1,53 @@
+project:
+  type: book
+
+book:
+  title: "Statistical Computing and Programming"
+  author: "Vik Gopal, Daisy Pham Thi Kim Cuc"
+  date: "04/10/2024"
+  chapters:
+    - index.qmd
+    - 01-intro_to_R.qmd
+    - 02-intro_to_python.qmd
+    - 03-summarising_data.qmd
+    - 04-categorical_data_analysis.qmd
+    - 05-robust_statistics.qmd
+    - 06-intro_to_sas.qmd
+    - 07-2_sample_tests.qmd
+    - 08-anova.qmd
+    - 09-regression.qmd
+    - 10-simulation.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    css: style.css
+    code-tools: false
+    code-line-numbers: true
+    fig-align: center
+    toc: true
+    toc-title: Contents
+    toc-depth: 2
+    number-sections: true
+    number-depth: 2
+    theme: Yeti
+  pdf:
+    documentclass: scrreprt
+    papersize: a4
+    fig-align: center
+    toc: true
+    toc-title: Contents
+    toc-depth: 3
+    number-sections: true
+    number-depth: 2
+    geometry: 
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    theme: Yeti
+    
+execute: 
+  freeze: auto

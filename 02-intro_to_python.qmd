@@ -1,0 +1,440 @@
+---
+title: "Introduction to Python"
+---
+
+```{r setup, include=FALSE}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(knitr)
+library(reticulate)
+if(startsWith(osVersion, "Win")){
+  use_virtualenv("C:/Users/stavg/penvs/p310/")
+} else {
+  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
+}
+```
+
+## Introduction
+
+Python is a general-purpose programming language. It is a higher-level language
+than C, C++ and Java in the sense that a Python program does not have to be
+compiled before execution.
+
+It was originally conceived back in the 1980s by Guido van Rossum at Centrum
+Wiskunde & Informatica (CWI) in the Netherlands. The language is named after a
+BBC TV show (Guido’s favorite program) “Monty Python's Flying Circus”.
+
+Python reached version 1.0 in January 1994. Python 2.0 was released on October
+16, 2000. Python 3.0, which is backwards-*incompatible* with earlier versions,
+was released on 3 December 2008.
+
+Python is a very flexible language; it is simple to learn yet is fast enough to 
+be used in production. Over the past ten years, more and more comprehensive data 
+science toolkits (e.g. scikit-learn, NTLK, tensorflow, keras) have been written 
+in Python and are now the standard frameworks for those models. 
+
+Just like R, Python is an open-source software. It is free to use and extend.
+
+## Installing Python and Jupyter Lab
+
+The easiest approach obtain the Python-related software that we need for this
+course is to download and install Anaconda from [this link](https://www.anaconda.com/download/).
+
+::: {.callout-important}
+For our class, please ensure that you are using at least Python 3.10.
+:::
+
+Anaconda installs several software, including Python itself, and Jupyter Lab. 
+Jupyter Lab is an interactive platform for running Python code. Once you have launched 
+Jupyter Lab through Anaconda, you should be able to access it through your browser at 
+<http://localhost:8888>.
+
+![Jupyter Lab](figs/jupyter_lab2.png){#fig-jupyter fig-alt="Jupyter Lab" fig-align="center"}
+
+Jupyter notebooks consist of cells, which can be of three main types: 
+
+* code cells,
+* output cells, and 
+* markdown cells. 
+
+In @fig-jupyter, the red box labelled 1 is a markdown cell. It can be used to
+contain descriptions or summary of the code. The cells in the box labelled 2 are
+code cells. To run the codes from our notes, you can copy and paste the codes
+into a new cell, and then execute them with Ctrl-Enter. 
+
+Try out this Easter egg that comes with any Python installation:
+
+```{python}
+import this
+
+```
+
+More information on using Jupyter notebooks can be obtained from 
+[this link](https://jupyterlab.readthedocs.io/en/stable/user/interface.html). 
+
+Jupyter notebooks are great for interactive work with Python, but more advanced
+users may prefer a full-fledged IDE. If you are an advanced user, and are
+comfortable with an IDE of your own choice (e.g. Spyder or VSCode), feel free to
+continue using that to run the codes for this course.
+
+## Basic Data Structures in Python
+
+The main objects in native[^1] Python that contain data are
+
+[^1]: i.e., Python without any packages imported.
+
+* **Lists**, which are defined with [ ]. Lists are mutable.
+* **Tuples**, which are defined with ( ). Tuples are immutable.
+* **Dictionaries**,  which are defined with { }. Dictionaries have keys and 
+  items. They are also mutable.
+  
+Very soon, we shall see that for statistics, the more common objects we shall
+deal with are dataframes (from pandas) and arrays (from numpy). However, the
+latter two require add-on packages; the three object classes listed above are
+baked into Python.
+
+By the way, this is what mean by (im)mutable:
+
+```{python mutable-1}
+x = [1, 3, 5, 7, 8, 9, 10]
+
+# The following is OK, because "x" is a list, and hence mutable
+x[3] = 17     
+print(x)  
+```
+
+```{python mutable-2}
+#| eval: false
+
+# The following will return an error, because x_tuple is a tuple, and hence immutable.
+x_tuple = (1, 3, 5, 6, 8, 9, 10)
+x_tuple[3] = 17 
+```
+
+::: {.callout-note}
+Note that we do *not* need the `c( )` function, like we did in R. This is a 
+common mistake I make when switching between the two languages.
+:::
+
+Here is how we create lists, tuples and dictionaries.
+
+```{python create-obj}
+x_list = [1, 2, 3]
+x_tuple = (1, 2, 3)
+x_dict = {'a': 1, 'b': 2, 'c': 3} # access with x_dict['a']
+```
+
+
+## Slice Operator in Python
+
+One important point to take note is that, contrary to R, Python begins indexing 
+of objects starting with 0. Second, the slice operator in Python is a little more 
+powerful than in R. It can be used to extract regular sequences from a list, tuple or 
+string easily.
+
+In general, the syntax is `<list-like object>[a:b]`, where `a` and `b` are integers. 
+Such a call would return the elements at indices `a`, `a+1` until `b-1`. Take note that 
+the end point index is not included.
+
+```{python slice-1}
+char_list = ['P', 'y', 't', 'h', 'o', 'n']
+char_list[0]           # returns first element
+char_list[-1]          # returns last element
+len(char_list)         # returns number of elements in list-like object.
+char_list[::2]         # from first to last, every 2 apart.
+```
+
+This indexing syntax is used in the additional packages we use as well, so it is
+good to know about it.Here is a pictorial representation of how positive and
+negative indexes work together.
+
+![Positive and negative indices](figs/python_slice.png){#fig-py-slice fig-alt="Python slice" fig-align="center" width="55%"}
+
+## Numpy Arrays
+
+Just like R, Python has several contributed packages that are essential for statistics
+and data analysis. These include `numpy` and `pandas`. Please install these two 
+packages (through Anaconda) before proceeding with the rest of this topic.
+
+```{python np-1}
+import numpy as np
+
+array1 = np.array([1, 2, 3, 4, 5])
+array2 = np.array([6, 7, 8, 9, 10])
+matrix1 = np.array([array1, array2])
+print(matrix1)
+```
+
+The slice operator can then be used in each dimension of the matrix to subset it. 
+
+```{python np-2}
+matrix1[0, 0::3]       # returns first row, columns 1 and 4
+matrix1[1, 1:3]        # returns second row, columns 2 and 3
+```
+
+The numpy arrays are objects in Python, with several methods associated with them.
+For instance, here are a couple and how we can use them:
+
+```{python np-3}
+# To obtain the dimensions of an array:
+matrix1.shape
+# To transpose a 2-D array
+matrix1.T
+```
+
+Here is a table with some common operations that you can apply on a numpy array. 
+The objects referred to in the second column are from the earlier lines of code.
+
+| Method      | Description                                 |
+|-------------|---------------------------------------------|
+| `shape`     | Returns dimensions, e.g. `matrix1.shape`    |
+| `T`         | Transposes the array, e.g. `matrix1.T`      |
+| `mean`      | Computes col- or row-wise means, e.g. `matrix1.mean(axis=0)` or `matrix1.mean(axis=1)` |
+| `sum`       | Computes col- or row-wise means, e.g. `matrix1.sum(axis=0)` or `matrix1.sum(axis=1)` |
+| `argmax`    | Return the index corresponding to the max within the specified dimension, e.g. `matrix1.argmax(axis=0)` for the max within the row.  |
+| `reshape`   | To change the dimensions, e.g. `array1.reshape((5,1))` converts the array into a 5x1 matrix |
+
+To combine arrays, we use the functions `vstack` and `hstack`. These are analogous to 
+`rbind` and `cbind` in R.
+
+```{python np-4}
+np.vstack([matrix1, array1])
+
+np.hstack([array1.reshape((5,1)), 
+           array2.reshape((5,1)),
+           matrix1.T])
+```
+
+## Pandas DataFrames
+
+The next important add-on package that we shall work with is `pandas`. It provides a
+`DataFrame` class of objects for working with tabular data, just like `data.frame` 
+within R. However, there are some syntactic differences with R that we shall get 
+to soon. The following command creates a simple pandas 
+
+```{python pd-1}
+import pandas as pd
+
+data = {'X': [1,2,3,4,5,6], 'Y': [6,5,4,3,2,1]}
+df = pd.DataFrame(data, columns =['X', 'Y'])
+print(df)
+```
+
+We will get into the syntax for accessing subsets of the dataframe soon, but for 
+now, here is how we can extract a single column from the dataframe. The resulting
+object is a pandas Series, which is a lot like a 1-D array, and can be indexed 
+like one as well.
+
+```{python pd-2}
+col_x = df.X
+col_x[0:3]
+```
+
+::: {.callout-note}
+The built-in objects in Python are lists, tuples and dictionaries. Lists and
+tuples can contain elements of different types, e.g. strings and integers in a
+single object. However, they have no dimensions, so to speak of. Numpy arrays
+can be high-dimensional structures. In addition, the elements have to be
+homogeneous. For instance, in a 2x2x2 numeric numpy array, every one of the 8
+elements has to be a float point number. Pandas DataFrames are tabular objects,
+where, within a column, each element has to be of the same type.
+:::
+
+## Reading Data into Python
+
+Let us begin with the same file that we began with in the topic on R: `crab.txt`. 
+In that topic, we observed that this file contained headings, and that the columns 
+were separated by spaces. The `pandas` function to read in such text files 
+is `read_table()`. It has numerous optional arguments, but in this case we just 
+need these two:
+
+```{python read-1}
+data1 = pd.read_table('data/crab.txt', header=0, 
+                      delim_whitespace=True)
+data1.head()
+```
+
+Do take note of the differences with R - the input to the header argument 
+corresponds to the line number containing the column names. Secondly, the `head()`
+function is a method belonging to the DataFrame object.
+
+When the file does not contain column names, we can supply them (as a list 
+or numpy array) when we read the data in. Here is an example:
+
+```{python read-2}
+varnames = ["Subject", "Gender", "CA1", "CA2", "HW"]
+data2 = pd.read_table('data/ex_1.txt', header=None,  
+                      names=varnames, delim_whitespace=True)
+data2
+```
+
+## Subsetting DataFrames with Pandas
+
+DataFrames in pandas are indexed for efficient searching and retrieval. When 
+subsetting them, we have to add either `.loc` or `.iloc` and use it with square 
+brackets.
+
+The `.loc` notation is used when we wish to index rows and columns according 
+to their names. The general syntax is `<DataFrame>.loc[ , ]`. A slice operator 
+can be used for each row subset and column subset to be retrieved.
+
+```{python subset-1}
+# retrieve rows 0,1,2 and columns from color to width
+data1.loc[0:2, 'color':'width']
+
+# retrieve every second row starting from row 0 until row 5, and all columns
+data1.loc[0:5:2, ]
+```
+
+The `.iloc` notation is used when we wish to index rows and columns using integer
+values. The general syntax is similar; try this and observe the difference with
+`.loc`.
+
+```{python subset-2}
+data1.iloc[0:2, 0:2]
+```
+
+If you notice, the `.iloc` notation respects the rules of the in-built slice
+operator, in the sense that the end point is *not* included in the output. On
+the other hand, the `.loc` notation includes the end point.
+
+In data analysis, a common requirement is to subset a dataframe according to 
+values in columns. Just like in R, this is achieved with logical values.
+
+```{python subset-3}
+data2[data2.Gender == "M"]
+
+data2[(data2.Gender == "M") & (data2.CA2 > 85)]
+```
+
+## Loops in Python
+
+It is extremely efficient to execute "for" loops in Python. Many objects in Python
+are *iterators*, which means they can be iterated over. Lists, tuples and dictionaries
+can all be iterated over very easily. 
+
+Before getting down to examples, take note that Python does not use curly braces
+to denote code blocks. Instead, these are defined by the number of indentations 
+in a line. 
+
+```{python iter-1}
+for i in x:
+  print(f"The current element is {i}.")
+```
+
+Notice how we do not need to set up any running index; the object is just iterated 
+over directly. The argument to the `print()` function is an f-string. It is the 
+recommended way to create string literals that can vary according to arguments.
+
+Here is another example of iteration, this time using dictionaries which have
+key-value pairs. In this case, we iterate over the keys.
+
+```{python iter-2}
+dict1 = {'holmes': 'male', 'watson': 'male', 'mycroft': 'male', 
+         'hudson': 'female', 'moriarty': 'male', 'adler': 'female'}
+# dict1['hudson']
+
+for x in dict1.keys():
+    print(f"The gender of {x} is {dict1[x]}")
+```
+
+In the topic on R, we wrote a block of code that incremented an integer until the 
+square was greater than 36. Here is the Python version of that code:
+
+```{python iter-3}
+x = 0          
+test = True 
+
+while test:
+    x += 1  
+    test = x < 6
+    print(f"{x**2}, {test}")
+```
+
+It is also straightforward to write a for-loop to perform the above, since we
+know when the break-point of the loop will be. The `np.arange()` function
+generates evenly spaced integers.
+
+```{python iter-4}
+for y in np.arange(6):
+    print(f"The square of {y} is {y**2}.")
+```
+
+## User Defined Functions
+
+The syntax for creating a new function in Python is as follows:
+```{python user-fn-1}
+#| eval: false
+def fn_name(arguments):
+  Python statements
+  ...
+  Returned object
+```
+
+Here is the same function as earlier, computing the circumference of a circle 
+with a given radius.
+
+```{python user-fn-2}
+import math
+
+def circumference(radius):
+    return 2 * math.pi * radius 
+
+circumference(1.3)
+```
+
+## Miscellaneous
+
+### Package installation
+
+So far, we have used numpy and pandas, but we shall need to call upon a few 
+other add-on packages we proceed in the course. These include statsmodels, scipy and 
+matplotlib. It is convenient to use Anaconda to help install these packages.
+
+### Getting help
+
+Most functions in Python are well-documented. In order to access this 
+documentation from within a Jupyter notebook, use the `?` operator. For more 
+details, including the source code, use the `??` operator.  For instance, 
+for more details of the `pd.read_csv()` function, you can execute this command:
+
+```{python get-help-1}
+#| eval: false
+pd.read_csv?
+```
+
+The internet is full of examples and how-to's for Python; help is typically just 
+a Google search or a chatGPT query away. However, it is always better to learn 
+from the ground up instead of through snippets for specific tasks. Please look
+through the websites in the @sec-web-ref below.
+
+## Major Differences with R
+
+Before we leave this topic, take note of some very obvious differences with R:
+
+1. The assignment operator in R is `<-`; for Python it is `=`.
+2. When creating vectors in R, you will need `c( )`, but in Python, this is 
+   not the case.
+3. R implements it's object oriented mechanism in a different manner from Python.
+   For instance, when plotting with R, you would call `plot(<object>)` but in 
+   Python, you would call `<object>.plot()`. In Python, the methods belong to the
+   class, but not in R.
+
+
+## References 
+
+### Website References {#sec-web-ref}
+
+1. [Beginner's guide to Numpy](https://numpy.org/doc/1.26/user/absolute_beginners.html):
+   This is from the official numpy documentation website.
+2. [10 minutes to Pandas](https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html): 
+   This is a quickstart to pandas, from the official website. You can find more 
+   tutorials on this page too.
+3. [Python official documentation](https://docs.python.org/3/): This is from the  
+   official Python page. It contains a tutorial, an overview of all built-in packages,
+   and several howto's, including on regular expression. A very good website to learn
+   from.
+4. [Anaconda installation](https://www.anaconda.com/download/)
+5. [Jupyter Lab help](https://jupyterlab.readthedocs.io/en/stable/user/interface.html)

@@ -1,0 +1,668 @@
+---
+title: "Summarising Numerical Data"
+---
+
+```{r setup}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(knitr)
+library(reticulate)
+if(startsWith(osVersion, "Win")){
+  use_virtualenv("C:/Users/stavg/penvs/p310/")
+} else {
+  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
+}
+```
+
+## Introduction
+
+This is the first topic where we are going to see how to perform statistical
+analysis using two software: R and Python. Every language has it's strengths and
+weaknesses, so instead of attempting to exactly replicate the same chart/output
+in each software, we shall try to understand their respective approaches better.
+
+Our end goal is to analyse data - toward that end, we should be versatile and
+adaptable. Focus on learning how to be fast and productive in whichever
+environment you are told to work in. If you have a choice, then be aware of what
+each framework can do best, so that you can choose the right one.
+
+Although it is a simplistic view, the following diagram, @fig-sum-1, provides a
+useful taxonomy of the types of columns we might have in our dataset. Having at
+least an initial inkling of the type of data matters, because it helps decide
+what type of summary to generate or what type of plot to make.
+
+![Data types](figs/summ_data-01.png){#fig-sum-1 fig-alt="Data types" fig-align="center" width="60%"}
+
+There are two main ways of summarising data: numerically and graphically. This topic
+will cover:
+
+1. Numerical summaries for univariate quantitative variables.
+2. Numerical summary for association between two quantitative variables.
+2. Useful graphs for univariate quantitative variables.
+
+Techniques for categorical variables will be covered in a subsequent topic.
+
+Before proceeding, let us introduce one of the datasets that we'll be using in
+this, and subsequent topics. The dataset comes from the 
+[UCI Machine Learning Repository](https://archive.ics.uci.edu/), which is a 
+very useful place to get datasets for practice. 
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-intro}
+
+### Student Performance: Dataset Introduction
+
+The particular dataset can be downloaded from 
+[this page](https://archive.ics.uci.edu/dataset/320/student+performance). 
+Once you unzip the file, you will find two `csv` files in the `student/` folder:
+
+* `student-mat.csv` (performance in Mathematics)
+* `student-por.csv` (performance in Portugese)
+
+Each dataset was collected using school reports and questionnaires. Each row 
+corresponds to a student. The columns are attributes, including student grades,
+demographic information, and other social and school-related information. Each 
+file corresponds to the students' performance in one of the two subjects. For more 
+information, you can refer to @cortez2008using.
+
+| #  | Feature    | Description (Type)                                   | Details                                                                                                        |
+|----|------------|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| 1  | school     | student's school (binary)                            | "GP" - Gabriel Pereira, "MS" - Mousinho da Silveira                                                            |
+| 2  | sex        | student's sex (binary)                               | "F" - female, "M" - male                                                                                       |
+| 3  | age        | student's age (numeric)                              | from 15 to 22                                                                                                  |
+| 4  | address    | student's home address type (binary)                 | "U" - urban, "R" - rural                                                                                       |
+| 5  | famsize    | family size (binary)                                 | "LE3" - less or equal to 3, "GT3" - greater than 3                                                             |
+| 6  | Pstatus    | parent's cohabitation status (binary)                | "T" - living together, "A" - apart                                                                             |
+| 7  | Medu       | mother's education (numeric)                         | 0 - none, 1 - primary education (4th grade), 2 - 5th to 9th grade, 3 - secondary education, 4 - higher education|
+| 8  | Fedu       | father's education (numeric)                         | 0 - none, 1 - primary education (4th grade), 2 - 5th to 9th grade, 3 - secondary education, 4 - higher education|
+| 9  | Mjob       | mother's job (nominal)                               | teacher, health, civil services, at_home, other                                                                |
+| 10 | Fjob       | father's job (nominal)                               | teacher, health, civil services, at_home, other                                                                |
+| 11 | reason     | reason to choose this school (nominal)               | close to home, school reputation, course preference, other                                                     |
+| 12 | guardian   | student's guardian (nominal)                         | mother, father, other                                                                                          |
+| 13 | traveltime | home to school travel time (numeric)                 | 1 - <15 min, 2 - 15 to 30 min, 3 - 30 min to 1 hour, 4 - >1 hour                                               |
+| 14 | studytime  | weekly study time (numeric)                          | 1 - <2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, 4 - >10 hours                                                |
+| 15 | failures   | number of past class failures (numeric)              | n if 1<=n<3, else 4                                                                                            |
+| 16 | schoolsup  | extra educational support (binary)                   | yes or no                                                                                                      |
+| 17 | famsup     | family educational support (binary)                  | yes or no                                                                                                      |
+| 18 | paid       | extra paid classes within the course subject (Math or Portuguese) (binary) | yes or no                     |
+| 19 | activities | extra-curricular activities (binary)                 | yes or no                                                                                                      |
+| 20 | nursery    | attended nursery school (binary)                     | yes or no                                                                                                      |
+| 21 | higher     | wants to take higher education (binary)              | yes or no                                                                                                      |
+| 22 | internet   | Internet access at home (binary)                     | yes or no                                                                                                      |
+| 23 | romantic   | with a romantic relationship (binary)                | yes or no                                                                                                      |
+| 24 | famrel     | quality of family relationships (numeric)            | from 1 - very bad to 5 - excellent                                                                             |
+| 25 | freetime   | free time after school (numeric)                     | from 1 - very low to 5 - very high                                                                             |
+| 26 | goout      | going out with friends (numeric)                     | from 1 - very low to 5 - very high                                                                             |
+| 27 | Dalc       | workday alcohol consumption (numeric)                | from 1 - very low to 5 - very high                                                                             |
+| 28 | Walc       | weekend alcohol consumption (numeric)                | from 1 - very low to 5 - very high                                                                             |
+| 29 | health     | current health status (numeric)                      | from 1 - very bad to 5 - very good                                                                             |
+| 30 | absences   | number of school absences (numeric)                  | from 0 to 93                                                                                                   |
+
+There are three columns pertaining to output grades, but G3 is the main one:
+
+| #  | Feature | Description (Type)               | Details                    |
+|----|---------|----------------------------------|----------------------------|
+| 31 | G1      | first period grade (numeric)     | from 0 to 20               |
+| 32 | G2      | second period grade (numeric)    | from 0 to 20               |
+| 33 | G3      | final grade (numeric, output target) | from 0 to 20           |
+
+:::
+
+## Numerical Summaries
+
+To begin, let us read in the dataset and generate numerical summaries of the 
+output variable of interest (G3). Numerical summaries include:
+
+1. Basic information about the data, e.g. number of observations and missing 
+   values.
+2. Measures of central tendency, e.g. mean, median
+3. Measures of spread, e.g. standard deviation, IQR (interquartile range), range.
+
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-num}
+
+### Student Performance: Numerical Summaries
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-stud-perf-1}
+#| warning: false
+#| message: false
+stud_perf <- read.table("data/student/student-mat.csv", sep=";", 
+                        header=TRUE)
+summary(stud_perf$G3)
+sum(is.na(stud_perf$G3))
+```
+
+#### Python code
+
+```{python py-stud-perf-1}
+import pandas as pd
+import numpy as np
+
+stud_perf  = pd.read_csv("data/student/student-mat.csv", delimiter=";")
+stud_perf.G3.describe()
+#stud_perf.G3.info()
+```
+
+:::
+
+From the output, we can understand that we have 395 observations, ranging from 0
+to 20. I would surmise that the data is more or less symmetric in the middle 
+(distance from 3rd-quartile to median is identical to distance from median to 
+1st-quartile). There are no missing values in the data.
+
+However, summaries of a single variable are rarely useful since we do not have 
+a basis for comparison. In this dataset, we are interested in how the grade varies
+with one or some of the *other* variables. Let's begin with Mother's education.
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-stud-perf-2}
+round(aggregate(G3 ~ Medu, data=stud_perf, FUN=summary), 2)
+table(stud_perf$Medu)
+```
+
+#### Python code
+
+```{python py-stud-perf-2}
+stud_perf[['Medu', 'G3']].groupby('Medu').describe()
+```
+
+:::
+
+Now we begin to understand the context of G3 a little better. As the education
+level of the mother increases, the mean does increase. The middle 50-percent of
+the grade does seem to increase as well. The exception is the case where the
+mother has no education, but we can see that there are only 3 observations in
+that category so we should read too much into it.
+
+:::
+
+
+Here are some things to note about numerical summaries: 
+
+* If the mean and the median are close, it indicates that the distribution of 
+  the data is close to symmetric.
+* The mean is sensitive outliers but the median is not. We shall see more about 
+  this in the topic on robust statistics.
+* When the mean is much larger than the median, it suggests that there could   
+  be a few very large observations. It has resulted in a *right-skewed*  
+  distribution. Conversely, if the mean is much smaller than the median, we 
+  probably have a *left-skewed* distribution. 
+  
+While numerical summaries provide us with some basic information about the data,
+they also leave out a lot. Even for experts, it is possible to have a wrong 
+mental idea about the data from the numerical summaries alone. For instance,
+all three histograms in @fig-sum-2 have a mean of 0 and standard deviation of 1!
+
+![Value of a picture](figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="65%"}
+
+That's why we have to turn to *graphics* as well, in order to summarise our
+data.
+
+## Graphical Summaries
+
+### Histograms 
+
+The first chart type we shall consider is a histogram. A histogram is a graph
+that uses bars to portray the frequencies or relative frequencies of the
+possible outcomes for a quantitative variable.
+
+When we create a histogram, here are some things that we look for:
+
+1. *What is the overall pattern?*: Do the data cluster together, or is there a 
+   gap such that one or more observations deviate from the rest?
+2. *Do the data have a single mound or peak?* If yes, then we have what is 
+   known as a unimodal distribution. Data with two 'peaks' are referred to 
+   as bimodal, and data with many peaks are referred to as multimodal.
+3. *Is the distribution symmetric or skewed?*
+4. *Are there any suspected outliers?*
+
+Here are some examples of histograms:
+
+::: {layout="[[1,1], [1]]"}
+![Histogram with outliers](figs/summ_data-03.png)
+
+![Bimodal histogram](figs/summ_data-04.png)
+
+![Skewed histograms](figs/summ_data-05.png)
+:::
+
+Now let us turn to making histograms in R and Python.
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-hist}
+
+### Student Performance: Histograms
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-stud-perf-3}
+#| fig-align: center
+#| out-width: "70%"
+hist(stud_perf$G3, main="G3 histogram")
+```
+
+#### Python code
+
+```{python py-stud-perf-3}
+#| fig-align: center
+#| out-width: "70%"
+fig = stud_perf.G3.hist(grid=False)
+fig.set_title('G3 histogram');
+```
+
+:::
+
+Do you notice anything different with the two histograms? 
+
+In general, we now have a little more information than the 5 number summaries.
+It appears that there the histogram is not a basic unimodal one. There is a large 
+spike of about 40 students who scored very low scores.
+
+As we mentioned earlier, it is not useful to inspect a histogram in a silo.
+Hence we shall condition on Mother's education once more, to create separate
+histograms for each group. Remember that this is a case where the response
+variable `G3` is quantitative, and the explanatory variable `Medu` is ordinal.
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-stud-perf-4}
+#| fig-align: center
+#| out-width: "70%"
+library(lattice)
+histogram(~G3 | Medu, data=stud_perf, type="density")
+```
+
+#### Python code
+
+```{python py-stud-perf-4}
+#| fig-align: center
+#| out-width: "70%"
+stud_perf.G3.hist(by=stud_perf.Medu, figsize=(15,10), density=True, 
+                  layout=(2,3));
+```
+
+:::
+
+Although we it's not easy to adjust the heights of the two versions to make them
+identical, we can, by looking at either one, see that the proportion of 0-scores 
+reduces as the mother's education increases. Perhaps this is reading too much 
+into the dataset, but there seem to be more scores on the higher end for higher
+educated mothers.
+
+:::
+
+### Density Plots
+
+When using histograms, we have to vary the bin size. It is difficult to compare
+histograms because they are not smooth. An alternative to histograms is the
+kernel density plot. Essentially, this is obtained by smoothing the heights of
+the rectangles in a histogram.
+
+Suppose we have observed an i.i.d sample $x_1, x_2, \ldots, x_n$ from a common
+continuous pdf $f(\cdot)$. Then the kernel density estimate at $x$ is given by 
+
+$$
+\hat{f}(x)  = \frac{1}{nh} \sum_{i=1}^n K \left( \frac{x - x_i}{h} \right)
+$$
+where
+
+* $K$ is a density function. A typical choice is the standard normal.
+* $h$ is a bandwidth, which determines which of the nearest points are used. The 
+  effect is similar to the number of bins in a histogram.
+
+There is no analytical expression for the final estimate. The kernel $K$ weights
+nearby points (to $x$) and returns the value of the density function.
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-dist}
+
+### Student Performance: Density Estimates
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-stud-perf-5}
+#| fig-align: center
+#| out-width: "70%"
+densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
+```
+
+#### Python code
+
+```{python py-stud-perf-5}
+#| fig-align: center
+#| out-width: "70%"
+import matplotlib.pyplot as plt
+f, axs = plt.subplots(2, 3, squeeze=False, figsize=(15,6))
+out2 = stud_perf.groupby("Medu")
+for y,df0 in enumerate(out2):
+    tmp = plt.subplot(2, 3, y+1)
+    df0[1].G3.plot(kind='kde')#(kind="kde", ax=tmp)
+    tmp.set_title(df0[0])
+```
+
+:::
+
+As you can see, with density plots it is also possible to overlay them for closer
+comparison. This is not possible with histograms without some transparency in the 
+rectangle colours.
+
+:::
+
+### Boxplots 
+
+Now we turn to boxplots. Boxplots provide a skeletal representation of a
+distribution, and they are very well suited for showing distributions for
+multiple variables.
+
+Here are the steps for drawing a boxplot: 
+
+1. Determine Q1, Q2 and Q3. The box is made from Q1 and Q3. The median is drawn
+   as a line or a dot within the box.
+2. Determine the max-whisker reach: Q3 + 1.5IQR; the min-whisker reach 
+   by Q1 − 1.5IQR.
+3. Any data point that is out of the range from the min to max whisker reach
+   is classified as a potential outlier.
+4. Except for the outliers, the maximum point determines the upper whisker and
+   the minimum points determines the lower whisker of a boxplot.
+   
+A boxplot helps us to identify the median, lower and upper quantiles and
+outlier(s) (see @fig-sum-8).
+
+![Boxplot construction](figs/summ_data-08.png){#fig-sum-8 fig-alt="Boxplot construction" fig-align="center" width="70%"}
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-box}
+
+### Student Performance: Boxplots
+
+Instead of using mother's education once again, we use the number of times a 
+student goes out (`goout`) as the explanatory variable this time. From the
+boxplot outputs, it appears there is no strong strictly increasing/decreasing 
+trend associated with G3. Instead, although the differences between the 
+categories are not large, it seems as though there is an "optimal" number of 
+times that students could go out. Too little and too much leads to lower median
+G3 scores.
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-stud-perf-6}
+#| fig-align: center
+#| out-width: "70%"
+bwplot(G3 ~ goout, horizontal = FALSE, data=stud_perf)
+```
+
+#### Python code
+
+```{python py-stud-perf-6}
+#| fig-align: center
+#| out-width: "70%"
+stud_perf.plot.box(column='G3', by='goout')
+```
+
+:::
+
+
+:::
+
+### QQ-plots
+
+Finally, we turn to QQ-plots. A Quantile-Quantile plot is a graphical diagnostic 
+tool for assessing if a dataset follows a particular distribution. Most of the time
+we would be interested in comparing against a Normal distribution. 
+
+A QQ-plot plots the standardized sample quantiles against the theoretical
+quantiles of a N(0; 1) distribution. If they fall on a straight line, then we
+would say that there is evidence that the data came from a normal distribution.
+
+Especially for unimodal datasets, the points in the middle will fall close to the 
+line. The value of a QQ-plot is in judging if the tails of the data are fatter 
+or thinner than the tails of the Normal. 
+
+```{r qq-eg-1}
+#| echo: false
+#| label: fig-qq-1
+#| layout-ncol: 2
+#| fig-align: center
+#| fig-cap: "QQ-plots"
+#| fig-subcap:
+#|  - "Thinner than Normal"
+#|  - "Fatter than Normal"
+set.seed(2137)
+X <- runif(100)
+qqnorm(X, main="Both tails thinner than Normal")
+qqline(X)
+
+Y <- rt(100, df=2)
+qqnorm(Y, main="Both tails fatter than Normal")
+qqline(Y)
+
+```
+
+::: {.callout-note}
+Please be careful! Some software/packages will switch the axes (i.e. plot the
+sample quantiles on the x-axis instead of the y-axis, unlike @fig-qq-1). Please
+observe and interpret accordingly.
+:::
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-concrete-intro}
+
+### Concrete Slump: Dataset Introduction
+
+Concrete is a highly complex material. The slump flow of concrete is not only
+determined by the water content, but that is also influenced by other concrete
+ingredients. The UCI page for this dataset is
+[here](https://archive.ics.uci.edu/dataset/182/concrete+slump+test). The reference
+for this article is @yeh2007modeling.
+
+The data set includes 103 data points. There are 7 input variables, and 3 output
+variables in the data set. These are the columns in the data:
+
+Input variables (7)(component kg in one $m^3$ concrete):
+
+1.  Cement
+2.  Slag
+3.  Fly ash
+4.  Water
+5.  SP - a super plasticizer to improve consistency.
+6.  Coarse Aggr.
+7.  Fine Aggr.
+
+Output variables (3):
+
+1. SLUMP (cm) You can read more about the [slump test](https://en.wikipedia.org/wiki/Concrete_slump_test) here. 
+2. FLOW (cm) The previous wikipedia page has a link to the flow test too.
+3. 28-day Compressive Strength (Mpa) 
+
+::: {.panel-tabset}
+
+#### R code 
+
+To read in the data in R:
+
+```{r}
+concrete <- read.csv("data/concrete+slump+test/slump_test.data")
+names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
+```
+
+#### Python code
+
+```{python}
+concrete = pd.read_csv("data/concrete+slump+test/slump_test.data")
+concrete.rename(columns={'No':'id', 'Compressive Strength (28-day)(Mpa)':'Comp_Strength'}, 
+                inplace=True)
+```
+
+
+:::
+
+:::
+
+Let us consider the Comp.Strength output variable. The histogram overlay
+in @fig-concrete-1 suggests some skewness and fatter tails than the Normal.
+
+```{r}
+#| echo: false
+#| out-width: "70%"
+#| fig-align: center
+#| fig-cap: Comparing data with reference Normal (blue)
+#| label: fig-concrete-1
+
+hist(concrete$Comp.Strength, freq = FALSE)
+dens_out <- density(concrete$Comp.Strength)
+lines(dens_out$x, dens_out$y, col="red")
+
+x_mean <- mean(concrete$Comp.Strength)
+x_sd <- sd(concrete$Comp.Strength)
+x_vals <- seq(10, 65, by=0.5)
+y_vals <- dnorm(x_vals, mean=x_mean, sd=x_sd)
+lines(x_vals, y_vals, col="blue", lty=2)
+```
+
+The next chart is a QQ-plot, for assessing deviations from Normality.
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-concrete-qq}
+
+### Concrete: QQ-plots
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-concrete-1}
+#| fig-align: center
+#| out-width: "70%"
+qqnorm(concrete$Comp.Strength)
+qqline(concrete$Comp.Strength)
+```
+
+#### Python code
+
+```{python py-concrete-1}
+#| fig-align: center
+#| out-width: "70%"
+from scipy import stats
+import statsmodels.api as sm
+sm.qqplot(concrete.Comp_Strength, line="q");
+```
+
+:::
+
+The deviation of the tails does not seem to be that large, judging from the QQ-plot.
+:::
+
+## Correlation 
+
+When we are studying two quantitative variables, the most common numerical
+summary to quantify the relationship between them is the correlation
+coefficient. Suppose that $x_1, x_2, \ldots, x_n$ and $y_1, \ldots, y_n$ are two
+variables from a set of $n$ objects or people. The sample correlation between
+these two variables is computed as:
+
+$$
+r = \frac{1}{n-1} \sum_{i=1}^n \frac{(x_i - \bar{x})(y_i - \bar{y})}{s_x s_y}
+$$
+where $s_x$ and $s_y$ are the sample standard deviations. $r$ is an estimate of 
+the correlation between random variables $X$ and $Y$.
+
+::: {layout-nrow=2}
+![Linear Relation](figs/summ_data-06.png){fig-align=center out-width=60%}
+
+![Non-linear relation](figs/summ_data-07.png){fig-align=center out-width=60%}
+:::
+
+A few things to note about the value $r$, which is also referred to as the 
+Pearson correlation:
+
+* $r$ is always between -1 and 1.
+* A positive value for $r$ indicates a positive association and a negative value for
+  $r$ indicates a negative association.
+* Two variables have the same correlation, no matter which one is treated as
+  the response and which is treated as the explanatory variable.
+
+## Scatterplot Matrices
+
+::: {style="background-color: #D5D1D164; padding: 20px" #exm-concrete-scatter}
+
+### Concrete: Scatterplots
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-concrete-2}
+#| fig-align: center
+#| out-width: "100%"
+col_to_use <- c("Cement", "Slag", "Comp.Strength", "Water", "SLUMP.cm.",
+                "FLOW.cm.")
+pairs(concrete[, col_to_use], panel = panel.smooth)
+```
+
+#### Python code
+
+```{python py-concrete-3}
+#| fig-align: center
+#| out-width: "100%"
+pd.plotting.scatter_matrix(concrete[['Cement', 'Slag', 'Comp_Strength', 'Water', 
+                                     'SLUMP(cm)', 'FLOW(cm)']], 
+                           figsize=(12,12));
+```
+
+:::
+
+The scatterplots allow a visual understanding of the patterns, but it is usually 
+also good to compute the correlation of all pairs of variables. 
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-concrete-3}
+#| fig-align: center
+#| message: false
+#| warning: false
+
+library(psych)
+corPlot(cor(concrete[, col_to_use]), cex=0.8, show.legend = FALSE)
+```
+
+#### Python code
+
+```{python py-concrete-4}
+#| fig-align: center
+#| out-width: "100%"
+corr = concrete[['Cement', 'Slag', 'Comp_Strength', 'Water', 
+                 'SLUMP(cm)', 'FLOW(cm)']].corr()
+corr.style.background_gradient(cmap='coolwarm_r')
+```
+
+:::
+
+The plots you see above are known as heatmaps. They enable us to pick out 
+groups of variables that are similar to one another. As you can see from the 
+blue block in the lower right corner, `Water`, `SLUMP.cm` and `FLOW.cm` are 
+very similar to one another.
+
+:::
+
+
+
+# References
+
+## Website References
+
+1. [UCI Machine Learning Repository](https://archive.ics.uci.edu/)
+2. [Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance).
+3. [Kernel density estimation](https://en.wikipedia.org/wiki/Kernel_density_estimation)
