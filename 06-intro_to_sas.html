@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Introduction to SAS – Statistical Computing and Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07-2_sample_tests.html" rel="next">
+<link href="./05-robust_statistics.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-intro_to_sas.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Computing and Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro_to_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro_to_python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-summarising_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-categorical_data_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-robust_statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-intro_to_sas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANalysis Of VAriance (ANOVA)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Simulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">6.1</span> Introduction</a></li>
+  <li><a href="#registering-for-a-sas-studio-account" id="toc-registering-for-a-sas-studio-account" class="nav-link" data-scroll-target="#registering-for-a-sas-studio-account"><span class="header-section-number">6.2</span> Registering for a SAS Studio Account</a></li>
+  <li><a href="#an-overview-of-sas-language" id="toc-an-overview-of-sas-language" class="nav-link" data-scroll-target="#an-overview-of-sas-language"><span class="header-section-number">6.3</span> An Overview of SAS Language</a></li>
+  <li><a href="#basic-rules-for-sas-programs" id="toc-basic-rules-for-sas-programs" class="nav-link" data-scroll-target="#basic-rules-for-sas-programs"><span class="header-section-number">6.4</span> Basic Rules for SAS Programs</a></li>
+  <li><a href="#reading-data-into-sas" id="toc-reading-data-into-sas" class="nav-link" data-scroll-target="#reading-data-into-sas"><span class="header-section-number">6.5</span> Reading Data into SAS</a></li>
+  <li><a href="#uploading-and-using-datasets" id="toc-uploading-and-using-datasets" class="nav-link" data-scroll-target="#uploading-and-using-datasets"><span class="header-section-number">6.6</span> Uploading and Using Datasets</a></li>
+  <li><a href="#summarising-numerical-data" id="toc-summarising-numerical-data" class="nav-link" data-scroll-target="#summarising-numerical-data"><span class="header-section-number">6.7</span> Summarising Numerical Data</a></li>
+  <li><a href="#categorical-data" id="toc-categorical-data" class="nav-link" data-scroll-target="#categorical-data"><span class="header-section-number">6.8</span> Categorical Data</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6.9</span> References</a></li>
+  <li><a href="#sec-web-ref" id="toc-sec-web-ref" class="nav-link" data-scroll-target="#sec-web-ref"><span class="header-section-number">6.10</span> Website References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
+<p>SAS (Statistical Analysis System) is a software that was originally created in the 1960s. Today, it is widely used by statisticians working in biostatistics and the pharmaceutical industries. Unlike Python and R, it is a proprietary software. The full license is quite expensive for a low-usage case such as ours. Thankfully, there is a free web-based version that we can use for our course.</p>
+</section>
+<section id="registering-for-a-sas-studio-account" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="registering-for-a-sas-studio-account"><span class="header-section-number">6.2</span> Registering for a SAS Studio Account</h2>
+<p>The first step is to create a SAS profile: Use your <em>NUS email address</em> to register and create your SAS profile using <a href="https://www.sas.com/profile/ui/#/create">this link</a>.</p>
+<p>Once you have verified your account using the email that would be sent to you, the <a href="https://welcome.oda.sas.com/">following link</a> should take you to this page:</p>
+<div id="fig-sas-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="SAS login">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_welcome-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="SAS login">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: SAS Studio Login
+</figcaption>
+</figure>
+</div>
+<p>Subsequently logging in should take you to the landing page, where you can begin writing SAS code and using SAS:</p>
+<div id="fig-sas-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="SAS Studio">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_welcome-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="SAS Studio">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: SAS Studio
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="an-overview-of-sas-language" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="an-overview-of-sas-language"><span class="header-section-number">6.3</span> An Overview of SAS Language</h2>
+<p>The SAS language is not a fully-fledged programming language like Python is, or even R. For the most part, we are going to capitalise on the point-and-click interface of SAS Studio in our course. However, even so, it is good to understand a little about the language so that we can modify the options for different procedures as necessary.</p>
+<p>A SAS program is a sequence of statements executed in order. Keep in mind that:</p>
+<blockquote class="blockquote">
+<p>Every SAS statement ends with a semicolon.</p>
+</blockquote>
+<p>SAS programs are constructed from two basic building blocks: DATA steps and PROC steps. A typical program starts with a DATA step to create a SAS data set and then passes the data to a PROC step for processing.</p>
+<div id="exm-sas-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.1 (Creating and Printing a Dataset)</strong></span> Here is a simple program that converts miles to kilometres in a DATA step and then prints the results with a PROC step:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>DATA distance;</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    Miles <span class="ot">=</span> <span class="fl">26.22</span>;</span>
+<span id="cb1-3"><a href="#cb1-3"></a>    Kilometer <span class="ot">=</span> <span class="fl">1.61</span> <span class="sc">*</span> Miles;</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>PROC PRINT DATA<span class="ot">=</span>distance;</span>
+<span id="cb1-6"><a href="#cb1-6"></a>RUN;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To run the above program, click on the “Running Man” icon in SAS studio. You should obtain the following output:</p>
+<div id="fig-sas-3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="SAS output">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_ex-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="SAS output">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: SAS output
+</figcaption>
+</figure>
+</div>
+<p>This dataset has only one observation (row).</p>
+</div>
+<p><em>Data</em> steps start with the DATA keyword. This is followed by the name for the dataset. <em>Procedures</em> start with PROC followed by the name of the particular procedure (e.g.&nbsp;PRINT, SORT or PLOT) you wish to run on the dataset. Most SAS procedures have only a handful of possible statements. A step ends when SAS encounters a new step (marked by a DATA or PROC statement) or a RUN statement. RUN statements are not part of a DATA or PROC step; they are global statements.</p>
+<div id="exm-sas-2" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.2 (Creating a Dataset Inline)</strong></span> The following program explicitly creates a dataset within the DATA step.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="sc">/</span><span class="er">*</span>CREATING DATA MANUALLY<span class="sc">:</span>; <span class="sc">*</span><span class="er">/</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>DATA ex_1;</span>
+<span id="cb2-4"><a href="#cb2-4"></a>INPUT subject gender <span class="sc">$</span> CA1 CA2 HW <span class="sc">$</span>;</span>
+<span id="cb2-5"><a href="#cb2-5"></a>DATALINES;</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="dv">10</span> m <span class="dv">80</span> <span class="dv">84</span> a</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="dv">7</span> m <span class="dv">85</span> <span class="dv">89</span> a</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="dv">4</span> f <span class="dv">90</span> <span class="dv">86</span> b</span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="dv">20</span> m <span class="dv">82</span> <span class="dv">85</span> b</span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="dv">25</span> f <span class="dv">94</span> <span class="dv">94</span> a</span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="dv">14</span> f <span class="dv">88</span> <span class="dv">84</span> c</span>
+<span id="cb2-12"><a href="#cb2-12"></a>;</span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a>PROC MEANS DATA<span class="ot">=</span>ex_1;</span>
+<span id="cb2-15"><a href="#cb2-15"></a>VAR CA1 CA2;</span>
+<span id="cb2-16"><a href="#cb2-16"></a>RUN;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output for the above code should be as follows:</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-nrow="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-sas-4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="DATA output">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_ex-2a.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="DATA output">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: Dataset output
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-sas-4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="PROC output">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_ex-2b.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="PROC output">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.5: Proc output
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>In the statements above, the <code>$</code>’s in the INPUT statement inform SAS that the preceding variables (gender and HW) are character. Note how the semi-colon for the DATALINES appears <em>after</em> all the data has been listed.</p>
+<p>PROC MEANS creates basic summary statistics for the variables listed.</p>
+</div>
+<p>To review, there are only 2 types of steps in SAS programs:</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<section id="data-steps" class="level3 quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<h3 class="anchored" data-anchor-id="data-steps">DATA steps</h3>
+<ul>
+<li>begin with DATA statements.</li>
+<li>read and modify data.</li>
+<li>create a SAS dataset.</li>
+</ul>
+</section>
+<section id="proc-steps" class="level3 quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<h3 class="anchored" data-anchor-id="proc-steps">PROC steps</h3>
+<ul>
+<li>begin with PROC statements.</li>
+<li>perform specific analysis or function.</li>
+<li>produce reports or results.</li>
+</ul>
+</section>
+</div>
+</div>
+</section>
+<section id="basic-rules-for-sas-programs" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="basic-rules-for-sas-programs"><span class="header-section-number">6.4</span> Basic Rules for SAS Programs</h2>
+<section id="for-sas-statements" class="level3">
+<h3 class="anchored" data-anchor-id="for-sas-statements">For SAS statements</h3>
+<ul>
+<li>All SAS statements (except those containing data) must end with a semicolon (;).</li>
+<li>SAS statements typically begin with a SAS keyword. (DATA, PROC).</li>
+<li>SAS statements are not case sensitive, that is, they can be entered in lowercase, uppercase, or a mixture of the two.
+<ul>
+<li>Example : SAS keywords (DATA, PROC) are not case sensitive</li>
+</ul></li>
+<li>A delimited comment begins with a forward slash-asterisk (/<em>) and ends with an asterisk-forward slash (</em>/). All text within the delimiters is ignored by SAS.</li>
+</ul>
+</section>
+<section id="for-sas-names" class="level3">
+<h3 class="anchored" data-anchor-id="for-sas-names">For SAS names</h3>
+<ul>
+<li>All names must contain between 1 and 32 characters.</li>
+<li>The first character appearing in a name must be a letter (A, B, … Z, a, b, …, z) or an underscore ( ). Subsequent characters must be letters, numbers, or underscores. That is, no other characters, such as $, %, or &amp; are permitted.</li>
+<li>Blanks also cannot appear in SAS names.</li>
+<li>SAS names are not case sensitive, that is, they can be entered in lowercase, uppercase, or a mixture of the two. (SAS is only case sensitive within quotation marks.)</li>
+</ul>
+</section>
+<section id="for-sas-variables" class="level3">
+<h3 class="anchored" data-anchor-id="for-sas-variables">For SAS variables</h3>
+<ul>
+<li>If the variable in the INPUT statement is followed by a dollar sign ($), SAS assumes this is a character variable. Otherwise, the variable is considered as a numeric variable.</li>
+</ul>
+</section>
+</section>
+<section id="reading-data-into-sas" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="reading-data-into-sas"><span class="header-section-number">6.5</span> Reading Data into SAS</h2>
+<p>In this topic, we shall introduce a new dataset, also from the UCI Machine Learning repository.</p>
+<div id="exm-bike-2" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.3</strong></span> The dataset was collected by the authors in <span class="citation" data-cites="fanaee2013bike">Fanaee-T and Gama (<a href="references.html#ref-fanaee2013bike" role="doc-biblioref">2013</a>)</span>. It contains information on bike-sharing rentals in Washington D.C. USA for the years 2011 and 2012, along with measurements of weather. The original dataset contained hourly and daily aggregated data. For our class, we use a re-coded version of the daily data. Our dataset can be found on Canvas as <code>bike2.csv</code>.</p>
+<p>Here is the data dictionary:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 88%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>instant</td>
+<td>Record index</td>
+</tr>
+<tr class="even">
+<td>dteday</td>
+<td>Date</td>
+</tr>
+<tr class="odd">
+<td>season</td>
+<td>spring, summer, fall, winter)</td>
+</tr>
+<tr class="even">
+<td>yr</td>
+<td>Year (0: 2011, 1: 2012)</td>
+</tr>
+<tr class="odd">
+<td>mnth</td>
+<td>Abbreviated month</td>
+</tr>
+<tr class="even">
+<td>holiday</td>
+<td>Whether the day is a holiday or not</td>
+</tr>
+<tr class="odd">
+<td>weekday</td>
+<td>Abbreviated day of the week</td>
+</tr>
+<tr class="even">
+<td>workingday</td>
+<td>yes: If day is neither weekend nor holiday is 1, no: Otherwise</td>
+</tr>
+<tr class="odd">
+<td>weathersit</td>
+<td>Weather situation: clear: Clear, Few clouds, Partly cloudy, Partly cloudy; mist: Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist; light_precip: Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds; heavy_precip: Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog</td>
+</tr>
+<tr class="even">
+<td>temp</td>
+<td>Normalized temperature in Celsius. Divided by 41 (max)</td>
+</tr>
+<tr class="odd">
+<td>atemp</td>
+<td>Normalized feeling temperature in Celsius. Divided by 50 (max)</td>
+</tr>
+<tr class="even">
+<td>hum</td>
+<td>Normalized humidity. Divided by 100 (max)</td>
+</tr>
+<tr class="odd">
+<td>windspeed</td>
+<td>Normalized wind speed. Divided by 67 (max)</td>
+</tr>
+<tr class="even">
+<td>casual</td>
+<td>Count of casual users</td>
+</tr>
+<tr class="odd">
+<td>registered</td>
+<td>Count of registered users</td>
+</tr>
+<tr class="even">
+<td>cnt</td>
+<td>Count of total rental bikes including both casual and registered</td>
+</tr>
+</tbody>
+</table>
+<p>Our first step will be to load the dataset into SAS Studio.</p>
+</div>
+</section>
+<section id="uploading-and-using-datasets" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="uploading-and-using-datasets"><span class="header-section-number">6.6</span> Uploading and Using Datasets</h2>
+<p>To use our own datasets on SAS Studio, we have to execute the following steps:</p>
+<ol type="1">
+<li>Create a new library. In SAS, a library is a collection of datasets. If you already have a library created, you can simply import datasets into it. The default library on SAS is called <code>WORK</code>. However, the datasets will be purged every time you sign out. Hence it is better to create a new one.</li>
+<li>Import your dataset (csv, xlsx, etc.) into the library.</li>
+<li>After this, the data will be available for use with the reference name <code>&lt;library-name&gt;.&lt;dataset-name&gt;</code>.</li>
+</ol>
+<p>From the “Libraries” menu on the left of SAS studio, click on the “New library” icon (the one circled in red in <a href="#fig-sas-lib-1" class="quarto-xref">Figure&nbsp;<span>6.6</span></a>), and create a new library called “ST2137”. You can use the default suggested path for the library.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-sas-lib-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-lib-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_library-02.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-lib-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.6: New library
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-sas-lib-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-lib-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_servers_files-02.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-lib-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.7: Upload data
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Now expand the menu for “Server Files and Folders” and upload <code>bike2.csv</code> file to SAS, using the circled icon in <a href="#fig-sas-lib-2" class="quarto-xref">Figure&nbsp;<span>6.7</span></a>.</p>
+<p>Finally, right-click on the top of the main Studio area (where we write code) and select “New Import Data”. Select the <code>bike2.csv</code> that has just been uploaded, and modify the OUTPUT DATA settings to Library <code>ST2137</code> and Data set name <code>BIKE2</code>. Click on the running man, and your dataset is now ready for use in SAS studio!</p>
+</section>
+<section id="summarising-numerical-data" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="summarising-numerical-data"><span class="header-section-number">6.7</span> Summarising Numerical Data</h2>
+<p>The SAS routines we are going to work with can be found in the “Tasks and Utilities” section (see highligted tasks in <a href="#fig-sas-tasks-01" class="quarto-xref">Figure&nbsp;<span>6.8</span></a>).</p>
+<div id="fig-sas-tasks-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-tasks-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_tasks-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-tasks-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.8: Common ST2137 Tasks
+</figcaption>
+</figure>
+</div>
+<section id="numerical-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-summaries">Numerical Summaries</h3>
+<div id="exm-bike-summ-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.4 (5-number Summaries)</strong></span> We expect that the total count of users will vary by the seasons. Hence, we begin by computing five-number summaries for each season.</p>
+<p>Under Tasks, go to Statistcs &gt; Summary Statistics. Select <code>cnt</code> as the analysis variable, and <code>season</code> as the classification variable. Under the options tab, select the lower and upper quartiles, along with comparative boxplots. The output should look like this <a href="#fig-sas-bike-02" class="quarto-xref">Figure&nbsp;<span>6.9</span></a>:</p>
+<div id="fig-sas-bike-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-bike-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_bike_summaries-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-bike-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.9: Summaries, Bike data
+</figcaption>
+</figure>
+</div>
+<p>We observe that the median count is highest for fall, followed by summer, winter and lastly spring. The spreads, as measured by IQR, are similar across the seasons: approximately 2000 users. In the middle 50%, the count distribution for spring is the most right-skewed.</p>
+</div>
+</section>
+<section id="scatter-plots" class="level3">
+<h3 class="anchored" data-anchor-id="scatter-plots">Scatter Plots</h3>
+<div id="exm-bike-scatter-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.5 (Casual vs Registered Scatterplot)</strong></span> To create a scatterplot in SAS, go to Tasks &gt; Graphs &gt; Scatter Plot.</p>
+<p>Specify <code>casual</code> on the x-axis, <code>registered</code> on the y-axis, and <code>workingday</code> as the Group. You should observe the following plot created <a href="#fig-sas-bike-01" class="quarto-xref">Figure&nbsp;<span>6.10</span></a>:</p>
+<div id="fig-sas-bike-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-bike-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_bike_scatter-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-bike-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.10: Scatter plot, Bike Data
+</figcaption>
+</figure>
+</div>
+<p>We can see that there seem to be two different relationships between the counts of casual and registered users. The two relationships correspond to whether it as a working day or not.</p>
+</div>
+</section>
+<section id="histograms" class="level3">
+<h3 class="anchored" data-anchor-id="histograms">Histograms</h3>
+<div id="exm-bike-hist-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.6 (Casual Users Distribution)</strong></span> Now suppose we focus on casual users, and study the distribution of counts by whether a day is a working day or not. To create a histogram, go to Tasks &gt; Graph &gt; Histogram. Select <code>casual</code> as the analysis variable, and <code>workingday</code> as the group variable.</p>
+<div id="fig-sas-hist-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-hist-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_bike_hist-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-hist-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.11: Histograms, Bike Data
+</figcaption>
+</figure>
+</div>
+<p>From <a href="#fig-sas-hist-01" class="quarto-xref">Figure&nbsp;<span>6.11</span></a>, we can see that the distribution is right-skewed in both cases. However, the range of counts for non-working days extends further, to about 3500.</p>
+</div>
+</section>
+<section id="boxplots" class="level3">
+<h3 class="anchored" data-anchor-id="boxplots">Boxplots</h3>
+<div id="exm-bike-box-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.7 (Boxplots for Casual Users, by Season)</strong></span> In <a href="#exm-bike-summ-1" class="quarto-xref">Example&nbsp;<span>6.4</span></a>, we observed that total counts vary by users, and in <a href="#exm-bike-hist-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>, we observed that working days seem to have fewer casual users. Let us investigate if this difference is related to season.</p>
+<p>To create boxplots, go to Tasks &gt; Box Plot. Select <code>casual</code> as the analysis variable, <code>season</code> as the category and <code>workingday</code> as the subcategory. You should obtain a plot like this <a href="#fig-sas-box-01" class="quarto-xref">Figure&nbsp;<span>6.12</span></a>:</p>
+<div id="fig-sas-box-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-box-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_bike_boxplot-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-box-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.12: Boxplots, Bike Data
+</figcaption>
+</figure>
+</div>
+<p>In order to order the seasons according to the calendar, I had to add this line to the code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>proc sgplot data<span class="ot">=</span>ST2137.BIKE2;</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    vbox casual <span class="sc">/</span> category<span class="ot">=</span>season group<span class="ot">=</span>workingday grouporder<span class="ot">=</span>ascending;</span>
+<span id="cb3-3"><a href="#cb3-3"></a>    xaxis values<span class="ot">=</span>(<span class="st">'spring'</span> <span class="st">'summer'</span> <span class="st">'fall'</span> <span class="st">'winter'</span>);</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    yaxis grid;</span>
+<span id="cb3-5"><a href="#cb3-5"></a>run;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There is little insight from the previous two examples. However, now try the same plots, but on the log scale (modify the APPEARANCE tab and re-run). You should now obtain <a href="#fig-sas-box-02" class="quarto-xref">Figure&nbsp;<span>6.13</span></a>:</p>
+<div id="fig-sas-box-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-box-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_bike_boxplot-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-box-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.13: Boxplots log scale, Bike Data
+</figcaption>
+</figure>
+</div>
+<p>Now, we can observe that the difference within each season, is constant across seasons. Because the difference in logarithms is constant, it means that, on the original scale, it is a constant multiplicative factor that increases counts from workingday to non-working day.</p>
+<p>We have arrived at a more succint representation of the relationship by using the log transform.</p>
+</div>
+</section>
+<section id="qq-plots" class="level3">
+<h3 class="anchored" data-anchor-id="qq-plots">QQ-plots</h3>
+<div id="exm-bike-qq-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.8 (Normality Check for Humidity)</strong></span> To create QQ-plots, we go to Tasks &gt; Statistics &gt; Distribution Analysis.</p>
+<p>Select <code>hum</code> for the analysis variable. Under options, add the normal curve, the kernel density estimate, and the Normal quantile-quantile plot. You should obtain the following two charts:</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_bike_qq-01.png" class="img-fluid figure-img"></p>
+<figcaption>Histogram for humidity</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_bike_qq-02.png" class="img-fluid figure-img"></p>
+<figcaption>QQ-plot for humidity</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>The plot shows that humidity values are quite close to a Normal distribution, apart from a single observation on the left.</p>
+</div>
+</section>
+</section>
+<section id="categorical-data" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="categorical-data"><span class="header-section-number">6.8</span> Categorical Data</h2>
+<p>We now turn to categorical data methods with SAS. We return to the dataset on student performance that we used in the topic on summarising data. Upload and store <code>student-mat.csv</code> as ST2137.STUD_PERF on the SAS Studio website.</p>
+<div id="exm-stud-chisq-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.9 (<span class="math inline">\(\chi^2\)</span> Test for Independence)</strong></span> For a test of independence of <code>address</code> and <code>paid</code>, go to Tasks &gt; Table Analysis, and select:</p>
+<ul>
+<li><code>address</code> as the column variable</li>
+<li><code>paid</code> as the row variable.</li>
+<li>Under OPTIONS, check the “Chi-square statistics” box.</li>
+</ul>
+<p>The following output should enable you to perform the test (<a href="#fig-sas-chisq-01" class="quarto-xref">Figure&nbsp;<span>6.14</span></a> and <a href="#fig-sas-chisq-02" class="quarto-xref">Figure&nbsp;<span>6.15</span></a>).</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[1,1], [1]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-sas-chisq-01" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-chisq-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_stud_chisq-01.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-chisq-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.14: Observed &amp; Expected Counts
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-sas-chisq-02" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-chisq-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_stud_chisq-02.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-chisq-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.15: Test statistic, p-value
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-sas-mos-01" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-mos-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_stud_mosaic-01.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-mos-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.16: Mosaic Plot
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>For measures of association, we only need to select the option for “Measures of Association” to generate the Kendall <span class="math inline">\(\tau_b\)</span> that we covered earlier.</p>
+<div id="exm-stud-chisq-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.10 (Kendall <span class="math inline">\(\tau\)</span> for <code>Walc</code> and <code>Dalc</code>)</strong></span> Once we load the data ST2137.STUD_PERF, we go to Tasks &gt; Table Analysis. After selecting the two variables, we check the appropriate box to obtain <a href="#fig-sas-tau-01" class="quarto-xref">Figure&nbsp;<span>6.17</span></a>.</p>
+<div id="fig-sas-tau-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-tau-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_stud_tau-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-tau-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.17: Walc vs Dalc
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="references" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="references"><span class="header-section-number">6.9</span> References</h2>
+</section>
+<section id="sec-web-ref" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="sec-web-ref"><span class="header-section-number">6.10</span> Website References</h2>
+<ol type="1">
+<li><a href="https://www.sas.com/profile/ui/#/create">SAS account sign-up</a> Use this link to sign up for a SAS account.</li>
+<li><a href="https://welcome.oda.sas.com/">SAS Studio link</a> Once you have activated your account, use this link to login to your SAS studio online.</li>
+<li><a href="https://documentation.sas.com/doc/en/sasstudiocdc/v_048/webeditorcdc/sasstudiowlcm/home.htm">SAS Studio Help</a> This link contains help on SAS studio features and commands.</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-fanaee2013bike" class="csl-entry" role="listitem">
+Fanaee-T, Hadi, and Joao Gama. 2013. <span>“Event Labeling Combining Ensemble Detectors and Background Knowledge.”</span> <em>Progress in Artificial Intelligence</em>, 1–15. <a href="https://doi.org/10.1007/s13748-013-0040-3">https://doi.org/10.1007/s13748-013-0040-3</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05-robust_statistics.html" class="pagination-link" aria-label="Robust Statistics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07-2_sample_tests.html" class="pagination-link" aria-label="2-sample Hypothesis Tests">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

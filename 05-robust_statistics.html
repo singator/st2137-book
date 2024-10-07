@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Robust Statistics – Statistical Computing and Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06-intro_to_sas.html" rel="next">
+<link href="./04-categorical_data_analysis.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-robust_statistics.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Computing and Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro_to_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro_to_python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-summarising_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-categorical_data_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-robust_statistics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-intro_to_sas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANalysis Of VAriance (ANOVA)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Simulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
+  <li><a href="#notation" id="toc-notation" class="nav-link" data-scroll-target="#notation"><span class="header-section-number">5.2</span> Notation</a></li>
+  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets"><span class="header-section-number">5.3</span> Datasets</a></li>
+  <li><a href="#sec-arob" id="toc-sec-arob" class="nav-link" data-scroll-target="#sec-arob"><span class="header-section-number">5.4</span> Assessing Robustness</a></li>
+  <li><a href="#sec-req-rob" id="toc-sec-req-rob" class="nav-link" data-scroll-target="#sec-req-rob"><span class="header-section-number">5.5</span> Requirements of Robust Summaries</a></li>
+  <li><a href="#measures-of-location" id="toc-measures-of-location" class="nav-link" data-scroll-target="#measures-of-location"><span class="header-section-number">5.6</span> Measures of Location</a></li>
+  <li><a href="#measures-of-scale" id="toc-measures-of-scale" class="nav-link" data-scroll-target="#measures-of-scale"><span class="header-section-number">5.7</span> Measures of Scale</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">6</span> Examples</a>
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.1</span> Summary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6.2</span> References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<p>Introductory statistics courses describe and discuss inferential methods based on the assumption that data is Normally distributed. However, we never know the true distribution from which our data has arisen; even from the sample, we may observe that it deviates from Normality in various ways. To begin with, we might observe that the data has heavier tails than a Normal distribution. Second, the data could suggest that the originating distribution is heavily skewed, unlike the symmetric Normal.</p>
+<p>Continuing to use Normal based methods will result in confidence intervals and hypothesis tests that have low power. Instead, statisticians have developed a suite of methods that are <strong>robust</strong> to the assumption of Normality. These techniques may be sub-optimal when the data is truly Normal, but they quickly outperform the Normal-based method as soon as the distribution starts to deviate from Normality.</p>
+<p>A third way in which the Normal-based method could breakdown is when our dataset has extreme values, referred to as outliers. In such cases, many investigators will drop the anomalous points and proceed with the analysis on the remaining observations. This is not ideal for the following reasons:</p>
+<ol type="1">
+<li>The sharp decision to reject an observation is wasteful. We can do better by down-weighting the dubious observations.</li>
+<li>It can be difficult to spot or detect outliers in multivariate data.</li>
+</ol>
+<p>Robust statistical techniques are those that have high efficiency over a collection of distributions. Efficiency can be measured in terms of variance of a particular estimator, or in terms of power of a statistical test. In this topic, we shall introduce the concept of robustness and estimators of location and scale that have this property. Although we only touch on basic statistics in this topic, take note that robust techniques exist for regression and ANOVA as well. It is a vastly under-used technique.</p>
+</section>
+<section id="notation" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="notation"><span class="header-section-number">5.2</span> Notation</h2>
+<p>For the rest of this topic, let us settle on some notation. Suppose we have an i.i.d sample <span class="math inline">\(X_i\)</span> from a continuous pdf <span class="math inline">\(f\)</span>.</p>
+<ul>
+<li>We use <span class="math inline">\(q_{f,p}\)</span> to refer to the <span class="math inline">\(p\)</span>-th quantile of <span class="math inline">\(f\)</span>, i.e.&nbsp; <span class="math display">\[
+P( X \le q_{f,p}) = p
+\]</span></li>
+<li>For standard Normal quantiles, we use <span class="math inline">\(z_p\)</span>. <span class="math display">\[
+\Phi(z_p) = P( Z \le z_p) = p
+\]</span></li>
+<li>We denote the order statistics from the sample with <span class="math inline">\(X_{(i)}\)</span>. In other words, <span class="math display">\[
+X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
+\]</span></li>
+</ul>
+</section>
+<section id="datasets" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="datasets"><span class="header-section-number">5.3</span> Datasets</h2>
+<p>For this topic, we shall use a couple of datasets that are clearly not Normal.</p>
+<div id="exm-cu-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 5.1 (Copper in Wholemeal Flour)</strong></span> The dataset <code>chem</code> comes from the package <code>MASS</code>. The data was recorded as part of an analytical chemistry experiment – the amount of copper (<span class="math inline">\(\mu g^{-1}\)</span>) was measured in wholemeal flour was measured using 24 samples.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">hist</span>(chem, <span class="at">breaks =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="05-robust_statistics_files/figure-html/cu_1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Copper measurements dataset</figcaption>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">sort</span>(chem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  2.20  2.20  2.40  2.40  2.50  2.70  2.80  2.90  3.03  3.03  3.10  3.37
+[13]  3.40  3.40  3.40  3.50  3.60  3.70  3.70  3.70  3.70  3.77  5.28 28.95</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">mean</span>(chem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.280417</code></pre>
+</div>
+</div>
+<p>Although 22 out of the 24 points are less than 4, the mean is 4.28. This statistic is clearly being affected by the largest two values. Removing them would yield a summary statistic that is more representative of the majority of observations. This topic is about techniques that will work well even in the presence of such large anomalous values.</p>
+</div>
+<p>The second dataset is also from a textbook:</p>
+<div id="exm-self-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 5.2 (Self-awareness Dataset)</strong></span> For a second dataset, we use one on self-awareness from <span class="citation" data-cites="wilcox2011introduction">(<a href="references.html#ref-wilcox2011introduction" role="doc-biblioref">Wilcox and R 2011</a>)</span>, where participants in a psychometric study were timed how long they could keep a portion of an apparatus in contact with a specified target.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>awareness <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">77</span>, <span class="dv">87</span>, <span class="dv">88</span>, <span class="dv">114</span>, <span class="dv">151</span>, <span class="dv">210</span>, <span class="dv">219</span>, <span class="dv">246</span>, <span class="dv">253</span>, <span class="dv">262</span>, <span class="dv">296</span>, <span class="dv">299</span>, <span class="dv">306</span>,</span>
+<span id="cb6-2"><a href="#cb6-2"></a>               <span class="dv">376</span>, <span class="dv">428</span>, <span class="dv">515</span>, <span class="dv">666</span>, <span class="dv">1310</span>, <span class="dv">2611</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">hist</span>(awareness, <span class="at">breaks=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="05-robust_statistics_files/figure-html/self_1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Self-awareness study timing</figcaption>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">mean</span>(awareness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 448.1053</code></pre>
+</div>
+</div>
+<p>Just like the data in <a href="#exm-cu-1" class="quarto-xref">Example&nbsp;<span>5.1</span></a>, this data too is highly skewed to the right. The mean of the full dataset is larger than the 3rd quartile!</p>
+</div>
+</section>
+<section id="sec-arob" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-arob"><span class="header-section-number">5.4</span> Assessing Robustness</h2>
+<p>The focus of this course is on the computational aspects of performing data analyses. However, this section is a little theoretical. It exists to provide a better overview of robust statistical techniques.</p>
+<p><a href="#sec-are" class="quarto-xref"><span>Section 5.4.1</span></a> introduces an approach for comparing two estimators in general. The remaining subsections (<a href="#sec-req-rob" class="quarto-xref"><span>Section 5.5</span></a> onwards) briefly list ways in which robust statistics are evaluated.</p>
+<section id="sec-are" class="level3">
+<h3 class="anchored" data-anchor-id="sec-are">Asymptotic Relative Efficiency</h3>
+<p>Suppose we wish to estimate a parameter <span class="math inline">\(\theta\)</span> of a distribution using a sample of size <span class="math inline">\(n\)</span>. We have two candidate estimators <span class="math inline">\(\hat{\theta}\)</span> and <span class="math inline">\(\tilde{\theta}\)</span>.</p>
+<div id="def-are" class="theorem definition" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Definition 5.1 (Asymptotic Relative Efficiency (ARE))</strong></span> The asymptotic relative efficiency of <span class="math inline">\(\tilde{\theta}\)</span> relative to <span class="math inline">\(\hat{\theta}\)</span> is</p>
+<p><span class="math display">\[
+ARE(\tilde{\theta}; \hat{\theta}) = \lim_{n \rightarrow \infty}
+\frac{\text{variance of } \hat{\theta}}{\text{variance of } \tilde{\theta}}
+\]</span></p>
+<p>Usually, <span class="math inline">\(\hat{\theta}\)</span> is the optimal estimator according to some criteria.</p>
+<p>When using <span class="math inline">\(\hat{\theta}\)</span>, we only need <span class="math inline">\(ARE\)</span> times as many observations as when using <span class="math inline">\(\tilde{\theta}\)</span>.</p>
+</div>
+<p>Here are a couple of examples of commonly used estimators and their ARE.</p>
+<div id="exm-mean-med" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 5.3 (Median versus Mean)</strong></span> If our data is known to originate from a Normal distribution, due to its symmetry, we can use the sample median <em>or</em> the sample mean to estimate <span class="math inline">\(\mu\)</span>. Let <span class="math inline">\(\hat{\theta} = \bar{X}\)</span> and <span class="math inline">\(\tilde{\theta} = X_{(1/2)}\)</span>.</p>
+<p>Then it can be shown that</p>
+<p><span class="math display">\[
+ARE(\tilde{\theta}; \hat{\theta}) = 2/\pi \approx 64\%
+\]</span></p>
+<p>The sample median is <em>less efficient</em> than the sample mean, when the true distribution is Normal.</p>
+</div>
+<p>Here is an example of when robust statistics prove to be superior to non-robust ones.</p>
+<div id="exm-s-d" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 5.4 (Contaminated Normal Variance Estimate)</strong></span> Suppose first that we have <span class="math inline">\(n\)</span> observations <span class="math inline">\(Y_i \sim N(\mu, \sigma^2)\)</span>, and we wish to estimate <span class="math inline">\(\sigma^2\)</span>. Consider the two estimators:</p>
+<ol type="1">
+<li><span class="math inline">\(\hat{\sigma}^2 = s^2 = \frac{1}{n-1}\sum_{i=1}^n (Y_i - \bar{Y})^2\)</span></li>
+<li><span class="math inline">\(\tilde{\sigma}^2 = d^2 \pi/2\)</span>, where <span class="math display">\[
+d = \frac{1}{n} \sum_i {|Y_i - \bar{Y}|}
+\]</span></li>
+</ol>
+<p>In this case, when the underlying distribution truly is Normal, we have that <span class="math display">\[
+ARE(\tilde{\sigma}^2; \hat{\sigma}^2) =  87.6\%
+\]</span></p>
+<p>However, now consider a situation where <span class="math inline">\(Y_i \sim N(\mu, \sigma^2)\)</span> with probability <span class="math inline">\(1 - \epsilon\)</span> and <span class="math inline">\(Y_i \sim N(\mu, 9\sigma^2)\)</span> with probability <span class="math inline">\(\epsilon\)</span>. Let us refer to this as a <em>contaminated Normal</em> distribution.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="05-robust_statistics_files/figure-html/r-demo-cn-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As you can see from the diagram above, the two pdfs are almost indistinguishable by eye. However, the ARE values are very different.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\epsilon\)</span></th>
+<th>ARE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>87.6%</td>
+</tr>
+<tr class="even">
+<td>0.01</td>
+<td>144%</td>
+</tr>
+</tbody>
+</table>
+<p>The usual <span class="math inline">\(s^2\)</span> loses optimality very quickly; we can obtain more precise estimates using <span class="math inline">\(\tilde{\sigma}^2\)</span>. This example was taken from section 5.5 of <span class="citation" data-cites="venables2013modern">Venables and Ripley (<a href="references.html#ref-venables2013modern" role="doc-biblioref">2013</a>)</span>.</p>
+</div>
+<p>There are three main approaches of assessing the robustness of an estimator. Let us cover the intuitive ideas here. In this section, <span class="math inline">\(F\)</span> refers to the cdf from which the sample was obtained.</p>
+</section>
+</section>
+<section id="sec-req-rob" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sec-req-rob"><span class="header-section-number">5.5</span> Requirements of Robust Summaries</h2>
+<ol type="1">
+<li><em>Qualitative Robustness</em>: The first requirement of a robust statistic is that it if the underlying distribution <span class="math inline">\(F\)</span> changes slightly, then the estimate should not change too much.</li>
+<li><em>Infinitesimal Robustness</em>: The second requirement is is tied to the concept of the <em>influence function</em> of an estimator. Roughly speaking, the influence function measures the relative extent that a small perturbation in <span class="math inline">\(F\)</span> has on the value of the estimate. In other words, it reflects the influence of adding one more observation to a large sample.</li>
+<li><em>Quantitative Robustness</em>: The final requirement is related to the contaminated distribution we touched on in <a href="#exm-s-d" class="quarto-xref">Example&nbsp;<span>5.4</span></a>. Consider <span class="math display">\[
+F_{x,\epsilon} = (1- \epsilon)F + \epsilon \Delta_x
+\]</span> where <span class="math inline">\(\Delta_x\)</span> is the degenerate probability distribution at <span class="math inline">\(x\)</span>. The minimum value of <span class="math inline">\(\epsilon\)</span> for which the estimator goes to infinity as <span class="math inline">\(x\)</span> gets large, is referred to as the <em>breakdown point</em>. For the sample mean, the breakdown point is <span class="math inline">\(\epsilon = 0\)</span>. For the sample median, the breakdown point is <span class="math inline">\(\epsilon = 0.5\)</span>.</li>
+</ol>
+</section>
+<section id="measures-of-location" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="measures-of-location"><span class="header-section-number">5.6</span> Measures of Location</h2>
+<p>The location parameter of a distribution is a value that characterises “a typical” observation, or the middle of the distribution. It is not always the mean of the distribution, but in the case of a symmetric distribution it will be.</p>
+<section id="sec-m-mean" class="level3">
+<h3 class="anchored" data-anchor-id="sec-m-mean">M-estimators</h3>
+<p>Before we introduce robust estimators for the location, let us revisit the most commonly used one - the sample mean. Suppose we have observed <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span>, a random sample from a <span class="math inline">\(N(\mu,\, \sigma^2)\)</span> distribution. As a reminder, here is how we derive the MLE for <span class="math inline">\(\mu\)</span>.</p>
+<p>The likelihood function is <span class="math display">\[
+L(\mu, \sigma^2) = \prod_{i=1}^n  \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-(x_i - \mu)^2 / (2\sigma^2) }
+\]</span> The log-likelihood is <span id="eq-norm-lik"><span class="math display">\[
+\log L = l(\mu, \sigma^2) = -n \log \sigma - \frac{n}{2} \log(2\pi) - \frac{1}{2\sigma^2} \sum_{i=1}^n (x_i - \mu)^2
+\tag{5.1}\]</span></span></p>
+<p>Setting the partial derivative with respect to <span class="math inline">\(\mu\)</span> to be 0, we can solve for the MLE: <span class="math display">\[\begin{eqnarray*}
+\frac{\partial l }{\partial \mu} &amp;=&amp; 0 \\
+\frac{1}{\sigma^2} \sum_{i=1}^n (x_i - \hat{\mu}) &amp;=&amp; 0 \\
+\hat{\mu} &amp;=&amp; \bar{x}
+\end{eqnarray*}\]</span></p>
+<p>Observe that in <a href="#eq-norm-lik" class="quarto-xref">Equation&nbsp;<span>5.1</span></a>, we minimised the sum of squared errors, which arose from <em>minimising</em> <span class="math display">\[
+\sum_{i=1}^n - \log f (x_i - \mu)
+\]</span> where <span class="math inline">\(f\)</span> is the standard normal pdf. Instead of using <span class="math inline">\(\log f\)</span>, Huber proposed using alternative functions (let’s call the function <span class="math inline">\(\rho\)</span>) to derive estimators <span class="citation" data-cites="huber1992robust">(<a href="references.html#ref-huber1992robust" role="doc-biblioref">Huber 1992</a>)</span>. The new estimator corresponds to <span id="eq-rho-min"><span class="math display">\[
+\arg \min_\mu \sum_{i=1}^n \rho (x_i - \mu)
+\tag{5.2}\]</span></span></p>
+<p>There are constraints on the choice of <span class="math inline">\(\rho\)</span> above, but we can understand the resulting estimator through <span class="math inline">\(\rho\)</span>. For instance, <span class="math inline">\(\psi = \rho'\)</span> is referred to as the <em>influence function</em>, which measures the relative change in a statistic as a new observation is added. To find the <span class="math inline">\(\hat{\mu}\)</span> that minimised <a href="#eq-rho-min" class="quarto-xref">Equation&nbsp;<span>5.3</span></a>, it is equivalent to setting the derivative to zero and solving for <span class="math inline">\(\hat{\mu}\)</span>: <span id="eq-rho-min"><span class="math display">\[
+\sum_{i=1}^n \psi (x_i - \mu) = 0
+\tag{5.3}\]</span></span></p>
+<p>Note that, in general, the use of the sample mean corresponds to the use of <span class="math inline">\(\rho(x) = x^2\)</span>. In that case, <span class="math inline">\(\psi\)</span> is unbounded, which results in a lot of importance/weight placed on very large values. Robust estimators should have a bounded <span class="math inline">\(\psi\)</span> function.</p>
+<p><span class="math display">\[
+\psi(x) = 2x,\; x \in \mathbb{R}
+\]</span></p>
+<p>The approach outlined above - the use of <span class="math inline">\(\rho\)</span> and <span class="math inline">\(\psi\)</span> to define estimators, gave rise to a class of estimators known as M-estimators, since they are MLE-like. In the following sections, we shall introduce estimators corresponding to various choices of <span class="math inline">\(\rho\)</span>. It is not always easy to identify the <span class="math inline">\(\rho\)</span> being used, but inspection of the form of <span class="math inline">\(\psi\)</span> leads to an understanding of how much emphasis the estimator places on large outlying values.</p>
+</section>
+<section id="trimmed-mean" class="level3">
+<h3 class="anchored" data-anchor-id="trimmed-mean">Trimmed mean</h3>
+<p>The <span class="math inline">\(\gamma\)</span>-trimmed mean <span class="math inline">\((0 &lt; \gamma \le 0.5)\)</span> is the mean of a <em>distribution</em> after the distribution has been truncated at the <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(1-\gamma\)</span> quantiles. Note that the truncated function has to be renormalised in order to be a pdf.</p>
+<p>In formal terms, suppose that <span class="math inline">\(X\)</span> is a continuous random variable with pdf <span class="math inline">\(f\)</span>. The usual mean is of course just <span class="math inline">\(\mu = \int x f(x) dx\)</span>. The trimmed mean of the distribution is</p>
+<p><span id="eq-tm-pop"><span class="math display">\[
+\mu_t = \int_{q_{f,\gamma}}^{q_{f,1-\gamma}} x \frac{f(x)}{1 - 2 \gamma} dx
+\tag{5.4}\]</span></span></p>
+<p>Using the trimmed mean focuses on the middle portion of a distribution. The recommended value of <span class="math inline">\(\gamma\)</span> is (0, 0.2]. For a sample <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span>, the estimate is computed (see <span class="citation" data-cites="wilcox2011introduction">Wilcox and R (<a href="references.html#ref-wilcox2011introduction" role="doc-biblioref">2011</a>)</span> page 54) using the following algorithm:</p>
+<ol type="1">
+<li>Compute the value <span class="math inline">\(g = \lfloor \gamma n \rfloor\)</span>, where <span class="math inline">\(\lfloor x \rfloor\)</span> refers to the floor function<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</li>
+<li>Drop the largest <span class="math inline">\(g\)</span> and smallest <span class="math inline">\(g\)</span> values from the sample.</li>
+<li>Compute <span class="math display">\[
+\hat{\mu_t} = X_t = \frac{X_{(g+1)} + \cdots X_{(n-g)}}{n - 2g}
+\]</span></li>
+</ol>
+<p>It can be shown that the influence function for the trimmed mean is <span class="math display">\[
+\psi(x) = \begin{cases}
+x, &amp; -c &lt; x &lt; c \\
+0, &amp; \text{otherwise}
+\end{cases}
+\]</span> which indicates that, with this estimator, large outliers have <strong>no</strong> effect on the estimator.</p>
+</section>
+<section id="winsorised-mean" class="level3">
+<h3 class="anchored" data-anchor-id="winsorised-mean">Winsorised Mean</h3>
+<p>The Winsorised mean is similar to the trimmed mean in the sense that it modifies the tail of the distribution. However, it works by replacing extreme observations with fixed moderate values. The corresponding <span class="math inline">\(\psi\)</span> function is</p>
+<p><span class="math display">\[
+\psi(x) = \begin{cases}
+-c, &amp; x &lt; - c \\
+x, &amp; |x| &lt; c \\
+c, &amp; x &gt; c
+\end{cases}
+\]</span></p>
+<p>Just like in the trimmed mean case, we decide on the value <span class="math inline">\(c\)</span> by choosing a value <span class="math inline">\(\gamma \in (0, 0.2]\)</span>. To calculate the Winsorised mean from a sample <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span>, we use the following algorithm:</p>
+<ol type="1">
+<li>Compute the value <span class="math inline">\(g = \lfloor \gamma n \rfloor\)</span>.</li>
+<li>Replace the smallest <span class="math inline">\(g\)</span> values in the sample with <span class="math inline">\(X_{(g+1)}\)</span> and the largest <span class="math inline">\(g\)</span> values with <span class="math inline">\(X_{(n-g)}\)</span>.</li>
+<li>Compute the arithmetic mean of the resulting <span class="math inline">\(n\)</span> values. <span class="math display">\[
+X_w = \frac{g\cdot X_{(g+1)} + X_{(g+1)} + \cdots + X_{(n-g)} + g \cdot X_{(n-g)}}{n}
+\]</span></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that the trimmed mean and the Winsorised mean are no longer estimating the population distribution mean <span class="math inline">\(\int x f(x) dx\)</span>. The three quantities coincide only if the population distribution is symmetric.</p>
+<p>When this is not the case, it is important to be aware of what we are estimating. For instance, using the trimmed/winsorised mean is appropriate if we are interested in what a “typical” observation in the middle of the distribution looks like.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="measures-of-scale" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="measures-of-scale"><span class="header-section-number">5.7</span> Measures of Scale</h2>
+<section id="sample-standard-deviation" class="level3">
+<h3 class="anchored" data-anchor-id="sample-standard-deviation">Sample Standard Deviation</h3>
+<p>Just as in <a href="#sec-m-mean" class="quarto-xref"><span>Section 5.6.1</span></a>, the MLE of the population variance <span class="math inline">\(\sigma^2\)</span> is not robust to outliers. It is given by <span class="math display">\[
+s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
+\]</span></p>
+<p>Here are a few robust alternatives to this estimator. However, take note that, just like in the case of location estimators, the following estimators are not estimating the standard deviation. We can modify them so that if the underlying distribution truly is Normal, then they do estimate <span class="math inline">\(\sigma\)</span>. However, if the distribution is not Normal, we should treat them as they are: robust measures of the spread of the distribution.</p>
+</section>
+<section id="median-absolute-deviation" class="level3">
+<h3 class="anchored" data-anchor-id="median-absolute-deviation">Median Absolute Deviation</h3>
+<p>For a random variable <span class="math inline">\(X \sim f\)</span>, the mean absolute deviation <span class="math inline">\(w\)</span> is defined by <span class="math display">\[
+P(|X - q_{f,0.5} | \le w) = 0.5
+\]</span> We sometimes refer to <span class="math inline">\(w\)</span> as <span class="math inline">\(MAD(X)\)</span>. In other words, it is the median of the distribution associated with <span class="math inline">\(|X - q_{f,0.5}|\)</span>; it is the <em>median of absolute deviations from the median</em>.</p>
+<p>If observations are truly from a Normal distribution, MAD does not estimate <span class="math inline">\(\sigma\)</span>. Instead, it can be shown in this case that <span class="math inline">\(MAD\)</span> estimates <span class="math inline">\(z_{0.75} \sigma\)</span>. Hence, in practice, MAD is divided by <span class="math inline">\(z_{0.75}\)</span> so that it coincides with <span class="math inline">\(\sigma\)</span> <em>if the underlying distribution is Normal</em>.</p>
+<div id="prp-iqr-s" class="theorem proposition" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Proposition 5.1 (MAD for Normal)</strong></span> For <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, the following property holds: <span class="math display">\[
+\sigma \approx 1.4826 \times MAD(X)
+\]</span></p>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Note that, since the distribution is symmetric, <span class="math inline">\(\text{median}(X) = \mu\)</span>. Thus <span class="math display">\[\begin{eqnarray*}
+MAD(X) &amp;=&amp; \text{median}(| X - \text{median(X)}|) \\
+&amp;=&amp; \text{median}(| X - \mu |)
+\end{eqnarray*}\]</span></p>
+<p>Thus, the <span class="math inline">\(MAD(X)\)</span> is a value <span class="math inline">\(q\)</span> such that <span class="math display">\[
+P(| X - \mu | \le q ) = 0.5
+\]</span> Equivalently, we need <span class="math inline">\(q\)</span> such that <span class="math display">\[
+P\left( \left| \frac{X - \mu}{\sigma} \right| \le q/\sigma \right) = P(|Z| \le q / \sigma) = 0.5
+\]</span> Remember that we can retrieve values for the standard Normal cdf easily from R or Python:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+P(-q / \sigma \le Z \le q / \sigma) &amp;=&amp; 0.5 \\
+1 - 2 \times \Phi(-q / \sigma) &amp;=&amp; 0.5 \\
+-q / \sigma &amp;=&amp; -0.6745 \sigma \\
+q &amp;=&amp; 0.6745 \sigma
+\end{eqnarray*}\]</span></p>
+<p>Thus <span class="math inline">\(MAD(X) = 0.6745 \sigma\)</span>. The implication is that we can estimate <span class="math inline">\(\sigma\)</span> in a standard Normal with <span class="math display">\[
+\hat{\sigma} \approx \frac{1}{0.6745} MAD(X)
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="interquartile-range" class="level3">
+<h3 class="anchored" data-anchor-id="interquartile-range">Interquartile Range</h3>
+<p>The general definition of <span class="math inline">\(IQR(X)\)</span> is <span class="math display">\[
+q_{f, 0.75} - q_{f,0.25}
+\]</span></p>
+<p>It is a linear combination of quantiles. Again, we can modify the IQR so that, if the underlying distribution is Normal, we are estimating the standard deviation <span class="math inline">\(\sigma\)</span>.</p>
+<div id="prp-iqr-s" class="theorem proposition" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Proposition 5.2 (IQR for Normal)</strong></span> For <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, the following property holds:</p>
+<p><span class="math display">\[
+IQR(X) \approx 1.35 \times \sigma
+\]</span></p>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>For <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, let <span class="math inline">\(q_{0.25}\)</span> and <span class="math inline">\(q_{0.75}\)</span> represent the 1st and 3rd quartiles of the distribution.</p>
+<p><span class="math display">\[\begin{eqnarray*}
+P(X \le q_{0.25}) &amp;=&amp; 0.25 \\
+P \left(\frac{X - \mu}{\sigma} \le \frac{q_{0.25} - \mu}{\sigma} \right) &amp;=&amp; 0.25 \\
+P \left(Z \le  \frac{q_{0.25} - \mu}{\sigma} \right) &amp;=&amp; 0.25
+\end{eqnarray*}\]</span></p>
+<p>Thus (from R or Python<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>) we know that</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\frac{q_{0.25} - \mu}{\sigma}   = z_{0.25} &amp;=&amp; -0.675 \\
+\therefore q_{0.25} &amp;=&amp; \mu - 0.675 \sigma
+\end{eqnarray*}\]</span></p>
+<p>Similarly, we can derive that <span class="math inline">\(q_{0.75} = \mu + 0.675 \sigma\)</span>. Now we can derive that <span class="math display">\[
+IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
+\]</span></p>
+<p>The implication is that, from sample data, we can estimate <span class="math inline">\(\sigma\)</span> from the sample IQR using: <span class="math display">\[
+\hat{\sigma} = \frac{IQR(\{X_1, \ldots X_n\})}{1.35}
+\]</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="examples" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Examples</h1>
+<p>To begin, let us apply the three estimators of location to the chemical dataset.</p>
+<div id="exm-cu-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.1 (Location Estimates: Copper Dataset)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">mean</span>(chem)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="do">## [1] 4.280417</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="fu">mean</span>(chem, <span class="at">trim =</span> <span class="fl">0.1</span>) <span class="co"># using gamma = 0.1</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="do">## [1] 3.205</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb9-8"><a href="#cb9-8"></a>vals <span class="ot">=</span> <span class="fu">quantile</span>(chem, <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>))</span>
+<span id="cb9-9"><a href="#cb9-9"></a>win_sample <span class="ot">&lt;-</span> <span class="fu">Winsorize</span>(chem, vals) <span class="co"># gamma = 0.1</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="fu">mean</span>(win_sample)</span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="do">## [1] 3.277792</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a>chem <span class="op">=</span> pd.read_csv(<span class="st">"data/mass_chem.csv"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>chem.chem.mean()</span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">## np.float64(4.2804166666666665)</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a>stats.trim_mean(chem, proportiontocut<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="co">## array([3.205])</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a></span>
+<span id="cb10-13"><a href="#cb10-13"></a>stats.mstats.winsorize(chem.chem, limits<span class="op">=</span><span class="fl">0.1</span>).mean()</span>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="co">## np.float64(3.185)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>As we observe, the robust estimates are less affected by the extreme and isolate value 28.95. They are more indicative of the general set of observations.</p>
+</div>
+<p>Now we turn the scale estimators for the self-awareness dataset.</p>
+<div id="exm-self-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 6.2 (Scale Estimates: Copper Dataset)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">sd</span>(awareness)</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="do">## [1] 594.6295</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="fu">mad</span>(awareness, <span class="at">constant=</span><span class="dv">1</span>) </span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="do">## [1] 114</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="fu">IQR</span>(awareness)</span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="do">## [1] 221.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>awareness <span class="op">=</span> np.array([<span class="dv">77</span>, <span class="dv">87</span>, <span class="dv">88</span>, <span class="dv">114</span>, <span class="dv">151</span>, <span class="dv">210</span>, <span class="dv">219</span>, <span class="dv">246</span>, <span class="dv">253</span>, <span class="dv">262</span>, <span class="dv">296</span>, <span class="dv">299</span>, <span class="dv">306</span>,</span>
+<span id="cb12-2"><a href="#cb12-2"></a>                      <span class="dv">376</span>, <span class="dv">428</span>, <span class="dv">515</span>, <span class="dv">666</span>, <span class="dv">1310</span>, <span class="dv">2611</span>])</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a>awareness.std()</span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="co">## np.float64(578.7698292373723)</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a>stats.median_abs_deviation(awareness)</span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## np.float64(114.0)</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a></span>
+<span id="cb12-10"><a href="#cb12-10"></a>stats.iqr(awareness)</span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="co">## np.float64(221.5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="summary" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.1</span> Summary</h2>
+<p>In this topic, we have introduced the concept of robust statistics. Understanding how these methods work requires a large amount of theoretical derivations and set-up. However, although we have not gone into much depth in the notes, we shall investigate the value of these methods in our tutorials.</p>
+<p>Notice also that we have not discussed standard errors for these estimators; we shall revisit that idea in the topic on simulation.</p>
+</section>
+<section id="references" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="references"><span class="header-section-number">6.2</span> References</h2>
+<section id="website-references" class="level3">
+<h3 class="anchored" data-anchor-id="website-references">Website References</h3>
+<ol type="1">
+<li><a href="https://en.wikipedia.org/wiki/Robust_statistics">Wikipedia on Robust Statistics</a> This page contains visualisations of the <span class="math inline">\(\psi\)</span> curves for the estimators mentioned above, along with others.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html#statsrefmanual">Scipy stats</a>: This page contains information on the <code>median_abs_deviation()</code>, <code>trim_mean()</code>, <code>mstats.winsorize()</code> methods in Python.</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-huber1992robust" class="csl-entry" role="listitem">
+Huber, Peter J. 1992. <span>“Robust Estimation of a Location Parameter.”</span> In <em>Breakthroughs in Statistics: Methodology and Distribution</em>, 492–518. Springer.
+</div>
+<div id="ref-venables2013modern" class="csl-entry" role="listitem">
+Venables, William N, and Brian D Ripley. 2013. <em>Modern Applied Statistics with s-PLUS</em>. Springer Science &amp; Business Media.
+</div>
+<div id="ref-wilcox2011introduction" class="csl-entry" role="listitem">
+Wilcox, R, and R. 2011. <em>Introduction to Robust Estimation and Hypothesis Testing</em>. Academic press.
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>The largest integer less than or equal to <span class="math inline">\(x\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In R: <code>qnorm(0.25)</code><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04-categorical_data_analysis.html" class="pagination-link" aria-label="Categorical Data Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06-intro_to_sas.html" class="pagination-link" aria-label="Introduction to SAS">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

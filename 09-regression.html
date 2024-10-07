@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Linear Regression – Statistical Computing and Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./10-simulation.html" rel="next">
+<link href="./08-anova.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-regression.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear Regression</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Computing and Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro_to_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro_to_python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-summarising_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-categorical_data_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-robust_statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-intro_to_sas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANalysis Of VAriance (ANOVA)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Simulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">9.1</span> Introduction</a></li>
+  <li><a href="#simple-linear-regression" id="toc-simple-linear-regression" class="nav-link" data-scroll-target="#simple-linear-regression"><span class="header-section-number">9.2</span> Simple Linear Regression</a></li>
+  <li><a href="#sec-slr-F" id="toc-sec-slr-F" class="nav-link" data-scroll-target="#sec-slr-F"><span class="header-section-number">9.3</span> Hypothesis Test for Model Significance</a></li>
+  <li><a href="#multiple-linear-regression" id="toc-multiple-linear-regression" class="nav-link" data-scroll-target="#multiple-linear-regression"><span class="header-section-number">9.4</span> Multiple Linear Regression</a></li>
+  <li><a href="#indicator-variables" id="toc-indicator-variables" class="nav-link" data-scroll-target="#indicator-variables"><span class="header-section-number">9.5</span> Indicator Variables</a></li>
+  <li><a href="#interaction-term" id="toc-interaction-term" class="nav-link" data-scroll-target="#interaction-term"><span class="header-section-number">9.6</span> Interaction term</a></li>
+  <li><a href="#residual-diagnostics" id="toc-residual-diagnostics" class="nav-link" data-scroll-target="#residual-diagnostics"><span class="header-section-number">9.7</span> Residual Diagnostics</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9.8</span> Further Reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.9</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear Regression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">9.1</span> Introduction</h2>
+<p>Regression analysis is a technique for investigating and modeling the relationship between variables like X and Y. Here are some examples:</p>
+<ol type="1">
+<li>Within a country, we may wish to use per capita income (X) to estimate the life expectancy (Y) of residents.</li>
+<li>We may wish to use the size of a crab claw (X) to estimate the closing force that it can exert (Y).</li>
+<li>We may wish to use the height of a person (X) to estimate their weight (Y).</li>
+</ol>
+<p>In all the above cases, we refer to <span class="math inline">\(X\)</span> as the explanatory or independent variable. It is also sometimes referred to as a predictor. <span class="math inline">\(Y\)</span> is referred to as the response or dependent variable. In this topic, we shall first introduce the case of simple linear regression, where we model the <span class="math inline">\(Y\)</span> on a single <span class="math inline">\(X\)</span>. In later sections, we shall model the <span class="math inline">\(Y\)</span> on multiple <span class="math inline">\(X\)</span>’s. This latter technique is referred to as multiple linear regression.</p>
+<p>Regression models are used for two primary purposes:</p>
+<ol type="1">
+<li>To understand how certain explanatory variables affect the response variable. This aim is typically known as <em>estimation</em>, since the primary focus is on estimating the unknown parameters of the model.</li>
+<li>To predict the response variable for new values of the explanatory variables. This is referred to as <em>prediction</em>.</li>
+</ol>
+<p>In our course, we shall focus on the estimation aim, since prediction models require a paradigm of their own, and are best learnt alongside a larger suite of models e.g.&nbsp;decision trees, support vector machines, etc.</p>
+<p>In subsequent sections, we shall revisit a couple of datasets from earlier topics to run linear regression models on them.</p>
+<div id="exm-concrete-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.1 (Concrete Data: Flow on Water)</strong></span> Recall the concrete dataset that we first encountered in the topic on summarising data. We shall go on to fit a linear regression to understand the relationship between the output of the flow test, and the amount of water used to create the concrete.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-flow-water" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flow-water-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-regression_files/figure-html/fig-flow-water-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flow-water-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Scatterplot with simple linear regression model
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It does appear that there is a trend in the scatter plot. We shall figure out how to estimate this line in this topic.</p>
+</div>
+<p><br></p>
+<div id="exm-bike-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.2 (Bike Rental Data)</strong></span> In the introduction to SAS, we encountered data on bike rentals in the USA over a period of 2 years. Here, we shall attempt to model the number of registered users on the number of casual users.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-reg-casual" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reg-casual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-regression_files/figure-html/fig-reg-casual-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reg-casual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: Scatterplot of registered vs.&nbsp;casual bike renters
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Contingent on whether the day is a working one or not, it does appear that the trendline is different.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="simple-linear-regression" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="simple-linear-regression"><span class="header-section-number">9.2</span> Simple Linear Regression</h2>
+<section id="sec-formal-slr" class="level3">
+<h3 class="anchored" data-anchor-id="sec-formal-slr">Formal Set-up</h3>
+<p>The simple linear regression model is applicable when we have observations <span class="math inline">\((X_i, Y_i)\)</span> for <span class="math inline">\(n\)</span> individuals. For now, let’s assume both the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> variables are quantitative.</p>
+<p>The simple linear regression model is given by</p>
+<p><span id="eq-slr-model"><span class="math display">\[
+Y_i = \beta_0 + \beta_1 X_i + e_i
+\tag{9.1}\]</span></span> where</p>
+<ul>
+<li><span class="math inline">\(\beta_0\)</span> is intercept term,</li>
+<li><span class="math inline">\(\beta_1\)</span> is the slope, and</li>
+<li><span class="math inline">\(e_i\)</span> is an error term, specific to each individual in the dataset.</li>
+</ul>
+<p><span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are unknown constants that need to be estimated from the data. There is an implicit assumption in the formulation of the model that there is a linear relationship between <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(X_i\)</span>. In terms of distributions, we assume that the <span class="math inline">\(e_i\)</span> are i.i.d Normal.</p>
+<p><span id="eq-error-term"><span class="math display">\[
+e_i \sim N(0, \sigma^2), \; i =1\ldots, n
+\tag{9.2}\]</span></span></p>
+<p>The constant variance assumption is also referred to as homoscedascity (homo-skee-das-city). The validity of the above assumptions will have to be checked after the model is fitted. All in all, the assumptions imply that:</p>
+<ol type="1">
+<li><span class="math inline">\(E(Y_i | X_i) = \beta_0 + \beta_1 X_i\)</span>, for <span class="math inline">\(i=1, \ldots, n\)</span>.</li>
+<li><span class="math inline">\(Var(Y_i | X_i) = Var(e_i) = \sigma^2\)</span>, for <span class="math inline">\(i=1, \ldots, n\)</span>.</li>
+<li>The <span class="math inline">\(Y_i\)</span> are independent.</li>
+<li>The <span class="math inline">\(Y_i\)</span>’s are Normally distributed.</li>
+</ol>
+</section>
+<section id="sec-slr-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="sec-slr-estimation">Estimation</h3>
+<p>Before deploying or using the model, we need to estimate optimal values to use for the unknown <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>. We shall introduce the method of Ordinary Least Squares (OLS) for the estimation. Let us define the <em>error Sum of Squares</em> to be</p>
+<p><span id="eq-sse"><span class="math display">\[
+SS_E = S(\beta_0, \beta_1) = \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i)^2
+\tag{9.3}\]</span></span></p>
+<p>Then the OLS estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are given by <span class="math display">\[
+\mathop{\arg \min}_{\beta_0, \beta_1} \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i)^2
+\]</span> The minimisation above can be carried out analytically, by taking partial derivative with respect to the two parameters and setting them to 0.</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\frac{\partial S}{\partial \beta_0}  &amp;=&amp; -2 \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i) = 0 \\
+\frac{\partial S}{\partial \beta_1}  &amp;=&amp; -2 \sum_{i=1}^n X_i (Y_i - \beta_0 - \beta_1 X_i) = 0
+\end{eqnarray*}\]</span></p>
+<p>Solving and simplifying, we arrive at the following: <span class="math display">\[\begin{eqnarray*}
+\hat{\beta_1} &amp;=&amp; \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2} \\
+\hat{\beta_0} &amp;=&amp; \bar{Y} - \hat{\beta_0} \bar{X}
+\end{eqnarray*}\]</span> where <span class="math inline">\(\bar{Y} = (1/n)\sum Y_i\)</span> and <span class="math inline">\(\bar{X} = (1/n)\sum X_i\)</span>.</p>
+<p>If we define the following sums: <span class="math display">\[\begin{eqnarray*}
+S_{XY} &amp;=&amp; \sum_{i=1}^n X_i Y_i - \frac{(\sum_{i=1}^n X_i )(\sum_{i=1}^n Y_i )}{n} \\
+S_{XX} &amp;=&amp; \sum_{i=1}^n X_i^2 - \frac{(\sum_{i=1}^n X_i )^2}{n}
+\end{eqnarray*}\]</span> then a form convenient for computation of <span class="math inline">\(\hat{\beta_1}\)</span> is <span class="math display">\[
+\hat{\beta_1} = \frac{S_{XY}}{S_{XX}}
+\]</span></p>
+<p>Once we have the estimates, we can use <a href="#eq-slr-model" class="quarto-xref">Equation&nbsp;<span>9.1</span></a> to compute <em>fitted</em> values for each observation, corresponding to our best guess of the mean of the distributions from which the observations arose: <span class="math display">\[
+\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i, \quad i = 1, \ldots, n
+\]</span> As always, we can form residuals as the deviations from fitted values. <span id="eq-res-def"><span class="math display">\[
+r_i = Y_i - \hat{Y}_i
+\tag{9.4}\]</span></span> Residuals are our best guess at the unobserved error terms <span class="math inline">\(e_i\)</span>. Squaring the residuals and summing over all observations, we can arrive at the following decomposition, which is very similar to the one in the ANOVA model:</p>
+<p><span class="math display">\[
+\underbrace{\sum_{i=1}^n (Y_i  - \bar{Y})^2}_{SS_T} =  
+\underbrace{\sum_{i=1}^n (Y_i  - \hat{Y_i})^2}_{SS_{Res}} +
+\underbrace{\sum_{i=1}^n (\hat{Y_i}  - \bar{Y})^2}_{SS_{Reg}}
+\]</span></p>
+<p>where</p>
+<ul>
+<li><span class="math inline">\(SS_T\)</span> is known as the total sum of squares.</li>
+<li><span class="math inline">\(SS_{Res}\)</span> is known as the residual sum of squares.</li>
+<li><span class="math inline">\(SS_{Reg}\)</span> is known as the regression sum of squares.</li>
+</ul>
+<p>In our model, recall from <a href="#eq-error-term" class="quarto-xref">Equation&nbsp;<span>9.2</span></a> that we had assumed equal variance for all our observations. We can estimate <span class="math inline">\(\sigma^2\)</span> with <span class="math display">\[
+\hat{\sigma^2} = \frac{SS_{Res}}{n-2}
+\]</span> Our distributional assumptions lead to the following for our estimates <span class="math inline">\(\hat{\beta_0}\)</span> and <span class="math inline">\(\hat{\beta_1}\)</span>:</p>
+<p><span class="math display">\[\begin{eqnarray}
+\hat{\beta_0} &amp;\sim&amp; N(\beta_0,\; \sigma^2(1/n + \bar{X}^2/S_{XX})) \\
+\hat{\beta_1} &amp;\sim&amp; N(\beta_1,\; \sigma^2/S_{XX})
+\end{eqnarray}\]</span></p>
+<p>The above are used to construct confidence intervals for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, based on <span class="math inline">\(t\)</span>-distributions.</p>
+</section>
+</section>
+<section id="sec-slr-F" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="sec-slr-F"><span class="header-section-number">9.3</span> Hypothesis Test for Model Significance</h2>
+<p>The first test that we introduce here is to test if the coefficient <span class="math inline">\(\beta_1\)</span> is significantly different from 0. It is essentially a test of whether it was worthwhile to use a regression model of the form in <a href="#eq-slr-model" class="quarto-xref">Equation&nbsp;<span>9.1</span></a>, instead of a simple mean to represent the data.</p>
+<p>The null and alternative hypotheses are:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0 &amp;:&amp; \beta_1 = 0\\
+H_1 &amp;:&amp; \beta_1 \ne 0
+\end{eqnarray*}\]</span></p>
+<p>The test statistic is</p>
+<p><span id="eq-f-stat"><span class="math display">\[
+F_0 = \frac{SS_{Reg}/1}{SS_{Res}/(n-2)}
+\tag{9.5}\]</span></span></p>
+<p>Under the null hypothesis, <span class="math inline">\(F_0 \sim F_{1,n-2}\)</span>.</p>
+<p>It is also possible to perform this same test as a <span class="math inline">\(t\)</span>-test, using the result earlier. The statement of the hypotheses is equivalent to the <span class="math inline">\(F\)</span>-test. The test statistic <span id="eq-t-stat"><span class="math display">\[
+T_0 = \frac{\hat{\beta_1}}{\sqrt{\hat{\sigma^2}/S_{XX}}}
+\tag{9.6}\]</span></span> Under <span class="math inline">\(H_0\)</span>, the distribution of <span class="math inline">\(T_0\)</span> is <span class="math inline">\(t_{n-2}\)</span>. This <span class="math inline">\(t\)</span>-test and the earlier <span class="math inline">\(F\)</span>-test in this section are <em>identical</em>. It can be proved that <span class="math inline">\(F_0 = T_0^2\)</span>; the obtained <span class="math inline">\(p\)</span>-values will be identical.</p>
+<section id="coefficient-of-determination-r2" class="level3">
+<h3 class="anchored" data-anchor-id="coefficient-of-determination-r2">Coefficient of Determination, <span class="math inline">\(R^2\)</span></h3>
+<p>The coefficient of determination <span class="math inline">\(R^2\)</span> is defined as</p>
+<p><span class="math display">\[
+R^2 = 1 - \frac{SS_{Res}}{SS_T} = \frac{SS_{Reg}}{SS_T}
+\]</span> It can be interpreted as the proportion of variation in <span class="math inline">\(Yi\)</span>, explained by the inclusion of <span class="math inline">\(X_i\)</span>. Since <span class="math inline">\(0 \le SS_{Res} \le SS_T\)</span>, we can easily prove that <span class="math inline">\(0 \le R^2 \le 1\)</span>. The larger the value of <span class="math inline">\(R^2\)</span> is, the better the model is.</p>
+<p>When we get to the case of multiple linear regression, take note that simply including more variables in the model will increase <span class="math inline">\(R^2\)</span>. This is undesirable; it is preferable to have a parsimonious model that explains the response variable well.</p>
+<div id="exm-concrete-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.3 (Concrete Data Model)</strong></span> In this example, we focus on the estimation of the model parameters for the two variables we introduced in <a href="#exm-concrete-1" class="quarto-xref">Example&nbsp;<span>9.1</span></a></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">SAS output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#R </span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>concrete <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">names</span>(concrete)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">11</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"Comp.Strength"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>lm_flow_water <span class="ot">&lt;-</span> <span class="fu">lm</span>(FLOW.cm. <span class="sc">~</span> Water, <span class="at">data=</span>concrete)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">summary</span>(lm_flow_water)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = FLOW.cm. ~ Water, data = concrete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-37.211 -10.836   2.734  11.031  22.163 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -58.72755   13.28635  -4.420 2.49e-05 ***
+Water         0.54947    0.06704   8.196 8.10e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 13.68 on 101 degrees of freedom
+Multiple R-squared:  0.3995,    Adjusted R-squared:  0.3935 
+F-statistic: 67.18 on 1 and 101 DF,  p-value: 8.097e-13</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#Python</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="im">from</span> statsmodels.formula.api <span class="im">import</span> ols</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>concrete <span class="op">=</span> pd.read_csv(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>concrete.rename(columns<span class="op">=</span>{<span class="st">'No'</span>:<span class="st">'id'</span>, </span>
+<span id="cb3-9"><a href="#cb3-9"></a>                         <span class="st">'Compressive Strength (28-day)(Mpa)'</span>:<span class="st">'Comp_Strength'</span>,</span>
+<span id="cb3-10"><a href="#cb3-10"></a>                         <span class="st">'FLOW(cm)'</span>: <span class="st">'Flow'</span>},</span>
+<span id="cb3-11"><a href="#cb3-11"></a>                inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-12"><a href="#cb3-12"></a>lm_flow_water <span class="op">=</span> ols(<span class="st">'Flow ~ Water'</span>, data<span class="op">=</span>concrete).fit()</span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="bu">print</span>(lm_flow_water.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                   Flow   R-squared:                       0.399
+Model:                            OLS   Adj. R-squared:                  0.394
+Method:                 Least Squares   F-statistic:                     67.18
+Date:                Mon, 07 Oct 2024   Prob (F-statistic):           8.10e-13
+Time:                        15:01:07   Log-Likelihood:                -414.60
+No. Observations:                 103   AIC:                             833.2
+Df Residuals:                     101   BIC:                             838.5
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept    -58.7276     13.286     -4.420      0.000     -85.084     -32.371
+Water          0.5495      0.067      8.196      0.000       0.416       0.682
+==============================================================================
+Omnibus:                        6.229   Durbin-Watson:                   1.843
+Prob(Omnibus):                  0.044   Jarque-Bera (JB):                5.873
+Skew:                          -0.523   Prob(JB):                       0.0530
+Kurtosis:                       2.477   Cond. No.                     1.95e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 1.95e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_concrete_flow_water_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>From the output, we can note that the <em>estimated</em> model for Flow (<span class="math inline">\(Y\)</span>) against Water (<span class="math inline">\(X\)</span>) is: <span class="math display">\[
+Y = -58.73 + 0.55 X
+\]</span> The estimates are <span class="math inline">\(\hat{\beta_0} = -58.73\)</span> and <span class="math inline">\(\hat{\beta_1} = 0.55\)</span>. This is the precise equation that was plotted in <a href="#fig-flow-water" class="quarto-xref">Figure&nbsp;<span>9.1</span></a>. The <span class="math inline">\(R^2\)</span> is labelled as “Multiple R-squared” in the R output. The value is 0.3995, which means that about 40% of the variation in <span class="math inline">\(Y\)</span> is explained by <span class="math inline">\(X\)</span>.</p>
+<p>A simple interpretation<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> of the model is as follows:</p>
+<blockquote class="blockquote">
+<p>For every 1 unit increase in Water, there is an average associated increase in Flow rate of 0.55 units.</p>
+</blockquote>
+<p>To obtain confidence intervals for the parameters, we can use the following code in R. The Python summary already contains the confidence intervals.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#R </span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">confint</span>(lm_flow_water)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  2.5 %      97.5 %
+(Intercept) -85.0841046 -32.3709993
+Water         0.4164861   0.6824575</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We can read off that the 95% Confidence intervals are:</p>
+<ul>
+<li>For <span class="math inline">\(\beta_0\)</span>: (-85.08, -32.37)</li>
+<li>For <span class="math inline">\(\beta_1\)</span>: (0.42, 0.68)</li>
+</ul>
+</div>
+<p><br></p>
+<div id="exm-bike-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.4 (Bike Data F-test)</strong></span> In this example, we shall fit a simple linear regression model to the bike data, <em>constrained to the non-working days</em>. In other words, we shall focus on fitting just the blue line, from the blue points, in <a href="#fig-reg-casual" class="quarto-xref">Figure&nbsp;<span>9.2</span></a>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">SAS output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#R </span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>bike2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/bike2.csv"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>bike2_sub <span class="ot">&lt;-</span> bike2[bike2<span class="sc">$</span>workingday <span class="sc">==</span> <span class="st">"no"</span>, ]</span>
+<span id="cb7-4"><a href="#cb7-4"></a>lm_reg_casual <span class="ot">&lt;-</span> <span class="fu">lm</span>(registered <span class="sc">~</span> casual, <span class="at">data=</span>bike2_sub)</span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="fu">anova</span>(lm_reg_casual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: registered
+           Df    Sum Sq   Mean Sq F value    Pr(&gt;F)    
+casual      1 237654556 237654556  369.25 &lt; 2.2e-16 ***
+Residuals 229 147386970    643611                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#Python</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>bike2 <span class="op">=</span> pd.read_csv(<span class="st">"data/bike2.csv"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3"></a>bike2_sub <span class="op">=</span> bike2[bike2.workingday <span class="op">==</span> <span class="st">"no"</span>]</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>lm_reg_casual <span class="op">=</span> ols(<span class="st">'registered ~ casual'</span>, bike2_sub).fit()</span>
+<span id="cb9-6"><a href="#cb9-6"></a>anova_tab <span class="op">=</span> sm.stats.anova_lm(lm_reg_casual,)</span>
+<span id="cb9-7"><a href="#cb9-7"></a>anova_tab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             df        sum_sq       mean_sq           F        PR(&gt;F)
+casual      1.0  2.376546e+08  2.376546e+08  369.251728  1.183368e-49
+Residual  229.0  1.473870e+08  6.436112e+05         NaN           NaN</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_bike_reg_casual_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>The output above includes the sum-of-squares that we need to perform the <span class="math inline">\(F\)</span>-test outlined in <a href="#sec-slr-F" class="quarto-xref"><span>Section 9.3</span></a>. From the output table, we can see that <span class="math inline">\(SS_{Reg} = 237654556\)</span> and <span class="math inline">\(SS_{Res} = 147386970\)</span>. The value of <span class="math inline">\(F_0\)</span> for this dataset is 369.25. The <span class="math inline">\(p\)</span>-value is extremely small (<span class="math inline">\(2 \times 10^{-16}\)</span>), indicating strong evidence against <span class="math inline">\(H_0\)</span>, i.e.&nbsp;that <span class="math inline">\(\beta_1 = 0\)</span>.</p>
+</div>
+<p><br></p>
+<p>Actually, if you observe carefully in <a href="#exm-concrete-2" class="quarto-xref">Example&nbsp;<span>9.3</span></a>, the output from R contains both the <span class="math inline">\(t\)</span>-test for significance of <span class="math inline">\(\beta_1\)</span>, and the <span class="math inline">\(F\)</span>-test statistic based on sum-of-squares. The <span class="math inline">\(p\)</span>-value in both cases is <span class="math inline">\(8.10 \times 10^{1-3}\)</span>.</p>
+<p>In linear regression, we almost always wish to use the model to understand what the mean of future observations would be. In the concrete case, we may wish to use the model to understand how the Flow test output values change as the amount of Water in the mixture changes. This is because, based on our formulation,</p>
+<p><span class="math display">\[
+E(Y | X) = \beta_0 + \beta_1 X
+\]</span></p>
+<p>After estimating the parameters, we would have: <span class="math display">\[
+\widehat{E(Y | X)} = \hat{\beta_0} + \hat{\beta_1} X
+\]</span></p>
+<p>Thus we can vary the values of <span class="math inline">\(X\)</span> to study how the mean of <span class="math inline">\(Y\)</span> changes. Here is how we can do so in the concrete model for data.</p>
+<div id="exm-concrete-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.5 (Concrete Data Predicted Means)</strong></span> In order to create the predicted means, we shall have to create a dataframe with the new values for which we require the predictions. We are first going to set up a new matrix of <span class="math inline">\(X\)</span>-values corresponding to the desired range.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">SAS Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">#R </span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>new_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Water =</span> <span class="fu">seq</span>(<span class="dv">160</span>, <span class="dv">240</span>, <span class="at">by =</span> <span class="dv">5</span>))</span>
+<span id="cb11-3"><a href="#cb11-3"></a>conf_intervals <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_flow_water, new_df, <span class="at">interval=</span><span class="st">"conf"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="fu">plot</span>(concrete<span class="sc">$</span>Water, concrete<span class="sc">$</span>FLOW.cm., <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb11-6"><a href="#cb11-6"></a>     <span class="at">xlab=</span><span class="st">"Water"</span>, <span class="at">ylab=</span><span class="st">"Flow"</span>, <span class="at">main=</span><span class="st">"Confidence and Prediction Intervals"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="fu">abline</span>(lm_flow_water, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="fu">lines</span>(new_df<span class="sc">$</span>Water, conf_intervals[,<span class="st">"lwr"</span>], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="fu">lines</span>(new_df<span class="sc">$</span>Water, conf_intervals[,<span class="st">"upr"</span>], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"Fitted line"</span>, <span class="st">"Lower/Upper CI"</span>), </span>
+<span id="cb11-11"><a href="#cb11-11"></a>       <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/r-concrete-pred-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Python</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>new_df <span class="op">=</span> sm.add_constant(pd.DataFrame({<span class="st">'Water'</span> : np.linspace(<span class="dv">160</span>,<span class="dv">240</span>, <span class="dv">10</span>)}))</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a>predictions_out <span class="op">=</span> lm_flow_water.get_prediction(new_df)</span>
+<span id="cb12-5"><a href="#cb12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6"></a>ax <span class="op">=</span> concrete.plot(x<span class="op">=</span><span class="st">'Water'</span>, y<span class="op">=</span><span class="st">'Flow'</span>, kind<span class="op">=</span><span class="st">'scatter'</span>, alpha<span class="op">=</span><span class="fl">0.5</span> )</span>
+<span id="cb12-7"><a href="#cb12-7"></a>ax.set_title(<span class="st">'Flow vs. Water'</span>)<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>ax.plot(new_df.Water, predictions_out.conf_int()[:, <span class="dv">0</span>].reshape(<span class="op">-</span><span class="dv">1</span>), </span>
+<span id="cb12-9"><a href="#cb12-9"></a>        color<span class="op">=</span><span class="st">'blue'</span>, linestyle<span class="op">=</span><span class="st">'dashed'</span>)<span class="op">;</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a>ax.plot(new_df.Water, predictions_out.conf_int()[:, <span class="dv">1</span>].reshape(<span class="op">-</span><span class="dv">1</span>), </span>
+<span id="cb12-11"><a href="#cb12-11"></a>        color<span class="op">=</span><span class="st">'blue'</span>, linestyle<span class="op">=</span><span class="st">'dashed'</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12"></a>ax.plot(new_df.Water, predictions_out.predicted, color<span class="op">=</span><span class="st">'blue'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/py-concrete-pred-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_concrete_flow_water_reg_fitplot.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>The fitted line is the straight line formed using <span class="math inline">\(\hat{\beta_0}\)</span> and <span class="math inline">\(\hat{\beta_1}\)</span>. The dashed lines are 95% Confidence Intervals for <span class="math inline">\(E(Y|X)\)</span>, for varying values of <span class="math inline">\(X\)</span>. They are formed by joining up the lower bounds and the upper bounds separately. Notice how the limits get wider the further away we are from <span class="math inline">\(\bar{X} \approx 200\)</span>.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="multiple-linear-regression" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="multiple-linear-regression"><span class="header-section-number">9.4</span> Multiple Linear Regression</h2>
+<section id="formal-setup" class="level3">
+<h3 class="anchored" data-anchor-id="formal-setup">Formal Setup</h3>
+<p>When we have more than 1 explanatory variable, we turn to multiple linear regression - generalised version of what we have been dealing with so far. We would still have observed information from <span class="math inline">\(n\)</span> individuals, but for each one, we now observe a vector of values: <span class="math display">\[
+Y_i, \, X_{1,i},  \, X_{2,i}, \ldots, \, X_{p-1,i},  X_{p,i}
+\]</span> In other words, we observe <span class="math inline">\(p\)</span> independent variables and 1 response variable for each individual in our dataset. The analogous equation to <a href="#eq-slr-model" class="quarto-xref">Equation&nbsp;<span>9.1</span></a> is <span id="eq-mlr-model"><span class="math display">\[
+Y_i = \beta_0 + \beta_1 X_{1,i} + \cdots + \beta_p  X_{p,i} + e
+\tag{9.7}\]</span></span></p>
+<p>It is easier to write things with matrices for multiple linear regression:</p>
+<p><span class="math display">\[
+\textbf{Y} = \begin{bmatrix}
+Y_1 \\
+Y_2 \\
+\vdots \\
+Y_n
+\end{bmatrix}, \;
+\textbf{X} = \begin{bmatrix}
+1 &amp; X_{1,1} &amp; X_{2,1} &amp; \cdots &amp;X_{p,1}\\
+1 &amp; X_{1,2} &amp; X_{2,2} &amp; \cdots &amp;X_{p,2}\\
+\vdots &amp; \vdots &amp; \vdots &amp; {} &amp; \vdots \\
+1 &amp; X_{1,n} &amp; X_{2,n} &amp; \cdots &amp;X_{p,n}\\
+\end{bmatrix}, \;
+\boldsymbol{ \beta } = \begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\vdots \\
+\beta_p
+\end{bmatrix}, \;
+\boldsymbol{e} = \begin{bmatrix}
+e_1 \\
+e_2 \\
+\vdots \\
+e_n
+\end{bmatrix}
+\]</span></p>
+<p>With the above matrices, we can re-write <a href="#eq-mlr-model" class="quarto-xref">Equation&nbsp;<span>9.7</span></a> as <span class="math display">\[
+\textbf{Y} = \textbf{X} \boldsymbol{\beta} + \textbf{e}
+\]</span> We retain the same distributional assumptions as in <a href="#sec-formal-slr" class="quarto-xref"><span>Section 9.2.1</span></a>.</p>
+</section>
+<section id="estimation" class="level3">
+<h3 class="anchored" data-anchor-id="estimation">Estimation</h3>
+<p>Similar to <a href="#sec-slr-estimation" class="quarto-xref"><span>Section 9.2.2</span></a>, we can define <span class="math inline">\(SS_E\)</span> to be <span id="eq-mlr-sse"><span class="math display">\[
+SS_E = S(\beta_0, \beta_1,\ldots,\beta_p) = \sum_{i=1}^n (Y_i - \beta_0 -
+\beta_1 X_{1,i} - \cdots - \beta_p X_{p,i} )^2
+\tag{9.8}\]</span></span></p>
+<p>Minimising the above cost function leads to the OLS estimates: <span class="math display">\[
+\hat{\boldsymbol{\beta}} =  (\textbf{X}'\textbf{X})^{-1} \textbf{X}'\textbf{Y}
+\]</span> The fitted values can be computed with <span class="math display">\[
+\hat{\textbf{Y}} = \textbf{X} \hat{\boldsymbol{\beta}} =
+\textbf{X} (\textbf{X}'\textbf{X})^{-1} \textbf{X}'\textbf{Y}
+\]</span> Residuals are obtained as <span class="math display">\[
+\textbf{r} = \textbf{Y} - \hat{\textbf{Y}}
+\]</span> Finally, we estimate <span class="math inline">\(\sigma^2\)</span> using <span class="math display">\[
+\hat{\sigma^2} = \frac{SS_{Res}}{n-p} = \frac{\textbf{r}' \textbf{r}}{n-p}
+\]</span></p>
+</section>
+<section id="coefficient-of-determination-r2-1" class="level3">
+<h3 class="anchored" data-anchor-id="coefficient-of-determination-r2-1">Coefficient of Determination, <span class="math inline">\(R^2\)</span></h3>
+<p>In the case of multiple linear regression, <span class="math inline">\(R^2\)</span> is calculated exactly as in simple linear regression, and its interpretation remains the same: <span class="math display">\[
+R^2 = 1 - \frac{SS_{Res}}{SS_T}
+\]</span></p>
+<p>However, note that <span class="math inline">\(R^2\)</span> can be inflated simply by adding more terms to the model (even insignificant terms). Thus, we use the adjusted <span class="math inline">\(R^2\)</span>, which penalizes us for adding more and more terms to the model: <span class="math display">\[
+R^2_{adj} = 1 - \frac{SS_{Res}/(n-p)}{SS_T/(n-1)}
+\]</span></p>
+</section>
+<section id="hypothesis-tests" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-tests">Hypothesis Tests</h3>
+<p>The <span class="math inline">\(F\)</span>-test in the multiple linear regression helps determine if our regression model provides any advantage over the simple mean model. The null and alternative hypotheses are:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0 &amp;:&amp; \beta_1 = \beta_2 = \cdots = \beta_p = 0\\
+H_1 &amp;:&amp; \beta_j \ne 0 \text{ for at least one } j \in \{1, 2, \ldots, p\}
+\end{eqnarray*}\]</span></p>
+<p>The test statistic is</p>
+<p><span id="eq-f-stat"><span class="math display">\[
+F_1 = \frac{SS_{Reg}/p}{SS_{Res}/(n-p-1)}
+\tag{9.9}\]</span></span></p>
+<p>Under the null hypothesis, <span class="math inline">\(F_0 \sim F_{p,n-p-1}\)</span>.</p>
+<p>It is also possible to test for the significance of individual <span class="math inline">\(\beta\)</span> terms, using a <span class="math inline">\(t\)</span>-test. The output is typically given for all the coefficients in a table. The statement of the hypotheses pertaining to these tests is: <span class="math display">\[\begin{eqnarray*}
+H_0 &amp;:&amp; \beta_j = 0\\
+H_1 &amp;:&amp; \beta_j \ne 0
+\end{eqnarray*}\]</span></p>
+<p>However, note that these <span class="math inline">\(t\)</span>-tests are partial because it should be interpreted as a test of the contribution of <span class="math inline">\(\beta_j\)</span>, <em>given that all other terms are already in the model</em>.</p>
+<div id="exm-concrete-4" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.6 (Concrete Data Multiple Linear Regression)</strong></span> In this second model for concrete, we add a second predictor variable, Slag. The updated model is <span class="math display">\[
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + e
+\]</span> where <span class="math inline">\(X_1\)</span> corresponds to Water, and <span class="math inline">\(X_2\)</span> corresponds to Slag.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">SAS output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># R </span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>lm_flow_water_slag <span class="ot">&lt;-</span> <span class="fu">lm</span>(FLOW.cm. <span class="sc">~</span> Water <span class="sc">+</span> Slag, <span class="at">data=</span>concrete)</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="fu">summary</span>(lm_flow_water_slag)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = FLOW.cm. ~ Water + Slag, data = concrete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.687 -10.746   2.010   9.224  23.927 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -50.26656   12.38669  -4.058 9.83e-05 ***
+Water         0.54224    0.06175   8.781 4.62e-14 ***
+Slag         -0.09023    0.02064  -4.372 3.02e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 12.6 on 100 degrees of freedom
+Multiple R-squared:  0.4958,    Adjusted R-squared:  0.4857 
+F-statistic: 49.17 on 2 and 100 DF,  p-value: 1.347e-15</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Python</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>lm_flow_water_slag <span class="op">=</span> ols(<span class="st">'Flow ~ Water + Slag'</span>, data<span class="op">=</span>concrete).fit()</span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="bu">print</span>(lm_flow_water_slag.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                   Flow   R-squared:                       0.496
+Model:                            OLS   Adj. R-squared:                  0.486
+Method:                 Least Squares   F-statistic:                     49.17
+Date:                Mon, 07 Oct 2024   Prob (F-statistic):           1.35e-15
+Time:                        15:01:08   Log-Likelihood:                -405.59
+No. Observations:                 103   AIC:                             817.2
+Df Residuals:                     100   BIC:                             825.1
+Df Model:                           2                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept    -50.2666     12.387     -4.058      0.000     -74.841     -25.692
+Water          0.5422      0.062      8.781      0.000       0.420       0.665
+Slag          -0.0902      0.021     -4.372      0.000      -0.131      -0.049
+==============================================================================
+Omnibus:                        5.426   Durbin-Watson:                   2.029
+Prob(Omnibus):                  0.066   Jarque-Bera (JB):                4.164
+Skew:                          -0.371   Prob(JB):                        0.125
+Kurtosis:                       2.353   Cond. No.                     2.14e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 2.14e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_concrete_flow_water_slag_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>The <span class="math inline">\(F\)</span>-test is now concerned with the hypotheses: <span class="math display">\[\begin{eqnarray*}
+H_0 &amp;:&amp; \beta_1 = \beta_2 = 0\\
+H_1 &amp;:&amp; \beta_1 \ne 0 \text{ or } \beta_2 \ne 0
+\end{eqnarray*}\]</span></p>
+<p>From the output above, we can see that <span class="math inline">\(F_1 = 49.17\)</span>, with a corresponding <span class="math inline">\(p\)</span>-value of <span class="math inline">\(1.3 \times 10^{-15}\)</span>. The individual <span class="math inline">\(t\)</span>-tests for the coefficients all indicate significant differences from 0. The final estimated model can be written as <span class="math display">\[
+Y = -50.27 + 0.54 X_1 - 0.09 X_2
+\]</span> Notice that the coefficients have changed slightly from the model in <a href="#exm-concrete-2" class="quarto-xref">Example&nbsp;<span>9.3</span></a>. Notice also that we have an improved <span class="math inline">\(R^2\)</span> of 0.50. However, as we pointed out earlier, we should be using the adjusted <span class="math inline">\(R^2\)</span>, which adjusts for the additional variable included. This value is 0.49.</p>
+<p>While we seem to have found a better model than before, we still have to assess if all the assumptions listed in <a href="#sec-formal-slr" class="quarto-xref"><span>Section 9.2.1</span></a> have been met. We shall do so in subsequent sections.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="indicator-variables" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="indicator-variables"><span class="header-section-number">9.5</span> Indicator Variables</h2>
+<section id="sec-indic" class="level3">
+<h3 class="anchored" data-anchor-id="sec-indic">Including a Categorical Variable</h3>
+<p>The explanatory variables in a linear regression model do not need to be continuous. Categorical variables can also be included in the model. In order to include them, they have to be coded using dummy variables.</p>
+<p>For instance, suppose that we wish to include gender in a model as <span class="math inline">\(X_3\)</span>. There are only two possible genders in our dataset: Female and Male. We can represent <span class="math inline">\(X_3\)</span> as an indicator variable, with</p>
+<p><span class="math display">\[
+X_{3,i} =
+\begin{cases}
+1 &amp; \text{individual $i$ is male}\\
+0 &amp; \text{individual $i$ is female}
+\end{cases}
+\]</span></p>
+<p>The model (without subscripts for the <span class="math inline">\(n\)</span> individuals) is then: <span class="math display">\[
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + e
+\]</span> For females, the value of <span class="math inline">\(X_3\)</span> is 0. Hence the model reduces to <span class="math display">\[
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + e
+\]</span> On the other hand, for males, the model reduces to <span class="math display">\[
+Y = (\beta_0 + \beta_3) + \beta_1 X_1 + \beta_2 X_2 + e
+\]</span> The difference between the two models is in the intercept. The other coefficients remain the same.</p>
+<p>In general, if the categorical variable has <span class="math inline">\(a\)</span> levels, we will need <span class="math inline">\(a-1\)</span> columns of indicator variables to represent it. This is in contrast to machine learning models which use one-hot encoding. The latter encoding results in columns that are linearly dependent if we include an intercept term in the model.</p>
+<div id="exm-bike-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.7 (Bike Data Working Day)</strong></span> In this example, we shall improve on the simple linear regression model from <a href="#exm-bike-2" class="quarto-xref">Example&nbsp;<span>9.4</span></a>. Instead of a single model for just non-working days, we shall fit separate models for working and non-working days by including that variable as a categorical one.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">SAS output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># R </span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>lm_reg_casual2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(registered <span class="sc">~</span> casual <span class="sc">+</span> workingday, <span class="at">data=</span>bike2)</span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="fu">summary</span>(lm_reg_casual2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = registered ~ casual + workingday, data = bike2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3381.8  -674.8   -22.5   792.4  2683.6 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   6.052e+02  1.188e+02   5.095 4.45e-07 ***
+casual        1.717e+00  6.893e-02  24.905  &lt; 2e-16 ***
+workingdayyes 2.332e+03  1.017e+02  22.921  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1094 on 728 degrees of freedom
+Multiple R-squared:  0.5099,    Adjusted R-squared:  0.5086 
+F-statistic: 378.7 on 2 and 728 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Python</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>lm_reg_casual2 <span class="op">=</span> ols(<span class="st">'registered ~ casual + workingday'</span>, bike2).fit()</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="bu">print</span>(lm_reg_casual2.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:             registered   R-squared:                       0.510
+Model:                            OLS   Adj. R-squared:                  0.509
+Method:                 Least Squares   F-statistic:                     378.7
+Date:                Mon, 07 Oct 2024   Prob (F-statistic):          1.81e-113
+Time:                        15:01:08   Log-Likelihood:                -6150.8
+No. Observations:                 731   AIC:                         1.231e+04
+Df Residuals:                     728   BIC:                         1.232e+04
+Df Model:                           2                                         
+Covariance Type:            nonrobust                                         
+=====================================================================================
+                        coef    std err          t      P&gt;|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------
+Intercept           605.2254    118.790      5.095      0.000     372.013     838.438
+workingday[T.yes]  2331.7334    101.730     22.921      0.000    2132.015    2531.452
+casual                1.7167      0.069     24.905      0.000       1.581       1.852
+==============================================================================
+Omnibus:                        2.787   Durbin-Watson:                   0.595
+Prob(Omnibus):                  0.248   Jarque-Bera (JB):                2.479
+Skew:                          -0.059   Prob(JB):                        0.290
+Kurtosis:                       2.740   Cond. No.                     4.05e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 4.05e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_bike_reg_casual_workday_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>The estimated model is now <span class="math display">\[
+Y = 605 + 1.72 X_1 + 2330 X_2
+\]</span></p>
+<p>But <span class="math inline">\(X_2 =1\)</span> for working days and <span class="math inline">\(X_2=0\)</span> for non-working days. This results in two <em>separate</em> models for the two types of days:</p>
+<p><span class="math display">\[
+Y =
+\begin{cases}
+605 + 1.72 X_1, &amp; \text{for non-working days} \\
+2935 + 1.72 X_1, &amp; \text{for working days}
+\end{cases}
+\]</span></p>
+<p>We can plot the two models on the scatterplot to see how they work better than the original model.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/r-plot-bike-lm2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The dashed line corresponds to the earlier model, from <a href="#exm-bike-3" class="quarto-xref">Example&nbsp;<span>9.7</span></a>. With the new model, we have fitted separate intercepts to the two days, but the same slope. The benefit of fitting the model in this way, instead of breaking up the data into two portions and a different model on each one is that we use the entire dataset to estimate the variability. If we wish to fit separate intercepts <em>and</em> slopes, we need to include an <em>interaction term</em>, which is what the next subsection is about.</p>
+</div>
+</section>
+</section>
+<section id="interaction-term" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="interaction-term"><span class="header-section-number">9.6</span> Interaction term</h2>
+<p>A more complex model arises from an interaction between two terms. Here, we shall consider an interaction between a continuous variable and a categorical explanatory variable. Suppose that we have three predictors: height (<span class="math inline">\(X_1\)</span>), weight (<span class="math inline">\(X_2\)</span>) and gender (<span class="math inline">\(X_3\)</span>). As spelt out in <a href="#sec-indic" class="quarto-xref"><span>Section 9.5.1</span></a>, we should use indicator variables to represent <span class="math inline">\(X_3\)</span> in the model.</p>
+<p>If we were to include an <em>interaction</em> between gender and weight, we would be allowing for a males and females to have separate coefficients for <span class="math inline">\(X_2\)</span>. Here is what the model would appear as: <span class="math display">\[
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \beta_4 X_2 X_3 + e
+\]</span> Remember that <span class="math inline">\(X_3\)</span> will be 1 for males and 0 for females. The simplified equation for males would be:</p>
+<p><span class="math display">\[
+Y = (\beta_0 + \beta_3) + \beta_1 X_1 + (\beta_2 + \beta_4) X_2 + e
+\]</span> For females, it would be: <span class="math display">\[
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + e
+\]</span> Both the intercept and coefficient of <span class="math inline">\(X_2\)</span> are different now. Recall that in <a href="#sec-indic" class="quarto-xref"><span>Section 9.5.1</span></a>, only the intercept term was different.</p>
+<div id="exm-bike-4" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.8 (Bike Data Working Day)</strong></span> Finally, we shall include an interaction in the model for bike rentals, resulting in separate intercepts and separate slopes.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false">SAS output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># R </span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>lm_reg_casual3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(registered <span class="sc">~</span> casual <span class="sc">*</span> workingday, <span class="at">data=</span>bike2)</span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="fu">summary</span>(lm_reg_casual3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = registered ~ casual * workingday, data = bike2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4643.5  -733.0   -57.3   675.9  2532.1 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          1.363e+03  1.199e+02  11.361  &lt; 2e-16 ***
+casual               1.164e+00  7.383e-02  15.769  &lt; 2e-16 ***
+workingdayyes        8.063e+02  1.446e+02   5.578 3.44e-08 ***
+casual:workingdayyes 1.819e+00  1.340e-01  13.575  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 977.6 on 727 degrees of freedom
+Multiple R-squared:  0.609, Adjusted R-squared:  0.6074 
+F-statistic: 377.5 on 3 and 727 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># Python</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>lm_reg_casual3 <span class="op">=</span> ols(<span class="st">'registered ~ casual * workingday'</span>, bike2).fit()</span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="bu">print</span>(lm_reg_casual3.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:             registered   R-squared:                       0.609
+Model:                            OLS   Adj. R-squared:                  0.607
+Method:                 Least Squares   F-statistic:                     377.5
+Date:                Mon, 07 Oct 2024   Prob (F-statistic):          9.38e-148
+Time:                        15:01:09   Log-Likelihood:                -6068.3
+No. Observations:                 731   AIC:                         1.214e+04
+Df Residuals:                     727   BIC:                         1.216e+04
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+============================================================================================
+                               coef    std err          t      P&gt;|t|      [0.025      0.975]
+--------------------------------------------------------------------------------------------
+Intercept                 1362.6312    119.942     11.361      0.000    1127.158    1598.105
+workingday[T.yes]          806.2675    144.551      5.578      0.000     522.480    1090.055
+casual                       1.1643      0.074     15.769      0.000       1.019       1.309
+casual:workingday[T.yes]     1.8186      0.134     13.575      0.000       1.556       2.082
+==============================================================================
+Omnibus:                        7.936   Durbin-Watson:                   0.528
+Prob(Omnibus):                  0.019   Jarque-Bera (JB):               11.531
+Skew:                          -0.025   Prob(JB):                      0.00313
+Kurtosis:                       3.613   Cond. No.                     5.72e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 5.72e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_bike_reg_casual_workday_interaction_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Notice that <span class="math inline">\(R^2_{adj}\)</span> has increased from 50.8% to 60.7%. The estimated models for each type of day are:</p>
+<p><span class="math display">\[
+Y =
+\begin{cases}
+1362 + 1.16 X_1, &amp; \text{for non-working days} \\
+2168 + 2.97 X_1, &amp; \text{for working days}
+\end{cases}
+\]</span></p>
+<p>Here is visualisation of the lines that have been estimated for each sub-group of day. This is the image that we had earlier on <a href="#fig-reg-casual" class="quarto-xref">Figure&nbsp;<span>9.2</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/r-plot-bike-lm3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="residual-diagnostics" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="residual-diagnostics"><span class="header-section-number">9.7</span> Residual Diagnostics</h2>
+<p>Recall from <a href="#eq-res-def" class="quarto-xref">Equation&nbsp;<span>9.4</span></a> that residuals are computed as <span class="math display">\[
+r_i = Y_i - \hat{Y_i}
+\]</span> Residual analysis is a standard approach for identifying how we can improve a model. In the case of linear regression, we can use the residuals to assess if the distributional assumptions hold. We can also use residuals to identify influential points that are masking the general trend of other points. Finally, residuals can provided some direction on how to improve the model.</p>
+<section id="standardised-residuals" class="level3">
+<h3 class="anchored" data-anchor-id="standardised-residuals">Standardised Residuals</h3>
+<p>It can be shown that the variance of the residuals is in fact not constant! Let us define the hat-matrix as <span class="math display">\[
+\textbf{H} = \textbf{X}(\textbf{X}'\textbf{X} )^{-1} \textbf{X}'
+\]</span> The diagonal values of <span class="math inline">\(\textbf{H}\)</span> will be denoted <span class="math inline">\(h_{ii}\)</span>, for <span class="math inline">\(i = 1, \ldots, n\)</span>. It can then be shown that <span class="math display">\[
+Var(r_i) = \sigma^2 (1 - h_{ii}), \quad Cov(r_i, r_j) = -\sigma^2 h_{ij}
+\]</span> As such, we use the standardised residuals when checking if the assumption of Normality has been met.</p>
+<p><span class="math display">\[
+r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
+\]</span> If the model fits well, standardised residuals should look similar to a <span class="math inline">\(N(0,1)\)</span> distribution. In addition, large values of the standardised residual indicate potential outlier points.</p>
+<p>By the way, <span class="math inline">\(h_{ii}\)</span> is also referred to as the <em>leverage</em> of a point. It is a measure of the potential influence of a point (on the parameters, and future predictions). <span class="math inline">\(h_{ii}\)</span> is a value between 0 and 1. For a model with <span class="math inline">\(p\)</span> parameters, the average <span class="math inline">\(h_{ii}\)</span> should be should be <span class="math inline">\(p/n\)</span>. We consider points for whom <span class="math inline">\(h_{ii} &gt; 2 \times p/n\)</span> to be high leverage points.</p>
+<p>In the literature and in textbooks, you will see mention of residuals, standardised residuals and studentised residuals. While they differ in definitions slightly, they typically yield the same information. Hence we shall stick to standardised residuals for our course.</p>
+</section>
+<section id="normality" class="level3">
+<h3 class="anchored" data-anchor-id="normality">Normality</h3>
+<div id="exm-concrete-5" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.9 (Concrete Data Normality Check)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># R </span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>r_s <span class="ot">&lt;-</span> <span class="fu">rstandard</span>(lm_flow_water_slag)</span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="fu">hist</span>(r_s)</span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="fu">qqnorm</span>(r_s)</span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="fu">qqline</span>(r_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="09-regression_files/figure-html/r-concrete-qq-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="09-regression_files/figure-html/r-concrete-qq-1-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Python</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>r_s <span class="op">=</span> pd.Series(lm_flow_water_slag.resid_pearson)</span>
+<span id="cb26-3"><a href="#cb26-3"></a>r_s.hist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/py-concrete-qq-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>While it does appear that we have slightly left-skewed data, the departure from Normality seems to arise mostly from a thinner tail on the right.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">shapiro.test</span>(r_s)</span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="do">## </span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="do">##  Shapiro-Wilk normality test</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="do">## </span></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="do">## data:  r_s</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="do">## W = 0.97223, p-value = 0.02882</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="fu">ks.test</span>(r_s, <span class="st">"pnorm"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8"></a><span class="do">## </span></span>
+<span id="cb27-9"><a href="#cb27-9"></a><span class="do">##  Asymptotic one-sample Kolmogorov-Smirnov test</span></span>
+<span id="cb27-10"><a href="#cb27-10"></a><span class="do">## </span></span>
+<span id="cb27-11"><a href="#cb27-11"></a><span class="do">## data:  r_s</span></span>
+<span id="cb27-12"><a href="#cb27-12"></a><span class="do">## D = 0.08211, p-value = 0.491</span></span>
+<span id="cb27-13"><a href="#cb27-13"></a><span class="do">## alternative hypothesis: two-sided</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>At 5% level, the two Normality tests do not agree on the result either. In any case, please do keep in mind where Normality is needed most: in the hypothesis tests. The estimated model is still valid - it is the best fitting line according to the least-squares criteria.</p>
+</div>
+</section>
+<section id="scatterplots" class="level3">
+<h3 class="anchored" data-anchor-id="scatterplots">Scatterplots</h3>
+<p>To understand the model fit better, a set of scatterplots are typically made. These are plots of standardised residuals (on the <span class="math inline">\(y\)</span>-axis) against</p>
+<ul>
+<li>fitted values</li>
+<li>explanatory variables, one at a time.</li>
+<li>potential variables.</li>
+</ul>
+<p>Residuals are meant to contain only the information that our model cannot explain. Hence, if the model is good, the residuals should only contain random noise. There should be no apparent pattern to them. If we find such a pattern in one of the above plots, we would have some clue as to how we could improve the model.</p>
+<p>We typically inspect the plots for the following patterns:</p>
+<p><img src="figs/regression_residuals.png" class="img-fluid"></p>
+<ol type="1">
+<li>A pattern like the one on the extreme left is ideal. Residuals are randomly distributed around zero; there is no pattern or trend in the plot.</li>
+<li>The second plot is something rarely seen. It would probably appear if we were to plot residuals against a <em>new</em> variable that is not currently in the model. If we observe this plot, we should then include this variable in the model.</li>
+<li>This plot indicates we should include a quadratic term in the model.</li>
+<li>The wedge shape (or funnel shape) indicates that we do not have homoscedascity. The solution to this is either a transformation of the response, or weighted least squares. You will cover these in your linear models class.</li>
+</ol>
+<div id="exm-concrete-5" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.10 (Concrete Data Residual Plots)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">SAS Plots</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>opar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="fu">fitted</span>(lm_flow_water_slag), r_s, <span class="at">main=</span><span class="st">"Fitted"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="fu">plot</span>(<span class="at">x=</span>concrete<span class="sc">$</span>Water, r_s, <span class="at">main=</span><span class="st">"X1"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="fu">plot</span>(<span class="at">x=</span>concrete<span class="sc">$</span>Slag, r_s, <span class="at">main=</span><span class="st">"X2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/r-concrete-resids-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">par</span>(opar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_concrete_flow_water_reg_res1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>While the plots of residuals versus explanatory variables look satisfactory, the plot of the residual versus fitted values appears to have funnel shape. Coupled with the observations about the deviations from Normality of the residuals in <a href="#exm-concrete-4" class="quarto-xref">Example&nbsp;<span>9.6</span></a> (thin right-tail), we might want to try a square transform of the response.</p>
+</div>
+</section>
+<section id="influential-points" class="level3">
+<h3 class="anchored" data-anchor-id="influential-points">Influential Points</h3>
+<p>The influence of a point on the inference can be judged by how much the inference changes with and without the point. For instance to assess if point <span class="math inline">\(i\)</span> is influential on coefficient <span class="math inline">\(j\)</span>:</p>
+<ol type="1">
+<li>Estimate the model coefficients with all the data points.</li>
+<li>Leave out the observations <span class="math inline">\((Y_i , X_i)\)</span> one at a time and re-estimate the model coefficients.</li>
+<li>Compare the <span class="math inline">\(\beta\)</span>’s from step 2 with the original estimate from step 1.</li>
+</ol>
+<p>While the above method assesses influence on parameter estimates, Cook’s distance performs a similar iteration to assess the influence on the fitted values. Cook’s distance values greater than 1 indicate possibly influential points.</p>
+<div id="exm-concrete-6" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 9.11 (Concrete Data Influential Points)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false">SAS Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>infl <span class="ot">&lt;-</span> <span class="fu">influence.measures</span>(lm_flow_water_slag)</span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="fu">summary</span>(infl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Potentially influential observations of
+     lm(formula = FLOW.cm. ~ Water + Slag, data = concrete) :
+
+   dfb.1_ dfb.Watr dfb.Slag dffit cov.r   cook.d hat  
+60  0.03  -0.03    -0.01    -0.03  1.09_*  0.00   0.06
+69  0.19  -0.19    -0.22    -0.40  0.85_*  0.05   0.02
+83  0.02  -0.02     0.01    -0.03  1.09_*  0.00   0.06
+88 -0.02   0.02    -0.01     0.03  1.09_*  0.00   0.06
+93  0.00   0.00     0.00     0.00  1.10_*  0.00   0.06
+98  0.01  -0.01     0.01    -0.02  1.10_*  0.00   0.06</code></pre>
+</div>
+</div>
+<p>The set of 6 points above appear to be influencing the covariance matrix of the parameter estimates greatly. To proceed, we would typically leave these observations out one-at-a-time to study the impact on our eventual decision.</p>
+</div>
+<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_concrete_flow_water_reg_res2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="further-reading" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9.8</span> Further Reading</h2>
+<p>The topic of linear regression is vast. It is an extremely well-established technique with numerous variations for a multitude of scenarios. Even a single course on it (ST3131) will not have sufficient time to cover all of it’s capabilities. Among topics that will be useful in your career are :</p>
+<ul>
+<li>Generalised additive models, which allow the use of piecewise polynomials for flexible modeling of non-linear functions.</li>
+<li>Generalised linear models, for modeling non-numeric response.</li>
+<li>Generalised least squares, to handle correlated observations, and so on.</li>
+<li>Principal component regression, to handle the issue of multicollinearity (correlated predictors).</li>
+</ul>
+<p>The textbooks <span class="citation" data-cites="draper1998applied">Draper and Smith (<a href="references.html#ref-draper1998applied" role="doc-biblioref">1998</a>)</span> and <span class="citation" data-cites="james2013introduction">James et al. (<a href="references.html#ref-james2013introduction" role="doc-biblioref">2013</a>)</span> are excellent reference books for this topic.</p>
+</section>
+<section id="references" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="references"><span class="header-section-number">9.9</span> References</h2>
+<section id="sec-web-ref" class="level3">
+<h3 class="anchored" data-anchor-id="sec-web-ref">Website References</h3>
+<ol start="3" type="1">
+<li><a href="https://www.statsmodels.org/stable/regression.html">Stats models documentation</a></li>
+<li><a href="https://www.zeileis.org/teaching/AER/Ch-Validation-handout.pdf">Diagnostics</a></li>
+<li><a href="https://online.stat.psu.edu/stat462/node/120/">On residual plots</a></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-draper1998applied" class="csl-entry" role="listitem">
+Draper, Norman R, and Harry Smith. 1998. <em>Applied Regression Analysis</em>. Vol. 326. John Wiley &amp; Sons.
+</div>
+<div id="ref-james2013introduction" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, et al. 2013. <em>An Introduction to Statistical Learning</em>. Vol. 112. Springer.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>This interpretation has to be taken very cautiously, especially when there are other explanatory variables in the model.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08-anova.html" class="pagination-link" aria-label="ANalysis Of VAriance (ANOVA)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANalysis Of VAriance (ANOVA)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./10-simulation.html" class="pagination-link" aria-label="Simulation">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Simulation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Summarising Numerical Data – Statistical Computing and Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04-categorical_data_analysis.html" rel="next">
+<link href="./02-intro_to_python.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-summarising_data.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Computing and Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro_to_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro_to_python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-summarising_data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-categorical_data_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-robust_statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-intro_to_sas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANalysis Of VAriance (ANOVA)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Simulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">3.1</span> Introduction</a></li>
+  <li><a href="#numerical-summaries" id="toc-numerical-summaries" class="nav-link" data-scroll-target="#numerical-summaries"><span class="header-section-number">3.2</span> Numerical Summaries</a></li>
+  <li><a href="#graphical-summaries" id="toc-graphical-summaries" class="nav-link" data-scroll-target="#graphical-summaries"><span class="header-section-number">3.3</span> Graphical Summaries</a></li>
+  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation"><span class="header-section-number">3.4</span> Correlation</a></li>
+  <li><a href="#scatterplot-matrices" id="toc-scatterplot-matrices" class="nav-link" data-scroll-target="#scatterplot-matrices"><span class="header-section-number">3.5</span> Scatterplot Matrices</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4</span> References</a>
+  <ul class="collapse">
+  <li><a href="#website-references" id="toc-website-references" class="nav-link" data-scroll-target="#website-references"><span class="header-section-number">4.1</span> Website References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
+<p>This is the first topic where we are going to see how to perform statistical analysis using two software: R and Python. Every language has it’s strengths and weaknesses, so instead of attempting to exactly replicate the same chart/output in each software, we shall try to understand their respective approaches better.</p>
+<p>Our end goal is to analyse data - toward that end, we should be versatile and adaptable. Focus on learning how to be fast and productive in whichever environment you are told to work in. If you have a choice, then be aware of what each framework can do best, so that you can choose the right one.</p>
+<p>Although it is a simplistic view, the following diagram, <a href="#fig-sum-1" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>, provides a useful taxonomy of the types of columns we might have in our dataset. Having at least an initial inkling of the type of data matters, because it helps decide what type of summary to generate or what type of plot to make.</p>
+<div id="fig-sum-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Data types">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sum-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/summ_data-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" alt="Data types">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sum-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Data types
+</figcaption>
+</figure>
+</div>
+<p>There are two main ways of summarising data: numerically and graphically. This topic will cover:</p>
+<ol type="1">
+<li>Numerical summaries for univariate quantitative variables.</li>
+<li>Numerical summary for association between two quantitative variables.</li>
+<li>Useful graphs for univariate quantitative variables.</li>
+</ol>
+<p>Techniques for categorical variables will be covered in a subsequent topic.</p>
+<p>Before proceeding, let us introduce one of the datasets that we’ll be using in this, and subsequent topics. The dataset comes from the <a href="https://archive.ics.uci.edu/">UCI Machine Learning Repository</a>, which is a very useful place to get datasets for practice.</p>
+<div id="exm-stud-perf-intro" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.1 (Student Performance: Dataset Introduction)</strong></span> The particular dataset can be downloaded from <a href="https://archive.ics.uci.edu/dataset/320/student+performance">this page</a>. Once you unzip the file, you will find two <code>csv</code> files in the <code>student/</code> folder:</p>
+<ul>
+<li><code>student-mat.csv</code> (performance in Mathematics)</li>
+<li><code>student-por.csv</code> (performance in Portugese)</li>
+</ul>
+<p>Each dataset was collected using school reports and questionnaires. Each row corresponds to a student. The columns are attributes, including student grades, demographic information, and other social and school-related information. Each file corresponds to the students’ performance in one of the two subjects. For more information, you can refer to <span class="citation" data-cites="cortez2008using">Cortez and Silva (<a href="references.html#ref-cortez2008using" role="doc-biblioref">2008</a>)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 29%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Feature</th>
+<th>Description (Type)</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>school</td>
+<td>student’s school (binary)</td>
+<td>“GP” - Gabriel Pereira, “MS” - Mousinho da Silveira</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>sex</td>
+<td>student’s sex (binary)</td>
+<td>“F” - female, “M” - male</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>age</td>
+<td>student’s age (numeric)</td>
+<td>from 15 to 22</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>address</td>
+<td>student’s home address type (binary)</td>
+<td>“U” - urban, “R” - rural</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>famsize</td>
+<td>family size (binary)</td>
+<td>“LE3” - less or equal to 3, “GT3” - greater than 3</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Pstatus</td>
+<td>parent’s cohabitation status (binary)</td>
+<td>“T” - living together, “A” - apart</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Medu</td>
+<td>mother’s education (numeric)</td>
+<td>0 - none, 1 - primary education (4th grade), 2 - 5th to 9th grade, 3 - secondary education, 4 - higher education</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Fedu</td>
+<td>father’s education (numeric)</td>
+<td>0 - none, 1 - primary education (4th grade), 2 - 5th to 9th grade, 3 - secondary education, 4 - higher education</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Mjob</td>
+<td>mother’s job (nominal)</td>
+<td>teacher, health, civil services, at_home, other</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Fjob</td>
+<td>father’s job (nominal)</td>
+<td>teacher, health, civil services, at_home, other</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>reason</td>
+<td>reason to choose this school (nominal)</td>
+<td>close to home, school reputation, course preference, other</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>guardian</td>
+<td>student’s guardian (nominal)</td>
+<td>mother, father, other</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>traveltime</td>
+<td>home to school travel time (numeric)</td>
+<td>1 - &lt;15 min, 2 - 15 to 30 min, 3 - 30 min to 1 hour, 4 - &gt;1 hour</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>studytime</td>
+<td>weekly study time (numeric)</td>
+<td>1 - &lt;2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, 4 - &gt;10 hours</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>failures</td>
+<td>number of past class failures (numeric)</td>
+<td>n if 1&lt;=n&lt;3, else 4</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>schoolsup</td>
+<td>extra educational support (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>famsup</td>
+<td>family educational support (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>paid</td>
+<td>extra paid classes within the course subject (Math or Portuguese) (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>activities</td>
+<td>extra-curricular activities (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>nursery</td>
+<td>attended nursery school (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>higher</td>
+<td>wants to take higher education (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>internet</td>
+<td>Internet access at home (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td>romantic</td>
+<td>with a romantic relationship (binary)</td>
+<td>yes or no</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>famrel</td>
+<td>quality of family relationships (numeric)</td>
+<td>from 1 - very bad to 5 - excellent</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>freetime</td>
+<td>free time after school (numeric)</td>
+<td>from 1 - very low to 5 - very high</td>
+</tr>
+<tr class="even">
+<td>26</td>
+<td>goout</td>
+<td>going out with friends (numeric)</td>
+<td>from 1 - very low to 5 - very high</td>
+</tr>
+<tr class="odd">
+<td>27</td>
+<td>Dalc</td>
+<td>workday alcohol consumption (numeric)</td>
+<td>from 1 - very low to 5 - very high</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td>Walc</td>
+<td>weekend alcohol consumption (numeric)</td>
+<td>from 1 - very low to 5 - very high</td>
+</tr>
+<tr class="odd">
+<td>29</td>
+<td>health</td>
+<td>current health status (numeric)</td>
+<td>from 1 - very bad to 5 - very good</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>absences</td>
+<td>number of school absences (numeric)</td>
+<td>from 0 to 93</td>
+</tr>
+</tbody>
+</table>
+<p>There are three columns pertaining to output grades, but G3 is the main one:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 12%">
+<col style="width: 45%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Feature</th>
+<th>Description (Type)</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>31</td>
+<td>G1</td>
+<td>first period grade (numeric)</td>
+<td>from 0 to 20</td>
+</tr>
+<tr class="even">
+<td>32</td>
+<td>G2</td>
+<td>second period grade (numeric)</td>
+<td>from 0 to 20</td>
+</tr>
+<tr class="odd">
+<td>33</td>
+<td>G3</td>
+<td>final grade (numeric, output target)</td>
+<td>from 0 to 20</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="numerical-summaries" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="numerical-summaries"><span class="header-section-number">3.2</span> Numerical Summaries</h2>
+<p>To begin, let us read in the dataset and generate numerical summaries of the output variable of interest (G3). Numerical summaries include:</p>
+<ol type="1">
+<li>Basic information about the data, e.g.&nbsp;number of observations and missing values.</li>
+<li>Measures of central tendency, e.g.&nbsp;mean, median</li>
+<li>Measures of spread, e.g.&nbsp;standard deviation, IQR (interquartile range), range.</li>
+</ol>
+<div id="exm-stud-perf-num" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.2 (Student Performance: Numerical Summaries)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>stud_perf <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"data/student/student-mat.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2"></a>                        <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">summary</span>(stud_perf<span class="sc">$</span>G3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00    8.00   11.00   10.42   14.00   20.00 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(stud_perf<span class="sc">$</span>G3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a>stud_perf  <span class="op">=</span> pd.read_csv(<span class="st">"data/student/student-mat.csv"</span>, delimiter<span class="op">=</span><span class="st">";"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a>stud_perf.G3.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>count    395.000000
+mean      10.415190
+std        4.581443
+min        0.000000
+25%        8.000000
+50%       11.000000
+75%       14.000000
+max       20.000000
+Name: G3, dtype: float64</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#stud_perf.G3.info()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>From the output, we can understand that we have 395 observations, ranging from 0 to 20. I would surmise that the data is more or less symmetric in the middle (distance from 3rd-quartile to median is identical to distance from median to 1st-quartile). There are no missing values in the data.</p>
+<p>However, summaries of a single variable are rarely useful since we do not have a basis for comparison. In this dataset, we are interested in how the grade varies with one or some of the <em>other</em> variables. Let’s begin with Mother’s education.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">round</span>(<span class="fu">aggregate</span>(G3 <span class="sc">~</span> Medu, <span class="at">data=</span>stud_perf, <span class="at">FUN=</span>summary), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Medu G3.Min. G3.1st Qu. G3.Median G3.Mean G3.3rd Qu. G3.Max.
+1    0    9.00      12.00     15.00   13.00      15.00   15.00
+2    1    0.00       7.50     10.00    8.68      11.00   16.00
+3    2    0.00       8.00     11.00    9.73      13.00   19.00
+4    3    0.00       8.00     10.00   10.30      13.00   19.00
+5    4    0.00       9.50     12.00   11.76      15.00   20.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">table</span>(stud_perf<span class="sc">$</span>Medu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1   2   3   4 
+  3  59 103  99 131 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>stud_perf[[<span class="st">'Medu'</span>, <span class="st">'G3'</span>]].groupby(<span class="st">'Medu'</span>).describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         G3                                                  
+      count       mean       std  min   25%   50%   75%   max
+Medu                                                         
+0       3.0  13.000000  3.464102  9.0  12.0  15.0  15.0  15.0
+1      59.0   8.677966  4.364594  0.0   7.5  10.0  11.0  16.0
+2     103.0   9.728155  4.636163  0.0   8.0  11.0  13.0  19.0
+3      99.0  10.303030  4.623486  0.0   8.0  10.0  13.0  19.0
+4     131.0  11.763359  4.267646  0.0   9.5  12.0  15.0  20.0</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Now we begin to understand the context of G3 a little better. As the education level of the mother increases, the mean does increase. The middle 50-percent of the grade does seem to increase as well. The exception is the case where the mother has no education, but we can see that there are only 3 observations in that category so we should read too much into it.</p>
+</div>
+<p>Here are some things to note about numerical summaries:</p>
+<ul>
+<li>If the mean and the median are close, it indicates that the distribution of the data is close to symmetric.</li>
+<li>The mean is sensitive outliers but the median is not. We shall see more about this in the topic on robust statistics.</li>
+<li>When the mean is much larger than the median, it suggests that there could<br>
+be a few very large observations. It has resulted in a <em>right-skewed</em><br>
+distribution. Conversely, if the mean is much smaller than the median, we probably have a <em>left-skewed</em> distribution.</li>
+</ul>
+<p>While numerical summaries provide us with some basic information about the data, they also leave out a lot. Even for experts, it is possible to have a wrong mental idea about the data from the numerical summaries alone. For instance, all three histograms in <a href="#fig-sum-2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> have a mean of 0 and standard deviation of 1!</p>
+<div id="fig-sum-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="3 histograms">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sum-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/summ_data-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%" alt="3 histograms">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sum-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Value of a picture
+</figcaption>
+</figure>
+</div>
+<p>That’s why we have to turn to <em>graphics</em> as well, in order to summarise our data.</p>
+</section>
+<section id="graphical-summaries" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="graphical-summaries"><span class="header-section-number">3.3</span> Graphical Summaries</h2>
+<section id="histograms" class="level3">
+<h3 class="anchored" data-anchor-id="histograms">Histograms</h3>
+<p>The first chart type we shall consider is a histogram. A histogram is a graph that uses bars to portray the frequencies or relative frequencies of the possible outcomes for a quantitative variable.</p>
+<p>When we create a histogram, here are some things that we look for:</p>
+<ol type="1">
+<li><em>What is the overall pattern?</em>: Do the data cluster together, or is there a gap such that one or more observations deviate from the rest?</li>
+<li><em>Do the data have a single mound or peak?</em> If yes, then we have what is known as a unimodal distribution. Data with two ‘peaks’ are referred to as bimodal, and data with many peaks are referred to as multimodal.</li>
+<li><em>Is the distribution symmetric or skewed?</em></li>
+<li><em>Are there any suspected outliers?</em></li>
+</ol>
+<p>Here are some examples of histograms:</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[1,1], [1]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/summ_data-03.png" class="img-fluid figure-img"></p>
+<figcaption>Histogram with outliers</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/summ_data-04.png" class="img-fluid figure-img"></p>
+<figcaption>Bimodal histogram</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/summ_data-05.png" class="img-fluid figure-img"></p>
+<figcaption>Skewed histograms</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Now let us turn to making histograms in R and Python.</p>
+<div id="exm-stud-perf-hist" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.3 (Student Performance: Histograms)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">hist</span>(stud_perf<span class="sc">$</span>G3, <span class="at">main=</span><span class="st">"G3 histogram"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/r-stud-perf-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>fig <span class="op">=</span> stud_perf.G3.hist(grid<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>fig.set_title(<span class="st">'G3 histogram'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Do you notice anything different with the two histograms?</p>
+<p>In general, we now have a little more information than the 5 number summaries. It appears that there the histogram is not a basic unimodal one. There is a large spike of about 40 students who scored very low scores.</p>
+<p>As we mentioned earlier, it is not useful to inspect a histogram in a silo. Hence we shall condition on Mother’s education once more, to create separate histograms for each group. Remember that this is a case where the response variable <code>G3</code> is quantitative, and the explanatory variable <code>Medu</code> is ordinal.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">histogram</span>(<span class="sc">~</span>G3 <span class="sc">|</span> Medu, <span class="at">data=</span>stud_perf, <span class="at">type=</span><span class="st">"density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/r-stud-perf-4-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>stud_perf.G3.hist(by<span class="op">=</span>stud_perf.Medu, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">10</span>), density<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb17-2"><a href="#cb17-2"></a>                  layout<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">3</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Although we it’s not easy to adjust the heights of the two versions to make them identical, we can, by looking at either one, see that the proportion of 0-scores reduces as the mother’s education increases. Perhaps this is reading too much into the dataset, but there seem to be more scores on the higher end for higher educated mothers.</p>
+</div>
+</section>
+<section id="density-plots" class="level3">
+<h3 class="anchored" data-anchor-id="density-plots">Density Plots</h3>
+<p>When using histograms, we have to vary the bin size. It is difficult to compare histograms because they are not smooth. An alternative to histograms is the kernel density plot. Essentially, this is obtained by smoothing the heights of the rectangles in a histogram.</p>
+<p>Suppose we have observed an i.i.d sample <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span> from a common continuous pdf <span class="math inline">\(f(\cdot)\)</span>. Then the kernel density estimate at <span class="math inline">\(x\)</span> is given by</p>
+<p><span class="math display">\[
+\hat{f}(x)  = \frac{1}{nh} \sum_{i=1}^n K \left( \frac{x - x_i}{h} \right)
+\]</span> where</p>
+<ul>
+<li><span class="math inline">\(K\)</span> is a density function. A typical choice is the standard normal.</li>
+<li><span class="math inline">\(h\)</span> is a bandwidth, which determines which of the nearest points are used. The effect is similar to the number of bins in a histogram.</li>
+</ul>
+<p>There is no analytical expression for the final estimate. The kernel <span class="math inline">\(K\)</span> weights nearby points (to <span class="math inline">\(x\)</span>) and returns the value of the density function.</p>
+<div id="exm-stud-perf-dist" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.4 (Student Performance: Density Estimates)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">densityplot</span>(<span class="sc">~</span>G3, <span class="at">groups=</span>Medu, <span class="at">data=</span>stud_perf, <span class="at">auto.key =</span> <span class="cn">TRUE</span>, <span class="at">bw=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/r-stud-perf-5-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb19-2"><a href="#cb19-2"></a>f, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, squeeze<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">6</span>))</span>
+<span id="cb19-3"><a href="#cb19-3"></a>out2 <span class="op">=</span> stud_perf.groupby(<span class="st">"Medu"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="cf">for</span> y,df0 <span class="kw">in</span> <span class="bu">enumerate</span>(out2):</span>
+<span id="cb19-5"><a href="#cb19-5"></a>    tmp <span class="op">=</span> plt.subplot(<span class="dv">2</span>, <span class="dv">3</span>, y<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb19-6"><a href="#cb19-6"></a>    df0[<span class="dv">1</span>].G3.plot(kind<span class="op">=</span><span class="st">'kde'</span>)<span class="co">#(kind="kde", ax=tmp)</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a>    tmp.set_title(df0[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>As you can see, with density plots it is also possible to overlay them for closer comparison. This is not possible with histograms without some transparency in the rectangle colours.</p>
+</div>
+</section>
+<section id="boxplots" class="level3">
+<h3 class="anchored" data-anchor-id="boxplots">Boxplots</h3>
+<p>Now we turn to boxplots. Boxplots provide a skeletal representation of a distribution, and they are very well suited for showing distributions for multiple variables.</p>
+<p>Here are the steps for drawing a boxplot:</p>
+<ol type="1">
+<li>Determine Q1, Q2 and Q3. The box is made from Q1 and Q3. The median is drawn as a line or a dot within the box.</li>
+<li>Determine the max-whisker reach: Q3 + 1.5IQR; the min-whisker reach by Q1 − 1.5IQR.</li>
+<li>Any data point that is out of the range from the min to max whisker reach is classified as a potential outlier.</li>
+<li>Except for the outliers, the maximum point determines the upper whisker and the minimum points determines the lower whisker of a boxplot.</li>
+</ol>
+<p>A boxplot helps us to identify the median, lower and upper quantiles and outlier(s) (see <a href="#fig-sum-8" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>).</p>
+<div id="fig-sum-8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Boxplot construction">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sum-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/summ_data-08.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Boxplot construction">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sum-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Boxplot construction
+</figcaption>
+</figure>
+</div>
+<div id="exm-stud-perf-box" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.5 (Student Performance: Boxplots)</strong></span> Instead of using mother’s education once again, we use the number of times a student goes out (<code>goout</code>) as the explanatory variable this time. From the boxplot outputs, it appears there is no strong strictly increasing/decreasing trend associated with G3. Instead, although the differences between the categories are not large, it seems as though there is an “optimal” number of times that students could go out. Too little and too much leads to lower median G3 scores.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">bwplot</span>(G3 <span class="sc">~</span> goout, <span class="at">horizontal =</span> <span class="cn">FALSE</span>, <span class="at">data=</span>stud_perf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/r-stud-perf-6-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>stud_perf.plot.box(column<span class="op">=</span><span class="st">'G3'</span>, by<span class="op">=</span><span class="st">'goout'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>G3    Axes(0.125,0.11;0.775x0.77)
+dtype: object</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="qq-plots" class="level3">
+<h3 class="anchored" data-anchor-id="qq-plots">QQ-plots</h3>
+<p>Finally, we turn to QQ-plots. A Quantile-Quantile plot is a graphical diagnostic tool for assessing if a dataset follows a particular distribution. Most of the time we would be interested in comparing against a Normal distribution.</p>
+<p>A QQ-plot plots the standardized sample quantiles against the theoretical quantiles of a N(0; 1) distribution. If they fall on a straight line, then we would say that there is evidence that the data came from a normal distribution.</p>
+<p>Especially for unimodal datasets, the points in the middle will fall close to the line. The value of a QQ-plot is in judging if the tails of the data are fatter or thinner than the tails of the Normal.</p>
+<div id="fig-qq-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qq-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-qq-1" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-qq-1-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-qq-1-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-summarising_data_files/figure-html/fig-qq-1-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-ref-parent="fig-qq-1" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-qq-1-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Thinner than Normal
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-qq-1" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-qq-1-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-qq-1-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-summarising_data_files/figure-html/fig-qq-1-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-ref-parent="fig-qq-1" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-qq-1-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Fatter than Normal
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qq-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: QQ-plots
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please be careful! Some software/packages will switch the axes (i.e.&nbsp;plot the sample quantiles on the x-axis instead of the y-axis, unlike <a href="#fig-qq-1" class="quarto-xref">Figure&nbsp;<span>3.4</span></a>). Please observe and interpret accordingly.</p>
+</div>
+</div>
+<div id="exm-concrete-intro" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.6 (Concrete Slump: Dataset Introduction)</strong></span> Concrete is a highly complex material. The slump flow of concrete is not only determined by the water content, but that is also influenced by other concrete ingredients. The UCI page for this dataset is <a href="https://archive.ics.uci.edu/dataset/182/concrete+slump+test">here</a>. The reference for this article is <span class="citation" data-cites="yeh2007modeling">Yeh (<a href="references.html#ref-yeh2007modeling" role="doc-biblioref">2007</a>)</span>.</p>
+<p>The data set includes 103 data points. There are 7 input variables, and 3 output variables in the data set. These are the columns in the data:</p>
+<p>Input variables (7)(component kg in one <span class="math inline">\(m^3\)</span> concrete):</p>
+<ol type="1">
+<li>Cement</li>
+<li>Slag</li>
+<li>Fly ash</li>
+<li>Water</li>
+<li>SP - a super plasticizer to improve consistency.</li>
+<li>Coarse Aggr.</li>
+<li>Fine Aggr.</li>
+</ol>
+<p>Output variables (3):</p>
+<ol type="1">
+<li>SLUMP (cm) You can read more about the <a href="https://en.wikipedia.org/wiki/Concrete_slump_test">slump test</a> here.</li>
+<li>FLOW (cm) The previous wikipedia page has a link to the flow test too.</li>
+<li>28-day Compressive Strength (Mpa)</li>
+</ol>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<p>To read in the data in R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>concrete <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="fu">names</span>(concrete)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">11</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"Comp.Strength"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>concrete <span class="op">=</span> pd.read_csv(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>concrete.rename(columns<span class="op">=</span>{<span class="st">'No'</span>:<span class="st">'id'</span>, <span class="st">'Compressive Strength (28-day)(Mpa)'</span>:<span class="st">'Comp_Strength'</span>}, </span>
+<span id="cb24-3"><a href="#cb24-3"></a>                inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Let us consider the Comp.Strength output variable. The histogram overlay in <a href="#fig-concrete-1" class="quarto-xref">Figure&nbsp;<span>3.5</span></a> suggests some skewness and fatter tails than the Normal.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-concrete-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-concrete-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-summarising_data_files/figure-html/fig-concrete-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-concrete-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: Comparing data with reference Normal (blue)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The next chart is a QQ-plot, for assessing deviations from Normality.</p>
+<div id="exm-concrete-qq" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.7 (Concrete: QQ-plots)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">qqnorm</span>(concrete<span class="sc">$</span>Comp.Strength)</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">qqline</span>(concrete<span class="sc">$</span>Comp.Strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/r-concrete-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb26-3"><a href="#cb26-3"></a>sm.qqplot(concrete.Comp_Strength, line<span class="op">=</span><span class="st">"q"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/py-concrete-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The deviation of the tails does not seem to be that large, judging from the QQ-plot.</p>
+</div>
+</section>
+</section>
+<section id="correlation" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="correlation"><span class="header-section-number">3.4</span> Correlation</h2>
+<p>When we are studying two quantitative variables, the most common numerical summary to quantify the relationship between them is the correlation coefficient. Suppose that <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span> and <span class="math inline">\(y_1, \ldots, y_n\)</span> are two variables from a set of <span class="math inline">\(n\)</span> objects or people. The sample correlation between these two variables is computed as:</p>
+<p><span class="math display">\[
+r = \frac{1}{n-1} \sum_{i=1}^n \frac{(x_i - \bar{x})(y_i - \bar{y})}{s_x s_y}
+\]</span> where <span class="math inline">\(s_x\)</span> and <span class="math inline">\(s_y\)</span> are the sample standard deviations. <span class="math inline">\(r\)</span> is an estimate of the correlation between random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-nrow="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/summ_data-06.png" class="img-fluid figure-img" data-out-width="60%"></p>
+<figcaption>Linear Relation</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/summ_data-07.png" class="img-fluid figure-img" data-out-width="60%"></p>
+<figcaption>Non-linear relation</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>A few things to note about the value <span class="math inline">\(r\)</span>, which is also referred to as the Pearson correlation:</p>
+<ul>
+<li><span class="math inline">\(r\)</span> is always between -1 and 1.</li>
+<li>A positive value for <span class="math inline">\(r\)</span> indicates a positive association and a negative value for <span class="math inline">\(r\)</span> indicates a negative association.</li>
+<li>Two variables have the same correlation, no matter which one is treated as the response and which is treated as the explanatory variable.</li>
+</ul>
+</section>
+<section id="scatterplot-matrices" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="scatterplot-matrices"><span class="header-section-number">3.5</span> Scatterplot Matrices</h2>
+<div id="exm-concrete-scatter" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
+<p><span class="theorem-title"><strong>Example 3.8 (Concrete: Scatterplots)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>col_to_use <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Cement"</span>, <span class="st">"Slag"</span>, <span class="st">"Comp.Strength"</span>, <span class="st">"Water"</span>, <span class="st">"SLUMP.cm."</span>,</span>
+<span id="cb27-2"><a href="#cb27-2"></a>                <span class="st">"FLOW.cm."</span>)</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="fu">pairs</span>(concrete[, col_to_use], <span class="at">panel =</span> panel.smooth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/r-concrete-2-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>pd.plotting.scatter_matrix(concrete[[<span class="st">'Cement'</span>, <span class="st">'Slag'</span>, <span class="st">'Comp_Strength'</span>, <span class="st">'Water'</span>, </span>
+<span id="cb28-2"><a href="#cb28-2"></a>                                     <span class="st">'SLUMP(cm)'</span>, <span class="st">'FLOW(cm)'</span>]], </span>
+<span id="cb28-3"><a href="#cb28-3"></a>                           figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">12</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/py-concrete-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The scatterplots allow a visual understanding of the patterns, but it is usually also good to compute the correlation of all pairs of variables.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="fu">corPlot</span>(<span class="fu">cor</span>(concrete[, col_to_use]), <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-summarising_data_files/figure-html/r-concrete-3-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>corr <span class="op">=</span> concrete[[<span class="st">'Cement'</span>, <span class="st">'Slag'</span>, <span class="st">'Comp_Strength'</span>, <span class="st">'Water'</span>, </span>
+<span id="cb30-2"><a href="#cb30-2"></a>                 <span class="st">'SLUMP(cm)'</span>, <span class="st">'FLOW(cm)'</span>]].corr()</span>
+<span id="cb30-3"><a href="#cb30-3"></a>corr.style.background_gradient(cmap<span class="op">=</span><span class="st">'coolwarm_r'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<style type="text/css">
+#T_cc3dc_row0_col0, #T_cc3dc_row1_col1, #T_cc3dc_row2_col2, #T_cc3dc_row3_col3, #T_cc3dc_row4_col4, #T_cc3dc_row5_col5 {
+  background-color: #3b4cc0;
+  color: #f1f1f1;
+}
+#T_cc3dc_row0_col1 {
+  background-color: #cb3e38;
+  color: #f1f1f1;
+}
+#T_cc3dc_row0_col2, #T_cc3dc_row3_col4 {
+  background-color: #c5d6f2;
+  color: #000000;
+}
+#T_cc3dc_row0_col3 {
+  background-color: #f4c6af;
+  color: #000000;
+}
+#T_cc3dc_row0_col4 {
+  background-color: #f7b89c;
+  color: #000000;
+}
+#T_cc3dc_row0_col5 {
+  background-color: #f3c8b2;
+  color: #000000;
+}
+#T_cc3dc_row1_col0, #T_cc3dc_row1_col2, #T_cc3dc_row1_col4, #T_cc3dc_row1_col5, #T_cc3dc_row2_col1, #T_cc3dc_row2_col3, #T_cc3dc_row5_col1 {
+  background-color: #b40426;
+  color: #f1f1f1;
+}
+#T_cc3dc_row1_col3 {
+  background-color: #ea7b60;
+  color: #f1f1f1;
+}
+#T_cc3dc_row2_col0 {
+  background-color: #cedaeb;
+  color: #000000;
+}
+#T_cc3dc_row2_col4 {
+  background-color: #c53334;
+  color: #f1f1f1;
+}
+#T_cc3dc_row2_col5, #T_cc3dc_row5_col2 {
+  background-color: #e46e56;
+  color: #f1f1f1;
+}
+#T_cc3dc_row3_col0 {
+  background-color: #f5c4ac;
+  color: #000000;
+}
+#T_cc3dc_row3_col1 {
+  background-color: #f29072;
+  color: #f1f1f1;
+}
+#T_cc3dc_row3_col2 {
+  background-color: #c83836;
+  color: #f1f1f1;
+}
+#T_cc3dc_row3_col5 {
+  background-color: #96b7ff;
+  color: #000000;
+}
+#T_cc3dc_row4_col0 {
+  background-color: #f7b194;
+  color: #000000;
+}
+#T_cc3dc_row4_col1 {
+  background-color: #c12b30;
+  color: #f1f1f1;
+}
+#T_cc3dc_row4_col2 {
+  background-color: #d0473d;
+  color: #f1f1f1;
+}
+#T_cc3dc_row4_col3 {
+  background-color: #c7d7f0;
+  color: #000000;
+}
+#T_cc3dc_row4_col5, #T_cc3dc_row5_col4 {
+  background-color: #506bda;
+  color: #f1f1f1;
+}
+#T_cc3dc_row5_col0 {
+  background-color: #f7bca1;
+  color: #000000;
+}
+#T_cc3dc_row5_col3 {
+  background-color: #9dbdff;
+  color: #000000;
+}
+</style>
+
+<table id="T_cc3dc" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_cc3dc_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Cement</th>
+<th id="T_cc3dc_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Slag</th>
+<th id="T_cc3dc_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Comp_Strength</th>
+<th id="T_cc3dc_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Water</th>
+<th id="T_cc3dc_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">SLUMP(cm)</th>
+<th id="T_cc3dc_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">FLOW(cm)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_cc3dc_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cement</td>
+<td id="T_cc3dc_row0_col0" class="data row0 col0">1.000000</td>
+<td id="T_cc3dc_row0_col1" class="data row0 col1">-0.243553</td>
+<td id="T_cc3dc_row0_col2" class="data row0 col2">0.445725</td>
+<td id="T_cc3dc_row0_col3" class="data row0 col3">0.221091</td>
+<td id="T_cc3dc_row0_col4" class="data row0 col4">0.145913</td>
+<td id="T_cc3dc_row0_col5" class="data row0 col5">0.186461</td>
+</tr>
+<tr class="even">
+<td id="T_cc3dc_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Slag</td>
+<td id="T_cc3dc_row1_col0" class="data row1 col0">-0.243553</td>
+<td id="T_cc3dc_row1_col1" class="data row1 col1">1.000000</td>
+<td id="T_cc3dc_row1_col2" class="data row1 col2">-0.331588</td>
+<td id="T_cc3dc_row1_col3" class="data row1 col3">-0.026775</td>
+<td id="T_cc3dc_row1_col4" class="data row1 col4">-0.284037</td>
+<td id="T_cc3dc_row1_col5" class="data row1 col5">-0.327231</td>
+</tr>
+<tr class="odd">
+<td id="T_cc3dc_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Comp_Strength</td>
+<td id="T_cc3dc_row2_col0" class="data row2 col0">0.445725</td>
+<td id="T_cc3dc_row2_col1" class="data row2 col1">-0.331588</td>
+<td id="T_cc3dc_row2_col2" class="data row2 col2">1.000000</td>
+<td id="T_cc3dc_row2_col3" class="data row2 col3">-0.254235</td>
+<td id="T_cc3dc_row2_col4" class="data row2 col4">-0.223358</td>
+<td id="T_cc3dc_row2_col5" class="data row2 col5">-0.124029</td>
+</tr>
+<tr class="even">
+<td id="T_cc3dc_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Water</td>
+<td id="T_cc3dc_row3_col0" class="data row3 col0">0.221091</td>
+<td id="T_cc3dc_row3_col1" class="data row3 col1">-0.026775</td>
+<td id="T_cc3dc_row3_col2" class="data row3 col2">-0.254235</td>
+<td id="T_cc3dc_row3_col3" class="data row3 col3">1.000000</td>
+<td id="T_cc3dc_row3_col4" class="data row3 col4">0.466568</td>
+<td id="T_cc3dc_row3_col5" class="data row3 col5">0.632026</td>
+</tr>
+<tr class="odd">
+<td id="T_cc3dc_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">SLUMP(cm)</td>
+<td id="T_cc3dc_row4_col0" class="data row4 col0">0.145913</td>
+<td id="T_cc3dc_row4_col1" class="data row4 col1">-0.284037</td>
+<td id="T_cc3dc_row4_col2" class="data row4 col2">-0.223358</td>
+<td id="T_cc3dc_row4_col3" class="data row4 col3">0.466568</td>
+<td id="T_cc3dc_row4_col4" class="data row4 col4">1.000000</td>
+<td id="T_cc3dc_row4_col5" class="data row4 col5">0.906135</td>
+</tr>
+<tr class="even">
+<td id="T_cc3dc_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">FLOW(cm)</td>
+<td id="T_cc3dc_row5_col0" class="data row5 col0">0.186461</td>
+<td id="T_cc3dc_row5_col1" class="data row5 col1">-0.327231</td>
+<td id="T_cc3dc_row5_col2" class="data row5 col2">-0.124029</td>
+<td id="T_cc3dc_row5_col3" class="data row5 col3">0.632026</td>
+<td id="T_cc3dc_row5_col4" class="data row5 col4">0.906135</td>
+<td id="T_cc3dc_row5_col5" class="data row5 col5">1.000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The plots you see above are known as heatmaps. They enable us to pick out groups of variables that are similar to one another. As you can see from the blue block in the lower right corner, <code>Water</code>, <code>SLUMP.cm</code> and <code>FLOW.cm</code> are very similar to one another.</p>
+</div>
+</section>
+<section id="references" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> References</h1>
+<section id="website-references" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="website-references"><span class="header-section-number">4.1</span> Website References</h2>
+<ol type="1">
+<li><a href="https://archive.ics.uci.edu/">UCI Machine Learning Repository</a></li>
+<li><a href="https://archive.ics.uci.edu/dataset/320/student+performance">Student Performance Dataset</a>.</li>
+<li><a href="https://en.wikipedia.org/wiki/Kernel_density_estimation">Kernel density estimation</a></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-cortez2008using" class="csl-entry" role="listitem">
+Cortez, Paulo, and Alice Maria Gonçalves Silva. 2008. <span>“Using Data Mining to Predict Secondary School Student Performance.”</span>
+</div>
+<div id="ref-yeh2007modeling" class="csl-entry" role="listitem">
+Yeh, I-Cheng. 2007. <span>“Modeling Slump Flow of Concrete Using Second-Order Regressions and Artificial Neural Networks.”</span> <em>Cement and Concrete Composites</em> 29 (6): 474–80.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-intro_to_python.html" class="pagination-link" aria-label="Introduction to Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04-categorical_data_analysis.html" class="pagination-link" aria-label="Categorical Data Analysis">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; 2-sample Hypothesis Tests – Statistical Computing and Programming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08-anova.html" rel="next">
+<link href="./06-intro_to_sas.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-2_sample_tests.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Computing and Programming</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro_to_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro_to_python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-summarising_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-categorical_data_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-robust_statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-intro_to_sas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANalysis Of VAriance (ANOVA)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Simulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
+  <li><a href="#sec-sig-test-proc" id="toc-sec-sig-test-proc" class="nav-link" data-scroll-target="#sec-sig-test-proc"><span class="header-section-number">7.2</span> Procedure for Significance Tests</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals"><span class="header-section-number">7.3</span> Confidence Intervals</a></li>
+  <li><a href="#parametric-tests" id="toc-parametric-tests" class="nav-link" data-scroll-target="#parametric-tests"><span class="header-section-number">7.4</span> Parametric Tests</a></li>
+  <li><a href="#non-parametric-tests" id="toc-non-parametric-tests" class="nav-link" data-scroll-target="#non-parametric-tests"><span class="header-section-number">7.5</span> Non-parametric Tests</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.6</span> Summary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.7</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
+<p>In this topic, we introduce the routines for a common class of hypothesis tests: the scenario of comparing the location parameter of two groups. This technique is commonly used in A/B testing to assess if an intervention has resulted in a significant difference between two groups.</p>
+<p>Hypothesis tests are routinely abused in many ways by investigators. Such tests typically require strong assumptions to hold, and can result in false positives or negatives. As such, personally, I prefer to use confidence intervals to make an assessment of the significance of a result. However, in this topic, we introduce how the <span class="math inline">\(p\)</span>-values can be obtained for these tests.</p>
+</section>
+<section id="sec-sig-test-proc" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="sec-sig-test-proc"><span class="header-section-number">7.2</span> Procedure for Significance Tests</h2>
+<p>As a recap, here is the general approach for conducting a hypothesis test:</p>
+<section id="step-1-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-assumptions">Step 1: Assumptions</h3>
+<p>In this step, we make a note of the assumptions required for the test to be valid. In some tests, this step is carried out at the end of the others, but it is still essential to perform. Some tests are very sensitive to the assumptions - this is the main reason that the class of robust statistics was invented.</p>
+</section>
+<section id="step-2-state-the-hypotheses-and-significance-level" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-state-the-hypotheses-and-significance-level">Step 2: State the hypotheses and significance level</h3>
+<p>The purpose of hypothesis testing is to make an inferential statement about the population from which the data arose. This inferential statement is what we refer to as the hypothesis regarding the population.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A hypothesis is a statement about population, usually claiming that a parameter takes a particular numerical value or falls in a certain range of values.</p>
+</div>
+</div>
+<p>The hypotheses will be stated as a pair: The first hypothesis is the null hypothesis <span class="math inline">\(H_0\)</span> and the second is the alternative hypothesis <span class="math inline">\(H_1\)</span>. Both statements will involve the <strong>population parameter</strong> (not the data summary) of interest. For example, if we have a sample of observations from two groups <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, and we wish to assess if the mean of the populations is different, the hypotheses would be</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0: &amp; \mu_A = \mu_B \\
+H_1: &amp; \mu_A \ne \mu_B
+\end{eqnarray*}\]</span></p>
+<p><span class="math inline">\(H_0\)</span> is usually a statement that indicates “no difference”, and <span class="math inline">\(H_1\)</span> is <em>usually</em> the complement of <span class="math inline">\(H_0\)</span>.</p>
+<p>At this stage, it is also crucial to state the significance level of the test. The significance level corresponds to the Type I error of the test - the probability of rejecting <span class="math inline">\(H_0\)</span> when in fact it was true. This level is usually denoted as <span class="math inline">\(\alpha\)</span>, and is usually taken to be 5%, but there is no reason to adopt this blindly. Think of the choice of 5% as corresponding to accepting an error rate of 1 in 20 - that’s how it was originally decided upon by Fisher. Where possible, the significance level should be chosen to be appropriate for the problem at hand.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is important to state the significance level at this stage, because if it is chosen <em>after inspecting the data</em>, the test is no longer valid. This is because, after knowing the <span class="math inline">\(p\)</span>-value, one could always choose the significance level such that it yields the <em>desired</em> decision (reject or not).</p>
+</div>
+</div>
+</section>
+<section id="step-3-compute-the-test-statistic" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-compute-the-test-statistic">Step 3: Compute the test statistic</h3>
+<p>The test statistic is usually a measure of how far the observed data deviates from the scenario defined by <span class="math inline">\(H_0\)</span>. Usually, the larger it is, the more evidence we have against <span class="math inline">\(H_0\)</span>.</p>
+<p>The construction of a hypothesis test involves the derivation of the exact or approximate distribution of the test statistic under <span class="math inline">\(H_0\)</span>. Deviations from the assumption could render this distribution incorrect.</p>
+</section>
+<section id="step-4-compute-the-p-value" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-compute-the-p-value">Step 4: Compute the <span class="math inline">\(p\)</span>-value</h3>
+<p>The <span class="math inline">\(p\)</span>-value quantifies the chance of observing such a dataset under <span class="math inline">\(H_0\)</span>. The distribution of the test statistic under <span class="math inline">\(H_0\)</span> is used to compute this value between 0 and 1. A value closer to 0 indicates stronger evidence against <span class="math inline">\(H_0\)</span>.</p>
+</section>
+<section id="step-5-state-your-conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-state-your-conclusion">Step 5: State your conclusion</h3>
+<p>This is the binary decision stage - either we reject <span class="math inline">\(H_0\)</span>, or we do not reject <span class="math inline">\(H_0\)</span>. It is conventional to use this terminology (instead of “accepting <span class="math inline">\(H_1\)</span>”) since our <span class="math inline">\(p\)</span>-value is obtained with respect to <span class="math inline">\(H_0\)</span>.</p>
+</section>
+</section>
+<section id="confidence-intervals" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">7.3</span> Confidence Intervals</h2>
+<p>Confidence intervals are an alternative method of inference for population parameters. Instead of yielding a binary reject/do-not-reject result, they return a confidence interval that contains the plausible values for the population parameter. Many confidence intervals are derived by inverting hypothesis tests, and almost all confidence intervals are of the form</p>
+<p><span class="math display">\[
+\text{Sample estimate}\; \pm \; \text{margin of error}
+\]</span></p>
+<p>For instance, if we observe <span class="math inline">\(x_1, \ldots, x_n\)</span> from a Normal distribution, and wish to estimate the mean of the distribution, the 95% confidence interval based on the the <span class="math inline">\(t\)</span> distribution is</p>
+<p><span class="math display">\[
+\bar{x} \pm t_{0.025, n-1} \times \frac{s}{\sqrt{n}}
+\]</span> where</p>
+<ul>
+<li><span class="math inline">\(s\)</span> is the sample standard deviation, and</li>
+<li><span class="math inline">\(t_{0.025, n-1}\)</span> is the 0.025-quantile from the <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom.</li>
+</ul>
+<p>The formulas for many confidence intervals rely on asymptotic Normality of the estimator. However, this is an assumption that can be overcome with the technique of bootstrapping. We shall touch on this in the final topic of our course.</p>
+<p>Bootstrapping can also be used to sidestep the distributional assumptions in hypothesis tests, but I still much prefer confidence intervals to tests because they yield an interval; they provide much more information than a binary outcome.</p>
+</section>
+<section id="parametric-tests" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="parametric-tests"><span class="header-section-number">7.4</span> Parametric Tests</h2>
+<p>Parametric tests are hypothesis tests that assume some form of distribution for the sample (or population) to follow. An example of such a test is the <span class="math inline">\(t\)</span>-test, which assumes that the data originate from a Normal distribution.</p>
+<p>Conversely, nonparametric tests are hypothesis tests that do not assume any form of distribution for the sample. It seems we should always use non-parametric tests since distributional assumptions would not be violated, right? Unfortunately, since nonparametric tests are so general, they do not have a high discriminative ability - we say that they have low power. In other words, if a dataset truly comes from a Normal distribution, using the <span class="math inline">\(t\)</span>-test would be able to detect smaller differences between the groups better than a non-parametric test.</p>
+<p>In this section, we cover parametric tests for comparing the difference in mean between <strong>two</strong> groups.</p>
+<section id="independent-samples-test" class="level3">
+<h3 class="anchored" data-anchor-id="independent-samples-test">Independent Samples Test</h3>
+<p>In an independent samples <span class="math inline">\(t\)</span>-test, observations in one group yield <em>no information</em> about the observations in the other group. Independent samples can arise in a few ways:</p>
+<ul>
+<li>In an experimental study, study units could be assigned randomly to different treatments, thus forming the two groups.</li>
+<li>In an observational study, we could draw a random sample from the population, and then record an explanatory categorical variable on each unit, such as the gender or senior-citizen status.</li>
+<li>In an observational study, we could draw a random sample from a group (say smokers), and then a random sample from another group (say non-smokers). This would result in a situation where the independent 2-sample <span class="math inline">\(t\)</span>-test is appropriate.</li>
+</ul>
+<section id="formal-set-up" class="level4">
+<h4 class="anchored" data-anchor-id="formal-set-up">Formal Set-up</h4>
+<p>Formally speaking, this is how the independent 2-sample t-test works:</p>
+<p>Suppose that <span class="math inline">\(X_1,X_2,\ldots,X_{n_1}\)</span> are independent observations from group 1, and <span class="math inline">\(Y_1, \ldots Y_{n_2}\)</span> are independent observations from group 2. It is assumed that</p>
+<p><span class="math display">\[\begin{eqnarray}
+X_i &amp;\sim&amp; N(\mu_1,\, \sigma^2),\; i=1,\ldots,n_1 \\
+Y_j &amp;\sim&amp; N(\mu_2,\, \sigma^2),\; j=1,\ldots,n_2
+\end{eqnarray}\]</span></p>
+<p>The null and alternative hypotheses would be</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0: &amp; \mu_1 = \mu_2 \\
+H_1: &amp; \mu_1 \ne \mu_2 \\
+\end{eqnarray*}\]</span></p>
+<p>The test statistic for this test is:</p>
+<p><span class="math display">\[
+T_1 = \frac{(\bar{X} - \bar{Y}) - 0 }{s_p\sqrt{1/n_1 + 1/n_2} }
+\]</span> where <span class="math display">\[
+s^2_p = \frac{(n_1 - 1)s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 -2 }
+\]</span></p>
+<p>Under <span class="math inline">\(H_0\)</span>, the test statistic <span class="math inline">\(T_1 \sim t_{n_1 + n_2 -2}\)</span>. When we use a software to apply the test above, it will typically also return a confidence interval, computed as</p>
+<p><span class="math display">\[
+(\bar{X} - \bar{Y}) \pm t_{n_1 + n_2 -2, 1 - \alpha/2} \times s_p\sqrt{1/n_1 + 1/n_2}
+\]</span></p>
+<div id="exm-abalone-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 7.1 (Abalone Measurements)</strong></span> The dataset on abalone measurements from the <a href="https://archive.ics.uci.edu/dataset/1/abalone">UCI machine learning repository</a> contains measurements of physical characteristics, along with the gender status. We derive a sample of 50 measurements of male and female abalone records for use here. Our goal is to study if there is a significant difference between the viscera weight<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> between males and females. The derived dataset can be found on Canvas.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">SAS Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>abl <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/abalone_sub.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>x <span class="ot">&lt;-</span> abl<span class="sc">$</span>viscera[abl<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"M"</span>]</span>
+<span id="cb1-3"><a href="#cb1-3"></a>y <span class="ot">&lt;-</span> abl<span class="sc">$</span>viscera[abl<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"F"</span>]</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">t.test</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  x and y
+t = 0.91008, df = 98, p-value = 0.365
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.02336287  0.06294287
+sample estimates:
+mean of x mean of y 
+  0.30220   0.28241 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>abl <span class="op">=</span> pd.read_csv(<span class="st">"data/abalone_sub.csv"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#abl.head()</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#abalone_df.describe()</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a>x <span class="op">=</span> abl.viscera[abl.gender <span class="op">==</span> <span class="st">"F"</span>]</span>
+<span id="cb3-11"><a href="#cb3-11"></a>y <span class="op">=</span> abl.viscera[abl.gender <span class="op">==</span> <span class="st">"M"</span>]</span>
+<span id="cb3-12"><a href="#cb3-12"></a></span>
+<span id="cb3-13"><a href="#cb3-13"></a>t_out <span class="op">=</span> stats.ttest_ind(y, x)</span>
+<span id="cb3-14"><a href="#cb3-14"></a>ci_95 <span class="op">=</span> t_out.confidence_interval()</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="bu">print</span>(<span class="ss">f"""</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="ss">* The p-value for the test is </span><span class="sc">{</span>t_out<span class="sc">.</span>pvalue<span class="sc">:.3f}</span><span class="ss">. </span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="ss">* The actual value of the test statistic is </span><span class="sc">{</span>t_out<span class="sc">.</span>statistic<span class="sc">:.3f}</span><span class="ss">.</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="ss">* The upper and lower limits of the CI are (</span><span class="sc">{</span>ci_95[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_95[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">).</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="ss">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+* The p-value for the test is 0.365. 
+* The actual value of the test statistic is 0.910.
+* The upper and lower limits of the CI are (-0.023, 0.063).</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>When we run the independent samples t-test on SAS, we should observe the following output <a href="#fig-sas-abalone-001" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-sas-abalone-001" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-out-width="60%">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-abalone-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_abalone_ind_ttest-001.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-out-width="60%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-abalone-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: SAS Abalone, Independent
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>To assess the normality assumption, we make histograms and qq-plots.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Only the R code is shown here.</p>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">histogram</span>(<span class="sc">~</span>viscera <span class="sc">|</span> gender, <span class="at">data=</span>abl, <span class="at">type=</span><span class="st">"count"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">qqnorm</span>(y, <span class="at">main=</span><span class="st">"Female Abalones"</span>);  <span class="fu">qqline</span>(y)</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">qqnorm</span>(x, <span class="at">main=</span><span class="st">"Male Abalones"</span>);  <span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel" data-layout="[[1],[1,1]]" data-layout-align="center">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-2_sample_tests_files/figure-html/r-abalone-2-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Histograms</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-2_sample_tests_files/figure-html/r-abalone-2-2.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>QQ-plot for females</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-2_sample_tests_files/figure-html/r-abalone-2-3.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>QQ-plot for males</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>We also need to assess if the variances are equal. While there are many hypothesis tests specifically for assessing if variances are equal (e.g.&nbsp;Levene, Bartlett), in our class, I advocate a simple rule of thumb. If the larger s.d is more than twice the smaller one, than we should not use the equal variance form of the test. This rule of thumb is widely used in practice (see <a href="10-simulation.html#sec-web-ref" class="quarto-xref"><span>Section 10.8.1</span></a>).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">aggregate</span>(viscera <span class="sc">~</span> gender, <span class="at">data=</span>abl, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gender   viscera
+1      F 0.1087070
+2      M 0.1087461</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>abl.groupby(<span class="st">'gender'</span>).describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       viscera                                                            
+         count     mean       std    min       25%    50%       75%    max
+gender                                                                    
+F         50.0  0.28241  0.108707  0.095  0.201250  0.275  0.365125  0.575
+M         50.0  0.30220  0.108746  0.040  0.253125  0.310  0.348750  0.638</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We would conclude that there is no significant difference between the mean viscera weight of males and females.</p>
+</div>
+<p><br></p>
+<p>Apart from qq-plots, it is worthwhile to touch on additional methods that are used to assess how much a dataset deviates from Normality.</p>
+</section>
+</section>
+<section id="more-on-assessing-normality" class="level3">
+<h3 class="anchored" data-anchor-id="more-on-assessing-normality">More on Assessing Normality</h3>
+<section id="skewness" class="level4">
+<h4 class="anchored" data-anchor-id="skewness">Skewness</h4>
+<p>The Normal distribution is symmetric about it’s mean. Hence if we observe asymmetry in our histogram, we might suspect deviation from Normality. To quantify this asymmetry, we use <em>skewness</em>. As we can see from <a href="#fig-skew" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>, a histogram with a long tail on the right (left) is referred to as right-skewed (corr. left-skewed).</p>
+<div id="fig-skew" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-skew-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/summ_data-05.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-skew-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.2: Right/Non/Left-Skewed histograms
+</figcaption>
+</figure>
+</div>
+<p>One method of estimating the skewness of a distribution from data is:</p>
+<p><span class="math display">\[
+g_1 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^3}{[\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 ]^{3/2}}
+\]</span> This is the method-of-moments estimator for the distribution skewness parameter. A value close to 0 indicates low skewness (i.e.&nbsp;high symmetry). Positive values correspond to right-skew and negative values to left-skew.</p>
+</section>
+<section id="kurtosis" class="level4">
+<h4 class="anchored" data-anchor-id="kurtosis">Kurtosis</h4>
+<p>Kurtosis measures the thickness of the tails of a distribution. Large kurtosis implies that the tails are “fatter” than those of a Normal, whil small, negative values indicate that the tails are “thinner” than those of a Normal.</p>
+<p>The method of moments estimator is</p>
+<p><span class="math display">\[
+g_2 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^4}{[\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 ]^2} - 3
+\]</span></p>
+</section>
+<section id="hypothesis-tests-for-normality" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-tests-for-normality">Hypothesis tests for Normality</h4>
+<p>The Shapiro-Wilk test and the Kolmogorov-Smirnov test are formal hypothesis tests with the following hypotheses:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0: &amp; \text{ Data follows a Normal distribution} \\
+H_1: &amp; \text{ Data does not follow a Normal distribution}
+\end{eqnarray*}\]</span></p>
+<p>You can read more about them in the references, but take note that applying multiple tests leads to a higher Type I error. Moreover, a large small sample size will almost always reject <span class="math inline">\(H_0\)</span> because small deviations are being classed as significant. I advocate a more graphical approach in assessing Normality, especially since the solution to Non-normality (the bootstrap) is readily accessible today.</p>
+<div id="exm-abalone-norm" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 7.2 (Abalone Measurements)</strong></span> Let us apply the above computations to the abalone measurements.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">SAS output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">aggregate</span>(viscera <span class="sc">~</span> gender, <span class="at">data=</span>abl, Skew, <span class="at">method=</span><span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="do">##   gender   viscera</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="do">## 1      F 0.4060918</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="do">## 2      M 0.2482997</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="fu">aggregate</span>(viscera <span class="sc">~</span> gender, <span class="at">data=</span>abl, Kurt, <span class="at">method=</span><span class="dv">1</span>)</span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="do">##   gender    viscera</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="do">## 1      F -0.2431501</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="do">## 2      M  1.1660593</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co"># Shapiro-Wilk Test only for males:</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="fu">shapiro.test</span>(x)</span>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="do">## </span></span>
+<span id="cb10-15"><a href="#cb10-15"></a><span class="do">##  Shapiro-Wilk normality test</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="do">## </span></span>
+<span id="cb10-17"><a href="#cb10-17"></a><span class="do">## data:  x</span></span>
+<span id="cb10-18"><a href="#cb10-18"></a><span class="do">## W = 0.96779, p-value = 0.1878</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>abl.groupby(<span class="st">"gender"</span>).skew()</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">##          viscera</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">## gender          </span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">## F       0.418761</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">## M       0.256046</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="cf">for</span> i,df <span class="kw">in</span> abl.groupby(<span class="st">'gender'</span>):</span>
+<span id="cb11-8"><a href="#cb11-8"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>df<span class="sc">.</span>gender<span class="sc">.</span>iloc[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>df<span class="sc">.</span>viscera<span class="sc">.</span>kurt()<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co">## F: -0.1390</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="co">## M: 1.4220</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>    </span>
+<span id="cb11-12"><a href="#cb11-12"></a>stats.shapiro(y)</span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co">## ShapiroResult(statistic=np.float64(0.9677872659314101), pvalue=np.float64(0.1878490793650714))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div id="fig-sas-norm-001" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-norm-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_abalone_normality_tests.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-norm-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.3: SAS Normality tests
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Although the skewness seems large for the female group, the Normality tests do not reject the null hypothesis (see <a href="#fig-sas-norm-001" class="quarto-xref">Figure&nbsp;<span>7.3</span></a>).</p>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="paired-sample-test" class="level3">
+<h3 class="anchored" data-anchor-id="paired-sample-test">Paired Sample Test</h3>
+<p>The data in a paired sample test also arises from two groups, but the two groups are not independent. A very common scenario that gives rise to this test is when the same subject receives both treatments. His/her measurement under each treatment gives rise to a measurement in each group. However, the measurements are no longer independent.</p>
+<div id="exm-paired-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 7.3 (Reaction time of drivers)</strong></span> Consider a study on 32 drivers sampled from a driving school. Each driver is put in a simulation of a driving situation, where a target flashes red and green at random periods. Whenever the driver sees red, he/she has to press a brake button.</p>
+<p>For each driver, the study is carried out twice - at one of the repetitions, the individual carries on a phone conversation while at the other, the driver listens to the radio.</p>
+<p>Each measurement falls under one of two groups - “phone” or “radio”, but the measurements for driver <span class="math inline">\(i\)</span> are clearly related. Some people might just have a slower/faster baseline reaction time!</p>
+<p>This is a situation where a paired sample test is appropriate, not an independent sample test.</p>
+</div>
+<section id="formal-set-up-1" class="level4">
+<h4 class="anchored" data-anchor-id="formal-set-up-1">Formal Set-up</h4>
+<p>Suppose that we observe <span class="math inline">\(X_1, \ldots , X_n\)</span> independent observations from group 1 and <span class="math inline">\(Y_1, \ldots, Y_n\)</span> independent observations from group 2. However the pair <span class="math inline">\((X_i, Y_i)\)</span> are correlated. It is assumed that</p>
+<p><span class="math display">\[\begin{eqnarray}
+X_i &amp;\sim&amp; N(\mu_1,\, \sigma_1^2),\; i=1,\ldots,n \\
+Y_j &amp;\sim&amp; N(\mu_2,\, \sigma_2^2),\; j=1,\ldots,n
+\end{eqnarray}\]</span></p>
+<p>We let <span class="math inline">\(D_i = X_i - Y_i\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span>. It follows that <span class="math display">\[
+D_i \sim N(\mu_1 - \mu_2,\; \sigma^2_1 + \sigma^2_2 - 2 cov(X_i, Y_i))
+\]</span> The null and alternative hypotheses are stated in terms of the distribution of <span class="math inline">\(D_i\)</span>:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0: &amp; \mu_D = 0 \\
+H_1: &amp; \mu_D \ne 0
+\end{eqnarray*}\]</span></p>
+<p>The test statistic for this test is:</p>
+<p><span class="math display">\[
+T_2 = \frac{\bar{D} - 0 }{s / \sqrt{n} }
+\]</span> where <span class="math display">\[
+s^2 = \frac{\sum_{i=1}^n (D_i - \bar{D})^2}{(n - 1)}
+\]</span></p>
+<p>Under <span class="math inline">\(H-0\)</span>, the test statistic <span class="math inline">\(T_2 \sim t_{n - 1}\)</span>. When we use a software to apply the test above, it will typically also return a confidence interval, computed as</p>
+<p><span class="math display">\[
+\bar{D} \pm t_{n - 1, 1 - \alpha/2} \times s / \sqrt{n}
+\]</span></p>
+<div id="exm-hr-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 7.4 (Heart Rate Before/After Treadmill)</strong></span> The following dataset comes from the textbook <span class="citation" data-cites="rosner2015fundamentals">(<a href="references.html#ref-rosner2015fundamentals" role="doc-biblioref">Rosner 2015</a>)</span>, where an individual recorded his heart rate before using a treadmill (baseline) and 5 minutes after use, for 12 days in 2006.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">SAS Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>To run the paired test, we use the same function <code>t.test</code> as earlier, but we set the argument <code>paired</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>hr_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/health_promo_hr.csv"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>before <span class="ot">&lt;-</span> hr_df<span class="sc">$</span>baseline</span>
+<span id="cb12-3"><a href="#cb12-3"></a>after <span class="ot">&lt;-</span> hr_df<span class="sc">$</span>after5</span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="fu">t.test</span>(before, after, <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  before and after
+t = -21.714, df = 11, p-value = 2.209e-10
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -16.77286 -13.68548
+sample estimates:
+mean difference 
+      -15.22917 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>hr_df <span class="op">=</span> pd.read_csv(<span class="st">"data/health_promo_hr.csv"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#hr_df.head()</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a></span>
+<span id="cb14-4"><a href="#cb14-4"></a>stats.ttest_rel(hr_df.baseline, hr_df.after5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TtestResult(statistic=np.float64(-21.71364533004281), pvalue=np.float64(2.208665955512109e-10), df=np.int64(11))</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_hr_paired_ttest.png" class="img-fluid figure-img"></p>
+<figcaption>SAS HR Paired t-test</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>It is imperative to also make the checks for Normality. If you were to make them, you would realise that the sample size is rather small - it is difficult to make the case for Normality here.</p>
+<p>A couple of interesting plots from SAS are these:</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_hr_paired_profiles.png" class="img-fluid figure-img"></p>
+<figcaption>Paired Profiles</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_hr_agreement.png" class="img-fluid figure-img"></p>
+<figcaption>Agreement</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>When we inspect the paired plot, we are looking for a similar gradient for each line, or at least similar in sign. If instead, we observed a combination of positive and negative gradients, then we would be less confident that there is a difference in means between the groups.</p>
+<p>For the agreement, if we were to observe a cloud of points centered around the mean, with no clear trend to the points, then we would be more inclined to believe that the mean difference is not 0.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="non-parametric-tests" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="non-parametric-tests"><span class="header-section-number">7.5</span> Non-parametric Tests</h2>
+<p>If the distributional assumptions of the <span class="math inline">\(t\)</span>-test are not met, we can take action in several ways. Historically, one method was to transform the data (if it was skewed) to make the histogram symmetric and thus closer to a Normal. But this was not ideal - it did not help in cases where the data was symmetric but had fatter tails than the Normal. As time progressed, statisticians invented tools to overcome the distributional assumptions. One sub-field was robust statistics, which keep the assumptions to a minimum, e.g.&nbsp;only requiring the underlying distribution to be symmetric. Another sub-field was the area of non-parametric statistics, where almost <strong>no</strong> distributional assumptions are made about the data.</p>
+<p>In this section, we cover the non-parametric analogues for independent and paired 2-sample tests.</p>
+<section id="sec-indep-nonpar" class="level3">
+<h3 class="anchored" data-anchor-id="sec-indep-nonpar">Independent Samples Test</h3>
+<p>The non-parametric analogue of the independent 2-sample test is the Wilcoxon Rank Sum (WRS) test (equivalent to the Mann-Whitney test).</p>
+<section id="formal-set-up-2" class="level4">
+<h4 class="anchored" data-anchor-id="formal-set-up-2">Formal Set-up</h4>
+<p>Suppose that we observe <span class="math inline">\(X_1, \ldots , X_{n_1}\)</span> independent observations from group 1 (with distribution <span class="math inline">\(F\)</span>) and <span class="math inline">\(Y_1, \ldots, Y_{n_2}\)</span> independent observations from group 2 (with distribution <span class="math inline">\(G\)</span>).</p>
+<p>The hypotheses associated with this test are:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0 &amp;: &amp; F = G \\
+H_1 &amp;: &amp; F(x) = G(x - \Delta), \Delta \neq 0
+\end{eqnarray*}\]</span></p>
+<p>In other words, the alternative hypothesis is that the distribution of group 1 is a location shift of the distribution of group 2.</p>
+<p>The WRS test begins by pooling the <span class="math inline">\(n_1 + n_2\)</span> data points and ranking them. The smallest observation is awarded rank 1, and the largest observation is awarded rank <span class="math inline">\(n_1 + n_2\)</span>, assuming there are no tied values. If there are tied values, the observations with the same value receive an averaged rank.</p>
+<p>Compute <span class="math inline">\(R_1\)</span>, the sum of the ranks in group 1. If this sum is large, it means that most of the values in group 1 were larger than those in group 2. Note that the average rank in the combined sample is <span class="math display">\[
+\frac{n_1 + n_2 + 1}{2}
+\]</span></p>
+<p>Under <span class="math inline">\(H_0\)</span>, the expected rank sum of group 1 is <span class="math display">\[
+E(R_1) = n_1 \times  \frac{n_1 + n_2 + 1}{2}
+\]</span> Thus the test statistic is a comparison of <span class="math inline">\(R_1\)</span> with the above expected value:</p>
+<p><span class="math display">\[
+W_1 = \begin{cases}
+\frac{\left|R_1 - \frac{n_1(n_1+n_2+1)}{2} \right| - \frac{1}{2}}{\sqrt{n_1n_2(n_1 + n_2 +1)/12}}, &amp; R_1 \ne \frac{n_1 (n_1 + n_2 + 1)}{2} \text{ and no ties} \\
+\frac{\left|R_1 - \frac{n_1(n_1+n_2+1)}{2} \right| - \frac{1}{2}}{\sqrt{n_1n_2 \left( n_1 + n_2 +1 - \frac{\sum_{i=1}^g t_i (t_i^2-1)}{(n_1+n_2)(n_1+n_2-1)} \right) /12}}, &amp; R_1 \ne \frac{n_1 (n_1 + n_2 + 1)}{2} \text{ and ties present} \\
+0, &amp; R_1 = \frac{n_1 (n_1 + n_2 + 1)}{2}
+\end{cases}
+\]</span></p>
+<p>The test above should only be used if both <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> are at least 10, and if the observations (not the ranks) come from an underlying continuous distribution. If these assumptions hold, then the test statistic <span class="math inline">\(W_1\)</span> follows a <span class="math inline">\(N(0,1)\)</span> distribution.</p>
+<p>Just as in <a href="#sec-pair-nonpar" class="quarto-xref"><span>Section 7.5.2</span></a>, the <span class="math inline">\(g\)</span> refers to the number of groups with ties, and <span class="math inline">\(t_i\)</span> refers to the number of tied values in each group.</p>
+<div id="exm-abalone-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 7.5 (Abalone Measurements)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">SAS Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>We can perform the WRS test in R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">wilcox.test</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  x and y
+W = 1415.5, p-value = 0.2553
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p>As mentioned, the Mann-Whitney test will return the same <span class="math inline">\(p\)</span>-value as the WRS test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>stats.mannwhitneyu(y, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>MannwhitneyuResult(statistic=np.float64(1415.5), pvalue=np.float64(0.25527909580927854))</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<p>The SAS output can be seen in <a href="#fig-sas-wrs-001" class="quarto-xref">Figure&nbsp;<span>7.4</span></a>.</p>
+<div id="fig-sas-wrs-001" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-wrs-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_abalone_wrs.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-wrs-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.4: SAS Output, Wilcoxon Rank Sum
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Since we know the number of observations in each group to be more than 10, the approximation holds. Comparing to the <a href="10-simulation.html#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>10.8</span></a>, observe that we have a similar conclusion.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="sec-pair-nonpar" class="level3">
+<h3 class="anchored" data-anchor-id="sec-pair-nonpar">Paired Samples Test</h3>
+<p>The analogue of the paired sample <span class="math inline">\(t\)</span>-test is known as the Wilcoxon Sign Test (WST).</p>
+<section id="formal-set-up-3" class="level4">
+<h4 class="anchored" data-anchor-id="formal-set-up-3">Formal Set-up</h4>
+<p>Again, suppose that we observe <span class="math inline">\(X_1, \ldots , X_n\)</span> observations from group 1 and <span class="math inline">\(Y_1, \ldots, Y_n\)</span> observations from group 2. Groups 1 and 2 are paired (or correlated) in some way.</p>
+<p>Once again, we compute <span class="math inline">\(D_i = X_i - Y_i\)</span>. The null hypothesis is that</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0 &amp;: &amp; \text{median of $D_i$ is 0.} \\
+H_1 &amp;: &amp; \text{median of $D_i$ is not 0.}
+\end{eqnarray*}\]</span></p>
+<p>We begin by ranking the <span class="math inline">\(|D_i|\)</span>. Ignoring pairs for which <span class="math inline">\(D_i = 0\)</span>, we rank the remaining observations from 1 for the pair with the smallest absolute value, up to <span class="math inline">\(n\)</span> for the pair with the largest absolute value (assuming no ties).</p>
+<p>We then compute <span class="math inline">\(R_1\)</span>, the sum of ranks for the positive <span class="math inline">\(D_i\)</span>. If this sum is large, we expect that the pairs with <span class="math inline">\(X_i &gt; Y_i\)</span> have a larger difference (in absolute values) than those with <span class="math inline">\(X_i &lt; Y_i\)</span>. Under <span class="math inline">\(H_0\)</span>, it can be shown that</p>
+<p><span class="math display">\[
+E(R_1) = m(m+1)/4
+\]</span> where <span class="math inline">\(m\)</span> is the number of of non-zero differences.</p>
+<p>Thus the test statistic is a comparison of <span class="math inline">\(R_1\)</span> with the above expected value:</p>
+<p><span class="math display">\[
+W_2 = \begin{cases}
+\frac{\left|R_1 - \frac{n(n + 1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n + 1)/24}}, &amp; R_1 \ne \frac{n(n + 1)}{4} \text{ and no ties} \\
+\frac{\left|R_1 - \frac{n(n+1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n+1)/(24 -
+\sum_{i=1}^g (t^3_i - t_i) / 48 )}}, &amp; R_1 \ne \frac{n (n + 1)}{4} \text{ and ties present} \\
+0, &amp; R_1 = \frac{n (n + 1)}{4}
+\end{cases}
+\]</span> where <span class="math inline">\(g\)</span> denotes the number of tied groups, and <span class="math inline">\(t_i\)</span> refers to the number of differences with the same absolute value in the <span class="math inline">\(i\)</span>-th tied group.</p>
+<p>If the number of non-zero <span class="math inline">\(D_i\)</span>’s is at least 16, then the test statistic <span class="math inline">\(W_2\)</span> follows a <span class="math inline">\(N(0,1)\)</span> distribution approximately.</p>
+<div id="exm-hr-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 7.6 (Heart Rate Before/After Treadmill)</strong></span> &nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">SAS Output</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<p>We can perform the Wilcoxon Signed Rank test in R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">wilcox.test</span>(before, after, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Wilcoxon signed rank test with continuity correction
+
+data:  before and after
+V = 0, p-value = 0.002507
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>stats.wilcoxon(hr_df.baseline, hr_df.after5, </span>
+<span id="cb22-2"><a href="#cb22-2"></a>               correction<span class="op">=</span><span class="va">True</span>, method<span class="op">=</span><span class="st">'approx'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WilcoxonResult(statistic=np.float64(0.0), pvalue=np.float64(0.002506841661528245))</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_hr_wilcox.png" class="img-fluid figure-img"></p>
+<figcaption>SAS Signed Rank Test</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>In this problem, we do not have 16 non-zero <span class="math inline">\(D_i\)</span>’s. Hence, we should in fact be using the “exact” version of the test (R and Python). However, the exact version of the test cannot be used when there are ties.</p>
+<p>In cases like this, we can turn to the bootstrap, or we can use a permutation test. We shall revisit these in our final topic.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="summary" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.6</span> Summary</h2>
+<p>While the test statistics are shown in detail, we do not need the full details for our class. I should also point out that the definitions of the test statistic in <a href="#sec-indep-nonpar" class="quarto-xref"><span>Section 7.5.1</span></a> and <a href="#sec-pair-nonpar" class="quarto-xref"><span>Section 7.5.2</span></a> were both taken from <span class="citation" data-cites="rosner2015fundamentals">Rosner (<a href="references.html#ref-rosner2015fundamentals" role="doc-biblioref">2015</a>)</span>. However, take note that different software have slightly different implementations, for instance in how they deal with ties. As always, my advice is to read the documentation as much as possible, and then to use the output of the tests as a guide to your decision-making (instead of the absolute truth).</p>
+</section>
+<section id="references" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="references"><span class="header-section-number">7.7</span> References</h2>
+<section id="sec-web-ref" class="level3">
+<h3 class="anchored" data-anchor-id="sec-web-ref">Website References</h3>
+<ol type="1">
+<li><a href="https://archive.ics.uci.edu/dataset/1/abalone">UCI full abalone dataset</a>: The dataset in the examples above, starting from <a href="10-simulation.html#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>10.8</span></a>, consists of samples from the full dataset.</li>
+<li>Inference recap from Penn State:
+<ul>
+<li><a href="https://online.stat.psu.edu/statprogram/reviews/statistical-concepts/hypothesis-testing">Hypothesis testing recap</a></li>
+<li><a href="https://online.stat.psu.edu/statprogram/reviews/statistical-concepts/confidence-intervals">Confidence intervals recap</a></li>
+</ul></li>
+<li><a href="https://online.stat.psu.edu/stat501/lesson/7/7.5">Tests for Normality</a> More information on the Kolmogorov-Smirnov and Shapiro-Wilks Tests for Normality.</li>
+<li><a href="https://www.bmj.com/about-bmj/resources-readers/publications/statistics-square-one/7-t-tests">Overview of <span class="math inline">\(t\)</span>-tests</a> This page includes the rule of thumb about deciding when to use the equal variance test, and when to use the unequal variances version.</li>
+<li><a href="https://stats.stackexchange.com/questions/65875/different-ways-to-calculate-the-test-statistic-for-the-wilcoxon-rank-sum-test">SAS vs.&nbsp;R/Python</a> This link provides an explanation why the WRS test statistic for SAS is different from R in <a href="#exm-abalone-2" class="quarto-xref">Example&nbsp;<span>7.5</span></a>.</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-rosner2015fundamentals" class="csl-entry" role="listitem">
+Rosner, Bernard. 2015. <em>Fundamentals of Biostatistics</em>. Cengage learning.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Viscera is the gut weight after bleeding out the abalone (in grams).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06-intro_to_sas.html" class="pagination-link" aria-label="Introduction to SAS">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08-anova.html" class="pagination-link" aria-label="ANalysis Of VAriance (ANOVA)">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANalysis Of VAriance (ANOVA)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
