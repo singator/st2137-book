@@ -4,7 +4,7 @@ project:
 book:
   title: "Statistical Computing and Programming"
   author: "Vik Gopal, Daisy Pham Thi Kim Cuc"
-  date: "04/10/2024"
+  date: today
   chapters:
     - index.qmd
     - 01-intro_to_R.qmd
@@ -17,7 +17,6 @@ book:
     - 08-anova.qmd
     - 09-regression.qmd
     - 10-simulation.qmd
-    - summary.qmd
     - references.qmd
 
 bibliography: references.bib
