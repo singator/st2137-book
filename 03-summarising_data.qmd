@@ -659,9 +659,9 @@ very similar to one another.
 
 
 
-# References
+## References
 
-## Website References
+### Website References
 
 1. [UCI Machine Learning Repository](https://archive.ics.uci.edu/)
 2. [Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance).

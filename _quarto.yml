@@ -3,6 +3,7 @@ project:
 
 book:
   title: "Statistical Computing and Programming"
+  cover-image: figs/st2137_cover.png
   author: "Vik Gopal, Daisy Pham Thi Kim Cuc"
   date: today
   chapters:

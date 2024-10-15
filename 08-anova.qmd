@@ -1,5 +1,5 @@
 ---
-title: "ANalysis Of VAriance (ANOVA)"
+title: "ANOVA"
 ---
 
 ```{r setup}

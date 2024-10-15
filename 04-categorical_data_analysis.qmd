@@ -720,9 +720,9 @@ association. This allows the same intuition that Pearson's correlation does.
 When you are presented with new metrics, try to understand them by asking
 similar questions about them.
 
-# References
+## References
 
-## Website References
+### Website References
 
 1. Documentation pages from statsmodels: 
    * [Mosaic plots](https://www.statsmodels.org/stable/generated/statsmodels.graphics.mosaicplot.mosaic.html#statsmodels.graphics.mosaicplot.mosaic)
