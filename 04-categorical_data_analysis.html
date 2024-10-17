@@ -259,7 +259,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
+ <span class="menu-text">Academic References</span></a>
   </div>
 </li>
     </ul>
@@ -278,10 +278,7 @@ window.Quarto = {
   <li><a href="#measures-of-association" id="toc-measures-of-association" class="nav-link" data-scroll-target="#measures-of-association"><span class="header-section-number">4.4</span> Measures of Association</a></li>
   <li><a href="#visualisations" id="toc-visualisations" class="nav-link" data-scroll-target="#visualisations"><span class="header-section-number">4.5</span> Visualisations</a></li>
   <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">4.6</span> Further readings</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a>
-  <ul class="collapse">
-  <li><a href="#website-references" id="toc-website-references" class="nav-link" data-scroll-target="#website-references"><span class="header-section-number">5.1</span> Website References</a></li>
-  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4.7</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -425,7 +422,7 @@ H_1 &amp;:&amp; \text{The two variables are not indepdendent.}
 <p><span class="theorem-title"><strong>Example 4.2 (Chest Pain and Gender Expected Counts)</strong></span> Continuing from <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, we can compute the estimated marginals using row and column proportions</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>────────────────────────────────────────────────────────────────────────────── 
+<pre><code>------------------------------------------------------------------------------ 
 chest_tab (table)
 
 Summary: 
@@ -451,7 +448,7 @@ Sum      freq      83       990 1'073
          p.col      .         .     .
                                      
 
-────────────────────
+----------
 ' 95% conf. level</code></pre>
 </div>
 </div>
@@ -621,7 +618,7 @@ odds ratio
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a>stats.fisher_exact(claritin_tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SignificanceResult(statistic=np.float64(2.8260869565217392), pvalue=np.float64(0.24118420183193057))</code></pre>
+<pre><code>SignificanceResult(statistic=2.8260869565217392, pvalue=0.24118420183193057)</code></pre>
 </div>
 </div>
 </div>
@@ -882,7 +879,7 @@ Mutual Information       0.0508       -       -</code></pre>
 <span id="cb26-15"><a href="#cb26-15"></a></span>
 <span id="cb26-16"><a href="#cb26-16"></a>stats.kendalltau(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SignificanceResult(statistic=np.float64(0.15235215134659688), pvalue=np.float64(0.0860294855671433))</code></pre>
+<pre><code>SignificanceResult(statistic=0.15235215134659688, pvalue=0.0860294855671433)</code></pre>
 </div>
 </div>
 </div>
@@ -1015,10 +1012,10 @@ Mutual Information       0.0508       -       -</code></pre>
 </ol>
 <p>Also, take note of how log odds ratios, <span class="math inline">\(\tau_b\)</span> and <span class="math inline">\(\gamma\)</span> work - they range between -1 to 1 (in general), and values close to 0 reflect weak association. Values of <span class="math inline">\(a\)</span> and <span class="math inline">\(-a\)</span> indicate the same <em>strength</em>, but different direction of association. This allows the same intuition that Pearson’s correlation does. When you are presented with new metrics, try to understand them by asking similar questions about them.</p>
 </section>
-<section id="references" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> References</h1>
-<section id="website-references" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="website-references"><span class="header-section-number">5.1</span> Website References</h2>
+<section id="references" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="references"><span class="header-section-number">4.7</span> References</h2>
+<section id="website-references" class="level3">
+<h3 class="anchored" data-anchor-id="website-references">Website References</h3>
 <ol type="1">
 <li>Documentation pages from statsmodels:
 <ul>
