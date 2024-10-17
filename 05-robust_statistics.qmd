@@ -535,7 +535,7 @@ $$
 
 :::
 
-# Examples
+## Examples
 
 
 To begin, let us apply the three estimators of location to the chemical dataset.
