@@ -179,6 +179,10 @@ In this topic, we shall introduce a new dataset, also from the UCI Machine
 Learning repository. 
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-bike-2}
+
+### Bike Rentals
+\index{Bike rentals!description}
+
 The dataset was collected by the authors in @fanaee2013bike. It contains
 information on bike-sharing rentals in Washington D.C. USA for the years 2011
 and 2012, along with measurements of weather. The original dataset contained
@@ -255,6 +259,7 @@ section (see highligted tasks in @fig-sas-tasks-01).
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-bike-summ-1}
 
 ### 5-number Summaries
+\index{Bike rentals!numerical summaries}
 
 We expect that the total count of users will vary by the seasons. Hence, we begin
 by computing five-number summaries for each season.
@@ -279,6 +284,7 @@ spring is the most right-skewed.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-bike-scatter-1}
 
 ### Casual vs Registered Scatterplot
+\index{Bike rentals!scatterplot}
 
 To create a scatterplot in SAS, go to Tasks > Graphs > Scatter Plot.
 
@@ -299,6 +305,7 @@ it as a working day or not.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-bike-hist-1}
 
 ### Casual Users Distribution
+\index{Bike rentals!histograms}
 
 Now suppose we focus on casual users, and study the distribution of counts 
 by whether a day is a working day or not. To create a histogram, go to 
@@ -313,7 +320,7 @@ range of counts for non-working days extends further, to about 3500.
 :::
 
 ### Boxplots
-
+\index{Bike rentals!boxplots}
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-bike-box-1}
 
@@ -359,6 +366,7 @@ the log transform.
 :::
 
 ### QQ-plots
+\index{Bike rentals!QQ plots}
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-bike-qq-1}
 
@@ -390,6 +398,7 @@ store `student-mat.csv` as ST2137.STUD_PERF on the SAS Studio website.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-chisq-1}
 
 ### $\chi^2$ Test for Independence
+\index{Bike rentals!chi-squared test}
 
 For a test of independence of `address` and `paid`, go to Tasks > Table Analysis,
 and select:
@@ -419,6 +428,7 @@ to generate the Kendall $\tau_b$ that we covered earlier.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-chisq-1}
 
 ### Kendall $\tau$ for `Walc` and `Dalc`
+\index{Student performance!Kendall's tau}
 
 Once we load the data ST2137.STUD_PERF, we go to Tasks > Table Analysis. After 
 selecting the two variables, we check the appropriate box to obtain @fig-sas-tau-01.
@@ -430,7 +440,7 @@ selecting the two variables, we check the appropriate box to obtain @fig-sas-tau
 
 ## References 
 
-## Website References {#sec-web-ref}
+## Website References {#sec-web-ref-06}
 
 1. [SAS account sign-up](https://www.sas.com/profile/ui/#/create) Use this link to 
    sign up for a SAS account.

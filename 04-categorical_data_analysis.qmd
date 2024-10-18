@@ -8,11 +8,9 @@ title: "Categorical Data Analysis"
 #| warning: false
 library(knitr)
 library(reticulate)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -51,6 +49,7 @@ measuring the strength, of the association between two categorical variables.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-chest-pain}
 
 ### Chest Pain and Gender
+\index{Chest pain!description}
 
 Suppose that 1073 NUH patients who were at high risk for cardiovascular disease
 (CVD) were randomly sampled. They were then queried on two things:
@@ -122,6 +121,7 @@ expected cell counts.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-chest-pain-2}
 
 ### Chest Pain and Gender Expected Counts
+\index{Chest pain!expected counts}
 
 Continuing from @exm-chest-pain, we can compute the estimated marginals using 
 row and column proportions
@@ -172,6 +172,7 @@ there would be 4 terms in the summation.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-chest-pain-3}
 
 ### Chest Pain and Gender $\chi^2$ Test
+\index{Chest pain!chi-squared test}
 
 Let us see how we can apply and interpret the $\chi^2$-test for the data in 
 @exm-chest-pain.
@@ -259,6 +260,7 @@ approximation of the distribution of the earlier test statistic). Hence the
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-claritin-1}
 
 ### Claritin and Nervousness
+\index{Claritin!Fisher's exact test}
 
 Claritin is a drug for treating allergies. However, it has a side effect of
 inducing nervousness in patients. From a sample of 450 subjects, 188 of them
@@ -322,6 +324,7 @@ variables are nominal.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-pol-assoc-1}
 
 ### Political Association and Gender
+\index{Political association!chi-squared test}
 
 Consider data given in the table below where both variables are nominal. It 
 cross-classifies poll respondents according to their gender and their political 
@@ -451,6 +454,7 @@ $$
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-chest-pain-4}
 
 ### Chest Pain and Gender Odds Ratio
+\index{Chest pain!odds ratio}
 
 Let us compute the confidence interval for the odds ratio in the chest pain and
 gender example from earlier.
@@ -528,6 +532,7 @@ close to 1 (or -1) indicate a strong positive (negative) association.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-job-income-1}
 
 ### Job Satisfaction by Income
+\index{Job satisfaction!ordinal association}
 
 Consider the following table, obtained from @agresti2012categorical. The original
 data come from a nationwide survey conducted in the US in 1996.
@@ -589,6 +594,7 @@ to use a bar chart.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-pol-assoc-3}
 
 ### Political Association and Gender Barchart
+\index{Political association!bar chart}
 
 Here is the R code to make the barchart for the political affiliations data,
 directly from the contingency table in @exm-pol-assoc-1.
@@ -612,6 +618,7 @@ from the Claritin example earlier in @exm-claritin-1:
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-claritin-2}
 
 ### Claritin and Nervousness Barchart
+\index{Claritin!bar chart}
 
 ```{python py-claritin-2}
 #| fig-align: center
@@ -636,6 +643,7 @@ mosaic plots for the political association data earlier.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-pol-assoc-2}
 
 ### Political Association and Gender Mosaic Plot
+\index{Political association!mosaic plot}
 
 The colours in the output for the R code reflect the sizes of the standardised 
 residuals displayed below @exm-pol-assoc-1.
@@ -675,6 +683,7 @@ boxplots or histograms. However, if the response variable is a the categorical o
 we should really be making something along these lines:
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-heart-1}
+\index{Heart failure!conditional density plot}
 
 The dataset at [UCI repository](https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records) 
 contains records on 299 patients who had heart failure. The data was collected

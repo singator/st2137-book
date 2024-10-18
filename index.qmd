@@ -1,38 +1,44 @@
 # Preface {.unnumbered}
 
-> One more robot learns to feel,
-
-> Something more than a machine..
+> <p> One more robot learns to feel,</p>
+> <p> Something more than a machine.. </p>
 
 The lyrics above are from the song "One More Robot/Sympathy 3000-21", written by
 The Flaming Lips in 2002. When I started preparing to teach this course in
 mid-2023, AI had been around for a year or two already. I was stuck for a long
-time wondering if this course is still relevant. 
+time wondering if this course is still relevant; I played the song quite a few times..
 
 Here's what I mean: The course is meant to introduce statistics majors (and
 minors) to three computing languages: R, Python and SAS. But.. why does anyone
-need to know this when we can just ask Gemini? More importantly, why does 
-anyone need to know this when we *are* just going to ask Gemini?
-
-I believe that's the key issue. We have a choice to use it or not. Work demands that 
-we do things quickly, and the use of AI can cut down human errors. But the cost 
-for this speed and convenience is paid by our humanity. To be human is to think, 
-to solve problems, to have a purpose, and to make mistakes. An over-reliance on AI
-will degrade these aspects indelibly.
+need to know this when we can just ask Gemini?
 
 I believe there is a need for data analysts to know how to code from scratch, if
 only because of the value of the process. By coding from nought, and by digging
-into data ourselves, we sharpen our minds. In "How to Solve It", Polya
-recommends that, upon finding one solution to a problem, we ought to go back and
-find ways to generalise the solution or to optimise it. Find opportunities in
-this course to do so.
+into data ourselves, we sharpen our minds. 
 
-If you are taking this course, should you pretend that AI does not exist? If you
-ask me, the only harm in doing so is to your grade. I believe there is great
-value in struggling with a problem. That's what university was meant to be about
-- to allow you to experiment, make mistakes and find your inclinations without
-too much damage. However, if you really need help, don't hesitate to approach me
-(first) or use AI. If you do use AI, I would hope that you take some time to
-dissect it's solution to aid in more long-term understanding and recall.
+In "How to Solve It", Polya recommends that, upon finding one solution to a
+problem, we ought to go back and find ways to generalise the solution or to
+optimise it. Challenging ourselves in these small ways will improve us as 
+data analysts. I hope this course provides you opportunities to do so.
 
+I believe that we have a choice to use AI or not. Work demands that we do things
+quickly, and the use of AI can cut down human errors by quite a bit. But the
+cost for this speed and convenience is paid by our humanity. To be human is to
+think, to solve problems, to have a purpose, and to make mistakes. An
+over-reliance on AI will degrade these aspects indelibly.
 
+If you are taking this course, should you pretend that AI does not exist?
+Obviously not! If you really need help, don't hesitate to approach me, or use
+AI. But if you do use AI, I would hope that you take some time to dissect it's
+solution to aid in more long-term understanding and recall.
+
+I believe there is great value in struggling with a problem. That's what
+university was meant to be about - to allow you to experiment, make mistakes and
+find your inclinations without too much damage. I sincerely hope you find joy in 
+working with data, R, Python and SAS during this course!
+
+If you are a fellow instructor and you find something useful in this textbook,
+please do let me know at vik.gopal@nus.edu.sg. If you need more details about 
+anything, do feel free to write as well.
+
+So long, and thanks for reading!

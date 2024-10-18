@@ -8,11 +8,9 @@ title: "Linear Regression"
 #| warning: false
 library(knitr)
 library(reticulate)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -269,6 +267,7 @@ is preferable to have a parsimonious model that explains the response variable w
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-concrete-2}
 
 ### Concrete Data Model
+\index{Concrete slump!flow vs. water}
 
 In this example, we focus on the estimation of the model parameters for the two 
 variables we introduced in @exm-concrete-1
@@ -355,6 +354,7 @@ We can read off that the 95% Confidence intervals are:
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-bike-2}
 
 ### Bike Data F-test
+\index{Bike rentals!regression F-test}
 
 In this example, we shall fit a simple linear regression model to the bike 
 data, *constrained to the non-working days*. In other words, we shall focus on 
@@ -426,6 +426,7 @@ is how we can do so in the concrete model for data.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-concrete-3}
 
 ### Concrete Data Predicted Means
+\index{Concrete slump!predicted means}
 
 In order to create the predicted means, we shall have to create a dataframe with
 the new values for which we require the predictions. We are first going to set 
@@ -613,6 +614,7 @@ a test of the contribution of $\beta_j$, *given that all other terms are already
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-concrete-4}
 
 ### Concrete Data Multiple Linear Regression
+\index{Concrete slump!flow vs. water, slag}
 
 In this second model for concrete, we add a second predictor variable, Slag. The 
 updated model is 
@@ -717,6 +719,7 @@ model.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-bike-3}
 
 ### Bike Data Working Day
+\index{Bike rentals!registered vs. casual, work day}
 
 In this example, we shall improve on the simple linear regression model 
 from @exm-bike-2. Instead of a single model for just non-working days, we shall
@@ -825,6 +828,7 @@ Both the intercept and coefficient of $X_2$ are different now. Recall that in
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-bike-4}
 
 ### Bike Data Working Day
+\index{Bike rentals!interaction term}
 
 Finally, we shall include an interaction in the model for bike rentals,
 resulting in separate intercepts and separate slopes.
@@ -937,6 +941,7 @@ for our course.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-concrete-5}
 
 ### Concrete Data Normality Check
+\index{Concrete slump!residual Normality}
 
 ::: {.panel-tabset}
 
@@ -1012,6 +1017,7 @@ We typically inspect the plots for the following patterns:
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-concrete-5}
 
 ### Concrete Data Residual Plots
+\index{Concrete slump!residual plots}
 
 ::: {.panel-tabset}
 
@@ -1061,6 +1067,7 @@ distance values greater than 1 indicate possibly influential points.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-concrete-6}
 
 ### Concrete Data Influential Points
+\index{Concrete slump!influential points}
 
 ::: {.panel-tabset}
 
@@ -1102,7 +1109,7 @@ books for this topic.
 
 ## References
 
-### Website References {#sec-web-ref}
+### Website References {#sec-web-ref-09}
 
 3. [Stats models documentation](https://www.statsmodels.org/stable/regression.html)
 6. [Diagnostics](https://www.zeileis.org/teaching/AER/Ch-Validation-handout.pdf)

@@ -9,11 +9,9 @@ title: "Introduction to Python"
 library(tidyverse)
 library(knitr)
 library(reticulate)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -43,13 +41,13 @@ The easiest approach obtain the Python-related software that we need for this
 course is to download and install Anaconda from [this link](https://www.anaconda.com/download/).
 
 ::: {.callout-important}
-For our class, please ensure that you are using at least Python 3.10.
+For our class, please ensure that you are using at least Python 3.12.
 :::
 
 Anaconda installs several software, including Python itself, and Jupyter Lab. 
 Jupyter Lab is an interactive platform for running Python code. Once you have launched 
 Jupyter Lab through Anaconda, you should be able to access it through your browser at 
-<http://localhost:8888>.
+<http://localhost:8888/lab>.
 
 ![Jupyter Lab](figs/jupyter_lab2.png){#fig-jupyter fig-alt="Jupyter Lab" fig-align="center"}
 
@@ -408,7 +406,7 @@ pd.read_csv?
 The internet is full of examples and how-to's for Python; help is typically just 
 a Google search or a chatGPT query away. However, it is always better to learn 
 from the ground up instead of through snippets for specific tasks. Please look
-through the websites in the @sec-web-ref below.
+through the websites in the @sec-web-ref-02 below.
 
 ## Major Differences with R
 
@@ -425,7 +423,7 @@ Before we leave this topic, take note of some very obvious differences with R:
 
 ## References 
 
-### Website References {#sec-web-ref}
+### Website References {#sec-web-ref-02}
 
 1. [Beginner's guide to Numpy](https://numpy.org/doc/1.26/user/absolute_beginners.html):
    This is from the official numpy documentation website.

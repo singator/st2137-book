@@ -8,11 +8,9 @@ title: "Simulation"
 #| warning: false
 library(knitr)
 library(reticulate)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -539,6 +537,8 @@ simulated statistics that were larger in absolute value than the observed one.
 
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-1}
+### Abalone Data 
+\index{Abalone!permutation test}
 
 In the abalone dataset, this was the output from the t-test:
 
@@ -585,6 +585,7 @@ or asymptotic results.
 Consider the confidence interval for the trimmed mean, that we encountered in topic 04.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-chem-1}
+\index{Copper!bootstrap CI}
 
 ```{r}
 library(MASS)
@@ -640,7 +641,7 @@ please be familiar with the basic building blocks of simulation studies:
 
 ## References
 
-### Website References {#sec-web-ref}
+### Website References {#sec-web-ref-10}
 
 1. Some GUI-based software for simulation:
    * [Anylogic](https://www.anylogic.com/) A very very powerful software for 

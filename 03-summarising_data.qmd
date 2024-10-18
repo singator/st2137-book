@@ -9,11 +9,9 @@ title: "Summarising Numerical Data"
 library(tidyverse)
 library(knitr)
 library(reticulate)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -52,6 +50,7 @@ very useful place to get datasets for practice.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-intro}
 
 ### Student Performance: Dataset Introduction
+\index{Student performance!description}
 
 The particular dataset can be downloaded from 
 [this page](https://archive.ics.uci.edu/dataset/320/student+performance). 
@@ -123,6 +122,7 @@ output variable of interest (G3). Numerical summaries include:
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-num}
 
 ### Student Performance: Numerical Summaries
+\index{Student performance!numerical summaries}
 
 ::: {.panel-tabset}
 
@@ -239,6 +239,7 @@ Now let us turn to making histograms in R and Python.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-hist}
 
 ### Student Performance: Histograms
+\index{Student performance!histograms}
 
 ::: {.panel-tabset}
 
@@ -327,6 +328,7 @@ nearby points (to $x$) and returns the value of the density function.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-dist}
 
 ### Student Performance: Density Estimates
+\index{Student performance!density plots}
 
 ::: {.panel-tabset}
 
@@ -385,6 +387,7 @@ outlier(s) (see @fig-sum-8).
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-box}
 
 ### Student Performance: Boxplots
+\index{Student performance!boxplots}
 
 Instead of using mother's education once again, we use the number of times a 
 student goes out (`goout`) as the explanatory variable this time. From the
@@ -460,6 +463,7 @@ observe and interpret accordingly.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-concrete-intro}
 
 ### Concrete Slump: Dataset Introduction
+\index{Concrete slump!description}
 
 Concrete is a highly complex material. The slump flow of concrete is not only
 determined by the water content, but that is also influenced by other concrete
@@ -536,6 +540,7 @@ The next chart is a QQ-plot, for assessing deviations from Normality.
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-concrete-qq}
 
 ### Concrete: QQ-plots
+\index{Concrete slump!QQ plots}
 
 ::: {.panel-tabset}
 
@@ -593,6 +598,7 @@ Pearson correlation:
   the response and which is treated as the explanatory variable.
 
 ## Scatterplot Matrices
+\index{Concrete slump!scatterplots and correlation}
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-concrete-scatter}
 

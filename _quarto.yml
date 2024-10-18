@@ -42,7 +42,14 @@ format:
     toc-title: Contents
     toc-depth: 3
     number-sections: true
-    number-depth: 2
+    number-depth: 2 
+    include-in-header: 
+      text: |
+        \usepackage{makeidx}
+        \makeindex
+    include-after-body: 
+      text: |
+        \printindex
     geometry: 
       - top=20mm
       - left=20mm
@@ -50,4 +57,4 @@ format:
     theme: Yeti
     
 execute: 
-  freeze: true
+  freeze: auto

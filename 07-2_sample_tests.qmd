@@ -8,11 +8,9 @@ title: "2-sample Hypothesis Tests"
 #| warning: false
 library(knitr)
 library(reticulate)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -210,6 +208,7 @@ $$
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-1}
 
 ### Abalone Measurements
+\index{Abalone!2-sample t-test}
 
 The dataset on abalone measurements from the [UCI machine learning
 repository](https://archive.ics.uci.edu/dataset/1/abalone) contains measurements
@@ -293,7 +292,7 @@ We also need to assess if the variances are equal. While there are many
 hypothesis tests specifically for assessing if variances are equal (e.g. Levene,
 Bartlett), in our class, I advocate a simple rule of thumb. If the larger s.d is
 more than twice the smaller one, than we should not use the equal variance form
-of the test. This rule of thumb is widely used in practice (see @sec-web-ref).
+of the test. This rule of thumb is widely used in practice (see @sec-web-ref-07).
 
 ::: {.panel-tabset}
 
@@ -373,6 +372,7 @@ accessible today.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-norm}
 
 ### Abalone Measurements
+\index{Abalone!Normality checks}
 
 Let us apply the above computations to the abalone measurements.
 
@@ -488,6 +488,7 @@ $$
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-hr-1}
 
 ### Heart Rate Before/After Treadmill
+\index{Treadmill!paired t-test}
 
 The following dataset comes from the textbook [@rosner2015fundamentals], where 
 an individual recorded his heart rate before using a treadmill (baseline) and 
@@ -620,6 +621,7 @@ and $t_i$ refers to the number of tied values in each group.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-2}
 
 ### Abalone Measurements
+\index{Abalone!non-parametric two-sample test}
 
 ::: {.panel-tabset}
 
@@ -706,6 +708,7 @@ follows a $N(0,1)$ distribution approximately.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-hr-2}
 
 ### Heart Rate Before/After Treadmill
+\index{Treadmill!non-parametric paired test}
 
 ::: {.panel-tabset}
 
@@ -752,7 +755,7 @@ absolute truth).
 
 ## References
 
-### Website References {#sec-web-ref}
+### Website References {#sec-web-ref-07}
 
 1. [UCI full abalone dataset](https://archive.ics.uci.edu/dataset/1/abalone): The 
    dataset in the examples above, starting from @exm-abalone-1, consists of samples 

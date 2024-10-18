@@ -44,7 +44,7 @@ A new major version is released once a year, and there are 2 - 3 minor releases
 each year. Upgrading is painful, but it gets worse if you wait to upgrade.
 
 ::: callout-important
-For our class, please ensure that you have version 4.3.0 or later. Functions in
+For our class, please ensure that you have version 4.4.1 or later. Functions in
 older versions work differently, so you might face problems or differences with
 some of the codes in the notes.
 :::
@@ -63,7 +63,7 @@ does not, including:
 
 The installation file for RStudio can be obtained from [this
 URL](https://www.rstudio.com/products/rstudio/download/). It is updated a couple
-of times a year. Make sure you have at least version 2023.09.x for our course.
+of times a year. Make sure you have at least version 2024.09.x for our course.
 
 ![Rstudio interface](figs/rstudio_gui.PNG){#fig-rstudio
 fig-alt="Rstudio GUI" fig-align="center"}

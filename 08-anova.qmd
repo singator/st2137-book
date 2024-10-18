@@ -8,11 +8,9 @@ title: "ANOVA"
 #| warning: false
 library(knitr)
 library(reticulate)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -35,6 +33,7 @@ construct confidence intervals in those cases as well.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-antibiotics-1}
 
 ### Effect of Antibiotics
+\index{Heifers!description}
 
 The following example was taken from @ekstrom2015statistical. An experiment with 
 dung from heifers[^1] was carried out in order to explore the influence of antibiotics
@@ -213,6 +212,7 @@ $$
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-antibiotics-2}
 
 ### F-test
+\index{Heifers!F-test}
 
 ::: {.panel-tabset}
 
@@ -363,6 +363,7 @@ techniques, instead of introducing a new dataset.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-antibiotics-3}
 
 ### Enrofloxacin vs. Control
+\index{Heifers!comparing two groups}
 
 Let us attempt to answer question (2), that we had set out earlier in 
 @exm-antibiotics-1.
@@ -441,6 +442,7 @@ $$
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-antibiotics-4}
 
 ### Comparing collection of groups
+\index{Heifers!contrasts}
 
 Let sub-group 1 consist of Ivermectin and Fenbendazole. 
 Here is how we can compute a confidence interval for the difference between 
@@ -576,7 +578,7 @@ This test should only be used if $n_i \ge 5$ for all groups.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-antibiotics-4}
 
 ### Kruskal-Wallis Test
-
+\index{Heifers!Kruskal-Wallis test}
 
 ::: {.panel-tabset}
 
@@ -624,7 +626,7 @@ Most of the theoretical portions in this topic were taken from the textbook
 
 ## References
 
-### Website References {#sec-web-ref}
+### Website References {#sec-web-ref-08}
 
 1. [Welch's ANOVA](https://statisticsbyjim.com/anova/welchs-anova-compared-to-classic-one-way-anova/) This website discusses an alternative test when the equal variance 
    assumption has not been satisfied. It is for information only; it will not be 

@@ -9,11 +9,9 @@ title: "Robust Statistics"
 library(knitr)
 library(reticulate)
 library(MASS)
-if(startsWith(osVersion, "Win")){
-  use_virtualenv("C:/Users/stavg/penvs/p310/")
-} else {
-  use_virtualenv("~/NUS/coursesTaught/penvs/p310/")
-}
+venv_paths <- read.csv("venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -75,6 +73,7 @@ For this topic, we shall use a couple of datasets that are clearly not Normal.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-cu-1}
 
 ### Copper in Wholemeal Flour
+\index{Copper!histogram, outlier}
 
 The dataset `chem` comes from the package `MASS`. The data was recorded as part 
 of an analytical chemistry experiment -- the amount of copper ($\mu g^{-1}$) was 
@@ -103,6 +102,7 @@ The second dataset is also from a textbook:
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-self-1}
 
 ### Self-awareness Dataset
+\index{Self-awareness!histogram, outlier}
 
 For a second dataset, we use one on self-awareness from [@wilcox2011introduction],
 where participants in a psychometric study were timed how long they could keep a 
@@ -543,6 +543,7 @@ To begin, let us apply the three estimators of location to the chemical dataset.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-cu-2}
 
 ### Location Estimates: Copper Dataset
+\index{Copper!robust location}
 
 ::: {.panel-tabset}
 
@@ -591,6 +592,7 @@ Now we turn the scale estimators for the self-awareness dataset.
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-self-2}
 
 ### Scale Estimates: Copper Dataset
+\index{Copper!robust scale}
 
 ::: {.panel-tabset}
 
