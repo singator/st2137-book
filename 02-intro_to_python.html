@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistical Computing and Programming - 2&nbsp; Introduction to Python</title>
+<title>2&nbsp; Introduction to Python – Statistical Computing and Programming</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -113,13 +113,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-intro_to_python.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -282,11 +282,11 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For our class, please ensure that you are using at least Python 3.10.</p>
+<p>For our class, please ensure that you are using at least Python 3.12.</p>
 </div>
 </div>
-<p>Anaconda installs several software, including Python itself, and Jupyter Lab. Jupyter Lab is an interactive platform for running Python code. Once you have launched Jupyter Lab through Anaconda, you should be able to access it through your browser at <a href="http://localhost:8888" class="uri">http://localhost:8888</a>.</p>
-<div id="fig-jupyter" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Jupyter Lab" data-fig-align="center">
+<p>Anaconda installs several software, including Python itself, and Jupyter Lab. Jupyter Lab is an interactive platform for running Python code. Once you have launched Jupyter Lab through Anaconda, you should be able to access it through your browser at <a href="http://localhost:8888/lab" class="uri">http://localhost:8888/lab</a>.</p>
+<div id="fig-jupyter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Jupyter Lab" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-jupyter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/jupyter_lab2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Jupyter Lab">
@@ -402,7 +402,7 @@ Note
 </div>
 </div>
 <p>This indexing syntax is used in the additional packages we use as well, so it is good to know about it.Here is a pictorial representation of how positive and negative indexes work together.</p>
-<div id="fig-py-slice" class="quarto-figure quarto-figure-center quarto-float anchored" alt="Python slice" data-fig-align="center">
+<div id="fig-py-slice" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Python slice" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-py-slice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/python_slice.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%" alt="Python slice">
@@ -457,7 +457,7 @@ Figure&nbsp;2.2: Positive and negative indices
 </div>
 </div>
 <p>Here is a table with some common operations that you can apply on a numpy array. The objects referred to in the second column are from the earlier lines of code.</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 22%">
 <col style="width: 77%">
@@ -748,7 +748,7 @@ The square of 5 is 25.</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1"></a>pd.read_csv?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The internet is full of examples and how-to’s for Python; help is typically just a Google search or a chatGPT query away. However, it is always better to learn from the ground up instead of through snippets for specific tasks. Please look through the websites in the <a href="10-simulation.html#sec-web-ref" class="quarto-xref"><span>Section 10.8.1</span></a> below.</p>
+<p>The internet is full of examples and how-to’s for Python; help is typically just a Google search or a chatGPT query away. However, it is always better to learn from the ground up instead of through snippets for specific tasks. Please look through the websites in the <a href="#sec-web-ref-02" class="quarto-xref"><span>Section 2.13.1</span></a> below.</p>
 </section>
 </section>
 <section id="major-differences-with-r" class="level2" data-number="2.12">
@@ -762,8 +762,8 @@ The square of 5 is 25.</code></pre>
 </section>
 <section id="references" class="level2" data-number="2.13">
 <h2 data-number="2.13" class="anchored" data-anchor-id="references"><span class="header-section-number">2.13</span> References</h2>
-<section id="sec-web-ref" class="level3">
-<h3 class="anchored" data-anchor-id="sec-web-ref">Website References</h3>
+<section id="sec-web-ref-02" class="level3">
+<h3 class="anchored" data-anchor-id="sec-web-ref-02">Website References</h3>
 <ol type="1">
 <li><a href="https://numpy.org/doc/1.26/user/absolute_beginners.html">Beginner’s guide to Numpy</a>: This is from the official numpy documentation website.</li>
 <li><a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html">10 minutes to Pandas</a>: This is a quickstart to pandas, from the official website. You can find more tutorials on this page too.</li>
@@ -819,18 +819,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -862,7 +851,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -897,7 +926,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1173,12 +1206,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./01-intro_to_R.html" class="pagination-link  aria-label=" &lt;span="" to="" r&lt;="" span&gt;"="">
+      <a href="./01-intro_to_R.html" class="pagination-link" aria-label="Introduction to R">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03-summarising_data.html" class="pagination-link" aria-label="<span class='chapter-number'>3</span>&nbsp; <span class='chapter-title'>Summarising Numerical Data</span>">
+      <a href="./03-summarising_data.html" class="pagination-link" aria-label="Summarising Numerical Data">
         <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

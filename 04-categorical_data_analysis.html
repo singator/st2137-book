@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistical Computing and Programming - 4&nbsp; Categorical Data Analysis</title>
+<title>4&nbsp; Categorical Data Analysis – Statistical Computing and Programming</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -162,13 +162,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-categorical_data_analysis.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -320,7 +320,8 @@ window.Quarto = {
 <section id="contingency-tables" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="contingency-tables"><span class="header-section-number">4.2</span> Contingency Tables</h2>
 <div id="exm-chest-pain" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.1 (Chest Pain and Gender)</strong></span> Suppose that 1073 NUH patients who were at high risk for cardiovascular disease (CVD) were randomly sampled. They were then queried on two things:</p>
+<p><span class="theorem-title"><strong>Example 4.1 (Chest Pain and Gender)</strong></span> </p>
+<p>Suppose that 1073 NUH patients who were at high risk for cardiovascular disease (CVD) were randomly sampled. They were then queried on two things:</p>
 <ol type="1">
 <li>Had they experienced the onset of severe chest pain in the preceding 6 months? (yes/no)</li>
 <li>What was their gender? (male/female)</li>
@@ -328,7 +329,7 @@ window.Quarto = {
 <p>The data would probably have been recorded in the following format (only first few rows shown):</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Gender</th>
@@ -367,7 +368,7 @@ window.Quarto = {
 <p>However, it would probably be summarised and presented in this format, which is known as a <em>contingency table</em>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -419,10 +420,11 @@ H_1 &amp;:&amp; \text{The two variables are not indepdendent.}
 \end{eqnarray*}\]</span></p>
 <p>Under the null hypothesis, we can estimate the joint distribution from the observed marginal counts. Based on this estimated joint distribution, we then compute <em>expected</em> counts (which may not be integers) for each cell. The test statistic essentially compares the deviation of <em>observed</em> cell counts from the expected cell counts.</p>
 <div id="exm-chest-pain-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.2 (Chest Pain and Gender Expected Counts)</strong></span> Continuing from <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, we can compute the estimated marginals using row and column proportions</p>
+<p><span class="theorem-title"><strong>Example 4.2 (Chest Pain and Gender Expected Counts)</strong></span> </p>
+<p>Continuing from <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, we can compute the estimated marginals using row and column proportions</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>------------------------------------------------------------------------------ 
+<pre><code>────────────────────────────────────────────────────────────────────────────── 
 chest_tab (table)
 
 Summary: 
@@ -448,7 +450,7 @@ Sum      freq      83       990 1'073
          p.col      .         .     .
                                      
 
-----------
+────────────────────
 ' 95% conf. level</code></pre>
 </div>
 </div>
@@ -473,7 +475,8 @@ Sum      freq      83       990 1'073
 \tag{4.1}\]</span></span></p>
 <p>The sum is taken over every cell in the table. Hence in a <span class="math inline">\(2\times2\)</span>, as in <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, there would be 4 terms in the summation.</p>
 <div id="exm-chest-pain-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.3 (Chest Pain and Gender <span class="math inline">\(\chi^2\)</span> Test)</strong></span> Let us see how we can apply and interpret the <span class="math inline">\(\chi^2\)</span>-test for the data in <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>.</p>
+<p><span class="theorem-title"><strong>Example 4.3 (Chest Pain and Gender <span class="math inline">\(\chi^2\)</span> Test)</strong></span> </p>
+<p>Let us see how we can apply and interpret the <span class="math inline">\(\chi^2\)</span>-test for the data in <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
@@ -560,10 +563,11 @@ Important
 <p>If the marginal totals are fixed, and the two variables are independent, it can be shown that the individual cell counts arise from a variant of the hypergeometric distribution. The test statistic is based on this observation. The <span class="math inline">\(p\)</span>-value is typically obtained by simulating tables with the same marginals as the observed dataset.</p>
 <p>Using Fisher’s test sidesteps the need for a large sample size (which aids in the approximation of the distribution of the earlier test statistic). Hence the “Exact” in the name of the test.</p>
 <div id="exm-claritin-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.4 (Claritin and Nervousness)</strong></span> Claritin is a drug for treating allergies. However, it has a side effect of inducing nervousness in patients. From a sample of 450 subjects, 188 of them were randomly assigned to take Claritin, and the remaining were assigned to take the placebo. The observed data was as follows:</p>
+<p><span class="theorem-title"><strong>Example 4.4 (Claritin and Nervousness)</strong></span> </p>
+<p>Claritin is a drug for treating allergies. However, it has a side effect of inducing nervousness in patients. From a sample of 450 subjects, 188 of them were randomly assigned to take Claritin, and the remaining were assigned to take the placebo. The observed data was as follows:</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -618,7 +622,7 @@ odds ratio
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a>stats.fisher_exact(claritin_tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SignificanceResult(statistic=2.8260869565217392, pvalue=0.24118420183193057)</code></pre>
+<pre><code>SignificanceResult(statistic=np.float64(2.8260869565217392), pvalue=np.float64(0.24118420183193057))</code></pre>
 </div>
 </div>
 </div>
@@ -643,10 +647,11 @@ placebo  3.493333    258.5067</code></pre>
 <h3 class="anchored" data-anchor-id="chi2-test-for-r-times-c-tables"><span class="math inline">\(\chi^2\)</span>-Test for <span class="math inline">\(r \times c\)</span> Tables</h3>
 <p>So far, we have considered the situation of two categorical variables where each one has only two outcomes (2x2 table). However, it is common that we want to check the association between two nominal variables where one of them or both have more than 2 outcomes. Consider data given in the table below where both variables are nominal.</p>
 <div id="exm-pol-assoc-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.5 (Political Association and Gender)</strong></span> Consider data given in the table below where both variables are nominal. It cross-classifies poll respondents according to their gender and their political party affiliation.</p>
+<p><span class="theorem-title"><strong>Example 4.5 (Political Association and Gender)</strong></span> </p>
+<p>Consider data given in the table below where both variables are nominal. It cross-classifies poll respondents according to their gender and their political party affiliation.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -757,7 +762,8 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 \]</span></li>
 </ul>
 <div id="exm-chest-pain-4" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.6 (Chest Pain and Gender Odds Ratio)</strong></span> Let us compute the confidence interval for the odds ratio in the chest pain and gender example from earlier.</p>
+<p><span class="theorem-title"><strong>Example 4.6 (Chest Pain and Gender Odds Ratio)</strong></span> </p>
+<p>Let us compute the confidence interval for the odds ratio in the chest pain and gender example from earlier.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
@@ -823,7 +829,8 @@ Log risk ratio    0.279 0.212 -0.137 0.695   0.188
 </ol>
 <p>For both measures, values close to 0 indicate a very weak trend, while values close to 1 (or -1) indicate a strong positive (negative) association.</p>
 <div id="exm-job-income-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.7 (Job Satisfaction by Income)</strong></span> Consider the following table, obtained from <span class="citation" data-cites="agresti2012categorical">Agresti (<a href="references.html#ref-agresti2012categorical" role="doc-biblioref">2012</a>)</span>. The original data come from a nationwide survey conducted in the US in 1996.</p>
+<p><span class="theorem-title"><strong>Example 4.7 (Job Satisfaction by Income)</strong></span> </p>
+<p>Consider the following table, obtained from <span class="citation" data-cites="agresti2012categorical">Agresti (<a href="references.html#ref-agresti2012categorical" role="doc-biblioref">2012</a>)</span>. The original data come from a nationwide survey conducted in the US in 1996.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
@@ -879,7 +886,7 @@ Mutual Information       0.0508       -       -</code></pre>
 <span id="cb26-15"><a href="#cb26-15"></a></span>
 <span id="cb26-16"><a href="#cb26-16"></a>stats.kendalltau(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SignificanceResult(statistic=0.15235215134659688, pvalue=0.0860294855671433)</code></pre>
+<pre><code>SignificanceResult(statistic=np.float64(0.15235215134659688), pvalue=np.float64(0.0860294855671433))</code></pre>
 </div>
 </div>
 </div>
@@ -895,7 +902,8 @@ Mutual Information       0.0508       -       -</code></pre>
 <h3 class="anchored" data-anchor-id="bar-charts">Bar charts</h3>
 <p>A common method for visualisation cross combinations of categorical data is to use a bar chart.</p>
 <div id="exm-pol-assoc-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.8 (Political Association and Gender Barchart)</strong></span> Here is the R code to make the barchart for the political affiliations data, directly from the contingency table in <a href="#exm-pol-assoc-1" class="quarto-xref">Example&nbsp;<span>4.5</span></a>.</p>
+<p><span class="theorem-title"><strong>Example 4.8 (Political Association and Gender Barchart)</strong></span> </p>
+<p>Here is the R code to make the barchart for the political affiliations data, directly from the contingency table in <a href="#exm-pol-assoc-1" class="quarto-xref">Example&nbsp;<span>4.5</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">library</span>(lattice)</span>
 <span id="cb28-2"><a href="#cb28-2"></a><span class="fu">barchart</span>(political_tab<span class="sc">/</span><span class="fu">rowSums</span>(political_tab), </span>
@@ -912,7 +920,7 @@ Mutual Information       0.0508       -       -</code></pre>
 </div>
 <p>Let us turn to making bar charts with pandas and Python. We shall use the table from the Claritin example earlier in <a href="#exm-claritin-1" class="quarto-xref">Example&nbsp;<span>4.4</span></a>:</p>
 <div id="exm-claritin-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.9 (Claritin and Nervousness Barchart)</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Example 4.9 (Claritin and Nervousness Barchart)</strong></span> </p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>claritin_prop <span class="op">=</span> claritin_tab<span class="op">/</span>claritin_tab.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).reshape((<span class="dv">2</span>,<span class="dv">1</span>))</span>
 <span id="cb29-2"><a href="#cb29-2"></a></span>
@@ -935,7 +943,8 @@ Mutual Information       0.0508       -       -</code></pre>
 <h3 class="anchored" data-anchor-id="mosaic-plots">Mosaic plots</h3>
 <p>Unlike a bar chart, a mosaic plot reflects the count in each cell (through the area), along with the proportions of interest. Let us inspect how we can make mosaic plots for the political association data earlier.</p>
 <div id="exm-pol-assoc-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.10 (Political Association and Gender Mosaic Plot)</strong></span> The colours in the output for the R code reflect the sizes of the standardised residuals displayed below <a href="#exm-pol-assoc-1" class="quarto-xref">Example&nbsp;<span>4.5</span></a>.</p>
+<p><span class="theorem-title"><strong>Example 4.10 (Political Association and Gender Mosaic Plot)</strong></span> </p>
+<p>The colours in the output for the R code reflect the sizes of the standardised residuals displayed below <a href="#exm-pol-assoc-1" class="quarto-xref">Example&nbsp;<span>4.5</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
@@ -975,7 +984,8 @@ Mutual Information       0.0508       -       -</code></pre>
 <h3 class="anchored" data-anchor-id="conditional-density-plots">Conditional Density Plots</h3>
 <p>When we have one categorical and one quantitative variable, the kind of plot we make really depends on which is the response, and which is the explanatory variable. If the response variable is the quantitative one, it makes sense to create boxplots or histograms. However, if the response variable is a the categorical one, we should really be making something along these lines:</p>
 <div id="exm-heart-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.11</strong></span> The dataset at <a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records">UCI repository</a> contains records on 299 patients who had heart failure. The data was collected during the follow-up period; each patient had 13 clinical features recorded. The primary variable of interest was whether they died or not. Suppose we wished to plot how this varied with age (a quantitative variable):</p>
+<p><span class="theorem-title"><strong>Example 4.11</strong></span> </p>
+<p>The dataset at <a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records">UCI repository</a> contains records on 299 patients who had heart failure. The data was collected during the follow-up period; each patient had 13 clinical features recorded. The primary variable of interest was whether they died or not. Suppose we wished to plot how this varied with age (a quantitative variable):</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>heart_failure <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv"</span>)</span>
 <span id="cb32-2"><a href="#cb32-2"></a><span class="fu">spineplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1077,18 +1087,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1120,7 +1119,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1155,7 +1194,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1431,12 +1474,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./03-summarising_data.html" class="pagination-link  aria-label=" &lt;span="" numerical="" data&lt;="" span&gt;"="">
+      <a href="./03-summarising_data.html" class="pagination-link" aria-label="Summarising Numerical Data">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarising Numerical Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./05-robust_statistics.html" class="pagination-link" aria-label="<span class='chapter-number'>5</span>&nbsp; <span class='chapter-title'>Robust Statistics</span>">
+      <a href="./05-robust_statistics.html" class="pagination-link" aria-label="Robust Statistics">
         <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

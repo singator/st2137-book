@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistical Computing and Programming - 6&nbsp; Introduction to SAS</title>
+<title>6&nbsp; Introduction to SAS – Statistical Computing and Programming</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -162,13 +162,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-intro_to_sas.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to SAS</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -281,7 +281,7 @@ window.Quarto = {
   <li><a href="#summarising-numerical-data" id="toc-summarising-numerical-data" class="nav-link" data-scroll-target="#summarising-numerical-data"><span class="header-section-number">6.7</span> Summarising Numerical Data</a></li>
   <li><a href="#categorical-data" id="toc-categorical-data" class="nav-link" data-scroll-target="#categorical-data"><span class="header-section-number">6.8</span> Categorical Data</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6.9</span> References</a></li>
-  <li><a href="#sec-web-ref" id="toc-sec-web-ref" class="nav-link" data-scroll-target="#sec-web-ref"><span class="header-section-number">6.10</span> Website References</a></li>
+  <li><a href="#sec-web-ref-06" id="toc-sec-web-ref-06" class="nav-link" data-scroll-target="#sec-web-ref-06"><span class="header-section-number">6.10</span> Website References</a></li>
   </ul>
 </nav>
     </div>
@@ -315,7 +315,7 @@ window.Quarto = {
 <h2 data-number="6.2" class="anchored" data-anchor-id="registering-for-a-sas-studio-account"><span class="header-section-number">6.2</span> Registering for a SAS Studio Account</h2>
 <p>The first step is to create a SAS profile: Use your <em>NUS email address</em> to register and create your SAS profile using <a href="https://www.sas.com/profile/ui/#/create">this link</a>.</p>
 <p>Once you have verified your account using the email that would be sent to you, the <a href="https://welcome.oda.sas.com/">following link</a> should take you to this page:</p>
-<div id="fig-sas-1" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="SAS login">
+<div id="fig-sas-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="SAS login" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_welcome-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="SAS login">
@@ -326,7 +326,7 @@ Figure&nbsp;6.1: SAS Studio Login
 </figure>
 </div>
 <p>Subsequently logging in should take you to the landing page, where you can begin writing SAS code and using SAS:</p>
-<div id="fig-sas-2" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="SAS Studio">
+<div id="fig-sas-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="SAS Studio" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_welcome-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="SAS Studio">
@@ -356,7 +356,7 @@ Figure&nbsp;6.2: SAS Studio
 <span id="cb1-6"><a href="#cb1-6"></a>RUN;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To run the above program, click on the “Running Man” icon in SAS studio. You should obtain the following output:</p>
-<div id="fig-sas-3" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="SAS output">
+<div id="fig-sas-3" class="quarto-float quarto-figure quarto-figure-center anchored" alt="SAS output" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_ex-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="SAS output">
@@ -396,7 +396,7 @@ Figure&nbsp;6.3: SAS output
 <div class="quarto-layout-panel" data-layout-nrow="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-sas-4" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="DATA output">
+<div id="fig-sas-4" class="quarto-float quarto-figure quarto-figure-center anchored" alt="DATA output" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_ex-2a.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="DATA output">
@@ -410,7 +410,7 @@ Figure&nbsp;6.4: Dataset output
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-sas-4" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="PROC output">
+<div id="fig-sas-4" class="quarto-float quarto-figure quarto-figure-center anchored" alt="PROC output" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_ex-2b.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="PROC output">
@@ -485,9 +485,10 @@ Figure&nbsp;6.5: Proc output
 <h2 data-number="6.5" class="anchored" data-anchor-id="reading-data-into-sas"><span class="header-section-number">6.5</span> Reading Data into SAS</h2>
 <p>In this topic, we shall introduce a new dataset, also from the UCI Machine Learning repository.</p>
 <div id="exm-bike-2" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 6.3</strong></span> The dataset was collected by the authors in <span class="citation" data-cites="fanaee2013bike">Fanaee-T and Gama (<a href="references.html#ref-fanaee2013bike" role="doc-biblioref">2013</a>)</span>. It contains information on bike-sharing rentals in Washington D.C. USA for the years 2011 and 2012, along with measurements of weather. The original dataset contained hourly and daily aggregated data. For our class, we use a re-coded version of the daily data. Our dataset can be found on Canvas as <code>bike2.csv</code>.</p>
+<p><span class="theorem-title"><strong>Example 6.3 (Bike Rentals)</strong></span> </p>
+<p>The dataset was collected by the authors in <span class="citation" data-cites="fanaee2013bike">Fanaee-T and Gama (<a href="references.html#ref-fanaee2013bike" role="doc-biblioref">2013</a>)</span>. It contains information on bike-sharing rentals in Washington D.C. USA for the years 2011 and 2012, along with measurements of weather. The original dataset contained hourly and daily aggregated data. For our class, we use a re-coded version of the daily data. Our dataset can be found on Canvas as <code>bike2.csv</code>.</p>
 <p>Here is the data dictionary:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 11%">
 <col style="width: 88%">
@@ -583,7 +584,7 @@ Figure&nbsp;6.5: Proc output
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-sas-lib-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sas-lib-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-lib-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_library-02.png" class="img-fluid figure-img">
@@ -595,7 +596,7 @@ Figure&nbsp;6.6: New library
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-sas-lib-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sas-lib-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-lib-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_servers_files-02.png" class="img-fluid figure-img">
@@ -614,7 +615,7 @@ Figure&nbsp;6.7: Upload data
 <section id="summarising-numerical-data" class="level2" data-number="6.7">
 <h2 data-number="6.7" class="anchored" data-anchor-id="summarising-numerical-data"><span class="header-section-number">6.7</span> Summarising Numerical Data</h2>
 <p>The SAS routines we are going to work with can be found in the “Tasks and Utilities” section (see highligted tasks in <a href="#fig-sas-tasks-01" class="quarto-xref">Figure&nbsp;<span>6.8</span></a>).</p>
-<div id="fig-sas-tasks-01" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-sas-tasks-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-tasks-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_tasks-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
@@ -627,9 +628,10 @@ Figure&nbsp;6.8: Common ST2137 Tasks
 <section id="numerical-summaries" class="level3">
 <h3 class="anchored" data-anchor-id="numerical-summaries">Numerical Summaries</h3>
 <div id="exm-bike-summ-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 6.4 (5-number Summaries)</strong></span> We expect that the total count of users will vary by the seasons. Hence, we begin by computing five-number summaries for each season.</p>
+<p><span class="theorem-title"><strong>Example 6.4 (5-number Summaries)</strong></span> </p>
+<p>We expect that the total count of users will vary by the seasons. Hence, we begin by computing five-number summaries for each season.</p>
 <p>Under Tasks, go to Statistcs &gt; Summary Statistics. Select <code>cnt</code> as the analysis variable, and <code>season</code> as the classification variable. Under the options tab, select the lower and upper quartiles, along with comparative boxplots. The output should look like this <a href="#fig-sas-bike-02" class="quarto-xref">Figure&nbsp;<span>6.9</span></a>:</p>
-<div id="fig-sas-bike-02" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-sas-bike-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-bike-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_summaries-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
@@ -645,9 +647,10 @@ Figure&nbsp;6.9: Summaries, Bike data
 <section id="scatter-plots" class="level3">
 <h3 class="anchored" data-anchor-id="scatter-plots">Scatter Plots</h3>
 <div id="exm-bike-scatter-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 6.5 (Casual vs Registered Scatterplot)</strong></span> To create a scatterplot in SAS, go to Tasks &gt; Graphs &gt; Scatter Plot.</p>
+<p><span class="theorem-title"><strong>Example 6.5 (Casual vs Registered Scatterplot)</strong></span> </p>
+<p>To create a scatterplot in SAS, go to Tasks &gt; Graphs &gt; Scatter Plot.</p>
 <p>Specify <code>casual</code> on the x-axis, <code>registered</code> on the y-axis, and <code>workingday</code> as the Group. You should observe the following plot created <a href="#fig-sas-bike-01" class="quarto-xref">Figure&nbsp;<span>6.10</span></a>:</p>
-<div id="fig-sas-bike-01" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-sas-bike-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-bike-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_scatter-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
@@ -663,8 +666,9 @@ Figure&nbsp;6.10: Scatter plot, Bike Data
 <section id="histograms" class="level3">
 <h3 class="anchored" data-anchor-id="histograms">Histograms</h3>
 <div id="exm-bike-hist-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 6.6 (Casual Users Distribution)</strong></span> Now suppose we focus on casual users, and study the distribution of counts by whether a day is a working day or not. To create a histogram, go to Tasks &gt; Graph &gt; Histogram. Select <code>casual</code> as the analysis variable, and <code>workingday</code> as the group variable.</p>
-<div id="fig-sas-hist-01" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<p><span class="theorem-title"><strong>Example 6.6 (Casual Users Distribution)</strong></span> </p>
+<p>Now suppose we focus on casual users, and study the distribution of counts by whether a day is a working day or not. To create a histogram, go to Tasks &gt; Graph &gt; Histogram. Select <code>casual</code> as the analysis variable, and <code>workingday</code> as the group variable.</p>
+<div id="fig-sas-hist-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-hist-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_hist-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%">
@@ -679,10 +683,11 @@ Figure&nbsp;6.11: Histograms, Bike Data
 </section>
 <section id="boxplots" class="level3">
 <h3 class="anchored" data-anchor-id="boxplots">Boxplots</h3>
+<p></p>
 <div id="exm-bike-box-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 6.7 (Boxplots for Casual Users, by Season)</strong></span> In <a href="#exm-bike-summ-1" class="quarto-xref">Example&nbsp;<span>6.4</span></a>, we observed that total counts vary by users, and in <a href="#exm-bike-hist-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>, we observed that working days seem to have fewer casual users. Let us investigate if this difference is related to season.</p>
 <p>To create boxplots, go to Tasks &gt; Box Plot. Select <code>casual</code> as the analysis variable, <code>season</code> as the category and <code>workingday</code> as the subcategory. You should obtain a plot like this <a href="#fig-sas-box-01" class="quarto-xref">Figure&nbsp;<span>6.12</span></a>:</p>
-<div id="fig-sas-box-01" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-sas-box-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-box-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_boxplot-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
@@ -701,7 +706,7 @@ Figure&nbsp;6.12: Boxplots, Bike Data
 <span id="cb3-5"><a href="#cb3-5"></a>run;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There is little insight from the previous two examples. However, now try the same plots, but on the log scale (modify the APPEARANCE tab and re-run). You should now obtain <a href="#fig-sas-box-02" class="quarto-xref">Figure&nbsp;<span>6.13</span></a>:</p>
-<div id="fig-sas-box-02" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-sas-box-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-box-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_boxplot-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
@@ -717,6 +722,7 @@ Figure&nbsp;6.13: Boxplots log scale, Bike Data
 </section>
 <section id="qq-plots" class="level3">
 <h3 class="anchored" data-anchor-id="qq-plots">QQ-plots</h3>
+<p></p>
 <div id="exm-bike-qq-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 6.8 (Normality Check for Humidity)</strong></span> To create QQ-plots, we go to Tasks &gt; Statistics &gt; Distribution Analysis.</p>
 <p>Select <code>hum</code> for the analysis variable. Under options, add the normal curve, the kernel density estimate, and the Normal quantile-quantile plot. You should obtain the following two charts:</p>
@@ -751,7 +757,8 @@ Figure&nbsp;6.13: Boxplots log scale, Bike Data
 <h2 data-number="6.8" class="anchored" data-anchor-id="categorical-data"><span class="header-section-number">6.8</span> Categorical Data</h2>
 <p>We now turn to categorical data methods with SAS. We return to the dataset on student performance that we used in the topic on summarising data. Upload and store <code>student-mat.csv</code> as ST2137.STUD_PERF on the SAS Studio website.</p>
 <div id="exm-stud-chisq-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 6.9 (<span class="math inline">\(\chi^2\)</span> Test for Independence)</strong></span> For a test of independence of <code>address</code> and <code>paid</code>, go to Tasks &gt; Table Analysis, and select:</p>
+<p><span class="theorem-title"><strong>Example 6.9 (<span class="math inline">\(\chi^2\)</span> Test for Independence)</strong></span> </p>
+<p>For a test of independence of <code>address</code> and <code>paid</code>, go to Tasks &gt; Table Analysis, and select:</p>
 <ul>
 <li><code>address</code> as the column variable</li>
 <li><code>paid</code> as the row variable.</li>
@@ -764,7 +771,7 @@ Figure&nbsp;6.13: Boxplots log scale, Bike Data
 <div class="quarto-layout-panel" data-layout="[[1,1], [1]]">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-sas-chisq-01" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sas-chisq-01" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-chisq-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_stud_chisq-01.png" class="img-fluid figure-img">
@@ -776,7 +783,7 @@ Figure&nbsp;6.14: Observed &amp; Expected Counts
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-sas-chisq-02" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sas-chisq-02" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-chisq-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_stud_chisq-02.png" class="img-fluid figure-img">
@@ -790,7 +797,7 @@ Figure&nbsp;6.15: Test statistic, p-value
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-sas-mos-01" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sas-mos-01" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-mos-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_stud_mosaic-01.png" class="img-fluid figure-img">
@@ -806,8 +813,9 @@ Figure&nbsp;6.16: Mosaic Plot
 </div>
 <p>For measures of association, we only need to select the option for “Measures of Association” to generate the Kendall <span class="math inline">\(\tau_b\)</span> that we covered earlier.</p>
 <div id="exm-stud-chisq-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 6.10 (Kendall <span class="math inline">\(\tau\)</span> for <code>Walc</code> and <code>Dalc</code>)</strong></span> Once we load the data ST2137.STUD_PERF, we go to Tasks &gt; Table Analysis. After selecting the two variables, we check the appropriate box to obtain <a href="#fig-sas-tau-01" class="quarto-xref">Figure&nbsp;<span>6.17</span></a>.</p>
-<div id="fig-sas-tau-01" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<p><span class="theorem-title"><strong>Example 6.10 (Kendall <span class="math inline">\(\tau\)</span> for <code>Walc</code> and <code>Dalc</code>)</strong></span> </p>
+<p>Once we load the data ST2137.STUD_PERF, we go to Tasks &gt; Table Analysis. After selecting the two variables, we check the appropriate box to obtain <a href="#fig-sas-tau-01" class="quarto-xref">Figure&nbsp;<span>6.17</span></a>.</p>
+<div id="fig-sas-tau-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-tau-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_stud_tau-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
@@ -822,8 +830,8 @@ Figure&nbsp;6.17: Walc vs Dalc
 <section id="references" class="level2" data-number="6.9">
 <h2 data-number="6.9" class="anchored" data-anchor-id="references"><span class="header-section-number">6.9</span> References</h2>
 </section>
-<section id="sec-web-ref" class="level2" data-number="6.10">
-<h2 data-number="6.10" class="anchored" data-anchor-id="sec-web-ref"><span class="header-section-number">6.10</span> Website References</h2>
+<section id="sec-web-ref-06" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="sec-web-ref-06"><span class="header-section-number">6.10</span> Website References</h2>
 <ol type="1">
 <li><a href="https://www.sas.com/profile/ui/#/create">SAS account sign-up</a> Use this link to sign up for a SAS account.</li>
 <li><a href="https://welcome.oda.sas.com/">SAS Studio link</a> Once you have activated your account, use this link to login to your SAS studio online.</li>
@@ -874,18 +882,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -917,7 +914,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -952,7 +989,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1228,12 +1269,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05-robust_statistics.html" class="pagination-link  aria-label=" &lt;span="" statistics&lt;="" span&gt;"="">
+      <a href="./05-robust_statistics.html" class="pagination-link" aria-label="Robust Statistics">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Robust Statistics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./07-2_sample_tests.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>2-sample Hypothesis Tests</span>">
+      <a href="./07-2_sample_tests.html" class="pagination-link" aria-label="2-sample Hypothesis Tests">
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
