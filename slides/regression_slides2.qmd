@@ -1,0 +1,824 @@
+---
+title: "Linear Regression"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+```{r}
+#| echo: false
+library(knitr)
+library(reticulate)
+venv_paths <- read.csv("../venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
+```
+
+## Examples  {.smaller}
+
+Regression analysis is a technique for investigating and modeling
+the relationship between variables like X and Y. Here are some examples:
+
+1. Within a country, we may wish to use per capita income (X) to estimate the 
+   life expectancy (Y) of residents.
+2. We may wish to use the size of a crab claw (X) to estimate the closing force 
+   that it can exert (Y).
+3. We may wish to use the height of a person (X) to estimate their weight (Y).
+
+## Purpose of Regression  {.smaller}
+
+1. To understand how certain explanatory variables affect the response variable.
+2. To predict the response variable for new values of the explanatory variables.
+
+## Concrete Data  {.smaller}
+
+### Flow vs Water
+
+```{r r-concrete-1}
+#| fig-align: center
+#| echo: false
+#| out-width: 70%
+#| label: fig-flow-water
+#| fig-cap: "Scatterplot with simple linear regression model"
+library(lattice)
+concrete <- read.csv("../data/concrete+slump+test/slump_test.data")
+names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
+xyplot(FLOW.cm. ~ Water, type=c("p", "r"), data= concrete, main="Concrete data")
+```
+
+## Bike data  {.smaller}
+
+### Registered vs Casual
+
+```{r r-bike-1}
+#| fig-align: center
+#| out-width: 70%
+#| echo: false
+#| label: fig-reg-casual
+#| fig-cap: Scatterplot of registered vs. casual bike renters
+bike2 <- read.csv("../data/bike2.csv")
+xyplot(registered ~ casual, groups=workingday, type=c("p", "r"), data=bike2,
+       auto.key = TRUE, main="Registered vs. Casual, by Working Day Status")
+```
+
+## Model Equation  {.smaller}
+
+* We observe $(X_i, Y_i)$ for $n$ individuals. 
+* The simple linear regression model is given by 
+
+$$
+Y_i = \beta_0 + \beta_1 X_i + e_i
+$${#eq-slr-model}
+
+* $\beta_0$ is intercept term, 
+* $\beta_1$ is the slope, and 
+* $e_i$ is an error term, specific to each individual in the dataset.
+
+## Error Term  {.smaller}
+
+We assume that the $e_i$ are i.i.d Normal.
+
+$$
+e_i \sim N(0, \sigma^2), \; i =1\ldots, n
+$$ {#eq-error-term}
+
+All in all, the assumptions imply that:
+
+1. $E(Y_i | X_i) = \beta_0 + \beta_1 X_i$, for $i=1, \ldots, n$.
+2. $Var(Y_i | X_i) = Var(e_i) = \sigma^2$, for $i=1, \ldots, n$.
+3. The $Y_i$ are independent.
+4. The $Y_i$'s are Normally distributed.
+
+## Estimation of Parameters  {.smaller}
+
+* We need to estimate optimal values to use for the unknown $\beta_0$ and $\beta_1$. 
+* Define the *error Sum of Squares* to be 
+
+$$
+SS_E = S(\beta_0, \beta_1) = \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i)^2
+$$ {#eq-sse}
+
+* Then the OLS estimates of $\beta_0$ and $\beta_1$ are given by 
+$$
+\mathop{\arg \min}_{\beta_0, \beta_1} \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i)^2
+$$
+
+## Estimated parameters  {.smaller}
+
+\begin{eqnarray*}
+\hat{\beta_1} &=& \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2} \\
+\hat{\beta_0} &=& \bar{Y} - \hat{\beta_0} \bar{X}
+\end{eqnarray*} 
+where $\bar{Y} = (1/n)\sum Y_i$ and $\bar{X} = (1/n)\sum X_i$.
+
+## Residuals and Fitted Values {.smaller}
+
+* We can use the estimated parameters to compute *fitted* values
+  for each observation, corresponding to our best guess of the mean of the
+  distributions from which the observations arose:
+$$
+\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i, \quad i = 1, \ldots, n
+$$
+* As always, we can form residuals as the deviations from fitted values. 
+$$
+r_i = Y_i - \hat{Y}_i
+$$ {#eq-res-def}
+* Residuals are our best guess at the unobserved error terms $e_i$.
+
+## ANOVA Decomposition  {.smaller}
+* Squaring the residuals and summing over all observations
+
+$$
+\underbrace{\sum_{i=1}^n (Y_i  - \bar{Y})^2}_{SS_T} =  
+\underbrace{\sum_{i=1}^n (Y_i  - \hat{Y_i})^2}_{SS_{Res}} +
+\underbrace{\sum_{i=1}^n (\hat{Y_i}  - \bar{Y})^2}_{SS_{Reg}}
+$$
+
+* $SS_T$ is known as the total sum of squares.
+* $SS_{Res}$ is known as the residual sum of squares.
+* $SS_{Reg}$ is known as the regression sum of squares.
+
+We can estimate $\sigma^2$ with
+
+$$
+\hat{\sigma^2} = \frac{SS_{Res}}{n-2}
+$$
+
+## Uncertainty in Parameters  {.smaller}
+
+Our distributional assumptions lead to the following for our estimates
+$\hat{\beta_0}$ and $\hat{\beta_1}$:
+
+\begin{eqnarray}
+\hat{\beta_0} &\sim& N(\beta_0,\; \sigma^2(1/n + \bar{X}^2/S_{XX})) \\
+\hat{\beta_1} &\sim& N(\beta_1,\; \sigma^2/S_{XX})
+\end{eqnarray}
+
+The above are used to construct confidence intervals for $\beta_0$ and $\beta_1$,
+based on $t$-distributions.
+
+## F-test for Regression  {.smaller}
+
+The null and alternative hypotheses are:
+
+\begin{eqnarray*}
+H_0 &:& \beta_1 = 0\\
+H_1 &:& \beta_1 \ne 0
+\end{eqnarray*}
+
+The test statistic is 
+
+$$
+F_0 = \frac{SS_{Reg}/1}{SS_{Res}/(n-2)}
+$$ {#eq-f-stat}
+
+Under the null hypothesis, $F_0 \sim F_{1,n-2}$. 
+
+## t-test in Simple Linear Regression   {.smaller}
+
+The statement of the hypotheses is equivalent to the $F$-test.
+
+$$
+T_0 = \frac{\hat{\beta_1}}{\sqrt{\hat{\sigma^2}/S_{XX}}}
+$$ {#eq-t-stat}
+
+* Under $H_0$, the distribution of $T_0$ is $t_{n-2}$. 
+* This $t$-test and the earlier $F$-test in this section are *identical*. 
+
+## Coefficient of Determination, $R^2$  {.smaller}
+
+The coefficient of determination $R^2$ is defined as
+
+$$
+R^2 = 1 - \frac{SS_{Res}}{SS_T} = \frac{SS_{Reg}}{SS_T}
+$$
+
+* It can be interpreted as the proportion of variation in $Yi$, explained by the 
+  inclusion of $X_i$. 
+* Since $0 \le SS_{Res} \le SS_T$, it holds that $0 \le R^2 \le 1$.  
+* The larger the value of $R^2$ is, the better the model is.
+
+## Concrete Data Model
+
+### R code 
+
+```{r r-concrete-lm}
+#R 
+concrete <- read.csv("../data/concrete+slump+test/slump_test.data")
+names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
+lm_flow_water <- lm(FLOW.cm. ~ Water, data=concrete)
+summary(lm_flow_water)
+```
+
+## Concrete Data Model
+
+### Python code 
+
+```{python py-concrete-lm-a}
+#| echo: false
+#Python
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+```
+
+```{python py-concrete-lm-b}
+concrete = pd.read_csv("../data/concrete+slump+test/slump_test.data")
+concrete.rename(columns={'No':'id', 
+                         'Compressive Strength (28-day)(Mpa)':'Comp_Strength',
+                         'FLOW(cm)': 'Flow'},
+                inplace=True)
+lm_flow_water = ols('Flow ~ Water', data=concrete).fit()
+```
+
+```{python py-concrete-lm-c}
+#| echo: false
+print(lm_flow_water.summary())
+```
+
+## Concrete Data Model
+
+### SAS output
+
+![](../figs/sas_concrete_flow_water_reg.png){fig-align="center" width=450}
+
+From the output, we can note that the *estimated* model for Flow ($Y$) against
+Water ($X$) is:
+$$
+Y = -58.73 + 0.55 X
+$$
+
+## Flow vs Water Model I  {.smaller}
+
+### R code 
+
+```{r r-concrete-lm-ci}
+#R 
+confint(lm_flow_water)
+```
+
+The 95% Confidence intervals are:
+
+* For $\beta_0$: (-85.08, -32.37)
+* For $\beta_1$: (0.42, 0.68)
+
+## Bike Data {.smaller} 
+
+### R code 
+
+```{r r-bike-lm}
+#R 
+bike2 <- read.csv("../data/bike2.csv")
+bike2_sub <- bike2[bike2$workingday == "no", ]
+lm_reg_casual <- lm(registered ~ casual, data=bike2_sub)
+anova(lm_reg_casual)
+```
+
+## Bike Data {.smaller} 
+
+### Python code 
+
+```{python py-bike-lm}
+#Python
+bike2 = pd.read_csv("../data/bike2.csv")
+bike2_sub = bike2[bike2.workingday == "no"]
+
+lm_reg_casual = ols('registered ~ casual', bike2_sub).fit()
+anova_tab = sm.stats.anova_lm(lm_reg_casual,)
+anova_tab
+```
+
+## Bike Data {.smaller} 
+
+### SAS output
+
+![](../figs/sas_bike_reg_casual_reg.png){fig-align="center" width=450}
+
+## Future Observations  {.smaller}
+
+* In linear regression, we almost always wish to use the model to understand what 
+  the mean of future observations would be. 
+* Based on our formulation,
+
+$$
+E(Y | X) = \beta_0 + \beta_1 X
+$$
+
+* After estimating the parameters, we would have:
+$$
+\widehat{E(Y | X)} = \hat{\beta_0} + \hat{\beta_1} X
+$$
+
+* Thus we can vary the values of $X$ to study how the mean of $Y$ changes. 
+
+## Concrete Data Predicted Means  {.smaller}
+
+### R code 
+
+```{r r-concrete-pred}
+#| fig-align: center
+#| echo: false
+#R 
+new_df <- data.frame(Water = seq(160, 240, by = 5))
+conf_intervals <- predict(lm_flow_water, new_df, interval="conf")
+
+plot(concrete$Water, concrete$FLOW.cm., ylim=c(0, 100),
+     xlab="Water", ylab="Flow", main="Confidence and Prediction Intervals")
+abline(lm_flow_water, col="red")
+lines(new_df$Water, conf_intervals[,"lwr"], col="red", lty=2)
+lines(new_df$Water, conf_intervals[,"upr"], col="red", lty=2)
+legend("bottomright", legend=c("Fitted line", "Lower/Upper CI"), 
+       lty=c(1,2), col="red")
+```
+
+## Concrete Data Predicted Means  {.smaller}
+
+### Python code 
+
+```{python py-concrete-pred}
+#| fig-align: center
+#| echo: false
+# Python
+new_df = sm.add_constant(pd.DataFrame({'Water' : np.linspace(160,240, 10)}))
+
+predictions_out = lm_flow_water.get_prediction(new_df)
+
+ax = concrete.plot(x='Water', y='Flow', kind='scatter', alpha=0.5 )
+ax.set_title('Flow vs. Water');
+ax.plot(new_df.Water, predictions_out.conf_int()[:, 0].reshape(-1), 
+        color='blue', linestyle='dashed');
+ax.plot(new_df.Water, predictions_out.conf_int()[:, 1].reshape(-1), 
+        color='blue', linestyle='dashed');
+ax.plot(new_df.Water, predictions_out.predicted, color='blue');
+```
+
+## Concrete Data Predicted Means  {.smaller}
+
+### SAS Output
+
+![](../figs/sas_concrete_flow_water_reg_fitplot.png){fig-align="center" width=450}
+
+## Model formulation {.smaller} 
+
+* When we have more than 1 explanatory variable, we turn to multiple linear 
+  regression.
+* We now observe a vector of values:
+$$
+Y_i, \, X_{1,i},  \, X_{2,i}, \ldots, \, X_{p-1,i},  X_{p,i}
+$$
+* In other words, we observe $p$ independent variables and 1 response variable for 
+  each individual in our dataset. 
+$$
+Y_i = \beta_0 + \beta_1 X_{1,i} + \cdots + \beta_p  X_{p,i} + e
+$$ {#eq-mlr-model}
+
+## Matrix Form  {.smaller}
+
+$$
+\textbf{Y} = \begin{bmatrix}
+Y_1 \\
+Y_2 \\
+\vdots \\
+Y_n
+\end{bmatrix}, \;
+\textbf{X} = \begin{bmatrix}
+1 & X_{1,1} & X_{2,1} & \cdots &X_{p,1}\\
+1 & X_{1,2} & X_{2,2} & \cdots &X_{p,2}\\
+\vdots & \vdots & \vdots & {} & \vdots \\
+1 & X_{1,n} & X_{2,n} & \cdots &X_{p,n}\\
+\end{bmatrix}, \;
+\boldsymbol{ \beta } = \begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\vdots \\
+\beta_p
+\end{bmatrix}, \;
+\boldsymbol{e} = \begin{bmatrix}
+e_1 \\
+e_2 \\
+\vdots \\
+e_n 
+\end{bmatrix}
+$$
+
+* With the above matrices
+$$
+\textbf{Y} = \textbf{X} \boldsymbol{\beta} + \textbf{e}
+$$
+
+## Estimation  {.smaller}
+
+Now we define $SS_E$ to be 
+$$
+SS_E = S(\beta_0, \beta_1,\ldots,\beta_p) = \sum_{i=1}^n (Y_i - \beta_0 - 
+\beta_1 X_{1,i} - \cdots - \beta_p X_{p,i} )^2
+$$ 
+
+* The OLS estimates:
+$$
+\hat{\boldsymbol{\beta}} =  (\textbf{X}'\textbf{X})^{-1} \textbf{X}'\textbf{Y} 
+$$
+* The fitted values can be computed with
+$$
+\hat{\textbf{Y}} = \textbf{X} \hat{\boldsymbol{\beta}} =
+\textbf{X} (\textbf{X}'\textbf{X})^{-1} \textbf{X}'\textbf{Y} 
+$$
+* Residuals are obtained as 
+$$
+\textbf{r} = \textbf{Y} - \hat{\textbf{Y}}
+$$
+* Finally, we estimate $\sigma^2$ using 
+$$
+\hat{\sigma^2} = \frac{SS_{Res}}{n-p} = \frac{\textbf{r}' \textbf{r}}{n-p}
+$$
+
+## Coefficient of Determination, $R^2$  {.smaller}
+
+* $R^2$ is calculated exactly as in simple linear regression, and its
+  interpretation remains the same:
+$$
+R^2 = 1 - \frac{SS_{Res}}{SS_T}
+$$
+
+* However, $R^2$ can be inflated simply by adding more terms to the model.
+* Thus, we use the adjusted $R^2$:
+$$
+R^2_{adj} = 1 - \frac{SS_{Res}/(n-p)}{SS_T/(n-1)}
+$$
+
+## F-Tests  {.smaller}
+
+* The null and alternative hypotheses are:
+
+\begin{eqnarray*}
+H_0 &:& \beta_1 = \beta_2 = \cdots = \beta_p = 0\\
+H_1 &:& \beta_j \ne 0 \text{ for at least one } j \in \{1, 2, \ldots, p\}
+\end{eqnarray*}
+
+* The test statistic is 
+
+$$
+F_1 = \frac{SS_{Reg}/p}{SS_{Res}/(n-p-1)}
+$$ {#eq-f-stat}
+
+* Under the null hypothesis, $F_0 \sim F_{p,n-p-1}$. 
+
+## t-Tests  {.smaller}
+
+* It is also possible to test for the significance of individual $\beta$ terms, using 
+  a $t$-test. 
+* The output is typically given for all the coefficients in a table.
+\begin{eqnarray*}
+H_0 &:& \beta_j = 0\\
+H_1 &:& \beta_j \ne 0 
+\end{eqnarray*}
+
+* However, note that these $t$-tests are partial because it should be interpreted as
+  a test of the contribution of $\beta_j$, *given that all other terms are already in the model*.
+
+## Concrete Data Multiple Linear Regression
+
+### R code 
+
+```{r r-concrete-lm-2}
+# R 
+lm_flow_water_slag <- lm(FLOW.cm. ~ Water + Slag, data=concrete)
+summary(lm_flow_water_slag)
+```
+
+## Concrete Data Multiple Linear Regression
+
+### Python code
+
+```{python py-concrete-lm-2}
+# Python
+lm_flow_water_slag = ols('Flow ~ Water + Slag', data=concrete).fit()
+print(lm_flow_water_slag.summary())
+```
+
+## Concrete Data Multiple Linear Regression
+
+### SAS output 
+
+![](../figs/sas_concrete_flow_water_slag_reg.png){fig-align="center" width=450}
+
+## Flow vs Water and Slag   {.smaller}
+
+### Concrete Data Multiple Linear Regression
+
+The $F$-test is now concerned with the hypotheses:
+\begin{eqnarray*}
+H_0 &:& \beta_1 = \beta_2 = 0\\
+H_1 &:& \beta_1 \ne 0 \text{ or } \beta_2 \ne 0
+\end{eqnarray*}
+
+* From the output above, we can see that $F_1 = 49.17$, 
+* With a corresponding $p$-value of $1.3 \times 10^{-15}$. 
+* The final estimated model can be written 
+as
+$$
+Y = -50.27 + 0.54 X_1 - 0.09 X_2
+$$
+
+## Including a categorical variable  {.smaller}
+
+* The explanatory variables in a linear regression model do not need to be continuous.
+* Categorical variables can also be included as dummy variables. 
+* For instance, suppose that we wish to include gender in a model as $X_3$.
+
+$$
+X_{3,i} = 
+\begin{cases}
+1 & \text{individual $i$ is male}\\
+0 & \text{individual $i$ is female}
+\end{cases}
+$$
+
+## Including a categorical variable  {.smaller}
+
+* The model (without subscripts for the $n$ individuals) is then:
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + e
+$$
+* For females, the value of $X_3$ is 0. Hence the model reduces to
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + e
+$$
+* On the other hand, for males, the model reduces to 
+$$
+Y = (\beta_0 + \beta_3) + \beta_1 X_1 + \beta_2 X_2 + e
+$$
+* The difference between the two models is in the intercept. The other 
+coefficients remain the same. 
+
+## Bike model with working day  {.smaller}
+
+### R code 
+
+```{r r-bike-lm-2}
+# R 
+lm_reg_casual2 <- lm(registered ~ casual + workingday, data=bike2)
+summary(lm_reg_casual2)
+```
+
+## Bike model with working day  {.smaller}
+
+### Python code
+
+```{python py-bike-lm-2}
+# Python
+lm_reg_casual2 = ols('registered ~ casual + workingday', bike2).fit()
+print(lm_reg_casual2.summary())
+```
+
+## Bike model with working day  {.smaller}
+
+### SAS output 
+
+![](../figs/sas_bike_reg_casual_workday_reg.png){fig-align="center" width=450}
+
+## Bike model with working day  {.smaller}
+
+### Bike Data Working Day
+
+The estimated model is now 
+$$
+Y = 605 + 1.72 X_1 + 2330 X_2
+$$
+
+* Two models, one for each working day:
+
+$$
+Y = 
+\begin{cases}
+605 + 1.72 X_1, & \text{for non-working days} \\
+2935 + 1.72 X_1, & \text{for working days}
+\end{cases}
+$$
+
+## Bike model with working day  {.smaller}
+
+We can plot the two models on the scatterplot to see how they work better than 
+the original model.
+
+```{r r-plot-bike-lm2}
+#| echo: false
+#| fig-align: center
+#| 
+
+plot(x=bike2$casual, y=bike2$registered, 
+     col=ifelse(bike2$workingday == "yes", "salmon", "deepskyblue4"),
+     main="Comparing fitted models", cex=0.8,
+     xlab="Casual", ylab="Registered")
+abline(lm_reg_casual, col="deepskyblue4", lty=2)
+est_coef <- coef(lm_reg_casual2)
+abline(est_coef[1], est_coef[2], col="deepskyblue4")
+abline(est_coef[1]+est_coef[3], est_coef[2], col="salmon")
+legend("bottomright", legend=c("lm_reg_casual", "lm_reg_causal2"),
+       lty=c(1,2), cex=0.7)
+#legend("bottom", legend=c("no", "yes"), pch=1,
+#       col=c("deepskyblue4", "salmon"), cex=0.7)
+```
+
+## Interaction term  {.smaller}
+
+* Consider an interaction between a continuous variable and a categorical 
+  explanatory variable. 
+* Suppose that we have three predictors: height ($X_1$), weight ($X_2$) and 
+  gender ($X_3$). 
+* The interaction model looks like this:
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \beta_4 X_2 X_3 + e
+$$
+* For males:
+$$
+Y = (\beta_0 + \beta_3) + \beta_1 X_1 + (\beta_2 + \beta_4) X_2 + e
+$$
+For females, it would be:
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + e
+$$
+
+## Bike working day   {.smaller}
+
+### R code 
+
+```{r r-bike-lm-3}
+# R 
+lm_reg_casual3 <- lm(registered ~ casual * workingday, data=bike2)
+summary(lm_reg_casual3)
+```
+
+## Bike working day   {.smaller}
+
+### Python code
+
+```{python py-bike-lm-3}
+# Python
+lm_reg_casual3 = ols('registered ~ casual * workingday', bike2).fit()
+print(lm_reg_casual3.summary())
+```
+
+## Bike working day   {.smaller}
+
+### SAS output 
+
+![](../figs/sas_bike_reg_casual_workday_interaction_reg.png){fig-align="center" width=450}
+
+Estimated models:
+$$
+Y = 
+\begin{cases}
+1362 + 1.16 X_1, & \text{for non-working days} \\
+2168 + 2.97 X_1, & \text{for working days}
+\end{cases}
+$$
+
+## Why Analyse Residuals?  {.smaller}
+
+* Recall that residuals are computed as 
+$$
+r_i = Y_i - \hat{Y_i}
+$$
+* We can use the residuals to 
+  * assess if the distributional assumptions hold. 
+  * to identify outlier points that are masking the general trend of other points. 
+  * to provide some direction on how to improve the model.
+
+## Standardised Residuals  {.smaller}
+
+* It can be shown that the variance of the residuals is in fact not constant! 
+* The hat-matrix is
+$$
+\textbf{H} = \textbf{X}(\textbf{X}'\textbf{X} )^{-1} \textbf{X}'
+$$
+* The diagonal values of $\textbf{H}$ will be denoted $h_{ii}$, for $i = 1,
+  \ldots, n$.  Then 
+$$
+Var(r_i) = \sigma^2 (1 - h_{ii}), \quad Cov(r_i, r_j) = -\sigma^2 h_{ij}
+$$
+
+## Standardised Residuals  {.smaller}
+
+$$
+r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
+$$
+* If the model fits well, standardised residuals should look similar to a $N(0,1)$
+  distribution. 
+* In addition, large values of the standardised residual indicate
+  potential outlier points.
+
+## Leverage  {.smaller}
+
+* By the way, $h_{ii}$ is also referred to as the *leverage* of a point.
+* Measure of the potential influence of a point (on the parameters, and future
+  predictions). 
+* $h_{ii}$ is a value between 0 and 1. 
+* For a model with $p$ parameters, the average $h_{ii}$ should be should be $p/n$. 
+* We consider points for whom $h_{ii} > 2 \times p/n$ to be high leverage points.
+
+## Concrete Data Normality Check
+
+### R code 
+
+```{r r-concrete-qq-1}
+#| layout-ncol: 2
+# R 
+r_s <- rstandard(lm_flow_water_slag)
+hist(r_s)
+qqnorm(r_s)
+qqline(r_s)
+```
+
+## Concrete Data Normality Check
+
+### Python code
+
+```{python py-concrete-qq-1}
+#| fig-align: center
+# Python
+r_s = pd.Series(lm_flow_water_slag.resid_pearson)
+r_s.hist()
+```
+
+## Concrete Data Normality Check
+
+While it does appear that we have slightly left-skewed data, the departure from
+Normality seems to arise mostly from a thinner tail on the right.
+
+```{r r-concrete-shap}
+#| collapse: true
+shapiro.test(r_s)
+ks.test(r_s, "pnorm")
+```
+
+## Scatterplots  {.smaller}
+
+* Plots of standardised residuals (on the $y$-axis) against
+
+* fitted values 
+* explanatory variables, one at a time.
+* potential variables.
+
+We typically inspect the plots for the following patterns:
+
+![](../figs/regression_residuals.png)
+
+## Concrete Data Residual Plots
+
+### R code 
+
+```{r r-concrete-resids}
+#| fig-align: center
+#| fig-height: 4
+#| fig-width: 10
+opar <- par(mfrow=c(1,3))
+plot(x=fitted(lm_flow_water_slag), r_s, main="Fitted")
+plot(x=concrete$Water, r_s, main="X1")
+plot(x=concrete$Slag, r_s, main="X2")
+par(opar)
+```
+
+## Concrete Data Residual Plots
+
+### SAS Plots
+
+![](../figs/sas_concrete_flow_water_reg_res1.png){fig-align="center" width=450}
+
+
+## Influential Points  {.smaller}
+
+The influence of a point on the inference can be judged by how much the inference
+changes with and without the point. For instance to assess if point $i$ is 
+influential on coefficient $j$:
+
+1.  Estimate the model coefficients with all the data points.
+2.  Leave out the observations $(Y_i , X_i)$ one at a time and re-estimate 
+    the model coefficients.
+3.  Compare the $\beta$'s from step 2 with the original estimate from step 1.
+
+## Concrete Data Influential Points
+
+### R code 
+```{r r-concrete-infl}
+infl <- influence.measures(lm_flow_water_slag)
+summary(infl)
+```
+
+The set of 6 points above appear to be influencing the covariance matrix 
+of the parameter estimates greatly. To proceed, we would typically leave these 
+observations out one-at-a-time to study the impact on our eventual decision.
+
+## Concrete Data Influential Points
+
+### SAS Output 
+
+![](../figs/sas_concrete_flow_water_reg_res2.png){fig-align="center" width=450}

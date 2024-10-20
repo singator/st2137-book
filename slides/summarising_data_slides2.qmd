@@ -1,0 +1,459 @@
+---
+title: "Summarising Numerical Data"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+```{r}
+#| echo: false
+library(knitr)
+library(reticulate)
+venv_paths <- read.csv("../venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
+```
+
+## Our goals {.smaller} 
+
+* Perform statistical analysis with two software:
+  * R, Python
+* Every language has it's strengths and weaknesses.
+* Our end goal is to analyse data.
+* Be versatile and adaptable - use the right tool for the right task.
+
+## Taxonomy of Data Types {.smaller}
+
+![Data types](../figs/summ_data-01.png){#fig-sum-1 fig-alt="Data types" fig-align="center" width="60%"}
+
+## Content  {.smaller}
+
+1. Numerical summaries for univariate quantitative variables.
+2. Numerical summary for association between two quantitative variables.
+2. Useful graphs for univariate quantitative variables.
+
+Techniques for categorical variables will be covered in a subsequent topic.
+
+## Student Performance Dataset {.smaller}
+
+* Two datasets: 
+    * `student-mat.csv` (performance in Mathematics) 
+    * `student-por.csv` (performance in Portugese)
+* Each dataset was collected using school reports and questionnaires. 
+* Each row corresponds to a student. 
+* The columns are attributes
+
+## Numerical Summaries {.smaller}
+
+1. Basic information about the data, e.g. number of observations and missing 
+   values.
+2. Measures of central tendency, e.g. mean, median
+3. Measures of spread, e.g. standard deviation, IQR (interquartile range), range.
+
+## Student dataset {.smaller}
+
+#### R code 
+
+```{r r-stud-perf-1}
+#| warning: false
+#| message: false
+stud_perf <- read.table("../data/student/student-mat.csv", sep=";", 
+                        header=TRUE)
+summary(stud_perf$G3)
+sum(is.na(stud_perf$G3))
+```
+
+## Student dataset {.smaller}
+
+#### Python code
+
+```{python py-stud-perf-1}
+import pandas as pd
+import numpy as np
+
+stud_perf  = pd.read_csv("../data/student/student-mat.csv", delimiter=";")
+stud_perf.G3.describe()
+#stud_perf.G3.info()
+```
+
+## Conditional Summaries {.smaller}
+
+#### R code 
+
+```{r r-stud-perf-2}
+round(aggregate(G3 ~ Medu, data=stud_perf, FUN=summary), 2)
+table(stud_perf$Medu)
+```
+
+## Conditional Summaries {.smaller}
+
+#### Python code
+
+```{python py-stud-perf-2}
+stud_perf[['Medu', 'G3']].groupby('Medu').describe()
+```
+
+## Regarding Numerical Summaries {.smaller}
+
+* If the mean and the median are close, it indicates that the distribution of 
+  the data is close to symmetric.
+* The mean is sensitive outliers but the median is not. We shall see more about 
+  this in the topic on robust statistics.
+* When the mean is much larger than the median, it suggests that there could   
+  be a few very large observations. It has resulted in a *right-skewed*  
+  distribution. Conversely, if the mean is much smaller than the median, we 
+  probably have a *left-skewed* distribution. 
+  
+## The need for graphics I
+
+![Value of a picture](../figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="65%"}
+
+## Histograms Overview {.smaller}
+
+When we create a histogram, here are some things that we look for:
+
+1. *What is the overall pattern?*: Do the data cluster together, or is there a 
+   gap such that one or more observations deviate from the rest?
+2. *Do the data have a single mound or peak?* If yes, then we have what is 
+   known as a unimodal distribution. Data with two 'peaks' are referred to 
+   as bimodal, and data with many peaks are referred to as multimodal.
+3. *Is the distribution symmetric or skewed?*
+4. *Are there any suspected outliers?*
+
+## Student Performance: Histograms
+
+#### R code 
+
+```{r r-stud-perf-3}
+#| fig-align: center
+#| out-width: "70%"
+hist(stud_perf$G3, main="G3 histogram")
+```
+
+## Student Performance: Histograms
+
+#### Python code
+
+```{python py-stud-perf-3}
+#| fig-align: center
+#| out-width: "70%"
+fig = stud_perf.G3.hist(grid=False)
+fig.set_title('G3 histogram');
+```
+
+## Conditioning on Another Variable  {.smaller}
+
+#### R code 
+
+```{r r-stud-perf-4}
+#| fig-align: center
+#| out-width: "70%"
+library(lattice)
+histogram(~G3 | Medu, data=stud_perf, type="density")
+```
+
+## Conditioning on Another Variable  {.smaller}
+
+#### Python code
+
+```{python py-stud-perf-4}
+#| fig-align: center
+#| out-width: "70%"
+stud_perf.G3.hist(by=stud_perf.Medu, figsize=(15,10), density=True, 
+                  layout=(2,3));
+```
+
+## Density Plots {.smaller}
+
+Downside of histograms:
+
+1. Difficult to compare/overlay histograms because they are not smooth. 
+2. Hard to filter out "noise" since there is no smoothing.
+
+## Density Plots {.smaller}
+
+Kernel density estimates: 
+
+* Suppose we have i.i.d sample $x_1, x_2, \ldots, x_n$ from cts pdf $f(\cdot)$. 
+* Then the kernel density estimate at $x$ is given by 
+
+$$
+\hat{f}(x)  = \frac{1}{nh} \sum_{i=1}^n K \left( \frac{x - x_i}{h} \right)
+$$
+
+  * $K$ is a density function. 
+  * $h$ is a bandwidth, 
+
+## Student Performance: Density Estimates {.smaller}
+
+#### R code 
+
+```{r r-stud-perf-5}
+#| fig-align: center
+#| out-width: "70%"
+densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
+```
+
+## Student Performance: Density Estimates {.smaller}
+
+
+#### Python code
+
+```{python py-stud-perf-5}
+#| fig-align: center
+#| out-width: "70%"
+import matplotlib.pyplot as plt
+f, axs = plt.subplots(2, 3, squeeze=False, figsize=(15,6))
+out2 = stud_perf.groupby("Medu")
+for y,df0 in enumerate(out2):
+    tmp = plt.subplot(2, 3, y+1)
+    df0[1].G3.plot(kind='kde')#(kind="kde", ax=tmp)
+    tmp.set_title(df0[0])
+```
+
+## Boxplots {.smaller}
+
+Here are the steps for drawing a boxplot: 
+
+:::: {.columns}
+
+::: {.column width="50%" style="font-size: medium;"}
+
+1. Determine Q1, Q2 and Q3. The box is made from Q1 and Q3. The median is drawn
+   as a line or a dot within the box.
+2. Determine the max-whisker reach: Q3 + 1.5IQR; the min-whisker reach 
+   by Q1 − 1.5IQR.
+3. Any data point that is out of the range from the min to max whisker reach
+   is classified as a potential outlier.
+4. Except for the outliers, the maximum point determines the upper whisker and
+   the minimum points determines the lower whisker of a boxplot.
+
+:::
+
+::: {.column width="50%" style="font-size: medium;"}
+
+![Boxplot construction](../figs/summ_data-08.png){#fig-sum-8 fig-alt="Boxplot construction" fig-align="center" width="70%"}
+
+:::
+
+::::
+
+## QQ-plots {.smaller}
+
+* A QQ-plot plots the standardized sample quantiles against the theoretical
+quantiles of a N(0; 1) distribution. 
+* If the points they fall on a straight line, then we
+would say that there is evidence that the data came from a normal distribution.
+
+```{r qq-eg-1}
+#| echo: false
+#| label: fig-qq-1
+#| layout-ncol: 2
+#| fig-align: center
+#| fig-cap: "QQ-plots"
+#| fig-subcap:
+#|  - "Thinner than Normal"
+#|  - "Fatter than Normal"
+set.seed(2137)
+X <- runif(100)
+qqnorm(X, main="Both tails thinner than Normal")
+qqline(X)
+
+Y <- rt(100, df=2)
+qqnorm(Y, main="Both tails fatter than Normal")
+qqline(Y)
+
+```
+
+
+::: {.callout-note}
+Please be careful! Some software/packages will switch the axes (i.e. plot the
+sample quantiles on the x-axis instead of the y-axis, unlike @fig-qq-1). Please
+observe and interpret accordingly.
+:::
+
+## Concrete Slump Dataset {.smaller}
+
+The data set includes 103 data points. There are 7 input variables, and 3 output
+variables in the data set. These are the columns in the data:
+
+Input variables (7)(component kg in one $m^3$ concrete):
+
+1.  Cement
+2.  Slag
+3.  Fly ash
+4.  Water
+5.  SP - a super plasticizer to improve consistency.
+6.  Coarse Aggr.
+7.  Fine Aggr.
+
+## Concrete Slump Dataset {.smaller}
+
+Output variables (3):
+
+1. SLUMP (cm) You can read more about the [slump test](https://en.wikipedia.org/wiki/Concrete_slump_test) here. 
+2. FLOW (cm) The previous wikipedia page has a link to the flow test too.
+3. 28-day Compressive Strength (Mpa) 
+
+## Reading in Concrete Data {.smaller}
+
+#### R code 
+
+To read in the data in R:
+
+```{r}
+concrete <- read.csv("../data/concrete+slump+test/slump_test.data")
+names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
+```
+
+## Reading in Concrete Data {.smaller}
+
+#### Python code
+
+```{python}
+concrete = pd.read_csv("../data/concrete+slump+test/slump_test.data")
+concrete.rename(columns={'No':'id', 'Compressive Strength (28-day)(Mpa)':'Comp_Strength'}, 
+                inplace=True)
+```
+
+## Concrete Slump Comp.Strength
+
+```{r}
+#| echo: false
+#| out-width: "70%"
+#| fig-align: center
+
+hist(concrete$Comp.Strength, freq = FALSE)
+dens_out <- density(concrete$Comp.Strength)
+lines(dens_out$x, dens_out$y, col="red")
+
+x_mean <- mean(concrete$Comp.Strength)
+x_sd <- sd(concrete$Comp.Strength)
+x_vals <- seq(10, 65, by=0.5)
+y_vals <- dnorm(x_vals, mean=x_mean, sd=x_sd)
+lines(x_vals, y_vals, col="blue", lty=2)
+```
+
+## Comp.Strength QQ-plot
+
+#### R code 
+
+```{r r-concrete-1}
+#| fig-align: center
+#| out-width: "70%"
+qqnorm(concrete$Comp.Strength)
+qqline(concrete$Comp.Strength)
+```
+
+## Comp.Strength QQ-plot
+
+#### Python code
+
+```{python py-concrete-1}
+#| fig-align: center
+#| out-width: "70%"
+from scipy import stats
+import statsmodels.api as sm
+sm.qqplot(concrete.Comp_Strength, line="q");
+```
+
+The deviation of the tails does not seem to be that large, judging from the QQ-plot.
+
+## Estimated correlation {.smaller}
+
+* Perhaps the most common numerical summary to quantify the relationship
+  between them is the correlation coefficient. 
+* Suppose that $x_1, x_2, \ldots, x_n$ and $y_1, \ldots, y_n$ are two
+  variables from a set of $n$ objects or people. 
+* The sample correlation between these two variables is computed as:
+
+$$
+r = \frac{1}{n-1} \sum_{i=1}^n \frac{(x_i - \bar{x})(y_i - \bar{y})}{s_x s_y}
+$$
+
+  * $s_x$ and $s_y$ are the sample standard deviations. $r$ is an estimate of
+    the correlation between random variables $X$ and $Y$.
+
+## Example correlations 
+
+:::: {.columns}
+
+::: {.column width="50%" style="font-size: medium;"}
+
+![Linear Relation](../figs/summ_data-06.png){fig-align=center out-width=60%}
+
+:::
+
+
+::: {.column width="50%" style="font-size: medium;"}
+![Non-linear relation](../figs/summ_data-07.png){fig-align=center out-width=60%}
+:::
+
+::::
+
+## Regarding Pearson Correlation {.smaller} 
+
+A few things to note about the value $r$, which is also referred to as the 
+Pearson correlation:
+
+* $r$ is always between -1 and 1.
+* A positive value for $r$ indicates a positive association and a negative value for
+  $r$ indicates a negative association.
+* Two variables have the same correlation, no matter which one is treated as
+  the response and which is treated as the explanatory variable.
+
+## Scatterplot Matrices
+
+#### R code 
+
+```{r r-concrete-2}
+#| fig-align: center
+#| out-width: "100%"
+col_to_use <- c("Cement", "Slag", "Comp.Strength", "Water", "SLUMP.cm.",
+                "FLOW.cm.")
+pairs(concrete[, col_to_use], panel = panel.smooth)
+```
+
+## Scatterplot Matrices
+
+#### Python code
+
+```{python py-concrete-3}
+#| fig-align: center
+#| out-width: "100%"
+pd.plotting.scatter_matrix(concrete[['Cement', 'Slag', 'Comp_Strength', 'Water', 
+                                     'SLUMP(cm)', 'FLOW(cm)']], 
+                           figsize=(12,12));
+```
+
+## Correlation matrices
+
+#### R code 
+
+```{r r-concrete-3}
+#| fig-align: center
+#| message: false
+#| warning: false
+
+library(psych)
+corPlot(cor(concrete[, col_to_use]), cex=0.8, show.legend = FALSE)
+```
+
+## Correlation matrices
+
+#### Python code
+
+```{python py-concrete-4}
+#| fig-align: center
+#| out-width: "100%"
+corr = concrete[['Cement', 'Slag', 'Comp_Strength', 'Water', 
+                 'SLUMP(cm)', 'FLOW(cm)']].corr()
+corr.style.background_gradient(cmap='coolwarm_r')
+```

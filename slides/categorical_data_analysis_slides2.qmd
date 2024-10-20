@@ -1,0 +1,579 @@
+---
+title: "Categorical Data Analysis"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+```{r}
+#| echo: false
+library(knitr)
+library(reticulate)
+venv_paths <- read.csv("../venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
+```
+
+## Categorical Variables {.smaller}
+
+*  A variable is known as a *categorical variable* if each observation belongs to 
+   one of a set of categories. 
+*  Categorical variables are typically modeled using discrete random variables, which 
+   are defined in terms whether or not the support is countable. 
+*  The alternative to categorical variables are quantitative variables, which are typically modeled 
+   using continuous random variables. 
+*  Another method for distinguishing between quantitative and categorical variables
+   is to ask if there is a meaningful distance between any two points in the data.
+* Identifying which data we have affects the exploration techniques that we can apply.
+
+## Categorical Variable Types {.smaller}
+
+* A categorical variable is *ordinal* if the observations can be ordered, but do not
+  have specific quantitative values.
+* A categorical variable is *nominal* if the observations can be classified into
+  categories, but the categories have no specific ordering.
+
+## Contingency Tables {.smaller}
+
+### Chest Pain and Gender
+
+Suppose that 1073 NUH patients who were at high risk for cardiovascular disease
+(CVD) were randomly sampled. They were then queried on two things:
+
+1. Had they experienced the onset of severe chest pain in the preceding 6
+months? (yes/no)
+2. What was their gender? (male/female)
+
+The data would probably have been recorded in the following format (only first
+few rows shown):
+
+```{r chest_gender}
+#| echo: false
+set.seed(13)
+mf_sample <- sample(c("male", "female"), size=6, TRUE)
+pain_sample <- sample(c("pain", "no pain"), size=6, TRUE)
+chest_gender_df <- data.frame(Gender = mf_sample, Pain = pain_sample)
+print(chest_gender_df)
+```
+
+## Test 
+
+This format is  known as a *contingency table*.
+
+```{r chest_gender_2}
+#| echo: false
+x <- matrix(c(46, 37, 474, 516), nrow=2)
+dimnames(x) <- list(c("male", "female"), c("pain", "no pain"))
+chest_tab <- as.table(x)
+print(chest_tab)
+```
+
+* Each observation from the dataset falls in exactly one  of the cells. 
+* The sum of all entries in the cells equals the number of independent observations in the dataset.
+
+## Associated Categorical Variables {.smaller}
+
+With contingency tables, the main inferential task usually relates to assessing
+the association between the two categorical variables.
+
+::: {.callout-note title="Independent Categorical Variables"}
+If two categorical variables are **independent**, then the joint distribution of 
+the variables would be equal to the product of the marginals. If two variables 
+are not independent, we say that they are **associated**.
+:::
+
+
+## $\chi^2$-Test for Independence  {.smaller}
+
+* The $\chi^2$-test assesses if two variables in a contingency table are associated. 
+* The null and alternative hypotheses are 
+
+\begin{eqnarray*}
+H_0 &:& \text{The two variables are indepdendent.}  \\
+H_1 &:& \text{The two variables are not indepdendent.}
+\end{eqnarray*}
+
+* Under $H_0$, we can estimate the joint distribution from the observed marginal counts. 
+* Based on this estimated joint distribution, we then  compute *expected* counts 
+  for each cell. 
+* The test statistic compares the deviation of *observed* cell counts from the  
+  expected cell counts. 
+
+
+## Chest Pain Gender Example {.smaller}
+
+### Chest Pain and Gender Expected Counts
+
+We can compute the estimated marginals using row and column proportions
+
+```{r chest_gender_3}
+#| echo: false
+library(DescTools)
+Desc(chest_tab, rfrq="011", plotit = FALSE, verbose=1)
+```
+
+## Expected Cell Count {.smaller}
+
+A general formula for the expected count in each cell:
+$$
+\text{Expected count} = \frac{\text{Row total} \times \text{Column total}}{\text{Total sample size}}
+$$
+
+The formula for the $\chi^2$-test statistic (with continuity correction) is:
+$$
+\chi^2 = \sum \frac{(|\text{expected} - \text{observed} | - 0.50 )^2}{\text{expected count}} 
+$$ {#eq-chi-sq}
+
+The sum is taken over every cell in the table.
+
+## Chest Pain Gender Test {.smaller}
+
+#### R code
+
+```{r r-chest_gender-1}
+x <- matrix(c(46, 37, 474, 516), nrow=2)
+dimnames(x) <- list(c("male", "female"), c("pain", "no pain"))
+chest_tab <- as.table(x)
+
+chisq_output <- chisq.test(chest_tab)
+chisq_output
+```
+
+## Chest Pain Gender Test {.smaller}
+
+#### Python code
+
+```{python py-chest_gender-1}
+#| collapse: true
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+chest_array = np.array([[46, 474], [37, 516]])
+
+chisq_output = stats.chi2_contingency(chest_array)
+
+print(f"The p-value is {chisq_output.pvalue:.3f}.")
+print(f"The test-statistic value is {chisq_output.statistic:.3f}.")
+```
+
+## Chest Pain Gender Test {.smaller}
+
+* The $p$-value is 0.2276
+* We would not reject the null hypothesis at significance  level 5%. 
+
+To extract the expected cell counts, we can use the following code: 
+
+#### R code
+
+```{r r-chest_gender-2}
+chisq_output$expected
+```
+
+## Chest Pain Gender Test {.smaller}
+
+#### Python code
+
+```{python py-chest_gender-2}
+chisq_output.expected_freq
+```
+
+## Fisher's Exact Test {.smaller}
+
+::: {.callout-important}
+It is only suitable to use the $\chi^2$-test when all *expected cell counts* are 
+larger than 5.
+:::
+
+
+*  When the condition above is not met, we turn to Fisher's Exact Test. 
+*  The null and alternative hypothesis are the same, but the test statistic is not 
+   derived  in the same way.
+*  If the marginal totals are fixed, and the two variables are independent, it can
+   be shown that the individual cell counts arise from a variant of the hypergeometric 
+   distribution. 
+*  The $p$-value is  typically obtained by simulating tables with the same marginals 
+   as the observed dataset.
+  
+## Claritin and Nervousness {.smaller}
+
+*  Claritin is a drug for treating allergies. 
+*  It has a side effect of inducing nervousness in patients. 
+*  From a sample of 450 subjects, 188 of them were randomly assigned to take Claritin, 
+   and the remaining were assigned to take the placebo. 
+
+```{r r-claritin-0}
+#| echo: false
+y <-  matrix(c(4, 2, 184, 260), nrow=2)
+dimnames(y) <- list(c("claritin", "placebo"), c("nervous", "not nervous"))
+claritin_tab <- as.table(y)
+print(claritin_tab)
+```
+
+## Claritin and Nervousness {.smaller}
+
+Here is the code to perform the Fisher Exact Test.
+
+#### R code 
+
+```{r r-claritin-1}
+y <-  matrix(c(4, 2, 184, 260), nrow=2)
+dimnames(y) <- list(c("claritin", "placebo"), c("nervous", "not nervous"))
+claritin_tab <- as.table(y)
+
+fisher.test(claritin_tab)
+```
+
+## Claritin and Nervousness {.smaller}
+
+#### Python code 
+
+```{python py-claritin-1}
+claritin_tab = np.array([[4, 184], [2, 260]])
+
+stats.fisher_exact(claritin_tab)
+```
+
+## Claritin and Nervousness {.smaller}
+
+*  Since the $p$-value is 0.2412, we again do not have sufficient evidence to reject 
+   $H_0$. 
+
+*  By the way, we can check (in R) to see that the $\chi^2$-test would not have 
+   been appropriate:
+
+```{r claritin-r-chisq}
+chisq.test(claritin_tab)$expected
+```
+
+## Political Association and Gender {.smaller}
+
+```{r}
+#| echo: false
+x <- matrix(c(762,327,468,484,239,477), ncol=3, byrow=TRUE)
+dimnames(x) <- list(c("female", "male"), 
+                    c("Dem", "Ind", "Rep"))
+political_tab <- as.table(x)
+print(political_tab)
+```
+
+## Political Association and Gender {.smaller}
+
+### R code
+
+```{r pol-1}
+x <- matrix(c(762,327,468,484,239,477), ncol=3, byrow=TRUE)
+dimnames(x) <- list(c("female", "male"), 
+                    c("Dem", "Ind", "Rep"))
+political_tab <- as.table(x)
+chisq.test(political_tab)
+```
+
+In this case, there is strong evidence to reject $H_0$. At 5% level, we would
+reject the null hypothesis and conclude there is an association between gender
+and political affiliation.
+
+## Residuals  {.smaller}
+
+*  The $\chi^2$-test is based on a model of independence
+*  It is possible to derive residuals and  study them, to see where the data 
+   deviates from this model.
+
+
+We define the *standardised residuals* to be 
+
+$$
+r_{ij} = \frac{n_{ij} - \mu_{ij}}{\sqrt{\mu_{ij} (1 - p_{i+})(1 -p_{+j} )}}
+$$
+where 
+
+* $n_{ij}$ is the observed cell count in row $i$ and column $j$ (cell $ij$).
+* $\mu_{ij}$ is the *expected* cell count in row $i$ and column $j$
+* $p_{i+}$ is the marginal probability of row $i$
+* $p_{+j}$ is the marginal probability of column $j$.
+* Under $H_0$, the residuals should be close to a standard Normal distribution. 
+
+## Odds Ratio {.smaller}
+
+* Suppose we have $X$ and $Y$ to be Bernoulli  random variables with (population)
+  success probabilities $p_1$ and $p_2$.
+*  We define the *odds of success* for $X$ to be 
+$$
+\frac{p_1}{1-p_1}
+$$
+*  Similarly, the odds of success for random variable $Y$ is $\frac{p_2}{1-p_2}$. 
+* The *odds ratio* is defined to be:
+$$
+\frac{p_1/ (1-p_1)}{p_2/(1-p_2)}
+$$
+
+## Odds Ratio {.smaller}
+
+* The odds ratio can take on any value from 0 to $\infty$.
+* A value of 1 indicates no association between $X$ and $Y$. If $X$ and $Y$ were 
+  independent, this is what we would observe.
+* Deviations from 1 indicate stronger association between the variables.
+* Note that deviations from 1 are not symmetric. For a given pair of variables,
+  an association of 0.25 or 4 is the same - it is just a matter of which variable
+  we put in the numerator odds.
+  
+## Log Odds Ratio {.smaller}
+
+* Due to the above asymmetry, we often use the log-odds-ratio instead:
+$$
+\log \frac{p_1/ (1-p_1)}{p_2/(1-p_2)} 
+$$
+* Log-odds-ratios can take values from $-\infty$ to $\infty$.
+* A value of 0 indicates no association between $X$ and $Y$.
+* Deviations from 0 indicate stronger association between the variables, and deviations 
+  are now symmetric; a log-odds-ratio of -0.2 indicates the same *strength* as 0.2, just 
+  the opposite direction.
+  
+## CI for Log Odds Ratio {.smaller}
+
+Here are the steps:
+
+1. The sample data in a 2x2 table can be labelled as $n_{11}, n_{12}, n_{21}, n_{22}$.
+2. The *sample* odds ratio is 
+$$
+\widehat{OR} = \frac{n_{11} \times n_{22}}{n_{12} \times n_{21}}
+$$
+3. For a large sample size, it can be shown that $\log \widehat{OR}$ follows a Normal 
+   distribution. Hence a 95% confidence interval can be obtained through
+$$
+\log \frac{n_{11} \times n_{22}}{n_{12} \times n_{21}} \pm z_{0.025} 
+\times ASE(\log \widehat{OR})
+$$
+
+where 
+
+* the ASE (Asymptotic Standard Error) of the estimator is 
+$$
+\sqrt{\frac{1}{n_{11}} + \frac{1}{n_{12}} + \frac{1}{n_{21}} + \frac{1}{n_{22}}} 
+$$
+
+## Chest Pain and Gender Odds Ratio {.smaller}
+
+#### R code 
+
+```{r r-chest_gender-4}
+library(DescTools)
+OddsRatio(chest_tab,conf.level = .95)
+```
+
+## Chest Pain and Gender Odds Ratio {.smaller}
+
+#### Python code 
+
+```{python py-chest_gender-4}
+import statsmodels.api as sm
+chest_tab2 = sm.stats.Table2x2(chest_array)
+
+print(chest_tab2.summary())
+
+```
+
+## For Ordinal Variables {.smaller}
+
+* When both variables are ordinal, it is useful to compute the strength 
+  (or lack) of any monotone trend association. 
+
+> As the level of $X$ increases, responses on $Y$ tend to increase toward 
+> higher levels, or responses on $Y$ tend to decrease towards lower levels.
+
+*  For instance, perhaps job satisfaction tends to increase as income does. 
+*  Kendall $\tau_b$ is based on the idea of a concordant or discordant pair of subjects.
+
+## Concordant and Discordant Pairs {.smaller}
+
+* A **pair of subjects** is *concordant* if the subject ranked higher on $X$ also 
+  ranks higher on $Y$. 
+* A **pair** is *discordant* if the subject ranking higher on $X$ ranks lower on $Y$.
+* A **pair** is *tied* if the subjects have the same classification on $X$ and/or $Y$.
+
+If we let 
+
+* $C$: number of concordant pairs in a dataset, and
+* $D$: number of discordant pairs in a dataset.
+
+Then if $C$ is much larger than $D$, we would have reason to believe that there 
+is a strong positive association between the two variables. 
+
+## Goodman Kruskal $\lambda$: {.smaller}
+
+1. Goodman-Kruskal $\gamma$ is computed as 
+$$
+\gamma = \frac{C - D}{C + D}
+$$
+
+## Kendall $\tau_b$: {.smaller}
+
+2. Kendall $\tau_b$ is 
+$$
+\tau_b = \frac{C - D}{A}
+$$
+
+where $A$ is a normalising constant that results in a measure that works better
+with ties, and is less sensitive than $\gamma$ to the cut-points defining the
+categories.  $\gamma$ has the advantage that it is more easily interpretable.
+
+* For both measures, values close to 0 indicate a very weak trend, while values 
+close to 1 (or -1) indicate a strong positive (negative) association.
+
+## Job Satisfaction by Income {.smaller}
+
+#### R code 
+
+```{r r-job-1}
+#| warning: false
+#| message: false
+#| echo: false
+x <- matrix(c(1, 3, 10, 6,
+              2, 3, 10, 7,
+              1, 6, 14, 12,
+              0, 1,  9, 11), ncol=4, byrow=TRUE)
+dimnames(x) <- list(c("<15,000", "15,000-25,000", "25,000-40,000", ">40,000"), 
+                    c("Very Dissat.", "Little Dissat.", "Mod. Sat.", "Very Sat."))
+us_svy_tab <- as.table(x)
+
+output <- Desc(x, plotit = FALSE, verbose = 3)
+output[[1]]$assocs
+```
+
+## Job Satisfaction by Income {.smaller}
+
+#### Python code
+
+```{python py-job-1}
+#| echo: false
+from scipy import stats
+
+us_svy_tab = np.array([[1, 3, 10, 6], 
+                      [2, 3, 10, 7],
+                      [1, 6, 14, 12],
+                      [0, 1,  9, 11]])
+
+dim1 = us_svy_tab.shape
+x = []; y=[]
+for i in range(0, dim1[0]):
+    for j in range(0, dim1[1]):
+        for k in range(0, us_svy_tab[i,j]):
+            x.append(i)
+            y.append(j)
+
+stats.kendalltau(x, y)
+```
+
+## Political Association and Gender Barchart {.smaller}
+
+### R code for barchart:
+
+```{r r-pol-3}
+#| fig-align: center
+#| out-width: 65%
+library(lattice)
+barchart(political_tab/rowSums(political_tab), 
+         horizontal = FALSE)
+```
+
+However, the downside is that it does not reflect that the marginal count for 
+males was much less than that for females. 
+
+## Claritin and Nervousness Barchart {.smaller}
+
+### Python code for barchart:
+
+```{python py-claritin-2}
+#| fig-align: center
+#| out-width: 65%
+claritin_prop = claritin_tab/claritin_tab.sum(axis=1).reshape((2,1))
+
+xx = pd.DataFrame(claritin_prop, 
+                  columns=['nervous', 'not_nervous'], 
+                  index=['claritin', 'placebo'])
+
+xx.plot(kind='bar', stacked=True)
+```
+
+
+## Political Association and Gender Mosaic Plot {.smaller}
+
+* A mosaic plot reflects the count in each cell (through the area)
+
+### R code 
+
+```{r r-pol-4}
+#| fig-align: center
+#| out-width: 65%
+mosaicplot(political_tab, shade=TRUE)
+```
+
+## Political Association and Gender Mosaic Plot {.smaller}
+
+### Python code
+
+```{python py-pol-4}
+#| fig-align: center
+#| out-width: 65%
+from statsmodels.graphics.mosaicplot import mosaic
+import matplotlib.pyplot as plt
+
+political_tab = np.asarray([[762,327,468], [484,239,477]])
+mosaic(political_tab, statistic=True, gap=0.05);
+```
+
+## Conditional Density Plots {.smaller}
+
+* When we have one categorical and one quantitative variable, it depends on 
+  which variable is the response, and which is the explanatory variable. 
+* if the response variable is a the categorical one, we should not be making 
+  boxplots. 
+
+## Heart failure records {.smaller}
+
+* Data  contains records on 299 patients who had heart failure. 
+* The data was collected during the follow-up period; each patient had 13 clinical features recorded. 
+* The primary variable of interest was whether they died or not. 
+* Suppose we wished to plot how this varied with age (a quantitative variable):
+
+## Heart failure records {.smaller}
+
+```{r r-cd-1}
+#| fig-align: center
+#| out-width: 65%
+heart_failure <- read.csv("../data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv")
+spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+```
+
+## Heart failure records {.smaller}
+
+```{r r-cd-2}
+#| fig-align: center
+#| out-width: 65%
+cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+```
+
+## Recap {.smaller}
+
+Above, we have only scratched the surface of what is available. If you are keen,
+do read up on
+
+1. Somer's D (for association between nominal and ordinal)
+2. Mutual Information (for association between all types of pairs of categorical variables)
+3. Polychoric correlation (for association between two ordinal variables)
+
+* Also, take note of how log odds ratios, $\tau_b$ and $\gamma$ work:
+  * they range between -1 to 1 (in general), and 
+  * values close to 0 reflect weak association.
+  * Values of $a$ and $-a$ indicate the same *strength*, but different direction of
+    association. 
+* This allows the same intuition that Pearson's correlation does.
+* When you are presented with new metrics, try to understand them by asking 
+  similar questions about them.

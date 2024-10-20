@@ -1,0 +1,324 @@
+---
+title: "Introduction to SAS"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+## Brief History  {.smaller}
+
+* SAS (Statistical Analysis System) is a software that was originally created in
+  the 1960s. 
+* Today, it is widely used by statisticians working in biostatistics
+  and the pharmaceutical industries. 
+* Unlike Python and R, it is a proprietary software. 
+* The full license is quite expensive for a low-usage case such as ours.
+* Thankfully, there is a free web-based version that we can use for our course.
+
+## Registering for a SAS Studio Account  {.smaller}
+
+* The first step is to create a SAS profile: 
+  * https://www.sas.com/profile/ui/#/create
+
+* Once you have verified your account using the email that would be sent to you,
+  * https://welcome.oda.sas.com/
+
+## An Overview of SAS Language  {.smaller} 
+
+* The SAS language is not a fully-fledged programming language like Python is, or
+  even R. 
+* We shall capitalise on the point-and-click interface of SAS Studio in our course. 
+* However, even so, it is good to understand a little about the language.
+
+A SAS program is a sequence of statements executed in order. Keep in mind that:
+
+> Every SAS statement ends with a semicolon.
+
+## Data and Proc Steps  {.smaller}
+
+* SAS programs are constructed from two basic building blocks:  
+  * DATA steps and PROC steps. 
+* A typical program 
+  1. starts with a DATA step to create a SAS data set and then 
+  2. passes the data to a PROC step for processing. 
+
+## Creating and Printing a Dataset  {.smaller}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### One Row Dataset
+
+```{r}
+#| echo: true
+#| eval: false
+DATA distance;
+	Miles = 26.22;
+	Kilometer = 1.61 * Miles;
+
+PROC PRINT DATA=distance;
+RUN;
+```
+:::
+
+::: {.column width="50%"}
+
+![SAS output](../figs/sas_ex-1.png){#fig-sas-3}
+
+:::
+
+::::
+
+## SAS Steps  {.smaller}
+
+* *Data* steps start with the DATA keyword. This is followed by the name for the 
+  dataset. 
+* *Procedures* start with PROC followed by the name of the particular 
+  procedure that you wish to run on the dataset. 
+  * Most SAS procedures have only a handful of possible statements. 
+* A step ends when SAS encounters a new step (marked by a DATA or PROC
+  statement) or a RUN statement.
+
+## Example 2  {.smaller}
+
+### Creating a Dataset Inline
+
+```{r}
+#| echo: true
+#| eval: false
+/*CREATING DATA MANUALLY:; */
+
+DATA ex_1;
+INPUT subject gender $ CA1 CA2 HW $;
+DATALINES;
+10 m 80 84 a
+7 m 85 89 a
+4 f 90 86 b
+20 m 82 85 b
+25 f 94 94 a
+14 f 88 84 c
+;
+
+PROC MEANS DATA=ex_1;
+VAR CA1 CA2;
+RUN;
+```
+
+## Example 2 (cont'd)  {.smaller}
+
+The output for the above code should be as follows:
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![Dataset output](../figs/sas_ex-2a.png){#fig-sas-4}
+
+:::
+
+::: {.column width="50%"}
+
+![Proc output](../figs/sas_ex-2b.png){#fig-sas-4}
+
+:::
+
+::::
+
+## Summary of Steps   {.smaller}
+
+### DATA steps
+
+- begin with DATA statements.
+- read and modify data.
+- create a SAS dataset.
+
+### PROC steps
+
+- begin with PROC statements.
+- perform specific analysis or function.
+- produce reports or results.
+
+## Rules for SAS  Programs  {.smaller}
+
+### For SAS statements
+
+* All SAS statements (except those containing data) must end with a semicolon (;).
+* SAS statements typically begin with a SAS keyword. (DATA, PROC). 
+* SAS statements are not case sensitive, that is, they can be entered in lowercase, 
+  uppercase, or a mixture of the two.
+  * Example : SAS keywords (DATA, PROC) are not case sensitive
+* A delimited comment begins with a forward slash-asterisk (/*) and ends with
+  an asterisk-forward slash (*/). All text within the delimiters is ignored by
+  SAS.
+
+## Rules for SAS  Programs  {.smaller}
+
+### For SAS names
+
+* All names must contain between 1 and 32 characters.
+* The first character appearing in a name must be a letter (A, B, ... Z, a, b, ..., z) 
+  or an underscore ( ). Subsequent characters must be letters, numbers, or underscores. 
+  That is, no other characters, such as $, %, or & are permitted.
+* Blanks also cannot appear in SAS names.
+* SAS names are not case sensitive, that is, they can be entered in lowercase, 
+  uppercase, or a mixture of the two. (SAS is only case sensitive within quotation marks.)
+
+## Rules for SAS  Programs  {.smaller}
+
+### For SAS variables
+
+* If the variable in the INPUT statement is followed by a dollar sign ($), SAS
+  assumes this is a character variable. Otherwise, the variable is considered as a
+  numeric variable.
+
+## UCI Dataset  {.smaller}
+
+### Washington D.C. Bike Rentals 
+
+* It contains information on bike-sharing rentals in Washington D.C. USA for the
+  years 2011 and 2012. 
+* Also includes measurements of weather. 
+* We use a re-coded version of the daily data. 
+* Our dataset can be found on Canvas as `bike2.csv`.
+
+## Uploading and Using Datasets  {.smaller}
+
+1. Create a new library. In SAS, a library is a collection of datasets.
+2. Import your dataset (csv, xlsx, etc.) into the library.
+3. After this, the data will be available for use with the reference name
+   `<library-name>.<dataset-name>`.
+
+## Uploading and Using Datasets (cont'd) {.smaller}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![New library](../figs/sas_library-02.png){#fig-sas-lib-1}
+
+:::
+
+::: {.column width="50%"}
+
+![Upload data](../figs/sas_servers_files-02.png){#fig-sas-lib-2}
+:::
+
+::::
+
+## Common ST2137 Routines  {.smaller}
+
+![Common ST2137 Tasks](../figs/sas_tasks-01.png){#fig-sas-tasks-01}
+
+## Numerical Summaries
+
+### 5-number Summaries  {.smaller}
+
+![Summaries, Bike data](../figs/sas_bike_summaries-01.png){#fig-sas-bike-02}
+
+## Numerical Summaries
+
+### 5-number Summaries  {.smaller}
+
+* The median count is highest for fall, followed by summer, winter
+  and lastly spring. 
+* The spreads, as measured by IQR, are similar across the seasons: 
+  approximately 2000 users. 
+* In the middle 50%, the count distribution for spring is the most right-skewed.
+
+## Scatter Plots {.smaller}
+
+### Casual vs Registered Scatterplot
+
+![Scatter plot, Bike Data](../figs/sas_bike_scatter-01.png){#fig-sas-bike-01}
+
+* We can see that there seem to be two different relationships between the 
+  counts of casual and registered users. 
+* The two relationships correspond to whether it as a working day or not.
+
+## Histograms {.smaller}
+
+### Casual Users Distribution
+
+![Histograms, Bike Data](../figs/sas_bike_hist-01.png){#fig-sas-hist-01}
+
+* we can see that the distribution is right-skewed in both cases. 
+* However, the range of counts for non-working days extends further, to about 3500. 
+
+## Boxplots (Original Scale)  {.smaller}
+
+### Boxplots for Casual Users, by Season
+
+![Boxplots, Bike Data](../figs/sas_bike_boxplot-01.png){#fig-sas-box-01 fig-align=center}
+
+
+## Boxplots (Log scale)  {.smaller}
+
+### Boxplots for Casual Users, by Season
+
+![Boxplots log scale, Bike Data](../figs/sas_bike_boxplot-02.png){#fig-sas-box-02}
+
+* Now, we can observe that the difference within each season, is constant across 
+  seasons. 
+* Because the difference in logarithms is constant, it means that, on the original 
+  scale, it is a constant multiplicative factor that increases counts from 
+  workingday to non-working day.
+
+## QQ-plots  {.smaller}
+
+## Normality Check for Humidity
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![Histogram for humidity](../figs/sas_bike_qq-01.png)
+
+:::
+
+::: {.column width="50%"}
+
+![QQ-plot for humidity](../figs/sas_bike_qq-02.png)
+
+:::
+
+::::
+
+* The plot shows that humidity values are quite close to a Normal distribution, apart 
+  from a single observation on the left.
+
+## Student Performance Dataset  {.smaller}
+
+### $\chi^2$ Test for Independence
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![Observed & Expected Counts](../figs/sas_stud_chisq-01.png){#fig-sas-chisq-01}
+
+:::
+
+::: {.column width="50%"}
+
+![Test statistic, p-value](../figs/sas_stud_chisq-02.png){#fig-sas-chisq-02}
+
+:::
+
+::::
+
+## Measures of Association  {.smaller}
+
+
+### Kendall $\tau$ for `Walc` and `Dalc`
+
+![Walc vs Dalc](../figs/sas_stud_tau-01.png){#fig-sas-tau-01 fig-align="center" width=60%}
+
+

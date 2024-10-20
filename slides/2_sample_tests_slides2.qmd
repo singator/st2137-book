@@ -1,0 +1,557 @@
+---
+title: "2-sample Hypothesis Tests"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+```{r}
+#| echo: false
+library(knitr)
+library(reticulate)
+venv_paths <- read.csv("../venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
+```
+
+## Parametric Tests {.smaller}
+
+* *Parametric* tests are hypothesis tests that assume some form of distribution for
+  the sample to follow. 
+  * Example: the $t$-test, which assumes that the data originate from a Normal
+    distribution. 
+* *Nonparametric* tests are hypothesis tests that do not assume any form
+  of distribution for the sample. 
+* In this section, we cover parametric tests for comparing the difference in mean 
+  between **two** groups. 
+
+## Independent Samples Test - Examples {.smaller}
+
+* An independent samples $t$-test is one where observations in one group 
+  yield *no information* about the observations in the other group. 
+* Independent samples can arise in a few ways:
+  * In an experimental study, study units could be assigned randomly to different
+    treatments, thus forming the two groups.
+  * We could draw a random sample from the population, and
+    then record an explanatory categorical variable on each unit, such as
+    gender.
+  * We could draw a random sample from a group (say smokers), and then a 
+    random sample from another group (say non-smokers). 
+
+## Formal Set-up (Dist. Assumption) {.smaller}
+
+* Suppose that $X_1,X_2,\ldots,X_{n_1}$ are independent observations from group 1,
+  and $Y_1, \ldots Y_{n_2}$ are independent observations from group 2. We
+  assume that 
+
+\begin{eqnarray}
+X_i &\sim& N(\mu_1,\, \sigma^2),\; i=1,\ldots,n_1 \\
+Y_j &\sim& N(\mu_2,\, \sigma^2),\; j=1,\ldots,n_2
+\end{eqnarray}
+
+## Formal Set-up (Hypotheses) {.smaller}
+
+* The null and alternative hypotheses would be 
+
+\begin{eqnarray*}
+H_0: & \mu_1 = \mu_2 \\
+H_1: & \mu_1 \ne \mu_2 \\
+\end{eqnarray*}
+
+## Formal Set-up (Test Statistic) {.smaller}
+
+The test statistic for this test is:
+
+$$
+T_1 = \frac{(\bar{X} - \bar{Y}) - 0 }{s_p\sqrt{1/n_1 + 1/n_2} }
+$$
+where 
+$$
+s^2_p = \frac{(n_1 - 1)s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 -2 }
+$$
+
+* Under $H_0$, the test statistic $T_1 \sim t_{n_1 + n_2 -2}$. 
+* Confidence intervals can be computed as 
+
+$$
+(\bar{X} - \bar{Y}) \pm t_{n_1 + n_2 -2, 1 - \alpha/2} \times s_p\sqrt{1/n_1 + 1/n_2}
+$$
+
+### Abalone Measurements
+
+* Dataset from the UCI machine learning repository.
+* Contains measurements of physical characteristics, along with the gender status. 
+* We derive a sample of 50 measurements of male and female abalone records for use here. 
+* Derived dataset can be found on Canvas.
+
+## Abalone Measurements
+
+### R code 
+
+```{r r-abalone-1}
+abl <- read.csv("../data/abalone_sub.csv")
+x <- abl$viscera[abl$gender == "M"]
+y <- abl$viscera[abl$gender == "F"]
+t.test(x, y)
+```
+
+## Abalone Measurements
+
+### Python code
+
+```{python py-abalone-1a}
+#| echo: false
+import pandas as pd
+import numpy as np
+from scipy import stats
+import statsmodels.api as sm
+```
+
+```{python py-abalone-1b}
+abl = pd.read_csv("../data/abalone_sub.csv")
+
+x = abl.viscera[abl.gender == "F"]
+y = abl.viscera[abl.gender == "M"]
+
+t_out = stats.ttest_ind(y, x)
+ci_95 = t_out.confidence_interval()
+
+```{python py-abalone-1c}
+#| echo: false
+print(f"""
+* The p-value for the test is {t_out.pvalue:.3f}. 
+* The actual value of the test statistic is {t_out.statistic:.3f}.
+* The upper and lower limits of the CI are ({ci_95[0]:.3f}, {ci_95[1]:.3f}).
+""")
+```
+
+## Abalone Measurements
+
+### SAS Output 
+
+When we run the independent samples t-test on SAS, we should observe the following 
+output @fig-sas-abalone-001.
+
+![SAS Abalone, Independent](../figs/sas_abalone_ind_ttest-001.png){#fig-sas-abalone-001 fig-align="center" out-width=60%}
+
+## Abalone data t-test assumptions {.smaller}
+
+::: {.callout-note}
+Only the R code is shown here.
+:::
+
+```{r r-abalone-2}
+#| layout: [[1], [1,1]]
+#| fig-align: center
+#| out-width: 70%
+#| fig-cap: 
+#|   - "Histograms"
+#|   - "QQ-plot for females"
+#|   - "QQ-plot for males"
+
+library(lattice)
+histogram(~viscera | gender, data=abl, type="count")
+qqnorm(y, main="Female Abalones");  qqline(y)
+qqnorm(x, main="Male Abalones");  qqline(x)
+```
+
+## Abalone data t-test assumptions {.smaller}
+
+* We also need to assess if the variances are equal. 
+* In our class, I advocate a simple rule of thumb. 
+
+> If the larger s.d is more than twice the smaller one, than we should not use the equal variance form of the test. 
+
+### R code 
+
+```{r r-abalone-3}
+aggregate(viscera ~ gender, data=abl, sd)
+```
+
+## Abalone data t-test assumptions {.smaller}
+
+### Python code
+
+```{python py-abalone-3}
+abl.groupby('gender').describe()
+```
+
+We would conclude that there is no significant difference between the mean 
+viscera weight of males and females.
+
+## Assessing Normality - Skewness  {.smaller}
+
+* The Normal distribution is symmetric about it's mean. 
+* Asymmetry in our histogram could indicate deviation from Normality. 
+* To quantify this asymmetry, we use *skewness*. 
+
+![Right/Non/Left-Skewed histograms](../figs/summ_data-05.png){#fig-skew fig-align="center"}
+
+## Assessing Normality - Skewness  {.smaller}
+
+* Estimating skewness:
+
+$$
+g_1 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^3}{[\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 ]^{3/2}}
+$$
+
+* A value close to 0 indicates low skewness (i.e. high symmetry). 
+* Positive values correspond to right-skew and negative values to left-skew.
+
+## Assessing Normality - Kurtosis {.smaller}
+
+* Kurtosis measures the thickness of the tails of a distribution, relative to
+  Normal.
+* Large kurtosis implies that the tails are "fatter" than those of a Normal.
+* Small (negative ) values indicate that the tails are "thinner" than those of a Normal.
+* The method of moments estimator is 
+
+$$
+g_2 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^4}{[\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 ]^2} - 3
+$$
+
+## Hypothesis tests for Normality {.smaller}
+
+* The Shapiro-Wilk test and the Kolmogorov-Smirnov test are formal hypothesis
+  tests with the following hypotheses:
+
+\begin{eqnarray*}
+H_0: & \text{ Data follows a Normal distribution} \\
+H_1: & \text{ Data follows a Normal distribution} 
+\end{eqnarray*}
+
+* You can read more about them in the references, but take note that applying
+  multiple tests leads to a higher Type I error. 
+* Moreover, a large small sample size will almost always reject $H_0$ because 
+  small deviations are being classed as significant. 
+* I advocate a more graphical approach in assessing Normality.
+
+## Abalone Data Tests for Normality {.smaller}
+
+### R code 
+
+```{r r-abalone-4}
+#| collapse: true
+library(DescTools)
+aggregate(viscera ~ gender, data=abl, Skew, method=1)
+
+aggregate(viscera ~ gender, data=abl, Kurt, method=1)
+
+# Shapiro-Wilk Test only for males:
+shapiro.test(x)
+```
+
+## Abalone Data Tests for Normality {.smaller}
+
+### Python code
+
+```{python py-abalone-4}
+#| collapse: true
+abl.groupby("gender").skew()
+
+for i,df in abl.groupby('gender'):
+    print(f"{df.gender.iloc[0]}: {df.viscera.kurt():.4f}")
+    
+stats.shapiro(y)
+```
+
+## Abalone Data Tests for Normality {.smaller}
+
+### SAS output 
+
+![SAS Normality tests](../figs/sas_abalone_normality_tests.png){#fig-sas-norm-001}
+
+## Paired Sample Test Inro {.smaller}
+
+* The data in a paired sample test also arises from two groups, but the two groups 
+  are not independent. 
+* Common scenario: when the same subject receives both treatments. 
+  * His/her measurement under each treatment gives rise to a measurement in each group. 
+  * However, the measurements are no longer independent.
+
+## Paired Sample Example Scenario {.smaller}
+
+### Reaction time of drivers
+
+* Consider a study on 32 drivers sampled from a driving school. 
+* Each driver is placed in a simulation of a driving situation, where a target flashes 
+  red and green at random periods. 
+* Whenever the driver sees red, he/she has to press a brake button.
+* For each driver, the study is carried out twice 
+  * at one of the repetitions, the individual carries on a phone conversation 
+  * at the other, the driver listens to the radio.
+* Each measurement falls under one of two groups - "phone" or "radio", but
+  measurements are related.
+
+## Formal Set-up (Assumptions) {.smaller}
+
+* Suppose that we observe $X_1, \ldots , X_n$ independent observations from group
+  1 and $Y_1, \ldots, Y_n$ independent observations from group 2. 
+* However the pair $(X_i, Y_i)$ are correlated.
+
+\begin{eqnarray}
+X_i &\sim& N(\mu_1,\, \sigma_1^2),\; i=1,\ldots,n \\
+Y_j &\sim& N(\mu_2,\, \sigma_2^2),\; j=1,\ldots,n
+\end{eqnarray}
+
+* We let $D_i = X_i - Y_i$ for $i=1, \ldots, n$. It follows that 
+$$
+D_i \sim N(\mu_1 - \mu_2,\; \sigma^2_1 + \sigma^2_2 - 2 cov(X_i, Y_i))
+$$
+
+## Formal Set-up (Hypotheses) {.smaller}
+
+* The null and alternative hypotheses are stated in terms of the distribution of
+  $D_i$:
+
+\begin{eqnarray*}
+H_0: & \mu_1 - \mu_2  = 0 \\
+H_1: & \mu_1 - \mu_2 \ne 0
+\end{eqnarray*}
+
+## Formal Set-up (Test Statistic) {.smaller}
+
+The test statistic for this test is:
+
+$$
+T_2 = \frac{\bar{D} - 0 }{s / \sqrt{n} }
+$$
+where 
+$$
+s^2 = \frac{\sum_{i=1}^n (D_i - \bar{D})^2}{(n - 1)}
+$$
+
+* Under $H-0$, the test statistic $T_2 \sim t_{n - 1}$. 
+* A confidence interval for the mean of the differnce can be computed as
+
+$$
+\bar{D} \pm t_{n - 1, 1 - \alpha/2} \times s / \sqrt{n}
+$$
+
+## Heart Rate Example {.smaller}
+
+* An individual recorded his heart rate before using a treadmill (baseline) and 
+  5 minutes after use, for 12 days in 2006. 
+
+### R code 
+
+```{r r-hr-1}
+hr_df <- read.csv("../data/health_promo_hr.csv")
+before <- hr_df$baseline
+after <- hr_df$after5
+t.test(before, after, paired=TRUE)
+```
+
+## Heart Rate Example {.smaller}
+
+### Python code
+
+```{python py-hr-1}
+hr_df = pd.read_csv("../data/health_promo_hr.csv")
+#hr_df.head()
+
+stats.ttest_rel(hr_df.baseline, hr_df.after5)
+```
+
+## Heart Rate Example {.smaller}
+
+### SAS Output
+
+![SAS HR Paired t-test](../figs/sas_hr_paired_ttest.png)
+
+## Additional plots from SAS {.smaller}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![Paired Profiles](../figs/sas_hr_paired_profiles.png)
+
+::: 
+
+::: {.column width="50%"}
+
+![Agreement](../figs/sas_hr_agreement.png)
+
+::: 
+
+::::
+
+## Introduction to Non-parametric Tests {.smaller}
+
+* What to do if distributional assumptions of the $t$-test are not met?
+  1. Transform the data (if it was skewed) to make the histogram symmetric and thus closer to a Normal.
+  2. Use robust techniques, which keep the assumptions to a minimum, 
+     e.g. only requiring the underlying distribution to be symmetric.
+  3. Use non-parametric techniques, where almost **no** distributional
+     assumptions are made about the data.
+* In this section, we cover the non-parametric analogues for independent and paired 
+  2-sample tests.
+
+## Independent Samples Test  {.smaller}
+
+* The non-parametric analogue of the independent 2-sample test is the Wilcoxon
+  Rank Sum (WRS) test (equivalent to the Mann-Whitney test). 
+
+## Formal Set-up (Assumptions) {.smaller}
+
+* Suppose that we observe $X_1, \ldots , X_{n_1}$ independent observations 
+  from group 1 (with distribution $F$) and $Y_1, \ldots, Y_{n_2}$ independent 
+  observations from group 2 (with distribution $G$). 
+
+## Formal Set-up (Hypotheses) {.smaller}
+
+The hypotheses associated with this test are:
+
+\begin{eqnarray*}
+H_0 &: & F = G \\
+H_1 &: & F(x) = G(x - \Delta), \Delta \neq 0
+\end{eqnarray*}
+
+* The alternative hypothesis is that the distribution of group 1 
+  is a location shift of the distribution of group 2.
+
+## Formal Set-up (Test Statistic) {.smaller}
+
+* The WRS test begins by pooling the $n_1 + n_2$ data points and ranking them. 
+* The smallest observation is awarded rank 1, and the largest observation is awarded 
+  rank $n_1 + n_2$, assuming there are no tied values.
+* Compute $R_1$, the sum of the ranks in group 1. 
+* Note that the average rank in the combined sample is 
+$$
+\frac{n_1 + n_2 + 1}{2}
+$$
+* Under $H_0$, the expected rank sum of group 1 is 
+$$
+E(R_1) = n_1 \times  \frac{n_1 + n_2 + 1}{2}
+$$
+
+## Formal Set-up (Test Statistic) {.smaller}
+
+* Thus the test statistic is a comparison of $R_1$ with the above expected value:
+
+$$
+W_1 = \begin{cases}
+\frac{\left|R_1 - \frac{n_1(n_1+n_2+1)}{2} \right| - \frac{1}{2}}{\sqrt{n_1n_2(n_1 + n_2 +1)/12}}, & R_1 \ne \frac{n_1 (n_1 + n_2 + 1)}{2} \text{ and no ties} \\
+\frac{\left|R_1 - \frac{n_1(n_1+n_2+1)}{2} \right| - \frac{1}{2}}{\sqrt{n_1n_2 \left( n_1 + n_2 +1 - \frac{\sum_{i=1}^g t_i (t_i^2-1)}{(n_1+n_2)(n_1+n_2-1)} \right) /12}}, & R_1 \ne \frac{n_1 (n_1 + n_2 + 1)}{2} \text{ and ties present} \\
+0, & R_1 = \frac{n_1 (n_1 + n_2 + 1)}{2} 
+\end{cases}
+$$
+
+## Formal Set-up (Assumptions) {.smaller}
+
+* The test above should only be used if both $n_1$ and $n_2$ are at least 10, and if 
+  the observations (not the ranks) come from an underlying continuous distribution. 
+* If these assumptions hold, then the test statistic $W_1$ follows a $N(0,1)$ distribution.
+
+## WRS Example {.smaller}
+
+### R code 
+
+```{r r-abalone-5}
+wilcox.test(x, y)
+```
+
+## WRS Example {.smaller}
+
+### Python code
+
+```{python py-abalone-5}
+stats.mannwhitneyu(y, x)
+```
+
+## WRS Example {.smaller}
+
+### SAS Output
+
+The SAS output can be seen in @fig-sas-wrs-001.
+
+![SAS Output, Wilcoxon Rank Sum](../figs/sas_abalone_wrs.png){#fig-sas-wrs-001}
+
+Since we know the number of observations in each group to be more than 10, the
+approximation holds. Comparing to the parametric test, observe that we have a
+similar conclusion.
+
+## Paired Samples Test Introduction
+
+* The analogue of the paired sample $t$-test is known as the Wilcoxon Signed Rank Test
+  (WST).
+
+## Formal Set-up (Assumptions) {.smaller}
+
+* Again, suppose that we observe $X_1, \ldots , X_n$ observations from group 1 and
+  $Y_1, \ldots, Y_n$ observations from group 2. 
+* Groups 1 and 2 are paired (or correlated) in some way.
+
+## Formal Set-up (Hypotheses) {.smaller}
+
+* Compute $D_i = X_i - Y_i$. The null hypothesis is that
+
+\begin{eqnarray*}
+H_0 &: & \text{median of $D_i$ is 0.} \\
+H_1 &: & \text{median of $D_i$ is not 0.}
+\end{eqnarray*}
+
+## Formal Set-up (Test Statistic) {.smaller}
+
+* Begin by ranking the $|D_i|$. 
+* Ignoring pairs for which $D_i = 0$, we rank the remaining observations from 
+  1 for the pair with the smallest absolute value, up to $n$ for the pair with 
+  the largest absolute value (assuming no ties).
+* We then compute $R_1$, the sum of ranks for the positive $D_i$. 
+* Under $H_0$, it can be shown that 
+
+$$
+E(R_1) = m(m+1)/4
+$$
+where $m$ is the number of of non-zero differences.
+
+## Formal Set-up (Test Statistic) {.smaller}
+
+Thus the test statistic is a comparison of $R_1$ with the above expected value:
+
+$$
+W_2 = \begin{cases}
+\frac{\left|R_1 - \frac{n(n + 1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n + 1)/24}}, & R_1 \ne \frac{n(n + 1)}{4} \text{ and no ties} \\
+\frac{\left|R_1 - \frac{n(n+1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n+1)/(24 - 
+\sum_{i=1}^g (t^3_i - t_i) / 48 )}}, & R_1 \ne \frac{n (n + 1)}{4} \text{ and ties present} \\
+0, & R_1 = \frac{n (n + 1)}{4} 
+\end{cases}
+$$
+where $g$ denotes the number of tied groups, and $t_i$ refers to the number of 
+differences with the same absolute value in the $i$-th tied group.
+
+## Formal Set-up (Assumptions) {.smaller}
+
+* If the number of non-zero $D_i$'s is at least 16, then the test statistic
+  $W_2$ follows a $N(0,1)$ distribution approximately. 
+
+## WSR Example {.smaller}
+
+### R code
+
+```{r r-hr-5}
+wilcox.test(before, after, paired = TRUE, exact = FALSE)
+```
+
+## WSR Example {.smaller}
+
+### Python code
+
+```{python py-hr-5}
+stats.wilcoxon(hr_df.baseline, hr_df.after5, 
+               correction=True, method='approx')
+```
+
+## WSR Example {.smaller}
+
+### SAS Output 
+
+![SAS Signed Rank Test](../figs/sas_hr_wilcox.png)

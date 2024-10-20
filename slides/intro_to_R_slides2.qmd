@@ -1,0 +1,575 @@
+---
+title: "Introduction to R"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+```{r}
+#| echo: false
+library(knitr)
+```
+
+## History of R {.smaller}
+
+*  R originated from the S language, created by Rick Becker, John Chambers, and Allan Wilks, 
+   with a focus on statistical modeling, data exploration, and advanced calculations.
+*  S was designed to enable detailed statistical analysis, facilitate data exploration through 
+   sorting and plotting, and function as a complex arithmetic and programming tool.
+*  Due to the high cost of S's evolved version, S-PLUS, Ross Ihaka and Robert Gentleman at the University of Auckland developed R as a more accessible alternative.
+*  R was first released on 29 Feb 2000, with its latest version as of December 2023 being 4.3.2.
+
+::: {.callout-important}
+For our class, please ensure that you have version 4.4.1 or later.
+:::
+
+## Rstudio interface {.smaller}
+
+![Rstudio interface](../figs/rstudio_gui.PNG){fig-alt="Rstudio GUI" fig-align="center" width=40%} 
+
+* Make sure that you install both R and Rstudio:
+  * <https://cran.r-project.org/>
+  * <https://posit.co/downloads/>
+
+## Basic Objects in R {.smaller}
+
+* **Vector**: A set of elements of the same mode (logical; numeric; character).
+* **Matrix**: A set of elements appearing in rows and columns, where the
+elements are of the same mode.
+* **Dataframe**: This is similar to the matrix object in that it is
+2-dimensional. However, columns in a dataframe can have different modes. 
+* **List**: A list is a generalization of a vector  -- it represents a collection 
+of data objects.
+
+## Vectors with `c()` {.smaller}
+
+To create a vector in R, the simplest way is to use the combine function `c()`.
+
+```{r r-data-struc-1}
+#| echo: true
+
+#creating a vector of numbers:
+numeric_vec <- c(2,4,6,8,10)
+numeric_vec
+
+# creating a vector of strings/characters:
+string_vec <-c("weight", "height", "gender")
+string_vec
+
+#creating a Boolean vector (T/F):
+logical_vec <- c(TRUE, TRUE, FALSE)
+logical_vec
+```
+
+## Repeating with `rep()` {.smaller}
+
+```{r r-data-struc-2}
+#| echo: true
+r1 <- rep(2,3)
+r1
+
+r2 <- rep(c(1,2),3)
+r2
+
+r3 <- rep(c(6,3),c(2,4))
+r3
+
+r4 <- rep(string_vec, 2)
+r4
+```
+
+## Generating sequences with `seq()` {.smaller}
+
+```{r r-data-struc-3}
+#| echo: true
+seq(from=2, to=10, by=2)
+
+seq(from=2, to=10, length = 5)
+
+seq(2, 5, 0.8)
+
+seq(2, 5, 0.8) * 2
+```
+
+If you only need to create a vector of integers that increase by 1, you do not
+even need `seq()`. The `:` colon operator will handle the task.
+
+```{r r-data-struc-4}
+#| echo: true
+s1 <- 2:5
+s1
+```
+
+## Creating Matrices 
+
+```{r r-data-struc-5}
+#| echo: true
+v <- c(1:6)
+m1 <- matrix(v, nrow=2, ncol=3)
+m1
+
+m2 <- matrix(v, nrow=2, ncol=3, byrow=TRUE)
+m2
+```
+
+## Adding Rows/Columns
+
+```{r r-data-struc-6}
+#| echo: true
+a <- c(1,2,3,4)
+b <- c(5,6,7,8)
+ab_row <- rbind(a,b)
+ab_row
+
+ab_col <- cbind(ab_row, c(9,10))
+ab_col
+```
+
+## Dataframes
+
+A datafame is a tabular object, like a matrix, but the columns can be of
+different types; some can be numeric and some can be character, for instance. 
+
+Think of a dataframe as an object with rows and columns: 
+
+* The rows contain different **observations or measurements**;
+* The columns contain the values of different **variables**.
+
+## Tidy Data {.smaller}
+
+Consider an experiment where there are three treatments (control, pre-heated and
+pre-chilled), and two measurements per treatment. The response variable is store
+in the following dataframe:
+
+```{r}
+#| echo: false
+control <- c(6.1, 5.9)
+pre_heated <- c(6.3, 6.2)
+pre_chilled <- c(7.1, 8.2)
+untidy1 <- data.frame(Control = control, 
+                      Pre_heated = pre_heated,
+                      Pre_chilled = pre_chilled)
+untidy1
+```
+
+## Tidy Data {.smaller}
+
+The above format is probably convenient for recording data. However, the
+response variable has been spread across three columns. The *tidy* version of
+the dataset is:
+
+```{r}
+#| echo: false
+treatment <- rep(c('control', 'pre_heated', 'pre_chilled'), each=2)
+response <- c(control, pre_heated, pre_chilled)
+tidy1 <- data.frame(Response = response, Treatment= treatment)
+tidy1
+```
+
+The second version is more amenable to computing conditional summaries,
+making plots and for modeling in R.
+
+## Creating dataframes
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+* From matrices, using `as.data.frame`:
+
+```{r r-data-struc-7}
+#| echo: true
+df1 <- as.data.frame(m1)
+df1
+```
+
+:::
+
+::: {.column width="50%"}
+
+* From raw vectors:
+
+```{r r-data-struc-8}
+#| echo: true
+a <- c(11,12)
+b <- c(13,14)
+df2 <- data.frame(col1 = a, col2 = b)
+df2
+```
+
+:::
+
+::::
+
+## Creating and accessing lists
+
+* Lists are collections of objects.
+* The objects can be vectors of varying lengths They can even be lists
+  themselves. 
+
+```{r}
+#| echo: true
+ls1 <- list(A=seq(1, 5, by=2), B=seq(1, 5, length=4))
+ls1
+
+ls1[[2]]
+
+ls1[["B"]]
+
+ls1$A
+```
+
+## Extracting $p$-values {.smaller}
+
+The `iris` dataset is a very famous dataset that comes with R. It contains 
+measurements on the flowers of three different species. Let us conduct a 2-sample
+$t$-test, and extract the $p$-value.
+
+```{r}
+#| echo: true
+setosa <- iris$Sepal.Length[iris$Species == "setosa"]
+virginica <- iris$Sepal.Length[iris$Species == "virginica"]
+
+t_test_out <- t.test(setosa, virginica)
+str(t_test_out) 
+```
+
+## Extracting $p$-values {.smaller}
+
+`str( )` prints the *structure* of an R object. From the output above, we can
+tell that the output object is a list with 10 elements. The particular element
+we need to extract is `p.value`.
+
+```{r}
+#| echo: true
+t_test_out$p.value
+```
+
+## Reading Data into R
+
+* Common functions:
+  * `read.table()`
+  * `read.csv()`
+
+Things to look out for:
+
+* Are there column names in the first row, or does the data actually begin
+  in line 1?
+* Is it spaces or commas that separate columns?
+* Are there trailing values in the last few lines of the file?
+
+## With and without header
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r r-data-struc-9}
+#| echo: true
+data1 <- read.table("../data/crab.txt")
+head(data1)
+```
+:::
+
+::: {.column width="50%"}
+```{r r-data-struc-10}
+#| echo: true
+data1 <- read.table("../data/crab.txt", header=TRUE)
+head(data1)
+```
+:::
+
+::::
+
+## Using Column Names
+
+```{r r-data-struc-11}
+#| echo: true
+varnames <- c("Subject", "Gender", "CA1", "CA2", "HW")
+data2 <- read.table("../data/ex_1.txt", header = FALSE,  
+                    col.names = varnames)
+data2
+```
+
+## Using `read.csv()`
+
+
+```{r r-data-struc-12}
+#| echo: true
+data3 <- read.csv("../data/ex_1_comma.txt",  header = FALSE)
+data3
+```
+
+## Accessing Dataframes
+
+* Use rectangular brackets, along with a comma inside these brackets to distinguish
+  the row and column specifiers.
+* Access all rows:
+```{r r-access-1}
+#| echo: true
+data3[, 2:4]
+```
+* To retrieve a subset of rows:
+```{r r-access-2}
+#| echo: true
+data3[1:3, ]
+```
+
+## Accessing Dataframes
+
+* Individual columns with `$` operator; retrieve particular rows with logical
+  operator.
+
+```{r r-access-3}
+#| echo: true
+data2[data2$Gender == "M", ]
+```
+* Combine logical operators with:
+```{r r-access-4}
+#| echo: true
+data2[data2$Gender == "M" & data2$CA2 > 85, ]
+```
+
+## Logical operators in R: {.smaller}
+
+1. `<`: less than
+2. `>`      : greater than                 
+3. `<=`     : less than or equal to        
+4. `>=`     : greater than or equal to     
+5. `==`     : equal to                     
+6. `!=`     : not equal to                 
+7. `x : y`  : (vectorised) OR              
+8. `x & y`  : (vectorised) AND             
+
+## Creating New Columns
+
+* The `$` operator is both a getter and a setter
+
+```{r r-access-5}
+#| echo: true
+data2$id <- 1:NROW(data2)
+```
+
+## Reordering Dataframes:
+
+* Ascending/descending order on CA1:
+
+```{r r-access-6}
+#| echo: true
+data2[order(data2$CA1), ]
+
+# arranges in reverse order:
+#| echo: true
+data2[rev(order(data2$CA1)), ] 
+```
+
+## General structure of while- and for-loops {.smaller}
+
+### While Loops
+
+The general syntax for a `while` loop is as follows:
+
+```{r}
+#| eval: false
+#| echo: true
+while( <logical condition> ) {
+  R expressions
+  ...
+}
+
+```
+
+## General structure of while- and for-loops {.smaller}
+
+### While Loops
+
+Here is an example of a `while` loop that increments a value until it reaches
+10.
+
+```{r loops-1}
+#| echo: true
+x <- 0 
+S <- 0
+while(x<=10) {
+  S <- S + x  
+  x <- x + 1
+}
+S
+```
+
+## For Loops
+
+The general syntax for a `for` loop is as follows:
+
+```{r}
+#| echo: true
+#| eval: false
+for(<index> in <set> ) {
+  R expressions
+  ...
+}
+```
+
+## For Loops
+
+The "set" can be a sequence generated by the colon operator, or it can be any 
+vector. Here is the same code from the `while` loop. Notice that `x` does 
+not have to be initialised.
+
+```{r loops-2}
+#| echo: true
+S <- 0
+for(x in 1:10){
+  S <- S + x
+}
+S
+```
+
+## While Loop Example
+
+As a second example, consider these lines of R code, which prints out all
+squares of integers from 1 to 5. 
+
+```{r loops-3}
+x <- 0            
+test <- TRUE 
+
+while(test) {
+  x <- x+1 
+  test <- x<6
+  cat(x^2, test, "\n") 
+}
+```
+
+## Printing statements with `cat()`
+
+* This can be very helpful in debugging our code. 
+
+```{r cat-1}
+cat("The current number is", x^2, "\n") 
+```
+
+* The argument `"\n"` instructs R to print a newline character after the
+  strings.
+
+## Redirecting output to a file
+
+When we are running a job in the background, we may want the output to print to
+a file so that we can inspect it later at our convenience. 
+
+```{r sink-1}
+sink("../data/datasink_ex1.txt")      # turn the sink on
+x <- 0            
+test <- TRUE 
+
+while(test) {
+  x <- x+1 
+  test <- isTRUE(x<6)  
+  cat(x^2, test, "\n")             # This will be written to the file.
+}
+
+sink()                             # turn the sink off 
+```
+
+## Saving Data to a File 
+
+```{r write-csv-1}
+write.csv(data2, "../data/ex_1_with_IQ.csv")
+```
+
+## Defining our own function
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r user-fn-1}
+#| eval: false
+fn_name <- function(arguments) {
+  R expressions
+  ...
+  Returned object
+
+}
+```
+:::
+
+::: {.column width="50%"}
+```{r user-fn-2}
+circumference <- function(r) {
+  2*pi*r
+}
+circumference(1.3)
+```
+
+:::
+
+::::
+
+## Getting Help
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+* To access the help page of a particular function, use the following command:
+```{r misc-1}
+#| eval: false
+?mean
+```
+
+:::
+
+::: {.column width="50%"}
+
+* If you are not sure about the name of the function, you can use the following 
+fuzzy search operator 
+
+```{r misc-2}
+#| eval: false
+??mean
+```
+:::
+
+::::
+
+## Installing Packages
+
+* To install one of these packages, you can use `install.packages()`:
+
+```{r install-1}
+#| eval: false
+install.packages("stringr")
+```
+
+* Once the installation is complete, we still need to *load* the package:
+
+```{r install-2}
+#| eval: false
+library(stringr)
+```
+
+* To access a list of all available functions from a package, use:
+```{r install-3}
+#| eval: false
+help(package="stringr")
+```
+
+## Further Readings
+
+* We will not be using tidyverse
+* Do pay attention to `apply` function
+
+
+## Heads-Up on Differences with Python
+
+* The colon operator in R is not a slice operator (like in Python)
+* A list in R is similar to Python in that it is a generic collection, but 
+  accessing the elements is done with a `$` notation.
+* The assignment operator in R is `<-`, but in Python it is `=`.
+* To create vectors in R, you need to use `c( )`.

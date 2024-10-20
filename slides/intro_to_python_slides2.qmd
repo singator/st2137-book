@@ -1,0 +1,269 @@
+---
+title: "Introduction to Python"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+```{r}
+#| echo: false
+library(knitr)
+library(reticulate)
+venv_paths <- read.csv("../venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
+```
+
+## History of Python {.smaller}
+
+* Python is a general purpose language. It does not have be compiled.
+* It was originally conceived back in the 1980s by Guido van Rossum at Centrum
+Wiskunde & Informatica (CWI) in the Netherlands.
+* Python reached version 1.0 in January 1994. Python 2.0 was released on October
+16, 2000. Python 3.0 was released on 3 December 2008.
+* scikit-learn, NLTK, tensorflow, keras are all in Python
+* Open-source 
+
+## Lists, Tuples and Dictionaries {.smaller}
+
+
+* **Lists**, which are defined with [ ]. Lists are mutable.
+* **Tuples**, which are defined with ( ). Tuples are immutable.
+* **Dictionaries**,  which are defined with { }. Dictionaries have keys and 
+  items. They are also mutable.
+
+## Mutable and Immutable {.smaller}
+
+```{python mutable-1}
+x = [1, 3, 5, 7, 8, 9, 10]
+```
+
+The following is OK, because `x` is a list, and hence mutable:
+
+```{python mutable-1a}
+x[3] = 17     
+print(x)  
+```
+
+The following will return an error, because `x_tuple` is a tuple, 
+and hence immutable:
+
+```{python mutable-2}
+#| eval: false
+
+x_tuple = (1, 3, 5, 6, 8, 9, 10)
+x_tuple[3] = 17 
+```
+
+## Creating Lists, Tuples and Dictionaries
+
+Here is how we create lists, tuples and dictionaries.
+
+```{python create-obj}
+x_list = [1, 2, 3]
+x_tuple = (1, 2, 3)
+x_dict = {'a': 1, 'b': 2, 'c': 3} # access with x_dict['a']
+```
+
+## Slice Operator in Python {.smaller}
+
+* In general, the syntax is `<list-like object>[a:b]`, where `a` and `b` are integers. 
+* Such a call would return the elements at indices `a`, `a+1` until `b-1`. 
+* Take note that the end point index is not included.
+
+```{python slice-1}
+char_list = ['P', 'y', 't', 'h', 'o', 'n']
+char_list[0]           # returns first element
+char_list[-1]          # returns last element
+len(char_list)         # returns number of elements in list-like object.
+char_list[::2]         # from first to last, every 2 apart.
+```
+
+## Mnemonic for Slice Operator
+
+![Positive and negative indices](../figs/python_slice.png){fig-alt="Python slice" fig-align="center"}
+
+## Numpy Arrays
+
+
+```{python np-1}
+import numpy as np
+
+array1 = np.array([1, 2, 3, 4, 5])
+array2 = np.array([6, 7, 8, 9, 10])
+matrix1 = np.array([array1, array2])
+print(matrix1)
+```
+
+## Slice and Numpy 
+
+The slice operator can then be used in each dimension of the matrix to subset it. 
+
+```{python np-2}
+matrix1[0, 0::3]       # returns first row, columns 1 and 4
+matrix1[1, 1:3]        # returns second row, columns 2 and 3
+```
+
+## Methods for Numpy Arrays
+
+
+```{python np-3}
+# To obtain the dimensions of an array:
+matrix1.shape
+# To transpose a 2-D array
+matrix1.T
+```
+
+## Adding Rows and Columns to an Array
+
+* To combine arrays, we use the functions `vstack` and `hstack`.
+
+```{python np-4}
+np.vstack([matrix1, array1])
+
+np.hstack([array1.reshape((5,1)), 
+           array2.reshape((5,1)),
+           matrix1.T])
+```
+
+## Pandas DataFrames
+
+
+```{python pd-1}
+import pandas as pd
+
+data = {'X': [1,2,3,4,5,6], 'Y': [6,5,4,3,2,1]}
+df = pd.DataFrame(data, columns =['X', 'Y'])
+print(df)
+```
+
+## Extracting Columns from Dataframes 
+
+* Here is how we can extract a single column from the dataframe. 
+* The resulting object is a pandas Series
+
+```{python pd-2}
+col_x = df.X
+col_x[0:3]
+```
+
+## Specifying argument for header:
+
+```{python read-1}
+data1 = pd.read_table('../data/crab.txt', header=0, 
+                      delim_whitespace=True)
+data1.head()
+```
+
+## Adding Column names:
+
+```{python read-2}
+varnames = ["Subject", "Gender", "CA1", "CA2", "HW"]
+data2 = pd.read_table('../data/ex_1.txt', header=None,  
+                      names=varnames, delim_whitespace=True)
+data2
+```
+
+## Subsetting DataFrames with Pandas
+
+When subsetting them, we have to add either 
+
+* `.loc` or 
+* `.iloc`, 
+
+and use it with square brackets.
+
+The `.loc` notation is used when we wish to index rows and columns according 
+to their names. The general syntax is `<DataFrame>.loc[ , ]`. A slice operator 
+can be used for each row subset and column subset to be retrieved.
+
+## Accessing with `.loc`
+
+```{python subset-1}
+# retrieve rows 0,1,2 and columns from color to width
+data1.loc[0:2, 'color':'width']
+
+# retrieve every second row starting from row 0 until row 5, and all columns
+data1.loc[0:5:2, ]
+```
+
+## Accessing with `.iloc`
+
+The general syntax is similar; try this and observe the difference with `.loc`.
+
+```{python subset-2}
+data1.iloc[0:2, 0:2]
+```
+
+## Subsetting with logical Series
+
+```{python subset-3}
+data2[data2.Gender == "M"]
+
+data2[(data2.Gender == "M") & (data2.CA2 > 85)]
+```
+
+## General syntax for loops
+
+* Python iterates very welll.
+* Here is the general syntax:
+
+```{python iter-1}
+for i in x:
+  print(f"The current element is {i}.")
+```
+
+
+## Example of Looping over Dictionaries
+
+```{python iter-2}
+dict1 = {'holmes': 'male', 'watson': 'male', 'mycroft': 'male', 
+         'hudson': 'female', 'moriarty': 'male', 'adler': 'female'}
+# dict1['hudson']
+
+for x in dict1.keys():
+    print(f"The gender of {x} is {dict1[x]}")
+```
+
+## Equivalent to R code earlier.
+
+```{python iter-3}
+x = 0          
+test = True 
+
+while test:
+    x += 1  
+    test = x < 6
+    print(f"{x**2}, {test}")
+```
+
+## Creation syntax
+
+```{python user-fn-1}
+#| eval: false
+def fn_name(arguments):
+  Python statements
+  ...
+  Returned object
+```
+
+## User-defined Function
+
+Here is the same function as earlier, computing the circumference of a circle 
+with a given radius.
+
+```{python user-fn-2}
+import math
+
+def circumference(radius):
+    return 2 * math.pi * radius 
+
+circumference(1.3)
+```

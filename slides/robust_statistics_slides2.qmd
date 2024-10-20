@@ -1,0 +1,475 @@
+---
+title: "Robust statistics"
+format: 
+  beamer:
+    aspectratio: 169
+    theme: Boadilla
+    navigation: empty
+    colortheme: lily
+    footer: "ST2137-2420"
+
+execute:
+  echo: true
+---
+
+```{r}
+#| echo: false
+library(knitr)
+library(reticulate)
+venv_paths <- read.csv("../venv_paths.csv")
+id <- match(Sys.info()["nodename"], venv_paths$nodename)
+use_virtualenv(venv_paths$path[id])
+```
+
+## Traditional Approaches {.smaller}
+
+* Introductory stats usually assume data is Normally distributed.
+* However, real data deviates from this in a few important ways:
+  * Heavier tails than a Normal distribution
+  * Data could be skewed (i.e. non-symmetric)
+  * Data could have extreme values.
+* It is common to see analysts drop points that seem anomalous and proceed with
+  remaining data.
+
+## Impact of Assumptions  {.smaller}
+
+* Inferential methods will have lower power.
+* Removal of points leads to biased inference.
+* Large values lead to wider confidence intervals
+
+### Robust methods are one solution:
+
+* Robust methods are statistical methods that are *robust* to assumption of
+  Normality.
+* They are sub-optimal if the data truly are Normal, but quickly outperform the 
+  traditional methods as soon as the distribution shifts from Normality.
+
+## Notation  {.smaller}
+
+Suppose we have $n$ i.i.d observations $X_i$ from a continuous pdf $f$. 
+
+* $q_{f,p}$ will refer to the $p$-th quantile of $f$, i.e. 
+$$
+P( X \le q_{f,p}) = p
+$$
+* For standard Normal quantiles, we use $z_p$.
+$$
+\Phi(z_p) = P( Z \le z_p) = p
+$$
+* Denote the order statistics from the sample with $X_{(i)}$:
+$$
+X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
+$$
+
+## Datasets (1) {.smaller}
+
+### Copper in Wholemeal Flour
+
+```{r cu_1}
+#| fig-cap: "Copper measurements dataset"
+#| fig-align: center
+#| out-width: "50%"
+#| echo: false
+#| warning: false
+library(MASS)
+hist(chem, breaks = 20)
+#sort(chem)
+mean(chem)
+```
+
+## Datasets (1) {.smaller}
+
+### Copper in Wholemeal Flour
+
+Although 22 out of the 24 points are less than 4, the mean is 4.28. This statistic
+is clearly being affected by the largest two values. Removing them would yield a 
+summary statistic that is more representative of the majority of observations.
+This topic is about techniques that will work well even in the presence of such 
+large anomalous values.
+
+## Datasets (2)  {.smaller}
+
+### Self-awareness Dataset
+
+```{r self_1}
+#| fig-cap: "Self-awareness study timing"
+#| fig-align: center
+#| out-width: "50%"
+#| echo: false
+#| warning: false
+awareness <- c(77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 299, 306,
+               376, 428, 515, 666, 1310, 2611)
+hist(awareness, breaks=10)
+mean(awareness)
+```
+
+## Datasets (2)  {.smaller}
+
+### Self-awareness Dataset
+
+Just like the earlier, this data too is highly skewed to the right. The 
+mean of the full dataset is larger than the 3rd quartile!
+
+## Example of Robust Linear Regression {.smaller}
+
+![From Tutorial 1](../figs/robust_lm_eg.png){fig-align="center" width=80%}
+
+## Asymptotic Relative Efficiency (ARE)  {.smaller}
+
+* Consider two estimators of parameter $\theta$: $\tilde{\theta}$ and $\hat{\theta}$.
+* The ARE of $\tilde{\theta}$ relative to $\hat{\theta}$ is
+
+$$
+ARE(\tilde{\theta}; \hat{\theta}) = \lim_{n \rightarrow \infty}
+\frac{\text{variance of } \hat{\theta}}{\text{variance of } \tilde{\theta}}
+$$
+
+* Usually, $\hat{\theta}$ is the optimal estimator according to some criteria. 
+* When using $\hat{\theta}$, we only need $ARE$ times as many observations as when 
+  using $\tilde{\theta}$.
+
+## ARE of Median wrt Mean  {.smaller}
+
+### Median versus Mean
+
+If our data is known to originate from a Normal distribution, due to its 
+symmetry, we can use the sample median *or* the sample mean to estimate $\mu$. 
+Let $\hat{\theta} = \bar{X}$ and $\tilde{\theta} = q_{\hat{F},0.5}$.
+
+Then it can be shown that 
+
+$$
+ARE(\tilde{\theta}; \hat{\theta}) = 2/\pi \approx 64\%
+$$
+
+The sample median is *less efficient* than the sample mean, when the true
+distribution is Normal.
+
+## ARE of scaled mean abs. deviation wrt $s$  {.smaller}
+
+### Contaminated Normal Variance Estimate
+
+* Suppose $Y_i \sim N(\mu, \sigma^2)$, and we wish to estimate $\sigma^2$. 
+  1. $\hat{\sigma}^2 = s^2 = \frac{1}{n-1}\sum_{i=1}^n (Y_i - \bar{Y})^2$
+  2. $\tilde{\sigma}^2 = d^2 \pi/2$, where 
+$$
+ d = \frac{1}{n} \sum_i {|Y_i - \bar{Y}|}
+$$
+
+* When the underlying distribution truly is Normal, we have that 
+$$
+ARE(\tilde{\sigma}^2; \hat{\sigma}^2) =  87.6\%
+$$
+
+* Consider $Y_i \sim N(\mu, \sigma^2)$ with probability $1 - \epsilon$ and 
+  $Y_i \sim N(\mu, 9\sigma^2)$ with probability $\epsilon$. 
+
+## ARE of scaled mean abs. deviation wrt $s$  {.smaller}
+
+### Contaminated Normal Variance Estimate
+
+```{r r-demo-cn}
+#| echo: false
+#| fig-align: center
+#| out-width: 75%
+
+x <- seq(-3, 3, length=100)
+y1 <- dnorm(x)
+epsilon <- 1/100
+y2 <- (1-epsilon)*dnorm(x) + epsilon*dnorm(x, sd=3)
+plot(x, y1, type="l", col="blue")
+lines(x, y2, type="l", col="red")
+legend("topright", legend=c("Normal", "Contaminated Normal,\nEpsilon=0.01"), col=c("blue", "red"), lty=1, cex=0.8)
+
+```
+
+## Assessing Robustness  {.smaller}
+
+1.  *Qualitative Robustness*:
+    The first requirement of a robust statistic is that it if the underlying 
+    distribution $F$ changes slightly, then the estimate should not change too much.
+2.  *Infinitesimal Robustness*:
+    The second requirement is is tied to the concept of the *influence function*
+    of an estimator. Roughly speaking, the influence function measures the relative 
+    extent that a small perturbation in $F$ has on the value of the estimate. In other
+    words, it reflects the influence of adding one more observation to a large 
+    sample. 
+3.  *Quantitative Robustness*:
+    The final requirement is related to the contaminated distribution. Consider 
+$$
+F_{x,\epsilon} = (1- \epsilon)F + \epsilon \Delta_x
+$$
+    where $\Delta_x$ is the degenerate probability distribution at $x$. The minimum
+    value of $\epsilon$ for which the estimator goes to infinity as $x$ gets large,
+    is referred to as the *breakdown point*. 
+    For the sample mean, the breakdown point is $\epsilon = 0$. For the sample 
+    median, the breakdown point is $\epsilon = 0.5$.
+    
+## M-estimators  {.smaller}
+
+* Suppose we have $x_1, x_2, \ldots, x_n$ from a $N(\mu,\, \sigma^2)$.
+* The likelihood function is 
+$$
+L(\mu, \sigma^2) = \prod_{i=1}^n  \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-(x_i - \mu)^2 / (2\sigma^2) }
+$$
+* The log-likelihood is 
+$$
+\log L = l(\mu, \sigma^2) = -n \log \sigma - \frac{n}{2} \log(2\pi) - \frac{1}{2\sigma^2} \sum_{i=1}^n (x_i - \mu)^2
+$$ 
+
+## M-estimators  {.smaller}
+
+* Setting the partial derivative with respect to $\mu$ to be 0, we can solve
+  for the MLE of $\mu$:
+\begin{eqnarray*}
+\frac{\partial l }{\partial \mu} &=& 0 \\
+\frac{1}{\sigma^2} \sum_{i=1}^n (x_i - \hat{\mu}) &=& 0 \\
+\hat{\mu} &=& \bar{x}
+\end{eqnarray*}
+
+##  M-estimators  {.smaller}
+
+* Observe that we minimised the sum of squared errors, which arose from *minimising* 
+$$
+\sum_{i=1}^n - \log f (x_i - \mu)
+$$
+*  Instead of $\log f$, what if we use an alternative function $\rho$?
+$$
+\arg \min_\mu \sum_{i=1}^n \rho (x_i - \mu)
+$$ {#eq-rho-min}
+* For instance, $\psi = \rho'$ is referred to as the *influence function*.
+$$
+\sum_{i=1}^n \psi (x_i - \mu) = 0 
+$$ {#eq-rho-min}
+
+## Trimmed mean  {.smaller}
+
+* The $\gamma$-trimmed mean $(0 < \gamma \le 0.5)$ is the mean of a *distribution*
+  after the distribution has been truncated.
+* The trimmed mean of the distribution is:
+$$
+\mu_t = \int_{q_{f,\gamma}}^{q_{f,1-\gamma}} x \frac{f(x)}{1 - 2 \gamma} dx
+$$ {#eq-tm-pop}
+* The trimmed mean focuses on the middle portion of a distribution. 
+* The recommended value of $\gamma$ is (0, 0.2]. 
+
+## Sample Trimmed Mean  {.smaller}
+
+* For a sample $X_1, X_2, \ldots, X_n$:
+
+  1. Compute the value $g = \lfloor \gamma n \rfloor$, where $\lfloor x \rfloor$ 
+     refers to the floor function.
+  2. Drop the largest $g$ and smallest $g$ values from the sample.
+  3. Compute 
+  $$
+  \hat{\mu_t} = X_t = \frac{X_{(g+1)} + \cdots X_{(n-g)}}{n - 2g}
+  $$
+
+## Winsorised Mean  {.smaller}
+
+* The Winsorised mean works by replacing extreme observations with a fixed boundary 
+  value $\mu \pm c$. 
+* Just like in the trimmed mean case, we decide on the value $c$ by choosing a
+  value $\gamma \in (0, 0.2]$.  
+
+  1. Compute the value $g = \lfloor \gamma n \rfloor$.
+  2. Replace the smallest $g$ values in the sample with $X_{(g+1)}$ and the largest 
+     $g$ values with $X_{(n-g)}$.
+  3. Compute the arithmetic mean of the resulting $n$ values.
+  $$
+  X_w = \frac{g\cdot X_{(g+1)} + X_{(g+1)} + \cdots + X_{(n-g)} + g \cdot X_{(n-g)}}{n}
+  $$
+
+## Take note:  {.smaller}
+
+::: {.callout-important}
+Note that the trimmed mean and the Winsorised mean are no longer estimating the 
+population distribution mean $\int x f(x) dx$. The three quantities coincide only 
+if the population distribution is symmetric. 
+
+When this is not the case, it is important to be aware of what we are estimating. For
+instance, using the trimmed/winsorised mean is appropriate if we are interested in 
+what a "typical" observation in the middle of the distribution looks like.
+:::
+
+## Sample Standard Deviation  {.smaller}
+
+$$
+s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
+$$
+
+* The above estimator is  not robust to outliers.
+
+## Mean Absolute Deviation  {.smaller}
+
+* For a random variable $X \sim f$, the mean absolute deviation $w$ is defined by
+$$
+P(|X - q_{f,0.5} | \le w) = 0.5
+$$
+* We refer to $w$ as $MAD(X)$. 
+* It is the median of the distribution associated with $X - q_{f,0.5}$.
+* If observations are truly from a Normal distribution, MAD does not estimate
+  $\sigma$. 
+
+## MAD(X)  {.smaller}
+
+### MAD for Normal
+For $X \sim N(\mu, \sigma^2)$, the following property holds:
+$$
+\sigma \approx 1.4826 \times MAD(X)
+$$
+
+## MAD(X)  {.smaller}
+### MAD for Normal
+
+Note that, since the distribution is symmetric, $\text{median}(X) = \mu$. Thus
+\begin{eqnarray*}
+MAD(X) &=& \text{median}(| X - \text{median(X)}|) \\
+&=& \text{median}(| X - \mu |)
+\end{eqnarray*}
+
+Thus, the $MAD(X)$ is a value $q$ such that 
+$$
+P(| X - \mu | \le q ) = 0.5
+$$
+Equivalently, we need $q$ such that 
+$$
+P\left( \left| \frac{X - \mu}{\sigma} \right| \le q/\sigma \right) = P(|Z| \le q / \sigma) = 0.5
+$$
+
+## MAD(X)  {.smaller}
+### MAD for Normal
+
+\begin{eqnarray*}
+P(-q / \sigma \le Z \le q / \sigma) &=& 0.5 \\
+1 - 2 \times \Phi(-q / \sigma) &=& 0.5 \\
+-q / \sigma &=& -0.6745 \sigma \\
+q &=& 0.6745 \sigma
+\end{eqnarray*}
+
+Thus $MAD(X) = 0.6745 \sigma$. The implication is that we can estimate $\sigma$
+in a standard Normal with
+$$
+\hat{\sigma} \approx \frac{1}{0.6745} MAD(X)
+$$
+
+
+## Interquartile Range
+
+The general definition of $IQR(X)$ is 
+$$
+q_{f, 0.75} - q_{f,0.25}
+$$
+
+## IQR(X)
+
+### IQR for Normal {.smaller}
+
+For $X \sim N(\mu, \sigma^2)$, the following property holds:
+
+$$
+IQR(X) \approx 1.35 \times \sigma
+$$
+
+## IQR(X)
+
+### IQR for Normal {.smaller}
+
+
+For $X \sim N(\mu, \sigma^2)$, let $X_{(0.25)}$ and $X_{(0.75)}$ represent the 1st 
+and 3rd quartiles of the distribution.
+
+\begin{eqnarray*}
+P(X \le X_{(0.25)}) &=& 0.25 \\
+P \left(\frac{X - \mu}{\sigma} \le \frac{X_{(0.25)} - \mu}{\sigma} \right) &=& 0.25 \\
+P \left(Z \le  \frac{X_{(0.25)} - \mu}{\sigma} \right) &=& 0.25
+\end{eqnarray*}
+
+Thus we know that 
+
+\begin{eqnarray*}
+\frac{X_{(0.25)} - \mu}{\sigma}  &=& -0.675 \\
+\therefore X_{(0.25)} &=& \mu - 0.675 \sigma 
+\end{eqnarray*}
+
+## IQR(X)
+
+### IQR for Normal {.smaller}
+
+Similarly, we can derive that $X_{(0.75)} = \mu + 0.675 \sigma$. Now we can
+derive that 
+$$
+IQR(X) = X_{(0.75)} - X_{(0.25)} = 1.35 \sigma
+$$
+
+The implication is that, from sample data, we can estimate $\sigma$ from the sample 
+IQR using:
+$$
+\hat{\sigma} = \frac{IQR(\{X_1, \ldots X_n\})}{1.35}
+$$
+
+## Location Estimates: Copper Dataset
+
+### R code 
+
+```{r r-loc-copper}
+#| collapse: true
+
+mean(chem)
+
+mean(chem, trim = 0.1) # using gamma = 0.1
+
+library(DescTools)
+win_sample <- Winsorize(chem, probs=c(0.1, 0.9)) # gamma = 0.1
+mean(win_sample)
+```
+
+## Location Estimates: Copper Dataset
+
+### Python code
+
+```{python py-loc-copper}
+#| collapse: true
+import pandas as pd
+import numpy as np
+from scipy import stats
+
+chem = pd.read_csv("../data/mass_chem.csv")
+
+chem.chem.mean()
+
+stats.trim_mean(chem, proportiontocut=0.1)
+
+stats.mstats.winsorize(chem.chem, limits=0.1).mean()
+```
+
+
+## Scale Estimates: Awareness Dataset
+
+### R code 
+
+```{r r-scale-self}
+#| collapse: true
+
+sd(awareness)
+
+mad(awareness, constant=1) 
+
+IQR(awareness)
+```
+
+## Scale Estimates: Awareness Dataset
+
+### Python code
+
+```{python py-scale-copper}
+#| collapse: true
+awareness = np.array([77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 299, 306,
+                      376, 428, 515, 666, 1310, 2611])
+
+awareness.std()
+
+stats.median_abs_deviation(awareness)
+
+stats.iqr(awareness)
+```
