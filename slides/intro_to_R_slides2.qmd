@@ -316,7 +316,7 @@ Things to look out for:
 ::: {.column width="45%"}
 ```{r r-data-struc-9}
 #| echo: true
-data1 <- read.table("../data/crab.txt")
+data1 <- read.table("data/crab.txt")
 head(data1)
 ```
 :::
@@ -324,7 +324,7 @@ head(data1)
 ::: {.column width="45%"}
 ```{r r-data-struc-10}
 #| echo: true
-data1 <- read.table("../data/crab.txt", 
+data1 <- read.table("data/crab.txt", 
                     header=TRUE)
 head(data1)
 ```
@@ -337,7 +337,7 @@ head(data1)
 ```{r r-data-struc-11}
 #| echo: true
 varnames <- c("Subject", "Gender", "CA1", "CA2", "HW")
-data2 <- read.table("../data/ex_1.txt", header = FALSE,  
+data2 <- read.table("data/ex_1.txt", header = FALSE,  
                     col.names = varnames)
 data2
 ```
@@ -347,7 +347,7 @@ data2
 
 ```{r r-data-struc-12}
 #| echo: true
-data3 <- read.csv("../data/ex_1_comma.txt",  header = FALSE)
+data3 <- read.csv("data/ex_1_comma.txt",  header = FALSE)
 data3
 ```
 
@@ -557,7 +557,7 @@ a file so that we can inspect it later at our convenience.
 ```{r sink-1}
 #| output: false
 
-sink("../data/datasink_ex1.txt")      # turn the sink on
+sink("data/datasink_ex1.txt")      # turn the sink on
 x <- 0            
 test <- TRUE 
 
@@ -573,7 +573,7 @@ sink()                             # turn the sink off
 ## Saving Data to a File 
 
 ```{r write-csv-1}
-write.csv(data2, "../data/ex_1_with_IQ.csv")
+write.csv(data2, "data/ex_1_with_IQ.csv")
 ```
 
 ## Defining our own function
