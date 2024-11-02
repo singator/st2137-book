@@ -78,10 +78,15 @@ x_dict = {'a': 1, 'b': 2, 'c': 3} # access with x_dict['a']
 * Such a call would return the elements at indices `a`, `a+1` until `b-1`. 
 * Take note that the end point index is not included.
 
-```{python slice-1}
+```{python slice-1a}
 char_list = ['P', 'y', 't', 'h', 'o', 'n']
 char_list[0]           # returns first element
 char_list[-1]          # returns last element
+```
+
+## Slice Operator in Python {.smaller}
+
+```{python slice-1b}
 len(char_list)         # returns number of elements in list-like object.
 char_list[::2]         # from first to last, every 2 apart.
 ```
