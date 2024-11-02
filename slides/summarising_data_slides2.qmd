@@ -57,7 +57,7 @@ Techniques for categorical variables will be covered in a subsequent topic.
 2. Measures of central tendency, e.g. mean, median
 3. Measures of spread, e.g. standard deviation, IQR (interquartile range), range.
 
-## Student dataset {.smaller}
+## Student Performance Dataset {.smaller}
 
 #### R code 
 
@@ -70,17 +70,20 @@ summary(stud_perf$G3)
 sum(is.na(stud_perf$G3))
 ```
 
-## Student dataset {.smaller}
+```{python py-stud-perf-1a}
+#| echo: false
+import pandas as pd
+import numpy as np
+```
+
+
+## Student Performance Dataset {.smaller}
 
 #### Python code
 
 ```{python py-stud-perf-1}
-import pandas as pd
-import numpy as np
-
 stud_perf  = pd.read_csv("../data/student/student-mat.csv", delimiter=";")
 stud_perf.G3.describe()
-#stud_perf.G3.info()
 ```
 
 ## Conditional Summaries {.smaller}
@@ -113,7 +116,7 @@ stud_perf[['Medu', 'G3']].groupby('Medu').describe()
   
 ## The need for graphics I
 
-![Value of a picture](../figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="65%"}
+![Value of a picture](../figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="50%"}
 
 ## Histograms Overview {.smaller}
 
@@ -133,7 +136,7 @@ When we create a histogram, here are some things that we look for:
 
 ```{r r-stud-perf-3}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "50%"
 hist(stud_perf$G3, main="G3 histogram")
 ```
 
@@ -143,7 +146,7 @@ hist(stud_perf$G3, main="G3 histogram")
 
 ```{python py-stud-perf-3}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "50%"
 fig = stud_perf.G3.hist(grid=False)
 fig.set_title('G3 histogram');
 ```
@@ -154,7 +157,7 @@ fig.set_title('G3 histogram');
 
 ```{r r-stud-perf-4}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "50%"
 library(lattice)
 histogram(~G3 | Medu, data=stud_perf, type="density")
 ```
@@ -165,7 +168,7 @@ histogram(~G3 | Medu, data=stud_perf, type="density")
 
 ```{python py-stud-perf-4}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "45%"
 stud_perf.G3.hist(by=stud_perf.Medu, figsize=(15,10), density=True, 
                   layout=(2,3));
 ```
@@ -197,7 +200,7 @@ $$
 
 ```{r r-stud-perf-5}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "50%"
 densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
 ```
 
@@ -208,7 +211,7 @@ densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
 
 ```{python py-stud-perf-5}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "40%"
 import matplotlib.pyplot as plt
 f, axs = plt.subplots(2, 3, squeeze=False, figsize=(15,6))
 out2 = stud_perf.groupby("Medu")
@@ -256,6 +259,7 @@ would say that there is evidence that the data came from a normal distribution.
 #| echo: false
 #| label: fig-qq-1
 #| layout-ncol: 2
+#| out-width: 40%
 #| fig-align: center
 #| fig-cap: "QQ-plots"
 #| fig-subcap:
@@ -271,13 +275,6 @@ qqnorm(Y, main="Both tails fatter than Normal")
 qqline(Y)
 
 ```
-
-
-::: {.callout-note}
-Please be careful! Some software/packages will switch the axes (i.e. plot the
-sample quantiles on the x-axis instead of the y-axis, unlike @fig-qq-1). Please
-observe and interpret accordingly.
-:::
 
 ## Concrete Slump Dataset {.smaller}
 
@@ -319,7 +316,8 @@ names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 
 ```{python}
 concrete = pd.read_csv("../data/concrete+slump+test/slump_test.data")
-concrete.rename(columns={'No':'id', 'Compressive Strength (28-day)(Mpa)':'Comp_Strength'}, 
+concrete.rename(columns={'No':'id', 
+                         'Compressive Strength (28-day)(Mpa)':'Comp_Strength'}, 
                 inplace=True)
 ```
 
@@ -327,7 +325,7 @@ concrete.rename(columns={'No':'id', 'Compressive Strength (28-day)(Mpa)':'Comp_S
 
 ```{r}
 #| echo: false
-#| out-width: "70%"
+#| out-width: "50%"
 #| fig-align: center
 
 hist(concrete$Comp.Strength, freq = FALSE)
@@ -347,7 +345,7 @@ lines(x_vals, y_vals, col="blue", lty=2)
 
 ```{r r-concrete-1}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "50%"
 qqnorm(concrete$Comp.Strength)
 qqline(concrete$Comp.Strength)
 ```
@@ -358,7 +356,7 @@ qqline(concrete$Comp.Strength)
 
 ```{python py-concrete-1}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "50%"
 from scipy import stats
 import statsmodels.api as sm
 sm.qqplot(concrete.Comp_Strength, line="q");
@@ -415,7 +413,7 @@ Pearson correlation:
 
 ```{r r-concrete-2}
 #| fig-align: center
-#| out-width: "100%"
+#| out-width: "40%"
 col_to_use <- c("Cement", "Slag", "Comp.Strength", "Water", "SLUMP.cm.",
                 "FLOW.cm.")
 pairs(concrete[, col_to_use], panel = panel.smooth)
@@ -427,7 +425,7 @@ pairs(concrete[, col_to_use], panel = panel.smooth)
 
 ```{python py-concrete-3}
 #| fig-align: center
-#| out-width: "100%"
+#| out-width: "50%"
 pd.plotting.scatter_matrix(concrete[['Cement', 'Slag', 'Comp_Strength', 'Water', 
                                      'SLUMP(cm)', 'FLOW(cm)']], 
                            figsize=(12,12));
@@ -441,6 +439,7 @@ pd.plotting.scatter_matrix(concrete[['Cement', 'Slag', 'Comp_Strength', 'Water',
 #| fig-align: center
 #| message: false
 #| warning: false
+#| out-width: "50%"
 
 library(psych)
 corPlot(cor(concrete[, col_to_use]), cex=0.8, show.legend = FALSE)
@@ -452,7 +451,7 @@ corPlot(cor(concrete[, col_to_use]), cex=0.8, show.legend = FALSE)
 
 ```{python py-concrete-4}
 #| fig-align: center
-#| out-width: "100%"
+#| out-width: "50%"
 corr = concrete[['Cement', 'Slag', 'Comp_Strength', 'Water', 
                  'SLUMP(cm)', 'FLOW(cm)']].corr()
 corr.style.background_gradient(cmap='coolwarm_r')
