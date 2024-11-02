@@ -21,14 +21,8 @@ problem, we ought to go back and find ways to generalise the solution or to
 optimise it. Challenging ourselves in these small ways will improve us as 
 data analysts. I hope this course provides you opportunities to do so.
 
-I believe that we have a choice to use AI or not. Work demands that we do things
-quickly, and the use of AI can cut down human errors by quite a bit. But the
-cost for this speed and convenience is paid by our humanity. To be human is to
-think, to solve problems, to have a purpose, and to make mistakes. An
-over-reliance on AI will degrade these aspects indelibly.
-
 If you are taking this course, should you pretend that AI does not exist?
-Obviously not! If you really need help, don't hesitate to approach me, or use
+Obviously not! If you really need help, don't hesitate to use
 AI. But if you do use AI, I would hope that you take some time to dissect it's
 solution to aid in more long-term understanding and recall.
 

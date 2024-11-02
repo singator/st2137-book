@@ -34,7 +34,7 @@ format:
     number-sections: true
     number-depth: 2
     theme: Yeti
-  pdf:
+  pdf: 
     documentclass: scrreprt
     papersize: a4
     fig-align: center
@@ -55,6 +55,6 @@ format:
       - left=20mm
       - heightrounded
     theme: Yeti
-    
+
 execute: 
   freeze: auto
