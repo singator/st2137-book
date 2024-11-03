@@ -215,13 +215,13 @@ The output for the above code should be as follows:
 
 ## Common ST2137 Routines  {.smaller}
 
-![Common ST2137 Tasks](../figs/sas_tasks-01.png){#fig-sas-tasks-01}
+![Common ST2137 Tasks](../figs/sas_tasks-01.png){#fig-sas-tasks-01  width="50%"}
 
 ## Numerical Summaries
 
 ### 5-number Summaries  {.smaller}
 
-![Summaries, Bike data](../figs/sas_bike_summaries-01.png){#fig-sas-bike-02}
+![Summaries, Bike data](../figs/sas_bike_summaries-01.png){#fig-sas-bike-02 width="50%"}
 
 ## Numerical Summaries
 
@@ -237,7 +237,11 @@ The output for the above code should be as follows:
 
 ### Casual vs Registered Scatterplot
 
-![Scatter plot, Bike Data](../figs/sas_bike_scatter-01.png){#fig-sas-bike-01}
+![Scatter plot, Bike Data](../figs/sas_bike_scatter-01.png){#fig-sas-bike-01  width="50%"}
+
+## Scatter Plots {.smaller}
+
+### Casual vs Registered Scatterplot
 
 * We can see that there seem to be two different relationships between the 
   counts of casual and registered users. 
@@ -247,7 +251,11 @@ The output for the above code should be as follows:
 
 ### Casual Users Distribution
 
-![Histograms, Bike Data](../figs/sas_bike_hist-01.png){#fig-sas-hist-01}
+![Histograms, Bike Data](../figs/sas_bike_hist-01.png){#fig-sas-hist-01 width="40%"}
+
+## Histograms {.smaller}
+
+### Casual Users Distribution
 
 * we can see that the distribution is right-skewed in both cases. 
 * However, the range of counts for non-working days extends further, to about 3500. 
@@ -256,14 +264,14 @@ The output for the above code should be as follows:
 
 ### Boxplots for Casual Users, by Season
 
-![Boxplots, Bike Data](../figs/sas_bike_boxplot-01.png){#fig-sas-box-01 fig-align=center}
+![Boxplots, Bike Data](../figs/sas_bike_boxplot-01.png){#fig-sas-box-01 fig-align=center width="40%"}
 
 
 ## Boxplots (Log scale)  {.smaller}
 
 ### Boxplots for Casual Users, by Season
 
-![Boxplots log scale, Bike Data](../figs/sas_bike_boxplot-02.png){#fig-sas-box-02}
+![Boxplots log scale, Bike Data](../figs/sas_bike_boxplot-02.png){#fig-sas-box-02 width="40%"}
 
 * Now, we can observe that the difference within each season, is constant across 
   seasons. 
@@ -271,19 +279,17 @@ The output for the above code should be as follows:
   scale, it is a constant multiplicative factor that increases counts from 
   workingday to non-working day.
 
-## QQ-plots  {.smaller}
-
 ## Normality Check for Humidity
 
 :::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="45%"}
 
 ![Histogram for humidity](../figs/sas_bike_qq-01.png)
 
 :::
 
-::: {.column width="50%"}
+::: {.column width="45%"}
 
 ![QQ-plot for humidity](../figs/sas_bike_qq-02.png)
 
@@ -300,13 +306,13 @@ The output for the above code should be as follows:
 
 :::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="45%"}
 
 ![Observed & Expected Counts](../figs/sas_stud_chisq-01.png){#fig-sas-chisq-01}
 
 :::
 
-::: {.column width="50%"}
+::: {.column width="45%"}
 
 ![Test statistic, p-value](../figs/sas_stud_chisq-02.png){#fig-sas-chisq-02}
 
@@ -319,6 +325,6 @@ The output for the above code should be as follows:
 
 ### Kendall $\tau$ for `Walc` and `Dalc`
 
-![Walc vs Dalc](../figs/sas_stud_tau-01.png){#fig-sas-tau-01 fig-align="center" width=60%}
+![Walc vs Dalc](../figs/sas_stud_tau-01.png){#fig-sas-tau-01 fig-align="center" width=40%}
 
 
