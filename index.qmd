@@ -12,6 +12,11 @@ Here's what I mean: The course is meant to introduce statistics majors (and
 minors) to three computing languages: R, Python and SAS. But.. why does anyone
 need to know this when we can just ask Gemini?
 
+If you are taking this course, should you pretend that AI does not exist?
+Obviously not! If you really need help, don't hesitate to use
+AI. But if you do use AI, I would hope that you take some time to dissect it's
+solution to aid in more long-term understanding and recall.
+
 I believe there is a need for data analysts to know how to code from scratch, if
 only because of the value of the process. By coding from nought, and by digging
 into data ourselves, we sharpen our minds. 
@@ -20,11 +25,6 @@ In "How to Solve It", Polya recommends that, upon finding one solution to a
 problem, we ought to go back and find ways to generalise the solution or to
 optimise it. Challenging ourselves in these small ways will improve us as 
 data analysts. I hope this course provides you opportunities to do so.
-
-If you are taking this course, should you pretend that AI does not exist?
-Obviously not! If you really need help, don't hesitate to use
-AI. But if you do use AI, I would hope that you take some time to dissect it's
-solution to aid in more long-term understanding and recall.
 
 I believe there is great value in struggling with a problem. That's what
 university was meant to be about - to allow you to experiment, make mistakes and
