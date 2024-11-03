@@ -136,7 +136,7 @@ $$
 
 ```{r r-rng-1}
 #| fig-align: center
-#| out-width: 65%
+#| out-width: 50%
 #| echo: false
 #R 
 set.seed(2137)
@@ -161,6 +161,7 @@ par(opar)
 ```{python py-rng-1}
 #| fig-align: center
 #| echo: false
+#| out-width: 50%
 #Python
 import numpy as np
 import pandas as pd
@@ -314,7 +315,7 @@ output_vec.mean()
 
 ### R code 
 
-```{r r-test-1}
+```{r r-test-1a}
 generate_one_test <- function(n=100) {
   X <- rnorm(n)
   Y <- rnorm(n)
@@ -325,7 +326,13 @@ generate_one_test <- function(n=100) {
   else 
     return(0L)
 }
+```
 
+## Type I Error {.smaller}
+
+### R code 
+
+```{r r-test-1b}
 set.seed(11)
 output_vec <- vapply(1:2000, 
                      function(x) generate_one_test(), 

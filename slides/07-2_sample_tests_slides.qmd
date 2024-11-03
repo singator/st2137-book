@@ -84,7 +84,7 @@ $$
 (\bar{X} - \bar{Y}) \pm t_{n_1 + n_2 -2, 1 - \alpha/2} \times s_p\sqrt{1/n_1 + 1/n_2}
 $$
 
-### Abalone Measurements
+## Abalone Measurements
 
 * Dataset from the UCI machine learning repository.
 * Contains measurements of physical characteristics, along with the gender status. 
@@ -136,28 +136,26 @@ print(f"""
 
 ### SAS Output 
 
-When we run the independent samples t-test on SAS, we should observe the following 
-output @fig-sas-abalone-001.
-
-![SAS Abalone, Independent](../figs/sas_abalone_ind_ttest-001.png){#fig-sas-abalone-001 fig-align="center" out-width=60%}
+![SAS Abalone,
+Independent](../figs/sas_abalone_ind_ttest-001.png){#fig-sas-abalone-001 fig-align="center" width="45%"}
 
 ## Abalone data t-test assumptions {.smaller}
 
-::: {.callout-note}
-Only the R code is shown here.
-:::
-
-```{r r-abalone-2}
-#| layout: [[1], [1,1]]
+```{r r-abalone-2a}
 #| fig-align: center
-#| out-width: 70%
-#| fig-cap: 
-#|   - "Histograms"
-#|   - "QQ-plot for females"
-#|   - "QQ-plot for males"
+#| out-width: 50%
 
 library(lattice)
 histogram(~viscera | gender, data=abl, type="count")
+```
+
+## Abalone data t-test assumptions {.smaller}
+
+```{r r-abalone-2b}
+#| layout: [[1,1]]
+#| fig-align: center
+#| out-width: 50%
+
 qqnorm(y, main="Female Abalones");  qqline(y)
 qqnorm(x, main="Male Abalones");  qqline(x)
 ```
@@ -192,7 +190,7 @@ viscera weight of males and females.
 * Asymmetry in our histogram could indicate deviation from Normality. 
 * To quantify this asymmetry, we use *skewness*. 
 
-![Right/Non/Left-Skewed histograms](../figs/summ_data-05.png){#fig-skew fig-align="center"}
+![Right/Non/Left-Skewed histograms](../figs/summ_data-05.png){#fig-skew fig-align="center" width="50%"}
 
 ## Assessing Normality - Skewness  {.smaller}
 
@@ -237,16 +235,24 @@ H_1: & \text{ Data follows a Normal distribution}
 
 ### R code 
 
-```{r r-abalone-4}
+```{r r-abalone-4a}
 #| collapse: true
 library(DescTools)
 aggregate(viscera ~ gender, data=abl, Skew, method=1)
 
 aggregate(viscera ~ gender, data=abl, Kurt, method=1)
+```
 
+## Abalone Data Tests for Normality {.smaller}
+
+### R code 
+
+```{r r-abalone-4b}
+#| collapse: true
 # Shapiro-Wilk Test only for males:
 shapiro.test(x)
 ```
+
 
 ## Abalone Data Tests for Normality {.smaller}
 
@@ -266,7 +272,7 @@ stats.shapiro(y)
 
 ### SAS output 
 
-![SAS Normality tests](../figs/sas_abalone_normality_tests.png){#fig-sas-norm-001}
+![SAS Normality tests](../figs/sas_abalone_normality_tests.png){#fig-sas-norm-001 width="60%"}
 
 ## Paired Sample Test Inro {.smaller}
 
@@ -342,12 +348,21 @@ $$
 
 ### R code 
 
-```{r r-hr-1}
+```{r r-hr-1a}
 hr_df <- read.csv("../data/health_promo_hr.csv")
 before <- hr_df$baseline
 after <- hr_df$after5
 t.test(before, after, paired=TRUE)
 ```
+
+## Heart Rate Example {.smaller}
+
+### R code 
+
+```{r r-hr-1b}
+t.test(before, after, paired=TRUE)
+```
+
 
 ## Heart Rate Example {.smaller}
 
@@ -554,4 +569,4 @@ stats.wilcoxon(hr_df.baseline, hr_df.after5,
 
 ### SAS Output 
 
-![SAS Signed Rank Test](../figs/sas_hr_wilcox.png)
+![SAS Signed Rank Test](../figs/sas_hr_wilcox.png){width="50%"}

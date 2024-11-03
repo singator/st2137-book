@@ -44,7 +44,7 @@ the relationship between variables like X and Y. Here are some examples:
 ```{r r-concrete-1}
 #| fig-align: center
 #| echo: false
-#| out-width: 70%
+#| out-width: 50%
 #| label: fig-flow-water
 #| fig-cap: "Scatterplot with simple linear regression model"
 library(lattice)
@@ -59,7 +59,7 @@ xyplot(FLOW.cm. ~ Water, type=c("p", "r"), data= concrete, main="Concrete data")
 
 ```{r r-bike-1}
 #| fig-align: center
-#| out-width: 70%
+#| out-width: 50%
 #| echo: false
 #| label: fig-reg-casual
 #| fig-cap: Scatterplot of registered vs. casual bike renters
@@ -326,6 +326,7 @@ $$
 ```{r r-concrete-pred}
 #| fig-align: center
 #| echo: false
+#| out-width: 50%
 #R 
 new_df <- data.frame(Water = seq(160, 240, by = 5))
 conf_intervals <- predict(lm_flow_water, new_df, interval="conf")
@@ -346,6 +347,7 @@ legend("bottomright", legend=c("Fitted line", "Lower/Upper CI"),
 ```{python py-concrete-pred}
 #| fig-align: center
 #| echo: false
+#| out-width: 50%
 # Python
 new_df = sm.add_constant(pd.DataFrame({'Water' : np.linspace(160,240, 10)}))
 
@@ -364,7 +366,7 @@ ax.plot(new_df.Water, predictions_out.predicted, color='blue');
 
 ### SAS Output
 
-![](../figs/sas_concrete_flow_water_reg_fitplot.png){fig-align="center" width=450}
+![](../figs/sas_concrete_flow_water_reg_fitplot.png){fig-align="center" width="50%"}
 
 ## Model formulation {.smaller} 
 
@@ -583,7 +585,7 @@ print(lm_reg_casual2.summary())
 
 ### SAS output 
 
-![](../figs/sas_bike_reg_casual_workday_reg.png){fig-align="center" width=450}
+![](../figs/sas_bike_reg_casual_workday_reg.png){fig-align="center" width="50%"}
 
 ## Bike model with working day  {.smaller}
 
@@ -612,7 +614,7 @@ the original model.
 ```{r r-plot-bike-lm2}
 #| echo: false
 #| fig-align: center
-#| 
+#| out-width: "50%"
 
 plot(x=bike2$casual, y=bike2$registered, 
      col=ifelse(bike2$workingday == "yes", "salmon", "deepskyblue4"),
@@ -671,7 +673,7 @@ print(lm_reg_casual3.summary())
 
 ### SAS output 
 
-![](../figs/sas_bike_reg_casual_workday_interaction_reg.png){fig-align="center" width=450}
+![](../figs/sas_bike_reg_casual_workday_interaction_reg.png){fig-align="center" width="50%"}
 
 Estimated models:
 $$
@@ -731,6 +733,7 @@ $$
 
 ```{r r-concrete-qq-1}
 #| layout-ncol: 2
+#| out-width: "50%"
 # R 
 r_s <- rstandard(lm_flow_water_slag)
 hist(r_s)
@@ -744,6 +747,7 @@ qqline(r_s)
 
 ```{python py-concrete-qq-1}
 #| fig-align: center
+#| out-width: "50%"
 # Python
 r_s = pd.Series(lm_flow_water_slag.resid_pearson)
 r_s.hist()
@@ -770,7 +774,7 @@ ks.test(r_s, "pnorm")
 
 We typically inspect the plots for the following patterns:
 
-![](../figs/regression_residuals.png)
+![](../figs/regression_residuals.png){fig-align="center" width="50%"}
 
 ## Concrete Data Residual Plots
 
@@ -780,6 +784,7 @@ We typically inspect the plots for the following patterns:
 #| fig-align: center
 #| fig-height: 4
 #| fig-width: 10
+#| out-width: "50%"
 opar <- par(mfrow=c(1,3))
 plot(x=fitted(lm_flow_water_slag), r_s, main="Fitted")
 plot(x=concrete$Water, r_s, main="X1")
@@ -791,7 +796,7 @@ par(opar)
 
 ### SAS Plots
 
-![](../figs/sas_concrete_flow_water_reg_res1.png){fig-align="center" width=450}
+![](../figs/sas_concrete_flow_water_reg_res1.png){fig-align="center" width="50%"}
 
 
 ## Influential Points  {.smaller}
@@ -813,6 +818,8 @@ infl <- influence.measures(lm_flow_water_slag)
 summary(infl)
 ```
 
+## Concrete Data Influential Points
+
 The set of 6 points above appear to be influencing the covariance matrix 
 of the parameter estimates greatly. To proceed, we would typically leave these 
 observations out one-at-a-time to study the impact on our eventual decision.
@@ -821,4 +828,4 @@ observations out one-at-a-time to study the impact on our eventual decision.
 
 ### SAS Output 
 
-![](../figs/sas_concrete_flow_water_reg_res2.png){fig-align="center" width=450}
+![](../figs/sas_concrete_flow_water_reg_res2.png){fig-align="center" width="50%"}

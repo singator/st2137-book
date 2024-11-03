@@ -39,6 +39,8 @@ use_virtualenv(venv_paths$path[id])
 * For each heifer, a bag of dung was dug into the soil, and after 8 weeks the amount of 
   organic material was measured for each bag.
 
+## Effect of Antibiotics
+
 ```{r heifer-plot}
 #| fig-align: center
 #| echo: false
@@ -217,11 +219,10 @@ print(anova_tab)
 
 ### SAS output
 
-![](../figs/sas_anova_f_test.png){width=650 fig-align="center"}
+![](../figs/sas_anova_f_test.png){width="70%" fig-align="center"}
 
 At the 5% significance level, we reject the null hypothesis to conclude that the
-group means are significantly different from one another. This answers question 
-1 from @exm-antibiotics-1.
+group means are significantly different from one another.
 
 ## Parameters for Antibiotics data  {.smaller}
 
@@ -247,7 +248,7 @@ heifer_lm.summary()
 
 ```{r r-normality}
 #| layout-ncol: 2
-# R
+#| out-width: "45%"
 r1 <- residuals(anova1)
 hist(r1)
 qqnorm(r1); qqline(r1)
@@ -259,8 +260,7 @@ qqnorm(r1); qqline(r1)
 ### Python code 
 
 ```{python py-normality}
-# Python
-
+#| out-width: "45%"
 f, axs = plt.subplots(1, 2, figsize=(8,4))
 tmp = plt.subplot(121)
 heifer_lm.resid.hist();
@@ -355,7 +355,7 @@ this sub-group, and Enrofloxacin.
 
 ### R code 
 
-```{r r-contrast}
+```{r r-contrast-a}
 c1 <- c(-1, 0.5, 0.5)
 n_vals <- c(6, 6, 6)
 L <- sum(c1*est_coef[3:5])
@@ -368,6 +368,13 @@ q1 <- qt(0.025, df, 0, lower.tail = FALSE)
 
 lower_ci <- L - q1*se1
 upper_ci <- L + q1*se1
+```
+
+## Contrast in Antibiotics data {.smaller}
+
+### R code 
+
+```{r r-contrast-b}
 cat("The 95% CI for the diff. between the two groups is (",
     format(lower_ci, digits = 2), ",", format(upper_ci, digits = 2), ").", sep="")
 ```
@@ -411,11 +418,18 @@ TukeyHSD(anova1, ordered = TRUE)
 
 ### Python code
 
-```{python py-tukey}
+```{python py-tukey-1a}
 import statsmodels.stats.multicomp as mc
 
 cp = mc.MultiComparison(heifers.org, heifers.type)
 tk = cp.tukeyhsd()
+```
+
+## Tukey HSD
+
+### Python code
+
+```{python py-tukey-1b}
 print(tk)
 ```
 
@@ -468,4 +482,4 @@ stats.kruskal(*out)
 
 ### SAS output
 
-![](../figs/sas_kruskal_wallis.png){width=700 fig-align="center"}
+![](../figs/sas_kruskal_wallis.png){width="60%" fig-align="center"}
