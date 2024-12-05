@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -271,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="installing-python-and-jupyter-lab" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="installing-python-and-jupyter-lab"><span class="header-section-number">2.2</span> Installing Python and Jupyter Lab</h2>
-<p>The easiest approach obtain the Python-related software that we need for this course is to download and install Anaconda from <a href="https://www.anaconda.com/download/">this link</a>.</p>
+<p>To install Python, navigate to the official <a href="https://www.python.org/downloads/">Python download page</a> to obtain the appropriate installer for your operating system.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -285,7 +285,21 @@ Important
 <p>For our class, please ensure that you are using at least Python 3.12.</p>
 </div>
 </div>
-<p>Anaconda installs several software, including Python itself, and Jupyter Lab. Jupyter Lab is an interactive platform for running Python code. Once you have launched Jupyter Lab through Anaconda, you should be able to access it through your browser at <a href="http://localhost:8888/lab" class="uri">http://localhost:8888/lab</a>.</p>
+<p>The next step is to create a virtual environment for this course. Virtual environments are specific to Python. They allow you to retain multiple versions of Python, and of packages, on the same computer. Go through the videos on Canvas relevant to your operating system to create a virtual environment and install Jupyter Lab on your machine.</p>
+<p>Jupyter notebooks are great for interactive work with Python, but more advanced users may prefer a full-fledged IDE. If you are an advanced user, and are comfortable with an IDE of your own choice (e.g.&nbsp;Spyder or VSCode), feel free to continue using that to run the codes for this course.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Even if you are using Anaconda/Spyder/VSCode, you still need to create a virtual environment.</p>
+</div>
+</div>
 <div id="fig-jupyter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Jupyter Lab">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-jupyter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -331,7 +345,6 @@ Namespaces are one honking great idea -- let's do more of those!</code></pre>
 </div>
 </div>
 <p>More information on using Jupyter notebooks can be obtained from <a href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">this link</a>.</p>
-<p>Jupyter notebooks are great for interactive work with Python, but more advanced users may prefer a full-fledged IDE. If you are an advanced user, and are comfortable with an IDE of your own choice (e.g.&nbsp;Spyder or VSCode), feel free to continue using that to run the codes for this course.</p>
 </section>
 <section id="basic-data-structures-in-python" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="basic-data-structures-in-python"><span class="header-section-number">2.3</span> Basic Data Structures in Python</h2>
@@ -354,9 +367,10 @@ Namespaces are one honking great idea -- let's do more of those!</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># The following will return an error, because x_tuple is a tuple, and hence immutable.</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>x_tuple <span class="op">=</span> (<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>x_tuple[<span class="dv">3</span>] <span class="op">=</span> <span class="dv">17</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># The following will return an error, because x_tuple is a tuple, and hence </span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># immutable.</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>x_tuple <span class="op">=</span> (<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>x_tuple[<span class="dv">3</span>] <span class="op">=</span> <span class="dv">17</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -401,7 +415,7 @@ Note
 <pre><code>['P', 't', 'o']</code></pre>
 </div>
 </div>
-<p>This indexing syntax is used in the additional packages we use as well, so it is good to know about it.Here is a pictorial representation of how positive and negative indexes work together.</p>
+<p>This indexing syntax is used in the additional packages we use as well, so it is good to know about it. <a href="#fig-py-slice" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> displays a pictorial representation of how positive and negative indexes work together.</p>
 <div id="fig-py-slice" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Python slice">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-py-slice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -561,14 +575,10 @@ Note
 </section>
 <section id="reading-data-into-python" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="reading-data-into-python"><span class="header-section-number">2.7</span> Reading Data into Python</h2>
-<p>Let us begin with the same file that we began with in the topic on R: <code>crab.txt</code>. In that topic, we observed that this file contained headings, and that the columns were separated by spaces. The <code>pandas</code> function to read in such text files is <code>read_table()</code>. It has numerous optional arguments, but in this case we just need these two:</p>
+<p>Let us begin with the same file that we began with in the topic on R: <code>crab.txt</code>. In <a href="01-intro_to_R.html#sec-01-read-data" class="quarto-xref"><span>Section 1.5</span></a>, we observed that this file contained headings, and that the columns were separated by spaces. The <code>pandas</code> function to read in such text files is <code>read_table()</code>. It has numerous optional arguments, but in this case we just need these two:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>data1 <span class="op">=</span> pd.read_table(<span class="st">'data/crab.txt'</span>, header<span class="op">=</span><span class="dv">0</span>, </span>
-<span id="cb33-2"><a href="#cb33-2"></a>                      delim_whitespace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:1: FutureWarning: The 'delim_whitespace' keyword in pd.read_table is deprecated and will be removed in a future version. Use ``sep='\s+'`` instead</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>data1.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>data1 <span class="op">=</span> pd.read_table(<span class="st">'data/crab.txt'</span>, header<span class="op">=</span><span class="dv">0</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">s+"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2"></a>data1.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   color  spine  width  satell  weight
 0      3      3   28.3       8    3.05
@@ -581,13 +591,10 @@ Note
 <p>Do take note of the differences with R - the input to the header argument corresponds to the line number containing the column names. Secondly, the <code>head()</code> function is a method belonging to the DataFrame object.</p>
 <p>When the file does not contain column names, we can supply them (as a list or numpy array) when we read the data in. Here is an example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>varnames <span class="op">=</span> [<span class="st">"Subject"</span>, <span class="st">"Gender"</span>, <span class="st">"CA1"</span>, <span class="st">"CA2"</span>, <span class="st">"HW"</span>]</span>
-<span id="cb37-2"><a href="#cb37-2"></a>data2 <span class="op">=</span> pd.read_table(<span class="st">'data/ex_1.txt'</span>, header<span class="op">=</span><span class="va">None</span>,  </span>
-<span id="cb37-3"><a href="#cb37-3"></a>                      names<span class="op">=</span>varnames, delim_whitespace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:1: FutureWarning: The 'delim_whitespace' keyword in pd.read_table is deprecated and will be removed in a future version. Use ``sep='\s+'`` instead</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>data2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>varnames <span class="op">=</span> [<span class="st">"Subject"</span>, <span class="st">"Gender"</span>, <span class="st">"CA1"</span>, <span class="st">"CA2"</span>, <span class="st">"HW"</span>]</span>
+<span id="cb35-2"><a href="#cb35-2"></a>data2 <span class="op">=</span> pd.read_table(<span class="st">'data/ex_1.txt'</span>, header<span class="op">=</span><span class="va">None</span>, </span>
+<span id="cb35-3"><a href="#cb35-3"></a>                      names<span class="op">=</span>varnames, sep<span class="op">=</span><span class="st">"</span><span class="ch">\\</span><span class="st">s+"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4"></a>data2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Subject Gender  CA1  CA2 HW
 0       10      M   80   84  A
@@ -604,16 +611,16 @@ Note
 <p>DataFrames in pandas are indexed for efficient searching and retrieval. When subsetting them, we have to add either <code>.loc</code> or <code>.iloc</code> and use it with square brackets.</p>
 <p>The <code>.loc</code> notation is used when we wish to index rows and columns according to their names. The general syntax is <code>&lt;DataFrame&gt;.loc[ , ]</code>. A slice operator can be used for each row subset and column subset to be retrieved.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># retrieve rows 0,1,2 and columns from color to width</span></span>
-<span id="cb41-2"><a href="#cb41-2"></a>data1.loc[<span class="dv">0</span>:<span class="dv">2</span>, <span class="st">'color'</span>:<span class="st">'width'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="co"># retrieve rows 0,1,2 and columns from color to width</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>data1.loc[<span class="dv">0</span>:<span class="dv">2</span>, <span class="st">'color'</span>:<span class="st">'width'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   color  spine  width
 0      3      3   28.3
 1      4      3   22.5
 2      2      1   26.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a><span class="co"># retrieve every second row starting from row 0 until row 5, and all columns</span></span>
-<span id="cb43-2"><a href="#cb43-2"></a>data1.loc[<span class="dv">0</span>:<span class="dv">5</span>:<span class="dv">2</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># retrieve every second row starting from row 0 until row 5, and all columns</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>data1.loc[<span class="dv">0</span>:<span class="dv">5</span>:<span class="dv">2</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   color  spine  width  satell  weight
 0      3      3   28.3       8    3.05
@@ -623,7 +630,7 @@ Note
 </div>
 <p>The <code>.iloc</code> notation is used when we wish to index rows and columns using integer values. The general syntax is similar; try this and observe the difference with <code>.loc</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a>data1.iloc[<span class="dv">0</span>:<span class="dv">2</span>, <span class="dv">0</span>:<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>data1.iloc[<span class="dv">0</span>:<span class="dv">2</span>, <span class="dv">0</span>:<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   color  spine
 0      3      3
@@ -633,14 +640,14 @@ Note
 <p>If you notice, the <code>.iloc</code> notation respects the rules of the in-built slice operator, in the sense that the end point is <em>not</em> included in the output. On the other hand, the <code>.loc</code> notation includes the end point.</p>
 <p>In data analysis, a common requirement is to subset a dataframe according to values in columns. Just like in R, this is achieved with logical values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>data2[data2.Gender <span class="op">==</span> <span class="st">"M"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a>data2[data2.Gender <span class="op">==</span> <span class="st">"M"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Subject Gender  CA1  CA2 HW
 0       10      M   80   84  A
 1        7      M   85   89  A
 3       20      M   82   85  B</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a>data2[(data2.Gender <span class="op">==</span> <span class="st">"M"</span>) <span class="op">&amp;</span> (data2.CA2 <span class="op">&gt;</span> <span class="dv">85</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a>data2[(data2.Gender <span class="op">==</span> <span class="st">"M"</span>) <span class="op">&amp;</span> (data2.CA2 <span class="op">&gt;</span> <span class="dv">85</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Subject Gender  CA1  CA2 HW
 1        7      M   85   89  A</code></pre>
@@ -652,27 +659,22 @@ Note
 <p>It is extremely efficient to execute “for” loops in Python. Many objects in Python are <em>iterators</em>, which means they can be iterated over. Lists, tuples and dictionaries can all be iterated over very easily.</p>
 <p>Before getting down to examples, take note that Python does not use curly braces to denote code blocks. Instead, these are defined by the number of indentations in a line.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a><span class="cf">for</span> i <span class="kw">in</span> x:</span>
-<span id="cb51-2"><a href="#cb51-2"></a>  <span class="bu">print</span>(<span class="ss">f"The current element is </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a><span class="cf">for</span> i <span class="kw">in</span> x[:<span class="dv">2</span>]:</span>
+<span id="cb47-2"><a href="#cb47-2"></a>  <span class="bu">print</span>(<span class="ss">f"The current element is </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The current element is 1.
-The current element is 3.
-The current element is 5.
-The current element is 17.
-The current element is 8.
-The current element is 9.
-The current element is 10.</code></pre>
+The current element is 3.</code></pre>
 </div>
 </div>
 <p>Notice how we do not need to set up any running index; the object is just iterated over directly. The argument to the <code>print()</code> function is an f-string. It is the recommended way to create string literals that can vary according to arguments.</p>
 <p>Here is another example of iteration, this time using dictionaries which have key-value pairs. In this case, we iterate over the keys.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>dict1 <span class="op">=</span> {<span class="st">'holmes'</span>: <span class="st">'male'</span>, <span class="st">'watson'</span>: <span class="st">'male'</span>, <span class="st">'mycroft'</span>: <span class="st">'male'</span>, </span>
-<span id="cb53-2"><a href="#cb53-2"></a>         <span class="st">'hudson'</span>: <span class="st">'female'</span>, <span class="st">'moriarty'</span>: <span class="st">'male'</span>, <span class="st">'adler'</span>: <span class="st">'female'</span>}</span>
-<span id="cb53-3"><a href="#cb53-3"></a><span class="co"># dict1['hudson']</span></span>
-<span id="cb53-4"><a href="#cb53-4"></a></span>
-<span id="cb53-5"><a href="#cb53-5"></a><span class="cf">for</span> x <span class="kw">in</span> dict1.keys():</span>
-<span id="cb53-6"><a href="#cb53-6"></a>    <span class="bu">print</span>(<span class="ss">f"The gender of </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss"> is </span><span class="sc">{</span>dict1[x]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a>dict1 <span class="op">=</span> {<span class="st">'holmes'</span>: <span class="st">'male'</span>, <span class="st">'watson'</span>: <span class="st">'male'</span>, <span class="st">'mycroft'</span>: <span class="st">'male'</span>, </span>
+<span id="cb49-2"><a href="#cb49-2"></a>         <span class="st">'hudson'</span>: <span class="st">'female'</span>, <span class="st">'moriarty'</span>: <span class="st">'male'</span>, <span class="st">'adler'</span>: <span class="st">'female'</span>}</span>
+<span id="cb49-3"><a href="#cb49-3"></a><span class="co"># dict1['hudson']</span></span>
+<span id="cb49-4"><a href="#cb49-4"></a></span>
+<span id="cb49-5"><a href="#cb49-5"></a><span class="cf">for</span> x <span class="kw">in</span> dict1.keys():</span>
+<span id="cb49-6"><a href="#cb49-6"></a>    <span class="bu">print</span>(<span class="ss">f"The gender of </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss"> is </span><span class="sc">{</span>dict1[x]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The gender of holmes is male
 The gender of watson is male
@@ -682,15 +684,15 @@ The gender of moriarty is male
 The gender of adler is female</code></pre>
 </div>
 </div>
-<p>In the topic on R, we wrote a block of code that incremented an integer until the square was greater than 36. Here is the Python version of that code:</p>
+<p>In <a href="01-intro_to_R.html#sec-r-loops" class="quarto-xref"><span>Section 1.7</span></a>, we wrote a block of code that incremented an integer until the square was greater than 36. Here is the Python version of that code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>x <span class="op">=</span> <span class="dv">0</span>          </span>
-<span id="cb55-2"><a href="#cb55-2"></a>test <span class="op">=</span> <span class="va">True</span> </span>
-<span id="cb55-3"><a href="#cb55-3"></a></span>
-<span id="cb55-4"><a href="#cb55-4"></a><span class="cf">while</span> test:</span>
-<span id="cb55-5"><a href="#cb55-5"></a>    x <span class="op">+=</span> <span class="dv">1</span>  </span>
-<span id="cb55-6"><a href="#cb55-6"></a>    test <span class="op">=</span> x <span class="op">&lt;</span> <span class="dv">6</span></span>
-<span id="cb55-7"><a href="#cb55-7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>x<span class="op">**</span><span class="dv">2</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>test<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a>x <span class="op">=</span> <span class="dv">0</span>          </span>
+<span id="cb51-2"><a href="#cb51-2"></a>test <span class="op">=</span> <span class="va">True</span> </span>
+<span id="cb51-3"><a href="#cb51-3"></a></span>
+<span id="cb51-4"><a href="#cb51-4"></a><span class="cf">while</span> test:</span>
+<span id="cb51-5"><a href="#cb51-5"></a>    x <span class="op">+=</span> <span class="dv">1</span>  </span>
+<span id="cb51-6"><a href="#cb51-6"></a>    test <span class="op">=</span> x <span class="op">&lt;</span> <span class="dv">6</span></span>
+<span id="cb51-7"><a href="#cb51-7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>x<span class="op">**</span><span class="dv">2</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>test<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1, True
 4, True
@@ -702,8 +704,8 @@ The gender of adler is female</code></pre>
 </div>
 <p>It is also straightforward to write a for-loop to perform the above, since we know when the break-point of the loop will be. The <code>np.arange()</code> function generates evenly spaced integers.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a><span class="cf">for</span> y <span class="kw">in</span> np.arange(<span class="dv">6</span>):</span>
-<span id="cb57-2"><a href="#cb57-2"></a>    <span class="bu">print</span>(<span class="ss">f"The square of </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss"> is </span><span class="sc">{</span>y<span class="op">**</span><span class="dv">2</span><span class="sc">}</span><span class="ss">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a><span class="cf">for</span> y <span class="kw">in</span> np.arange(<span class="dv">6</span>):</span>
+<span id="cb53-2"><a href="#cb53-2"></a>    <span class="bu">print</span>(<span class="ss">f"The square of </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss"> is </span><span class="sc">{</span>y<span class="op">**</span><span class="dv">2</span><span class="sc">}</span><span class="ss">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The square of 0 is 0.
 The square of 1 is 1.
@@ -718,19 +720,19 @@ The square of 5 is 25.</code></pre>
 <h2 data-number="2.10" class="anchored" data-anchor-id="user-defined-functions"><span class="header-section-number">2.10</span> User Defined Functions</h2>
 <p>The syntax for creating a new function in Python is as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1"></a><span class="kw">def</span> fn_name(arguments):</span>
-<span id="cb59-2"><a href="#cb59-2"></a>  Python statements</span>
-<span id="cb59-3"><a href="#cb59-3"></a>  ...</span>
-<span id="cb59-4"><a href="#cb59-4"></a>  Returned <span class="bu">object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a><span class="kw">def</span> fn_name(arguments):</span>
+<span id="cb55-2"><a href="#cb55-2"></a>  Python statements</span>
+<span id="cb55-3"><a href="#cb55-3"></a>  ...</span>
+<span id="cb55-4"><a href="#cb55-4"></a>  Returned <span class="bu">object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is the same function as earlier, computing the circumference of a circle with a given radius.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1"></a><span class="im">import</span> math</span>
-<span id="cb60-2"><a href="#cb60-2"></a></span>
-<span id="cb60-3"><a href="#cb60-3"></a><span class="kw">def</span> circumference(radius):</span>
-<span id="cb60-4"><a href="#cb60-4"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> radius </span>
-<span id="cb60-5"><a href="#cb60-5"></a></span>
-<span id="cb60-6"><a href="#cb60-6"></a>circumference(<span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1"></a><span class="im">import</span> math</span>
+<span id="cb56-2"><a href="#cb56-2"></a></span>
+<span id="cb56-3"><a href="#cb56-3"></a><span class="kw">def</span> circumference(radius):</span>
+<span id="cb56-4"><a href="#cb56-4"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> radius </span>
+<span id="cb56-5"><a href="#cb56-5"></a></span>
+<span id="cb56-6"><a href="#cb56-6"></a>circumference(<span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>8.168140899333462</code></pre>
 </div>
@@ -740,15 +742,15 @@ The square of 5 is 25.</code></pre>
 <h2 data-number="2.11" class="anchored" data-anchor-id="miscellaneous"><span class="header-section-number">2.11</span> Miscellaneous</h2>
 <section id="package-installation" class="level3">
 <h3 class="anchored" data-anchor-id="package-installation">Package installation</h3>
-<p>So far, we have used numpy and pandas, but we shall need to call upon a few other add-on packages we proceed in the course. These include statsmodels, scipy and matplotlib. It is convenient to use Anaconda to help install these packages.</p>
+<p>So far, we have used numpy and pandas, but we shall need to call upon a few other add-on packages we proceed in the course. These include statsmodels, scipy and matplotlib.</p>
 </section>
 <section id="getting-help" class="level3">
 <h3 class="anchored" data-anchor-id="getting-help">Getting help</h3>
 <p>Most functions in Python are well-documented. In order to access this documentation from within a Jupyter notebook, use the <code>?</code> operator. For more details, including the source code, use the <code>??</code> operator. For instance, for more details of the <code>pd.read_csv()</code> function, you can execute this command:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1"></a>pd.read_csv?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1"></a>pd.read_csv?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The internet is full of examples and how-to’s for Python; help is typically just a Google search or a chatGPT query away. However, it is always better to learn from the ground up instead of through snippets for specific tasks. Please look through the websites in the <a href="#sec-web-ref-02" class="quarto-xref"><span>Section 2.13.1</span></a> below.</p>
+<p>The internet is full of examples and how-to’s for Python; help is typically just a Google search or a chatGPT query away. However, it is always better to learn from the ground up instead of through snippets for specific tasks. Please look through the websites in <a href="#sec-web-ref-02" class="quarto-xref"><span>Section 2.13.1</span></a> below.</p>
 </section>
 </section>
 <section id="major-differences-with-r" class="level2" data-number="2.12">
@@ -769,7 +771,7 @@ The square of 5 is 25.</code></pre>
 <li><a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html">10 minutes to Pandas</a>: This is a quickstart to pandas, from the official website. You can find more tutorials on this page too.</li>
 <li><a href="https://docs.python.org/3/">Python official documentation</a>: This is from the<br>
 official Python page. It contains a tutorial, an overview of all built-in packages, and several howto’s, including on regular expression. A very good website to learn from.</li>
-<li><a href="https://www.anaconda.com/download/">Anaconda installation</a></li>
+<li><a href="https://www.python.org/downloads/">Python download</a></li>
 <li><a href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Jupyter Lab help</a></li>
 </ol>
 
