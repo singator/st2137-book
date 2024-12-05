@@ -325,7 +325,7 @@ t_test_out$p.value
 ```
 :::
 
-## Reading Data into R
+## Reading Data into R {#sec-01-read-data}
 
 It is uncommon that we will be creating dataframes by hand, as we have been
 doing so far. It is more likely that we will be reading in a dataset from a file
@@ -454,7 +454,7 @@ data2[order(data2$CA1), ]
 data2[rev(order(data2$CA1)), ] 
 ```
 
-## Loops in R
+## Loops in R {#sec-r-loops}
 
 `while` loops execute a set of instructions as long as a particular condition
 holds true. On the other hand, `for` loops iterate over a set of items,

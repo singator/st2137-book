@@ -37,17 +37,29 @@ Just like R, Python is an open-source software. It is free to use and extend.
 
 ## Installing Python and Jupyter Lab
 
-The easiest approach obtain the Python-related software that we need for this
-course is to download and install Anaconda from [this link](https://www.anaconda.com/download/).
+To install Python, navigate to the official 
+[Python download page](https://www.python.org/downloads/) to obtain the 
+appropriate installer for your operating system. 
 
 ::: {.callout-important}
 For our class, please ensure that you are using at least Python 3.12.
 :::
 
-Anaconda installs several software, including Python itself, and Jupyter Lab. 
-Jupyter Lab is an interactive platform for running Python code. Once you have launched 
-Jupyter Lab through Anaconda, you should be able to access it through your browser at 
-<http://localhost:8888/lab>.
+The next step is to create a virtual environment for this course. Virtual 
+environments are specific to Python. They allow you to retain multiple versions 
+of Python, and of packages, on the same computer. Go through the videos on Canvas
+relevant to your operating system to create a virtual environment and install 
+Jupyter Lab on your machine.
+
+Jupyter notebooks are great for interactive work with Python, but more advanced
+users may prefer a full-fledged IDE. If you are an advanced user, and are
+comfortable with an IDE of your own choice (e.g. Spyder or VSCode), feel free to
+continue using that to run the codes for this course. 
+
+::: {.callout-important}
+Even if you are using Anaconda/Spyder/VSCode, you still need to create a virtual
+environment.
+:::
 
 ![Jupyter Lab](figs/jupyter_lab2.png){#fig-jupyter fig-alt="Jupyter Lab" fig-align="center"}
 
@@ -72,16 +84,11 @@ import this
 More information on using Jupyter notebooks can be obtained from 
 [this link](https://jupyterlab.readthedocs.io/en/stable/user/interface.html). 
 
-Jupyter notebooks are great for interactive work with Python, but more advanced
-users may prefer a full-fledged IDE. If you are an advanced user, and are
-comfortable with an IDE of your own choice (e.g. Spyder or VSCode), feel free to
-continue using that to run the codes for this course.
-
 ## Basic Data Structures in Python
 
-The main objects in native[^1] Python that contain data are
+The main objects in native[^02-python-1] Python that contain data are
 
-[^1]: i.e., Python without any packages imported.
+[^02-python-1]: i.e., Python without any packages imported.
 
 * **Lists**, which are defined with [ ]. Lists are mutable.
 * **Tuples**, which are defined with ( ). Tuples are immutable.
@@ -106,7 +113,8 @@ print(x)
 ```{python mutable-2}
 #| eval: false
 
-# The following will return an error, because x_tuple is a tuple, and hence immutable.
+# The following will return an error, because x_tuple is a tuple, and hence 
+# immutable.
 x_tuple = (1, 3, 5, 6, 8, 9, 10)
 x_tuple[3] = 17 
 ```
@@ -145,8 +153,8 @@ char_list[::2]         # from first to last, every 2 apart.
 ```
 
 This indexing syntax is used in the additional packages we use as well, so it is
-good to know about it.Here is a pictorial representation of how positive and
-negative indexes work together.
+good to know about it. @fig-py-slice displays a pictorial representation of how
+positive and negative indexes work together.
 
 ![Positive and negative indices](figs/python_slice.png){#fig-py-slice fig-alt="Python slice" fig-align="center" width="55%"}
 
@@ -243,14 +251,14 @@ where, within a column, each element has to be of the same type.
 ## Reading Data into Python
 
 Let us begin with the same file that we began with in the topic on R: `crab.txt`. 
-In that topic, we observed that this file contained headings, and that the columns 
+In @sec-01-read-data, we observed that this file contained headings, 
+and that the columns 
 were separated by spaces. The `pandas` function to read in such text files 
 is `read_table()`. It has numerous optional arguments, but in this case we just 
 need these two:
 
 ```{python read-1}
-data1 = pd.read_table('data/crab.txt', header=0, 
-                      delim_whitespace=True)
+data1 = pd.read_table('data/crab.txt', header=0, sep="\\s+")
 data1.head()
 ```
 
@@ -263,8 +271,8 @@ or numpy array) when we read the data in. Here is an example:
 
 ```{python read-2}
 varnames = ["Subject", "Gender", "CA1", "CA2", "HW"]
-data2 = pd.read_table('data/ex_1.txt', header=None,  
-                      names=varnames, delim_whitespace=True)
+data2 = pd.read_table('data/ex_1.txt', header=None, 
+                      names=varnames, sep="\\s+")
 data2
 ```
 
@@ -318,7 +326,7 @@ to denote code blocks. Instead, these are defined by the number of indentations
 in a line. 
 
 ```{python iter-1}
-for i in x:
+for i in x[:2]:
   print(f"The current element is {i}.")
 ```
 
@@ -338,7 +346,7 @@ for x in dict1.keys():
     print(f"The gender of {x} is {dict1[x]}")
 ```
 
-In the topic on R, we wrote a block of code that incremented an integer until the 
+In @sec-r-loops, we wrote a block of code that incremented an integer until the 
 square was greater than 36. Here is the Python version of that code:
 
 ```{python iter-3}
@@ -389,7 +397,7 @@ circumference(1.3)
 
 So far, we have used numpy and pandas, but we shall need to call upon a few 
 other add-on packages we proceed in the course. These include statsmodels, scipy and 
-matplotlib. It is convenient to use Anaconda to help install these packages.
+matplotlib. 
 
 ### Getting help
 
@@ -406,7 +414,7 @@ pd.read_csv?
 The internet is full of examples and how-to's for Python; help is typically just 
 a Google search or a chatGPT query away. However, it is always better to learn 
 from the ground up instead of through snippets for specific tasks. Please look
-through the websites in the @sec-web-ref-02 below.
+through the websites in @sec-web-ref-02 below.
 
 ## Major Differences with R
 
@@ -434,5 +442,5 @@ Before we leave this topic, take note of some very obvious differences with R:
    official Python page. It contains a tutorial, an overview of all built-in packages,
    and several howto's, including on regular expression. A very good website to learn
    from.
-4. [Anaconda installation](https://www.anaconda.com/download/)
+4. [Python download](https://www.python.org/downloads/)
 5. [Jupyter Lab help](https://jupyterlab.readthedocs.io/en/stable/user/interface.html)
