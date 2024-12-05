@@ -12,7 +12,7 @@ library(knitr)
 
 ## Introduction
 
-R actually evolved from the **S** language, which was first developed by Rick
+R evolved from the **S** language, which was first developed by Rick
 Becker, John Chambers and Allan Wilks. S was created with the following goals in
 mind:
 
@@ -31,7 +31,7 @@ mind:
 Later on, S evolved into S-PLUS, which became very costly. **R**oss Ihaka and
 **R**obert Gentleman from the University of Auckland, decided to write a
 stripped-down version of S, which was R. Five years later, version 1.0.0 of R
-was released on 29 Feb 2000. As of Dec 2023, the latest version of R is 4.3.2 It
+was released on 29 Feb 2000. As of Dec 2024, the latest version of R is 4.4.2 It
 is maintained by the [@rmanual].
 
 ## Installing R and Rstudio
@@ -100,7 +100,7 @@ Here's a quick orientation of the panels in Rstudio, with reference to
 Probably the four most frequently used data structures in R are the following:
 
 -   **Vector**: A set of elements of the same mode (logical; numeric;
-    character).
+    character; factor).
 -   **Matrix**: A set of elements appearing in rows and columns, where the
     elements are of the same mode.
 -   **Dataframe**: This is similar to the matrix object in that it is
@@ -126,10 +126,17 @@ numeric_vec
 string_vec <-c("weight", "height", "gender")
 string_vec
 
-#creating a Boolean vector (T/F):
+# creating a Boolean vector (T/F):
 logical_vec <- c(TRUE, TRUE, FALSE)
 logical_vec
+
+# creating factors:
+factors_vec <- factor(c("male", "male", "female"))
+factors_vec
 ```
+
+Factors are slightly different from strings. In R, they are used to represent
+categorical variables in linear models.
 
 When we need to create a vector that defines groups (of Females followed by
 Males, for instance), we can turn to a convenient function called `rep()`. This
@@ -210,7 +217,7 @@ ab_col
 ### Dataframes
 
 Now let's turn to dataframes, which are the most common object we are going to
-use for storing data in R. A datafame is a tabular object, like a matrix, but
+use for storing data in R. A dataframe is a tabular object, like a matrix, but
 the columns can be of different types; some can be numeric and some can be
 character, for instance. Think of a dataframe as an object with rows and
 columns:
@@ -321,7 +328,7 @@ t_test_out$p.value
 ## Reading Data into R
 
 It is uncommon that we will be creating dataframes by hand, as we have been
-doing so far. It is more common that we will be reading in a dataset from a file
+doing so far. It is more likely that we will be reading in a dataset from a file
 in order to perform analysis on it. Thus, at this point, let's sidetrack a
 little and discuss how we can read data into R as a dataframe.
 
@@ -378,10 +385,9 @@ data3
 
 ## Accessing Parts of Dataframes
 
-Both the functions above create a dataframe in R. Now we turn to the task of
-accessing a subset of rows and/or columns of a dataframe. The notation uses
-rectangular brackets, along with a comma inside these brackets to distinguish
-the row and column specifiers.
+We now turn to the task of accessing a subset of rows and/or columns of a
+dataframe. The notation uses rectangular brackets, along with a comma inside
+these brackets to distinguish the row and column specifiers.
 
 To access all rows from a particular set of columns, we leave the row column
 specification empty.
@@ -428,10 +434,10 @@ For your reference , the table below contains all the logical operators in R.
 | `x | y`  | (vectorised) OR          |
 | `x & y`  | (vectorised) AND         |
 
-The `$` operator is both a getter and a setter, so we can also use it to add new
-columns to the dataframe. The following command creates a new column named `id`,
-that contains a running sequence of integers beginning from 1; the new column
-essentially contains row numbers.
+The `$` operator is both a getter and a setter, which means we can also use it
+to add new columns to the dataframe. The following command creates a new column
+named `id`, that contains a running sequence of integers beginning from 1; the
+new column essentially contains row numbers.
 
 ```{r r-access-5}
 data2$id <- 1:NROW(data2)
@@ -451,15 +457,16 @@ data2[rev(order(data2$CA1)), ]
 ## Loops in R
 
 `while` loops execute a set of instructions as long as a particular condition
-holds true. On the other hand, `for` loops iterate over a set of integers,
-execute a set of instructions each time. The syntax for a `while` loop is as
-follows. The condition is checked at the beginning of each iteration. As long as
-it is TRUE, the set of R expressions within the curly braces will be executed.
+holds true. On the other hand, `for` loops iterate over a set of items,
+executing a set of instructions each time.
 
 ::: panel-tabset
+
 ### While Loops
 
-The general syntax for a `while` loop is as follows:
+The syntax for a `while` loop is as follows. The condition is checked at the
+beginning of each iteration. As long as it is TRUE, the set of R expressions
+within the curly braces will be executed.
 
 ```{r}
 #| eval: false
@@ -510,8 +517,8 @@ S
 
 As a second example, consider these lines of R code, which prints out all
 squares of integers from 1 to 5. The `cat( )` function concatenates a given
-sequence of strings and prints them to the console. We shall see more of it in a
-few sections down.
+sequence of strings and prints them to the console. We shall see more of it in 
+@sec-redir-r-output.
 
 ```{r loops-3}
 x <- 0            
@@ -524,7 +531,7 @@ while(test) {
 }
 ```
 
-## Redirecting R Output
+## Redirecting R Output {#sec-redir-r-output}
 
 The `cat()` function can be used to print informative statements as our loop is
 running. This can be very helpful in debugging our code. It works by simply
@@ -632,7 +639,7 @@ fuzzy search operator to return a page with a list of matching functions:
 
 R is an open-source software. Many researchers and inventors of new statistical
 methodologies contribute to the software through packages[^01-intro_to_r-1]. At
-last check (Dec 2023), there are 20236 such packages. The packages can be
+last check (Dec 2024), there are 21749 such packages. The packages can be
 perused by name, through [this
 link](https://cran.r-project.org/web/packages/available_packages_by_name.html).
 
@@ -640,7 +647,7 @@ link](https://cran.r-project.org/web/packages/available_packages_by_name.html).
 
 To install one of these packages, you can use `install.packages()`. For
 instance, this command will install `stringr` (a package for string
-manipulations) and all it's dependencies on your machine.
+manipulations) and all its dependencies on your machine.
 
 ```{r install-1}
 #| eval: false
