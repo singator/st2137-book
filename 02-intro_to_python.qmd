@@ -61,13 +61,13 @@ Even if you are using Anaconda/Spyder/VSCode, you still need to create a virtual
 environment.
 :::
 
-![Jupyter Lab](figs/jupyter_lab2.png){#fig-jupyter fig-alt="Jupyter Lab" fig-align="center"}
-
 Jupyter notebooks consist of cells, which can be of three main types: 
 
 * code cells,
 * output cells, and 
 * markdown cells. 
+
+![Jupyter Lab](figs/jupyter_lab2.png){#fig-jupyter fig-alt="Jupyter Lab" fig-align="center"}
 
 In @fig-jupyter, the red box labelled 1 is a markdown cell. It can be used to
 contain descriptions or summary of the code. The cells in the box labelled 2 are
@@ -438,9 +438,9 @@ Before we leave this topic, take note of some very obvious differences with R:
 2. [10 minutes to Pandas](https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html): 
    This is a quickstart to pandas, from the official website. You can find more 
    tutorials on this page too.
-3. [Python official documentation](https://docs.python.org/3/): This is from the  
-   official Python page. It contains a tutorial, an overview of all built-in packages,
-   and several howto's, including on regular expression. A very good website to learn
-   from.
+3. [Python official documentation](https://docs.python.org/3/): This is from the
+official Python page. It contains a tutorial, an overview of all built-in
+packages, and several howto's, including on regular expression. A very good
+website to learn from.
 4. [Python download](https://www.python.org/downloads/)
 5. [Jupyter Lab help](https://jupyterlab.readthedocs.io/en/stable/user/interface.html)
