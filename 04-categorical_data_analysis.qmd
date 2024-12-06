@@ -13,7 +13,7 @@ id <- match(Sys.info()["nodename"], venv_paths$nodename)
 use_virtualenv(venv_paths$path[id])
 ```
 
-## Introduction
+## Introduction {#sec-cda}
 
 A variable is known as a *categorical variable* if each observation belongs to
 one of a set of categories. Examples of categorical variables are: gender,

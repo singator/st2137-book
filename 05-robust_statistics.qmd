@@ -14,7 +14,7 @@ id <- match(Sys.info()["nodename"], venv_paths$nodename)
 use_virtualenv(venv_paths$path[id])
 ```
 
-## Introduction
+## Introduction {#sec-robust}
 
 Introductory statistics courses describe and discuss inferential methods based on 
 the assumption that data is Normally distributed. However, we never know the true 

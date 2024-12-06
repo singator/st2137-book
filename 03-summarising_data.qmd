@@ -1,5 +1,5 @@
 ---
-title: "Summarising Numerical Data"
+title: "Exploring Quantitative Data"
 ---
 
 ```{r setup}
@@ -29,21 +29,22 @@ each framework can do best, so that you can choose the right one.
 Although it is a simplistic view, the following diagram, @fig-sum-1, provides a
 useful taxonomy of the types of columns we might have in our dataset. Having at
 least an initial inkling of the type of data matters, because it helps decide
-what type of summary to generate or what type of plot to make.
+what type of summary to generate or what type of plot to make. Quantitative data 
+are sometimes also referred to as *numerical data*.
 
 ![Data types](figs/summ_data-01.png){#fig-sum-1 fig-alt="Data types" fig-align="center" width="60%"}
 
 There are two main ways of summarising data: numerically and graphically. This topic
 will cover:
 
-1. Numerical summaries for univariate quantitative variables.
-2. Numerical summary for association between two quantitative variables.
-2. Useful graphs for univariate quantitative variables.
+1.  Numerical summaries for univariate quantitative variables.
+2.  Numerical summary for association between two quantitative variables.
+3.  Useful graphs for univariate and bivariate quantitative variables.
 
-Techniques for categorical variables will be covered in a subsequent topic.
+Techniques for categorical variables will be covered in @sec-cda.
 
 Before proceeding, let us introduce one of the datasets that we'll be using in
-this, and subsequent topics. The dataset comes from the 
+this textbook. The dataset comes from the
 [UCI Machine Learning Repository](https://archive.ics.uci.edu/), which is a 
 very useful place to get datasets for practice. 
 
@@ -98,7 +99,10 @@ information, you can refer to @cortez2008using.
 | 29 | health     | current health status (numeric)                      | from 1 - very bad to 5 - very good                                                                             |
 | 30 | absences   | number of school absences (numeric)                  | from 0 to 93                                                                                                   |
 
-There are three columns pertaining to output grades, but G3 is the main one:
+In the explanatory variables above, notice that also severable variables have been
+stored in the dataset file using numbers, they are in fact *categorical variables*.
+Examples of these are variables 24 to 29. It seems fair to treat the three output 
+columns as numeric though. G3 is the main output variable.
 
 | #  | Feature | Description (Type)               | Details                    |
 |----|---------|----------------------------------|----------------------------|
@@ -110,19 +114,20 @@ There are three columns pertaining to output grades, but G3 is the main one:
 
 ## Numerical Summaries
 
-To begin, let us read in the dataset and generate numerical summaries of the 
-output variable of interest (G3). Numerical summaries include:
+Numerical summaries include:
 
 1. Basic information about the data, e.g. number of observations and missing 
    values.
 2. Measures of central tendency, e.g. mean, median
 3. Measures of spread, e.g. standard deviation, IQR (interquartile range), range.
 
-
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-num}
 
 ### Student Performance: Numerical Summaries
 \index{Student performance!numerical summaries}
+
+Let us read in the dataset and generate numerical summaries of the output
+variable of interest (G3).
 
 ::: {.panel-tabset}
 
@@ -187,21 +192,19 @@ that category so we should read too much into it.
 
 Here are some things to note about numerical summaries: 
 
-* If the mean and the median are close, it indicates that the distribution of 
-  the data is close to symmetric.
-* The mean is sensitive outliers but the median is not. We shall see more about 
-  this in the topic on robust statistics.
-* When the mean is much larger than the median, it suggests that there could   
-  be a few very large observations. It has resulted in a *right-skewed*  
-  distribution. Conversely, if the mean is much smaller than the median, we 
-  probably have a *left-skewed* distribution. 
+*   If the mean and the median are close to each other, it indicates that the distribution of 
+    the data is close to symmetric.
+*   The mean is sensitive outliers but the median is not. We shall see more about 
+    this in @sec-robust.
+*   When the mean is much larger than the median, it suggests that there could be a few very        large observations. It has resulted in a *right-skewed* distribution. Conversely, if 
+    the mean is much smaller than the median, we probably have a *left-skewed* distribution. 
   
 While numerical summaries provide us with some basic information about the data,
 they also leave out a lot. Even for experts, it is possible to have a wrong 
 mental idea about the data from the numerical summaries alone. For instance,
 all three histograms in @fig-sum-2 have a mean of 0 and standard deviation of 1!
 
-![Value of a picture](figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="65%"}
+![Three datasets with mean 0 and s.d. 1](figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="65%"}
 
 That's why we have to turn to *graphics* as well, in order to summarise our
 data.
@@ -216,30 +219,31 @@ possible outcomes for a quantitative variable.
 
 When we create a histogram, here are some things that we look for:
 
-1. *What is the overall pattern?*: Do the data cluster together, or is there a 
-   gap such that one or more observations deviate from the rest?
-2. *Do the data have a single mound or peak?* If yes, then we have what is 
-   known as a unimodal distribution. Data with two 'peaks' are referred to 
-   as bimodal, and data with many peaks are referred to as multimodal.
-3. *Is the distribution symmetric or skewed?*
-4. *Are there any suspected outliers?*
-
-Here are some examples of histograms:
+1.  *What is the overall pattern?*: Do the data cluster together, or is there a 
+    gap such that one or more observations deviate from the rest?
+2.  *Do the data have a single mound or peak?* If yes, then we have what is 
+    known as a unimodal distribution. Data with two 'peaks' are referred to as 
+    bimodal, and data with many peaks are referred to as multimodal. See @fig-hist-bimodal.
+3.  *Is the distribution symmetric or skewed?* See @fig-hist-skewed-egs.
+4.  *Are there any suspected outliers?* See @fig-hist-outliers.
 
 ::: {layout="[[1,1], [1]]"}
-![Histogram with outliers](figs/summ_data-03.png)
+![Histogram with outliers](figs/summ_data-03.png){#fig-hist-outliers}
 
-![Bimodal histogram](figs/summ_data-04.png)
+![Bimodal histogram](figs/summ_data-04.png){#fig-hist-bimodal}
 
-![Skewed histograms](figs/summ_data-05.png)
+![Skewed histograms](figs/summ_data-05.png){#fig-hist-skewed-egs}
 :::
 
-Now let us turn to making histograms in R and Python.
+{{< pagebreak >}}
+
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-hist}
 
 ### Student Performance: Histograms
 \index{Student performance!histograms}
+
+Now let us return to the student performance dataset.
 
 ::: {.panel-tabset}
 
@@ -262,10 +266,12 @@ fig.set_title('G3 histogram');
 
 :::
 
+::: {.callout-note}
 Do you notice anything different with the two histograms? 
+:::
 
-In general, we now have a little more information than the 5 number summaries.
-It appears that there the histogram is not a basic unimodal one. There is a large 
+In general, we now have a little more information to accompany the 5 number summaries.
+It appears that the distribution is not a basic unimodal one. There is a large 
 spike of about 40 students who scored very low scores.
 
 As we mentioned earlier, it is not useful to inspect a histogram in a silo.
@@ -279,51 +285,51 @@ variable `G3` is quantitative, and the explanatory variable `Medu` is ordinal.
 
 ```{r r-stud-perf-4}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "80%"
 library(lattice)
-histogram(~G3 | Medu, data=stud_perf, type="density")
+histogram(~G3 | Medu, data=stud_perf, type="density",
+          as.table=TRUE)
 ```
 
 #### Python code
 
 ```{python py-stud-perf-4}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "80%"
 stud_perf.G3.hist(by=stud_perf.Medu, figsize=(15,10), density=True, 
                   layout=(2,3));
 ```
 
 :::
 
-Although we it's not easy to adjust the heights of the two versions to make them
-identical, we can, by looking at either one, see that the proportion of 0-scores 
-reduces as the mother's education increases. Perhaps this is reading too much 
-into the dataset, but there seem to be more scores on the higher end for higher
-educated mothers.
+Although the heights of the panels in the two versions are not identical, we
+can, by looking at either one, see that the proportion of 0-scores reduces as
+the mother's education increases. Perhaps this is reading too much into the
+dataset, but there seem to be more scores on the higher end for highest educated
+mothers.
 
 :::
 
 ### Density Plots
 
-When using histograms, we have to vary the bin size. It is difficult to compare
-histograms because they are not smooth. An alternative to histograms is the
+Histograms are not perfect - when using them, we have to experiment with the bin 
+size since this could mask details about the data. It is also easy to get 
+distracted by the blockiness of histograms. An alternative to histograms is the
 kernel density plot. Essentially, this is obtained by smoothing the heights of
 the rectangles in a histogram.
 
-Suppose we have observed an i.i.d sample $x_1, x_2, \ldots, x_n$ from a common
-continuous pdf $f(\cdot)$. Then the kernel density estimate at $x$ is given by 
+Suppose we have observed an i.i.d sample $x_1, x_2, \ldots, x_n$ from a
+continuous pdf $f(\cdot)$. Then the kernel density estimate at $x$ is given by
 
 $$
 \hat{f}(x)  = \frac{1}{nh} \sum_{i=1}^n K \left( \frac{x - x_i}{h} \right)
 $$
 where
 
-* $K$ is a density function. A typical choice is the standard normal.
-* $h$ is a bandwidth, which determines which of the nearest points are used. The 
-  effect is similar to the number of bins in a histogram.
-
-There is no analytical expression for the final estimate. The kernel $K$ weights
-nearby points (to $x$) and returns the value of the density function.
+*   $K$ is a density function. A typical choice is the standard normal. The kernel 
+    places greater weights on nearby points (to $x$).
+*   $h$ is a bandwidth, which determines which of the nearest points are used. The 
+    effect is similar to the number of bins in a histogram.
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-perf-dist}
 
@@ -336,7 +342,7 @@ nearby points (to $x$) and returns the value of the density function.
 
 ```{r r-stud-perf-5}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "80%"
 densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
 ```
 
@@ -344,13 +350,13 @@ densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
 
 ```{python py-stud-perf-5}
 #| fig-align: center
-#| out-width: "70%"
+#| out-width: "80%"
 import matplotlib.pyplot as plt
 f, axs = plt.subplots(2, 3, squeeze=False, figsize=(15,6))
 out2 = stud_perf.groupby("Medu")
 for y,df0 in enumerate(out2):
     tmp = plt.subplot(2, 3, y+1)
-    df0[1].G3.plot(kind='kde')#(kind="kde", ax=tmp)
+    df0[1].G3.plot(kind='kde')
     tmp.set_title(df0[0])
 ```
 
@@ -364,23 +370,22 @@ rectangle colours.
 
 ### Boxplots 
 
-Now we turn to boxplots. Boxplots provide a skeletal representation of a
-distribution, and they are very well suited for showing distributions for
-multiple variables.
+A boxplot provides a skeletal representation of a distribution. Boxplots are
+very well suited for comparing multiple groups.
 
 Here are the steps for drawing a boxplot: 
 
-1. Determine Q1, Q2 and Q3. The box is made from Q1 and Q3. The median is drawn
-   as a line or a dot within the box.
-2. Determine the max-whisker reach: Q3 + 1.5IQR; the min-whisker reach 
-   by Q1 − 1.5IQR.
-3. Any data point that is out of the range from the min to max whisker reach
-   is classified as a potential outlier.
-4. Except for the outliers, the maximum point determines the upper whisker and
-   the minimum points determines the lower whisker of a boxplot.
+1.  Determine $Q_1$, $Q_2$ and $Q_3$. The box is made from $Q_1$ and $Q_3$. The 
+    median is drawn as a line or a dot within the box.
+2.  Determine the max-whisker reach: $Q_3 + 1.5 \times IQR$; the min-whisker reach by 
+    $Q_1 − 1.5 \times IQR$.
+3.  Any data point that is out of the range from the min to max whisker reach is 
+    classified as a *potential outlier*.
+4.  Excluding the potential outliers, the maximum point determines the *upper whisker* 
+    and the minimum point determines the *lower whisker* of a boxplot.
    
-A boxplot helps us to identify the median, lower and upper quantiles and
-outlier(s) (see @fig-sum-8).
+A boxplot helps us to identify the median, lower and upper quantiles and outlier(s) 
+(see @fig-sum-8).
 
 ![Boxplot construction](figs/summ_data-08.png){#fig-sum-8 fig-alt="Boxplot construction" fig-align="center" width="70%"}
 
@@ -430,9 +435,9 @@ A QQ-plot plots the standardized sample quantiles against the theoretical
 quantiles of a N(0; 1) distribution. If they fall on a straight line, then we
 would say that there is evidence that the data came from a normal distribution.
 
-Especially for unimodal datasets, the points in the middle will fall close to the 
-line. The value of a QQ-plot is in judging if the tails of the data are fatter 
-or thinner than the tails of the Normal. 
+Especially for unimodal datasets, the points in the middle will typically fall
+close to the line. The value of a QQ-plot is in judging if the tails of the data
+are fatter or thinner than the tails of the Normal.
 
 ```{r qq-eg-1}
 #| echo: false
