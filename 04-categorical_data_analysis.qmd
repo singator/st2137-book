@@ -1,5 +1,5 @@
 ---
-title: "Categorical Data Analysis"
+title: "Exploring Categorical Data"
 ---
 
 ```{r setup}
@@ -42,7 +42,8 @@ have specific quantitative values.
 categories, but the categories have no specific ordering.
 
 In this topic, we shall discuss techniques for identifying the presence, and for 
-measuring the strength, of the association between two categorical variables. 
+measuring the strength, of the association between two categorical variables. We 
+shall also demonstrate common visualisations used with categorical data.
 
 ## Contingency Tables
 
@@ -66,7 +67,9 @@ few rows shown):
 set.seed(13)
 mf_sample <- sample(c("male", "female"), size=6, TRUE)
 pain_sample <- sample(c("pain", "no pain"), size=6, TRUE)
-chest_gender_df <- data.frame(Gender = mf_sample, Pain = pain_sample)
+chest_gender_df <- data.frame(Patient = 1:6,
+                              Gender = mf_sample, 
+                              Pain = pain_sample)
 kable(chest_gender_df)
 ```
 
@@ -89,10 +92,181 @@ observations in the dataset.
 All the techniques we shall touch upon in this chapter are applicable to
 contingency tables. 
 
+## Visualisations 
+
+### Bar charts
+
+A common method for visualisation cross combinations of categorical data is 
+to use a bar chart. 
+
+::: {style="background-color: #D5D1D1; padding: 20px" #exm-pol-assoc-3}
+
+### Political Association and Gender Barchart
+\index{Political association!bar chart}
+
+Consider data given in the table below where both variables are nominal. It
+cross-classifies poll respondents according to their gender and their political
+party affiliation.
+
+```{r}
+#| echo: false
+x <- matrix(c(762,327,468,484,239,477), ncol=3, byrow=TRUE)
+dimnames(x) <- list(c("female", "male"), 
+                    c("Dem", "Ind", "Rep"))
+political_tab <- as.table(x)
+kable(political_tab)
+```
+
+Here is R code to make a barchart for this data.
+
+```{r r-pol-3}
+#| fig-align: center
+#| out-width: 65%
+library(lattice)
+barchart(political_tab/rowSums(political_tab), 
+         horizontal = FALSE, auto.key=TRUE)
+```
+
+We can see that the proportion of Republicans is higher for males than for
+females. The corresponding proportion of Democrats is lower. However, note that
+the barchart does not reflect that the marginal count for males was much less
+than that for females.
+
+:::
+
+Let us turn to making bar charts with pandas and Python.
+
+::: {style="background-color: #D5D1D1; padding: 20px" #exm-claritin-2}
+
+### Claritin and Nervousness Barchart
+\index{Claritin!bar chart}
+
+Claritin is a drug for treating allergies. However, it has a side effect of
+inducing nervousness in patients. From a sample of 450 subjects, 188 of them
+were randomly assigned to take Claritin, and the remaining were assigned to take
+the placebo. The observed data was as follows:
+
+```{r r-claritin-0}
+#| echo: false
+y <-  matrix(c(4, 2, 184, 260), nrow=2)
+dimnames(y) <- list(c("claritin", "placebo"), c("nervous", "not nervous"))
+claritin_tab <- as.table(y)
+kable(claritin_tab)
+```
+
+A barchart can be created in Python with the following code. This barchart 
+is slightly different from the one in @exm-pol-assoc-3 because it is not 
+stacked.
+
+```{python py-claritin-2}
+#| fig-align: center
+#| out-width: 80%
+
+import numpy as np
+import pandas as pd
+
+claritin_tab = np.array([[4, 184], [2, 260]])
+claritin_prop = claritin_tab/claritin_tab.sum(axis=1).reshape((2,1))
+
+xx = pd.DataFrame(claritin_prop, 
+                  columns=['nervous', 'not_nervous'], 
+                  index=['claritin', 'placebo'])
+
+ax = xx.plot(kind='bar', stacked=False, rot=1.0, figsize=(10,4))
+ax.legend(loc='upper left');
+```
+
+The proportion of patients who are not nervous is similar in both groups.
+
+:::
+
+### Mosaic plots
+
+Unlike a bar chart, a mosaic plot reflects the count in each cell (through the
+area), along with the proportions of interest. Let us inspect how we can make
+mosaic plots for the political association data earlier.
+
+::: {style="background-color: #D5D1D1; padding: 20px" #exm-pol-assoc-2}
+
+### Political Association and Gender Mosaic Plot
+\index{Political association!mosaic plot}
+
+The colours in the output for the R code reflect the sizes of the standardised 
+residuals. We shall discuss this in more detail in @sec-rc-tables.
+
+::: {.panel-tabset}
+
+#### R code 
+
+```{r r-pol-4}
+#| fig-align: center
+#| out-width: 80%
+#| fig-height: 4.5
+mosaicplot(political_tab, shade=TRUE)
+```
+
+#### Python code
+
+```{python py-pol-4}
+#| fig-align: center
+#| out-width: 80%
+from statsmodels.graphics.mosaicplot import mosaic
+import matplotlib.pyplot as plt
+
+political_tab = np.asarray([[762,327,468], [484,239,477]])
+mosaic(political_tab, statistic=True, gap=0.05);
+```
+
+:::
+
+:::
+
+### Conditional Density Plots
+
+When we have one categorical and one quantitative variable, the kind of plot we
+make really depends on which is the response, and which is the explanatory
+variable. If the response variable is the quantitative one, it makes sense to
+create boxplots or histograms. However, if the response variable is a the
+categorical one, we should really be making something along these lines:
+
+::: {style="background-color: #D5D1D1; padding: 20px" #exm-heart-1}
+\index{Heart failure!conditional density plot}
+
+The dataset at [UCI repository](https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records) 
+contains records on 299 patients who had heart failure. The data was collected
+during the follow-up period; each patient had 13 clinical features recorded. The
+primary variable of interest was whether they died or not. Suppose we wished to
+plot how this varied with age (a quantitative variable):
+
+```{r r-cd-1}
+#| fig-align: center
+#| out-width: 65%
+
+data_path <- file.path("data", "heart+failure+clinical+records", 
+                       "heart_failure_clinical_records_dataset.csv")
+heart_failure <- read.csv(data_path)
+spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+```
+
+It reflects how the probability of an event varies with the quantitative explanatory 
+variable. A smoothed version of this is known as the conditional density plot:
+
+```{r r-cd-2}
+#| fig-align: center
+#| out-width: 65%
+cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+```
+
+From either plot, it is clear to see that there is an increased proportion of 
+death during follow-up associated with older patients.
+
+:::
+
+
 ## Tests for Independence
 
 In the contingency table above, the two categorical variables are *Gender* and
-*Presence/absence of Pain*. With contingency tables, the main inferential task
+*Presence/Absence of Pain*. With contingency tables, the main inferential task
 usually relates to assessing the association between the two categorical
 variables.
 
@@ -101,6 +275,10 @@ If two categorical variables are **independent**, then the joint distribution of
 the variables would be equal to the product of the marginals. If two variables 
 are not independent, we say that they are **associated**.
 :::
+
+In the remainder of this section, we are going to discuss and apply statistical
+hypothesis tests. Refer to @sec-sig-test-proc for a quick recap about hypothesis
+testing.
 
 ### $\chi^2$-Test for Independence 
 
@@ -132,7 +310,7 @@ library(DescTools)
 Desc(chest_tab, rfrq="011", plotit = FALSE, verbose=1)
 ```
 
-In the output above, ignore the p-values for now.. We'll get to those in a
+In the output above, ignore the $p$-values for now.. We'll get to those in a
 minute. Let $X$ represent gender and $Y$ represent chest pain. Then from the
 estimated proportions in the "Sum" row and colums, we can read off the following
 estimated probabilities
@@ -165,7 +343,7 @@ $$
 \chi^2 = \sum \frac{(|\text{expected} - \text{observed} | - 0.50 )^2}{\text{expected count}} 
 $$ {#eq-chi-sq}
 
-The sum is taken over every cell in the table. Hence in a $2\times2$, as in @exm-chest-pain, 
+The sum is taken over every cell in the table. Hence in a $2\times2$ table, as in @exm-chest-pain, 
 there would be 4 terms in the summation. 
 
 
@@ -194,8 +372,6 @@ chisq_output
 
 ```{python py-chest_gender-1}
 #| collapse: true
-import numpy as np
-import pandas as pd
 from scipy import stats
 
 chest_array = np.array([[46, 474], [37, 516]])
@@ -267,7 +443,7 @@ inducing nervousness in patients. From a sample of 450 subjects, 188 of them
 were randomly assigned to take Claritin, and the remaining were assigned to take
 the placebo. The observed data was as follows:
 
-```{r r-claritin-0}
+```{r r-claritin-10}
 #| echo: false
 y <-  matrix(c(4, 2, 184, 260), nrow=2)
 dimnames(y) <- list(c("claritin", "placebo"), c("nervous", "not nervous"))
@@ -294,7 +470,9 @@ fisher.test(claritin_tab)
 ```{python py-claritin-1}
 claritin_tab = np.array([[4, 184], [2, 260]])
 
-stats.fisher_exact(claritin_tab)
+fe_output = stats.fisher_exact(claritin_tab)
+
+print(f"The p-value for the test is {fe_output.pvalue:.4f}.")
 ```
 
 :::
@@ -312,7 +490,7 @@ chisq.test(claritin_tab)$expected
 :::
 
 
-### $\chi^2$-Test for $r \times c$ Tables
+### $\chi^2$-Test for $r \times c$ Tables {#sec-rc-tables}
 
 So far, we have considered the situation of two categorical variables where each
 one has only two outcomes (2x2 table). However, it is common that we want to
@@ -355,11 +533,10 @@ and political affiliation.
 
 :::
 
-The $\chi^2$-test can be extended to tables larger than 2x2. In general, we might 
-have $r$ rows and $c$ columns. The null and alternative hypotheses are identical
-to the 2x2 case, and the test statistic is computed in the same way. However,
-under the null hypothesis, the test statistic follows a $\chi^2$ distribution with 
-$(r-1)(c-1)$ degrees of freedom.
+In general, we might have $r$ rows and $c$ columns. The null and alternative
+hypotheses are identical to the 2x2 case, and the test statistic is computed in
+the same way. However, under the null hypothesis, the test statistic follows a
+$\chi^2$ distribution with $(r-1)(c-1)$ degrees of freedom.
 
 The $\chi^2$-test is based on a model of independence - the expected counts are 
 derived under this assumption. As such, it is possible to derive residuals and 
@@ -378,9 +555,9 @@ where
 * $p_{+j}$ is the marginal probability of column $j$.
 
 The residuals can be obtained from the test output. Under $H_0$, the residuals
-should be close to a standard Normal distribution. If the residual for a particular 
-cell is very large (or small), we suspect that lack of fit (to the independence model)
-comes from that cell.
+should be close to a standard Normal distribution. If the residual for a
+particular cell is very large (or small), we suspect that lack of fit (to the
+independence model) arises from that cell.
 
 For the political association table, the standardised residuals (from R) are:
 
@@ -394,9 +571,9 @@ This sections covers bivariate measures of association for contingency tables.
 
 ### Odds Ratio
 
-The most generally applicable measure of association, for 2x2 tables with
-nominal variables, is the Odds Ratio (OR). Suppose we have $X$ and $Y$ to be Bernoulli 
-random variables with (population) success probabilities $p_1$ and $p_2$. 
+The most generally applicable measure of association, for 2x2 tables, is the
+Odds Ratio (OR). Suppose we have $X$ and $Y$ to be Bernoulli random variables
+with (population) success probabilities $p_1$ and $p_2$.
 
 We define the odds of success for $X$ to be 
 $$
@@ -423,14 +600,15 @@ $$
 \log \frac{p_1/ (1-p_1)}{p_2/(1-p_2)} 
 $$
 
-* Log-odds-ratios can take values from $-\infty$ to $\infty$.
-* A value of 0 indicates no association between $X$ and $Y$.
-* Deviations from 0 indicate stronger association between the variables, and deviations 
-  are now symmetric; a log-odds-ratio of -0.2 indicates the same *strength* as 0.2, just 
-  the opposite direction.
+*   Log-odds-ratios can take values from $-\infty$ to $\infty$.
+*   A value of 0 indicates no association between $X$ and $Y$.
+*   Deviations from 0 indicate stronger association between the variables, 
+    and deviations are now symmetric; a log-odds-ratio of -0.2 indicates the 
+    same *strength* as 0.2, just the opposite direction.
   
-To obtain a confidence interval for the odds-ratio, we work with the log-odds ratio and 
-then exponentiate the resulting interval. Here are the steps:
+To obtain a confidence interval for the odds-ratio, we work with the log-odds
+ratio and then exponentiate the resulting interval. Here are the steps for a 
+$2\times 2$:
 
 1. The sample data in a 2x2 table can be labelled as $n_{11}, n_{12}, n_{21}, n_{22}$.
 2. The *sample* odds ratio is 
@@ -549,7 +727,8 @@ x <- matrix(c(1, 3, 10, 6,
               1, 6, 14, 12,
               0, 1,  9, 11), ncol=4, byrow=TRUE)
 dimnames(x) <- list(c("<15,000", "15,000-25,000", "25,000-40,000", ">40,000"), 
-                    c("Very Dissat.", "Little Dissat.", "Mod. Sat.", "Very Sat."))
+                    c("Very Dissat.", "Little Dissat.", "Mod. Sat.", 
+                      "Very Sat."))
 us_svy_tab <- as.table(x)
 
 output <- Desc(x, plotit = FALSE, verbose = 3)
@@ -574,7 +753,8 @@ for i in range(0, dim1[0]):
             x.append(i)
             y.append(j)
 
-stats.kendalltau(x, y)
+kt_output = stats.kendalltau(x, y)
+print(f"The estimate of tau-b is {kt_output.statistic:.4f}.")
 ```
 
 
@@ -582,131 +762,6 @@ stats.kendalltau(x, y)
 
 The output shows that both $\gamma = 0.22$ and $\tau_b =0.15$ are close to
 significant. The lower confidence limit is close to being positive.
-:::
-
-## Visualisations 
-
-### Bar charts
-
-A common method for visualisation cross combinations of categorical data is 
-to use a bar chart. 
-
-::: {style="background-color: #D5D1D1; padding: 20px" #exm-pol-assoc-3}
-
-### Political Association and Gender Barchart
-\index{Political association!bar chart}
-
-Here is the R code to make the barchart for the political affiliations data,
-directly from the contingency table in @exm-pol-assoc-1.
-
-```{r r-pol-3}
-#| fig-align: center
-#| out-width: 65%
-library(lattice)
-barchart(political_tab/rowSums(political_tab), 
-         horizontal = FALSE)
-```
-
-However, the downside is that it does not reflect that the marginal count for 
-males was much less than that for females. 
-
-:::
-
-Let us turn to making bar charts with pandas and Python. We shall use the table 
-from the Claritin example earlier in @exm-claritin-1:
-
-::: {style="background-color: #D5D1D1; padding: 20px" #exm-claritin-2}
-
-### Claritin and Nervousness Barchart
-\index{Claritin!bar chart}
-
-```{python py-claritin-2}
-#| fig-align: center
-#| out-width: 65%
-claritin_prop = claritin_tab/claritin_tab.sum(axis=1).reshape((2,1))
-
-xx = pd.DataFrame(claritin_prop, 
-                  columns=['nervous', 'not_nervous'], 
-                  index=['claritin', 'placebo'])
-
-xx.plot(kind='bar', stacked=True)
-```
-
-:::
-
-### Mosaic plots
-
-Unlike a bar chart, a mosaic plot reflects the count in each cell (through the
-area), along with the proportions of interest. Let us inspect how we can make
-mosaic plots for the political association data earlier.
-
-::: {style="background-color: #D5D1D1; padding: 20px" #exm-pol-assoc-2}
-
-### Political Association and Gender Mosaic Plot
-\index{Political association!mosaic plot}
-
-The colours in the output for the R code reflect the sizes of the standardised 
-residuals displayed below @exm-pol-assoc-1.
-
-::: {.panel-tabset}
-
-#### R code 
-
-```{r r-pol-4}
-#| fig-align: center
-#| out-width: 65%
-mosaicplot(political_tab, shade=TRUE)
-```
-
-#### Python code
-
-```{python py-pol-4}
-#| fig-align: center
-#| out-width: 65%
-from statsmodels.graphics.mosaicplot import mosaic
-import matplotlib.pyplot as plt
-
-political_tab = np.asarray([[762,327,468], [484,239,477]])
-mosaic(political_tab, statistic=True, gap=0.05);
-```
-
-:::
-
-:::
-
-### Conditional Density Plots
-
-When we have one categorical and one quantitative variable, the kind of plot we 
-make really depends on which is the response, and which is the explanatory variable. If 
-the response variable is the quantitative one, it makes sense to create 
-boxplots or histograms. However, if the response variable is a the categorical one,
-we should really be making something along these lines:
-
-::: {style="background-color: #D5D1D1; padding: 20px" #exm-heart-1}
-\index{Heart failure!conditional density plot}
-
-The dataset at [UCI repository](https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records) 
-contains records on 299 patients who had heart failure. The data was collected
-during the follow-up period; each patient had 13 clinical features recorded. The
-primary variable of interest was whether they died or not. Suppose we wished to
-plot how this varied with age (a quantitative variable):
-
-```{r r-cd-1}
-#| fig-align: center
-#| out-width: 65%
-heart_failure <- read.csv("data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv")
-spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
-```
-
-It reflects how the probability of an event varies with the quantitative explanatory 
-variable. A smoothed version of this is known as the conditional density plot:
-
-```{r r-cd-2}
-#| fig-align: center
-#| out-width: 65%
-cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
-```
-
 :::
 
 ## Further readings
