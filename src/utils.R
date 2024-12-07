@@ -1,4 +1,4 @@
-library(autoharp)
+#library(autoharp)
 
 qmd_nb <- function(infile, outfile) {
   py_chunks <- extract_chunks(infile, "python")
@@ -20,7 +20,7 @@ py_codes <- c("02-intro_to_python.qmd",
              "05-robust_statistics.qmd", "07-2_sample_tests.qmd",
              "08-anova.qmd", "09-regression.qmd", "10-simulation.qmd")
 infiles <- file.path("..", py_codes)
-root_names <- sapply(py_codes, remove_extension)
+root_names <- sapply(py_codes, autoharp::remove_extension)
 outfiles <- paste0(unname(root_names), ".py")
 out <- mapply(qmd_nb, infiles, outfiles)
 
