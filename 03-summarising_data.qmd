@@ -622,6 +622,10 @@ relationships.
 
 ### Concrete: Scatterplots
 
+When we have multiple quantitative variables in a dataset, it is common to 
+create a matrix of scatterplots. This allows for simultaneous inspection of 
+bivariate relationships.
+
 ::: {.panel-tabset}
 
 #### R code 
@@ -629,6 +633,8 @@ relationships.
 ```{r r-concrete-2}
 #| fig-align: center
 #| out-width: "100%"
+#| fig-width: 12
+#| fig-height: 12
 col_to_use <- c("Cement", "Slag", "Comp.Strength", "Water", "SLUMP.cm.",
                 "FLOW.cm.")
 pairs(concrete[, col_to_use], panel = panel.smooth)
@@ -646,6 +652,9 @@ pd.plotting.scatter_matrix(concrete[['Cement', 'Slag', 'Comp_Strength', 'Water',
 
 :::
 
+We can see that a few of the variables have several 0 values - cement, slag, slump and 
+flow. Water appears to have some relation with slump and with flow.
+
 The scatterplots allow a visual understanding of the patterns, but it is usually 
 also good to compute the correlation of all pairs of variables. 
 
@@ -657,6 +666,8 @@ also good to compute the correlation of all pairs of variables.
 #| fig-align: center
 #| message: false
 #| warning: false
+#| fig-width: 6
+#| fig-height: 5
 
 library(psych)
 corPlot(cor(concrete[, col_to_use]), cex=0.8, show.legend = FALSE)
