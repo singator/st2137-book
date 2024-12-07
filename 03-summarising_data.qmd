@@ -477,23 +477,28 @@ ingredients. The UCI page for this dataset is
 for this article is @yeh2007modeling.
 
 The data set includes 103 data points. There are 7 input variables, and 3 output
-variables in the data set. These are the columns in the data:
+variables in the data set. These are the input columns in the data, all in 
+units of kg per $m^3$ concrete:
 
-Input variables (7)(component kg in one $m^3$ concrete):
+| #   | Feature              | Details                                   |
+|-----|----------------------|-------------------------------------------|
+| 1   | Cement               |                                           |
+| 2   | Slag                 |                                           |
+| 3   | Fly ash              |                                           |
+| 4   | Water                |                                           |
+| 5   | SP                   | A super plasticizer to improve consistency. |
+| 6   | Coarse Aggr.         |                                           |
+| 7   | Fine Aggr.           |                                           |
 
-1.  Cement
-2.  Slag
-3.  Fly ash
-4.  Water
-5.  SP - a super plasticizer to improve consistency.
-6.  Coarse Aggr.
-7.  Fine Aggr.
+There are three output variables in the dataset. You can read more 
+about Slump and Flow from this 
+[wikipedia page](https://en.wikipedia.org/wiki/Concrete_slump_test).
 
-Output variables (3):
-
-1. SLUMP (cm) You can read more about the [slump test](https://en.wikipedia.org/wiki/Concrete_slump_test) here. 
-2. FLOW (cm) The previous wikipedia page has a link to the flow test too.
-3. 28-day Compressive Strength (Mpa) 
+| #   | Feature                     | Units             |
+|-----|-----------------------------|-------------------|
+| 1   | SLUMP                       | cm                |
+| 2   | FLOW                        | cm                |
+| 3   | 28-day Compressive Strength | MPa               |
 
 ::: {.panel-tabset}
 
@@ -510,7 +515,8 @@ names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 
 ```{python}
 concrete = pd.read_csv("data/concrete+slump+test/slump_test.data")
-concrete.rename(columns={'No':'id', 'Compressive Strength (28-day)(Mpa)':'Comp_Strength'}, 
+concrete.rename(columns={'No':'id', 
+                         'Compressive Strength (28-day)(Mpa)':'Comp_Strength'},  
                 inplace=True)
 ```
 
@@ -540,12 +546,13 @@ y_vals <- dnorm(x_vals, mean=x_mean, sd=x_sd)
 lines(x_vals, y_vals, col="blue", lty=2)
 ```
 
-The next chart is a QQ-plot, for assessing deviations from Normality.
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-concrete-qq}
 
 ### Concrete: QQ-plots
 \index{Concrete slump!QQ plots}
+
+The next chart is a QQ-plot, for assessing deviations from Normality.
 
 ::: {.panel-tabset}
 
@@ -588,19 +595,25 @@ where $s_x$ and $s_y$ are the sample standard deviations. $r$ is an estimate of
 the correlation between random variables $X$ and $Y$.
 
 ::: {layout-nrow=2}
-![Linear Relation](figs/summ_data-06.png){fig-align=center out-width=60%}
+![Linear Relation](figs/summ_data-06.png){#fig-corr-linear fig-align=center out-width=50%}
 
-![Non-linear relation](figs/summ_data-07.png){fig-align=center out-width=60%}
+![Non-linear relation](figs/summ_data-07.png){#fig-corr-non-linear fig-align=center out-width=50%}
 :::
 
 A few things to note about the value $r$, which is also referred to as the 
 Pearson correlation:
 
-* $r$ is always between -1 and 1.
-* A positive value for $r$ indicates a positive association and a negative value for
-  $r$ indicates a negative association.
-* Two variables have the same correlation, no matter which one is treated as
-  the response and which is treated as the explanatory variable.
+*   $r$ is always between -1 and 1.
+*   A positive value for $r$ indicates a positive association and a negative value for 
+    $r$ indicates a negative association.
+*   Two variables have the same correlation, no matter which one is coded as $X$ and
+    which one is coded as $Y$.
+
+@fig-corr-linear and @fig-corr-non-linear contain sample plots of data and their 
+corresponding $r$ values. Notice how $r$ does not reflect strong non-linear 
+relationships.
+
+{{< pagebreak >}}
 
 ## Scatterplot Matrices
 \index{Concrete slump!scatterplots and correlation}
