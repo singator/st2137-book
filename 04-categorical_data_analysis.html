@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Categorical Data Analysis – Statistical Computing and Programming</title>
+<title>4&nbsp; Exploring Categorical Data – Statistical Computing and Programming</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -165,7 +165,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-categorical_data_analysis.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-categorical_data_analysis.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploring Categorical Data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -217,7 +217,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-categorical_data_analysis.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploring Categorical Data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -274,9 +274,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#sec-cda" id="toc-sec-cda" class="nav-link active" data-scroll-target="#sec-cda"><span class="header-section-number">4.1</span> Introduction</a></li>
   <li><a href="#contingency-tables" id="toc-contingency-tables" class="nav-link" data-scroll-target="#contingency-tables"><span class="header-section-number">4.2</span> Contingency Tables</a></li>
-  <li><a href="#tests-for-independence" id="toc-tests-for-independence" class="nav-link" data-scroll-target="#tests-for-independence"><span class="header-section-number">4.3</span> Tests for Independence</a></li>
-  <li><a href="#measures-of-association" id="toc-measures-of-association" class="nav-link" data-scroll-target="#measures-of-association"><span class="header-section-number">4.4</span> Measures of Association</a></li>
-  <li><a href="#visualisations" id="toc-visualisations" class="nav-link" data-scroll-target="#visualisations"><span class="header-section-number">4.5</span> Visualisations</a></li>
+  <li><a href="#visualisations" id="toc-visualisations" class="nav-link" data-scroll-target="#visualisations"><span class="header-section-number">4.3</span> Visualisations</a></li>
+  <li><a href="#tests-for-independence" id="toc-tests-for-independence" class="nav-link" data-scroll-target="#tests-for-independence"><span class="header-section-number">4.4</span> Tests for Independence</a></li>
+  <li><a href="#measures-of-association" id="toc-measures-of-association" class="nav-link" data-scroll-target="#measures-of-association"><span class="header-section-number">4.5</span> Measures of Association</a></li>
   <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">4.6</span> Further readings</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4.7</span> References</a></li>
   </ul>
@@ -287,7 +287,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Categorical Data Analysis</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploring Categorical Data</span></h1>
 </div>
 
 
@@ -315,7 +315,7 @@ window.Quarto = {
 <li>A categorical variable is <em>ordinal</em> if the observations can be ordered, but do not have specific quantitative values.</li>
 <li>A categorical variable is <em>nominal</em> if the observations can be classified into categories, but the categories have no specific ordering.</li>
 </ul>
-<p>In this topic, we shall discuss techniques for identifying the presence, and for measuring the strength, of the association between two categorical variables.</p>
+<p>In this topic, we shall discuss techniques for identifying the presence, and for measuring the strength, of the association between two categorical variables. We shall also demonstrate common visualisations used with categorical data.</p>
 </section>
 <section id="contingency-tables" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="contingency-tables"><span class="header-section-number">4.2</span> Contingency Tables</h2>
@@ -332,32 +332,39 @@ window.Quarto = {
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
+<th style="text-align: right;">Patient</th>
 <th style="text-align: left;">Gender</th>
 <th style="text-align: left;">Pain</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: right;">1</td>
 <td style="text-align: left;">female</td>
 <td style="text-align: left;">no pain</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">2</td>
 <td style="text-align: left;">male</td>
 <td style="text-align: left;">no pain</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">3</td>
 <td style="text-align: left;">female</td>
 <td style="text-align: left;">no pain</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">4</td>
 <td style="text-align: left;">male</td>
 <td style="text-align: left;">no pain</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">5</td>
 <td style="text-align: left;">female</td>
 <td style="text-align: left;">no pain</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">6</td>
 <td style="text-align: left;">male</td>
 <td style="text-align: left;">pain</td>
 </tr>
@@ -395,9 +402,193 @@ window.Quarto = {
 </div>
 <p>All the techniques we shall touch upon in this chapter are applicable to contingency tables.</p>
 </section>
-<section id="tests-for-independence" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="tests-for-independence"><span class="header-section-number">4.3</span> Tests for Independence</h2>
-<p>In the contingency table above, the two categorical variables are <em>Gender</em> and <em>Presence/absence of Pain</em>. With contingency tables, the main inferential task usually relates to assessing the association between the two categorical variables.</p>
+<section id="visualisations" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="visualisations"><span class="header-section-number">4.3</span> Visualisations</h2>
+<section id="bar-charts" class="level3">
+<h3 class="anchored" data-anchor-id="bar-charts">Bar charts</h3>
+<p>A common method for visualisation cross combinations of categorical data is to use a bar chart.</p>
+<div id="exm-pol-assoc-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 4.2 (Political Association and Gender Barchart)</strong></span> </p>
+<p>Consider data given in the table below where both variables are nominal. It cross-classifies poll respondents according to their gender and their political party affiliation.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Dem</th>
+<th style="text-align: right;">Ind</th>
+<th style="text-align: right;">Rep</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">762</td>
+<td style="text-align: right;">327</td>
+<td style="text-align: right;">468</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">484</td>
+<td style="text-align: right;">239</td>
+<td style="text-align: right;">477</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here is R code to make a barchart for this data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">762</span>,<span class="dv">327</span>,<span class="dv">468</span>,<span class="dv">484</span>,<span class="dv">239</span>,<span class="dv">477</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">dimnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>), </span>
+<span id="cb1-4"><a href="#cb1-4"></a>                    <span class="fu">c</span>(<span class="st">"Dem"</span>, <span class="st">"Ind"</span>, <span class="st">"Rep"</span>))</span>
+<span id="cb1-5"><a href="#cb1-5"></a>political_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(x)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">barchart</span>(political_tab<span class="sc">/</span><span class="fu">rowSums</span>(political_tab), </span>
+<span id="cb1-7"><a href="#cb1-7"></a>         <span class="at">horizontal =</span> <span class="cn">FALSE</span>, <span class="at">auto.key=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-categorical_data_analysis_files/figure-html/r-pol-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see that the proportion of Republicans is higher for males than for females. The corresponding proportion of Democrats is lower. However, note that the barchart does not reflect that the marginal count for males was much less than that for females.</p>
+</div>
+<p>Let us turn to making bar charts with pandas and Python.</p>
+<div id="exm-claritin-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 4.3 (Claritin and Nervousness Barchart)</strong></span> </p>
+<p>Claritin is a drug for treating allergies. However, it has a side effect of inducing nervousness in patients. From a sample of 450 subjects, 188 of them were randomly assigned to take Claritin, and the remaining were assigned to take the placebo. The observed data was as follows:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">nervous</th>
+<th style="text-align: right;">not nervous</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">claritin</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">184</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">placebo</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">260</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>A barchart can be created in Python with the following code. This barchart is slightly different from the one in <a href="#exm-pol-assoc-3" class="quarto-xref">Example&nbsp;<span>4.2</span></a> because it is not stacked.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a>claritin_tab <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">184</span>], [<span class="dv">2</span>, <span class="dv">260</span>]])</span>
+<span id="cb2-5"><a href="#cb2-5"></a>claritin_prop <span class="op">=</span> claritin_tab<span class="op">/</span>claritin_tab.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).reshape((<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>xx <span class="op">=</span> pd.DataFrame(claritin_prop, </span>
+<span id="cb2-8"><a href="#cb2-8"></a>                  columns<span class="op">=</span>[<span class="st">'nervous'</span>, <span class="st">'not_nervous'</span>], </span>
+<span id="cb2-9"><a href="#cb2-9"></a>                  index<span class="op">=</span>[<span class="st">'claritin'</span>, <span class="st">'placebo'</span>])</span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a>ax <span class="op">=</span> xx.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">False</span>, rot<span class="op">=</span><span class="fl">1.0</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
+<span id="cb2-12"><a href="#cb2-12"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-categorical_data_analysis_files/figure-html/py-claritin-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The proportion of patients who are not nervous is similar in both groups.</p>
+</div>
+</section>
+<section id="mosaic-plots" class="level3">
+<h3 class="anchored" data-anchor-id="mosaic-plots">Mosaic plots</h3>
+<p>Unlike a bar chart, a mosaic plot reflects the count in each cell (through the area), along with the proportions of interest. Let us inspect how we can make mosaic plots for the political association data earlier.</p>
+<div id="exm-pol-assoc-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 4.4 (Political Association and Gender Mosaic Plot)</strong></span> </p>
+<p>The colours in the output for the R code reflect the sizes of the standardised residuals. We shall discuss this in more detail in <a href="#sec-rc-tables" class="quarto-xref"><span>Section 4.4.3</span></a>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mosaicplot</span>(political_tab, <span class="at">shade=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-categorical_data_analysis_files/figure-html/r-pol-4-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">from</span> statsmodels.graphics.mosaicplot <span class="im">import</span> mosaic</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>political_tab <span class="op">=</span> np.asarray([[<span class="dv">762</span>,<span class="dv">327</span>,<span class="dv">468</span>], [<span class="dv">484</span>,<span class="dv">239</span>,<span class="dv">477</span>]])</span>
+<span id="cb4-5"><a href="#cb4-5"></a>mosaic(political_tab, statistic<span class="op">=</span><span class="va">True</span>, gap<span class="op">=</span><span class="fl">0.05</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-categorical_data_analysis_files/figure-html/py-pol-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="conditional-density-plots" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-density-plots">Conditional Density Plots</h3>
+<p>When we have one categorical and one quantitative variable, the kind of plot we make really depends on which is the response, and which is the explanatory variable. If the response variable is the quantitative one, it makes sense to create boxplots or histograms. However, if the response variable is a the categorical one, we should really be making something along these lines:</p>
+<div id="exm-heart-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 4.5</strong></span> </p>
+<p>The dataset at <a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records">UCI repository</a> contains records on 299 patients who had heart failure. The data was collected during the follow-up period; each patient had 13 clinical features recorded. The primary variable of interest was whether they died or not. Suppose we wished to plot how this varied with age (a quantitative variable):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>data_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"heart+failure+clinical+records"</span>, </span>
+<span id="cb5-2"><a href="#cb5-2"></a>                       <span class="st">"heart_failure_clinical_records_dataset.csv"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>heart_failure <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(data_path)</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">spineplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-categorical_data_analysis_files/figure-html/r-cd-1-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It reflects how the probability of an event varies with the quantitative explanatory variable. A smoothed version of this is known as the conditional density plot:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">cdplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-categorical_data_analysis_files/figure-html/r-cd-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>From either plot, it is clear to see that there is an increased proportion of death during follow-up associated with older patients.</p>
+</div>
+</section>
+</section>
+<section id="tests-for-independence" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="tests-for-independence"><span class="header-section-number">4.4</span> Tests for Independence</h2>
+<p>In the contingency table above, the two categorical variables are <em>Gender</em> and <em>Presence/Absence of Pain</em>. With contingency tables, the main inferential task usually relates to assessing the association between the two categorical variables.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Independent Categorical Variables">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -411,6 +602,7 @@ Independent Categorical Variables
 <p>If two categorical variables are <strong>independent</strong>, then the joint distribution of the variables would be equal to the product of the marginals. If two variables are not independent, we say that they are <strong>associated</strong>.</p>
 </div>
 </div>
+<p>In the remainder of this section, we are going to discuss and apply statistical hypothesis tests. Refer to <a href="07-2_sample_tests.html#sec-sig-test-proc" class="quarto-xref"><span>Section 7.2</span></a> for a quick recap about hypothesis testing.</p>
 <section id="chi2-test-for-independence" class="level3">
 <h3 class="anchored" data-anchor-id="chi2-test-for-independence"><span class="math inline">\(\chi^2\)</span>-Test for Independence</h3>
 <p>The <span class="math inline">\(\chi^2\)</span>-test uses the definition above to assess if two variables in a contingency table are associated. The null and alternative hypotheses are</p>
@@ -420,7 +612,7 @@ H_1 &amp;:&amp; \text{The two variables are not indepdendent.}
 \end{eqnarray*}\]</span></p>
 <p>Under the null hypothesis, we can estimate the joint distribution from the observed marginal counts. Based on this estimated joint distribution, we then compute <em>expected</em> counts (which may not be integers) for each cell. The test statistic essentially compares the deviation of <em>observed</em> cell counts from the expected cell counts.</p>
 <div id="exm-chest-pain-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.2 (Chest Pain and Gender Expected Counts)</strong></span> </p>
+<p><span class="theorem-title"><strong>Example 4.6 (Chest Pain and Gender Expected Counts)</strong></span> </p>
 <p>Continuing from <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, we can compute the estimated marginals using row and column proportions</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -454,12 +646,12 @@ Sum      freq      83       990 1'073
 ' 95% conf. level</code></pre>
 </div>
 </div>
-<p>In the output above, ignore the p-values for now.. We’ll get to those in a minute. Let <span class="math inline">\(X\)</span> represent gender and <span class="math inline">\(Y\)</span> represent chest pain. Then from the estimated proportions in the “Sum” row and colums, we can read off the following estimated probabilities</p>
+<p>In the output above, ignore the <span class="math inline">\(p\)</span>-values for now.. We’ll get to those in a minute. Let <span class="math inline">\(X\)</span> represent gender and <span class="math inline">\(Y\)</span> represent chest pain. Then from the estimated proportions in the “Sum” row and colums, we can read off the following estimated probabilities</p>
 <p><span class="math display">\[\begin{eqnarray*}
 \widehat{P}(X = \text{male}) &amp;=&amp; 0.485  \\
 \widehat{P}(Y = \text{pain}) &amp;=&amp; 0.077
 \end{eqnarray*}\]</span></p>
-<p>Consequently, <em>under <span class="math inline">\(H_0\)</span></em>, we would estimate <span class="math display">\[
+<p>Consequently, <em>under</em> <span class="math inline">\(H_0\)</span>, we would estimate <span class="math display">\[
 \widehat{P}(X = \text{male},\, Y= \text{pain}) = 0.485 \times 0.077 \approx 0.04
 \]</span></p>
 <p>From a sample of size 1073, the expected count for this cell is then</p>
@@ -473,21 +665,21 @@ Sum      freq      83       990 1'073
 <p>The formula for the <span class="math inline">\(\chi^2\)</span>-test statistic (with continuity correction) is: <span id="eq-chi-sq"><span class="math display">\[
 \chi^2 = \sum \frac{(|\text{expected} - \text{observed} | - 0.50 )^2}{\text{expected count}}
 \tag{4.1}\]</span></span></p>
-<p>The sum is taken over every cell in the table. Hence in a <span class="math inline">\(2\times2\)</span>, as in <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, there would be 4 terms in the summation.</p>
+<p>The sum is taken over every cell in the table. Hence in a <span class="math inline">\(2\times2\)</span> table, as in <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, there would be 4 terms in the summation.</p>
 <div id="exm-chest-pain-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.3 (Chest Pain and Gender <span class="math inline">\(\chi^2\)</span> Test)</strong></span> </p>
+<p><span class="theorem-title"><strong>Example 4.7 (Chest Pain and Gender <span class="math inline">\(\chi^2\)</span> Test)</strong></span> </p>
 <p>Let us see how we can apply and interpret the <span class="math inline">\(\chi^2\)</span>-test for the data in <a href="#exm-chest-pain" class="quarto-xref">Example&nbsp;<span>4.1</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">46</span>, <span class="dv">37</span>, <span class="dv">474</span>, <span class="dv">516</span>), <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">dimnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>), <span class="fu">c</span>(<span class="st">"pain"</span>, <span class="st">"no pain"</span>))</span>
-<span id="cb2-3"><a href="#cb2-3"></a>chest_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(x)</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>chisq_output <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(chest_tab)</span>
-<span id="cb2-6"><a href="#cb2-6"></a>chisq_output</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">46</span>, <span class="dv">37</span>, <span class="dv">474</span>, <span class="dv">516</span>), <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">dimnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>), <span class="fu">c</span>(<span class="st">"pain"</span>, <span class="st">"no pain"</span>))</span>
+<span id="cb8-3"><a href="#cb8-3"></a>chest_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(x)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>chisq_output <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(chest_tab)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>chisq_output</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test with Yates' continuity correction
@@ -497,20 +689,18 @@ X-squared = 1.4555, df = 1, p-value = 0.2276</code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>chest_array <span class="op">=</span> np.array([[<span class="dv">46</span>, <span class="dv">474</span>], [<span class="dv">37</span>, <span class="dv">516</span>]])</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a>chisq_output <span class="op">=</span> stats.chi2_contingency(chest_array)</span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="bu">print</span>(<span class="ss">f"The p-value is </span><span class="sc">{</span>chisq_output<span class="sc">.</span>pvalue<span class="sc">:.3f}</span><span class="ss">."</span>)</span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">## The p-value is 0.228.</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="bu">print</span>(<span class="ss">f"The test-statistic value is </span><span class="sc">{</span>chisq_output<span class="sc">.</span>statistic<span class="sc">:.3f}</span><span class="ss">."</span>)</span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">## The test-statistic value is 1.456.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>chest_array <span class="op">=</span> np.array([[<span class="dv">46</span>, <span class="dv">474</span>], [<span class="dv">37</span>, <span class="dv">516</span>]])</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a>chisq_output <span class="op">=</span> stats.chi2_contingency(chest_array)</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="bu">print</span>(<span class="ss">f"The p-value is </span><span class="sc">{</span>chisq_output<span class="sc">.</span>pvalue<span class="sc">:.3f}</span><span class="ss">."</span>)</span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">## The p-value is 0.228.</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="bu">print</span>(<span class="ss">f"The test-statistic value is </span><span class="sc">{</span>chisq_output<span class="sc">.</span>statistic<span class="sc">:.3f}</span><span class="ss">."</span>)</span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="co">## The test-statistic value is 1.456.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -518,11 +708,11 @@ X-squared = 1.4555, df = 1, p-value = 0.2276</code></pre>
 <p>Since the <span class="math inline">\(p\)</span>-value is 0.2276, we would not reject the null hypothesis at significance level 5%. We do not have sufficient evidence to conclude that the variables are not independent.</p>
 <p>To extract the expected cell counts, we can use the following code:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>chisq_output<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>chisq_output<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           pain  no pain
 male   40.22367 479.7763
@@ -530,9 +720,9 @@ female 42.77633 510.2237</code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>chisq_output.expected_freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>chisq_output.expected_freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>array([[ 40.22367195, 479.77632805],
        [ 42.77632805, 510.22367195]])</code></pre>
@@ -560,47 +750,67 @@ Important
 <section id="fishers-exact-test" class="level3">
 <h3 class="anchored" data-anchor-id="fishers-exact-test">Fisher’s Exact Test</h3>
 <p>When the condition above is not met, we turn to Fisher’s Exact Test. The null and alternative hypothesis are the same, but the test statistic is not derived in the same way.</p>
-<p>If the marginal totals are fixed, and the two variables are independent, it can be shown that the individual cell counts arise from a variant of the hypergeometric distribution. The test statistic is based on this observation. The <span class="math inline">\(p\)</span>-value is typically obtained by simulating tables with the same marginals as the observed dataset.</p>
-<p>Using Fisher’s test sidesteps the need for a large sample size (which aids in the approximation of the distribution of the earlier test statistic). Hence the “Exact” in the name of the test.</p>
-<div id="exm-claritin-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.4 (Claritin and Nervousness)</strong></span> </p>
-<p>Claritin is a drug for treating allergies. However, it has a side effect of inducing nervousness in patients. From a sample of 450 subjects, 188 of them were randomly assigned to take Claritin, and the remaining were assigned to take the placebo. The observed data was as follows:</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">nervous</th>
-<th style="text-align: right;">not nervous</th>
-</tr>
-</thead>
+<p>If the marginal totals are fixed, and the two variables are independent, it can be shown that the individual cell counts arise from the hypergeometric distribution. The hypergeometric distribution is defined as follows.</p>
+<p>Suppose we have an urn with <span class="math inline">\(m\)</span> black balls and <span class="math inline">\(n\)</span> red balls. From this urn, we draw a random sample (without replacement) of size <span class="math inline">\(k\)</span>. If we let <span class="math inline">\(W\)</span> be the number of red balls drawn, then <span class="math inline">\(W\)</span> follows a hypergeometric distribution. The pmf is:</p>
+<p><span class="math display">\[
+P(W=w) = \frac{\binom{n}{w} \binom{m}{k-w}}{\binom{n+m}{k}}
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What is the support of <span class="math inline">\(W\)</span>?</p>
+</div>
+</div>
+<p>To transfer this to the context of <span class="math inline">\(2 \times 2\)</span> tables, suppose we have fix the marginal counts of the table, and consider the count in the top-left corner to be a random variable following a hypergeometric distribution, with <span class="math inline">\(r_{1\cdot}\)</span> black balls and <span class="math inline">\(r_{2 \cdot}\)</span> red balls. Consider drawing a sample of size <span class="math inline">\(c_{1 \cdot}\)</span> from these <span class="math inline">\(r_{1\cdot} + r_{2 \cdot}\)</span> balls.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 17%">
+<col style="width: 37%">
+</colgroup>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">claritin</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">184</td>
+<td><span class="math inline">\(W\)</span></td>
+<td>-</td>
+<td><span class="math inline">\(r_{1 \cdot}\)</span> (black balls)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">placebo</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">260</td>
+<td>-</td>
+<td>-</td>
+<td><span class="math inline">\(r_{2\cdot}\)</span> (red balls)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(c_{1 \cdot}\)</span> (sample size drawn)</td>
+<td><span class="math inline">\(c_{2\cdot}\)</span></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<p>Here is the code to perform the Fisher Exact Test.</p>
+<p>Note that, assuming the marginal counts are fixed, knowledge of one of the four entries in the table is sufficient to compute all the counts in the table.</p>
+<p>The test statistic is the observed count, <span class="math inline">\(w\)</span>, in this cell. The <span class="math inline">\(p\)</span>-value is calculated as</p>
+<p><span class="math display">\[
+P(W \le w)
+\]</span> In practice, instead of summing over all values, the <span class="math inline">\(p\)</span>-value is obtained by simulating tables with the same marginals as the observed dataset, and estimating the above probability.</p>
+<p>Using Fisher’s test sidesteps the need for a large sample size (which is required for the <span class="math inline">\(\chi^2\)</span> approximation to hold); hence the “Exact” in the name of the test.</p>
+<div id="exm-claritin-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<p><span class="theorem-title"><strong>Example 4.8 (Claritin and Nervousness)</strong></span> </p>
+<p>Here is the code to perform the Fisher Exact Test for the Claritin data.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>y <span class="ot">&lt;-</span>  <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">184</span>, <span class="dv">260</span>), <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">dimnames</span>(y) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"claritin"</span>, <span class="st">"placebo"</span>), <span class="fu">c</span>(<span class="st">"nervous"</span>, <span class="st">"not nervous"</span>))</span>
-<span id="cb9-3"><a href="#cb9-3"></a>claritin_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(y)</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="fu">fisher.test</span>(claritin_tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>y <span class="ot">&lt;-</span>  <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">184</span>, <span class="dv">260</span>), <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">dimnames</span>(y) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"claritin"</span>, <span class="st">"placebo"</span>), <span class="fu">c</span>(<span class="st">"nervous"</span>, <span class="st">"not nervous"</span>))</span>
+<span id="cb15-3"><a href="#cb15-3"></a>claritin_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(y)</span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="fu">fisher.test</span>(claritin_tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Fisher's Exact Test for Count Data
@@ -616,13 +826,13 @@ odds ratio
 </div>
 </div>
 </div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>claritin_tab <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">184</span>], [<span class="dv">2</span>, <span class="dv">260</span>]])</span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a>stats.fisher_exact(claritin_tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>fe_output <span class="op">=</span> stats.fisher_exact(claritin_tab)</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="bu">print</span>(<span class="ss">f"The p-value for the test is </span><span class="sc">{</span>fe_output<span class="sc">.</span>pvalue<span class="sc">:.4f}</span><span class="ss">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SignificanceResult(statistic=np.float64(2.8260869565217392), pvalue=np.float64(0.24118420183193057))</code></pre>
+<pre><code>The p-value for the test is 0.2412.</code></pre>
 </div>
 </div>
 </div>
@@ -631,7 +841,7 @@ odds ratio
 <p>As the <span class="math inline">\(p\)</span>-value is 0.2412, we again do not have sufficient evidence to reject the null hypothesis and conclude that there is a significant association.</p>
 <p>By the way, we can check (in R) to see that the <span class="math inline">\(\chi^2\)</span>-test would not have been appropriate:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">chisq.test</span>(claritin_tab)<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">chisq.test</span>(claritin_tab)<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in chisq.test(claritin_tab): Chi-squared approximation may be incorrect</code></pre>
 </div>
@@ -643,47 +853,14 @@ placebo  3.493333    258.5067</code></pre>
 </div>
 </div>
 </section>
-<section id="chi2-test-for-r-times-c-tables" class="level3">
-<h3 class="anchored" data-anchor-id="chi2-test-for-r-times-c-tables"><span class="math inline">\(\chi^2\)</span>-Test for <span class="math inline">\(r \times c\)</span> Tables</h3>
+<section id="sec-rc-tables" class="level3">
+<h3 class="anchored" data-anchor-id="sec-rc-tables"><span class="math inline">\(\chi^2\)</span>-Test for <span class="math inline">\(r \times c\)</span> Tables</h3>
 <p>So far, we have considered the situation of two categorical variables where each one has only two outcomes (2x2 table). However, it is common that we want to check the association between two nominal variables where one of them or both have more than 2 outcomes. Consider data given in the table below where both variables are nominal.</p>
 <div id="exm-pol-assoc-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.5 (Political Association and Gender)</strong></span> </p>
-<p>Consider data given in the table below where both variables are nominal. It cross-classifies poll respondents according to their gender and their political party affiliation.</p>
+<p><span class="theorem-title"><strong>Example 4.9 (Political Association and Gender)</strong></span> </p>
+<p>Let us return to the political association data, which we plotted in <a href="#exm-pol-assoc-3" class="quarto-xref">Example&nbsp;<span>4.2</span></a>. The R code for applying the test is identical to before</p>
 <div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Dem</th>
-<th style="text-align: right;">Ind</th>
-<th style="text-align: right;">Rep</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">female</td>
-<td style="text-align: right;">762</td>
-<td style="text-align: right;">327</td>
-<td style="text-align: right;">468</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">male</td>
-<td style="text-align: right;">484</td>
-<td style="text-align: right;">239</td>
-<td style="text-align: right;">477</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>The R code for applying the test is identical to before</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">762</span>,<span class="dv">327</span>,<span class="dv">468</span>,<span class="dv">484</span>,<span class="dv">239</span>,<span class="dv">477</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">dimnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>), </span>
-<span id="cb16-3"><a href="#cb16-3"></a>                    <span class="fu">c</span>(<span class="st">"Dem"</span>, <span class="st">"Ind"</span>, <span class="st">"Rep"</span>))</span>
-<span id="cb16-4"><a href="#cb16-4"></a>political_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(x)</span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="fu">chisq.test</span>(political_tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">chisq.test</span>(political_tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -694,7 +871,7 @@ X-squared = 30.07, df = 2, p-value = 2.954e-07</code></pre>
 </div>
 <p>In this case, there is strong evidence to reject <span class="math inline">\(H_0\)</span>. At 5% level, we would reject the null hypothesis and conclude there is an association between gender and political affiliation.</p>
 </div>
-<p>The <span class="math inline">\(\chi^2\)</span>-test can be extended to tables larger than 2x2. In general, we might have <span class="math inline">\(r\)</span> rows and <span class="math inline">\(c\)</span> columns. The null and alternative hypotheses are identical to the 2x2 case, and the test statistic is computed in the same way. However, under the null hypothesis, the test statistic follows a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\((r-1)(c-1)\)</span> degrees of freedom.</p>
+<p>In general, we might have <span class="math inline">\(r\)</span> rows and <span class="math inline">\(c\)</span> columns. The null and alternative hypotheses are identical to the 2x2 case, and the test statistic is computed in the same way. However, under the null hypothesis, the test statistic follows a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\((r-1)(c-1)\)</span> degrees of freedom.</p>
 <p>The <span class="math inline">\(\chi^2\)</span>-test is based on a model of independence - the expected counts are derived under this assumption. As such, it is possible to derive residuals and study them, to see where the data deviates from this model.</p>
 <p>We define the <em>standardised residuals</em> to be</p>
 <p><span class="math display">\[
@@ -706,10 +883,10 @@ r_{ij} = \frac{n_{ij} - \mu_{ij}}{\sqrt{\mu_{ij} (1 - p_{i+})(1 -p_{+j} )}}
 <li><span class="math inline">\(p_{i+}\)</span> is the marginal probability of row <span class="math inline">\(i\)</span></li>
 <li><span class="math inline">\(p_{+j}\)</span> is the marginal probability of column <span class="math inline">\(j\)</span>.</li>
 </ul>
-<p>The residuals can be obtained from the test output. Under <span class="math inline">\(H_0\)</span>, the residuals should be close to a standard Normal distribution. If the residual for a particular cell is very large (or small), we suspect that lack of fit (to the independence model) comes from that cell.</p>
+<p>The residuals can be obtained from the test output. Under <span class="math inline">\(H_0\)</span>, the residuals should be close to a standard Normal distribution. If the residual for a particular cell is very large (or small), we suspect that lack of fit (to the independence model) arises from that cell.</p>
 <p>For the political association table, the standardised residuals (from R) are:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">chisq.test</span>(political_tab)<span class="sc">$</span>stdres</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">chisq.test</span>(political_tab)<span class="sc">$</span>stdres</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Dem        Ind        Rep
 female  4.5020535  0.6994517 -5.3159455
@@ -718,12 +895,12 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 </div>
 </section>
 </section>
-<section id="measures-of-association" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="measures-of-association"><span class="header-section-number">4.4</span> Measures of Association</h2>
+<section id="measures-of-association" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="measures-of-association"><span class="header-section-number">4.5</span> Measures of Association</h2>
 <p>This sections covers bivariate measures of association for contingency tables.</p>
 <section id="odds-ratio" class="level3">
 <h3 class="anchored" data-anchor-id="odds-ratio">Odds Ratio</h3>
-<p>The most generally applicable measure of association, for 2x2 tables with nominal variables, is the Odds Ratio (OR). Suppose we have <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to be Bernoulli random variables with (population) success probabilities <span class="math inline">\(p_1\)</span> and <span class="math inline">\(p_2\)</span>.</p>
+<p>The most generally applicable measure of association, for 2x2 tables, is the Odds Ratio (OR). Suppose we have <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to be Bernoulli random variables with (population) success probabilities <span class="math inline">\(p_1\)</span> and <span class="math inline">\(p_2\)</span>.</p>
 <p>We define the odds of success for <span class="math inline">\(X\)</span> to be <span class="math display">\[
 \frac{p_1}{1-p_1}
 \]</span> Similarly, the odds of success for random variable <span class="math inline">\(Y\)</span> is <span class="math inline">\(\frac{p_2}{1-p_2}\)</span>.</p>
@@ -744,7 +921,7 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 <li>A value of 0 indicates no association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</li>
 <li>Deviations from 0 indicate stronger association between the variables, and deviations are now symmetric; a log-odds-ratio of -0.2 indicates the same <em>strength</em> as 0.2, just the opposite direction.</li>
 </ul>
-<p>To obtain a confidence interval for the odds-ratio, we work with the log-odds ratio and then exponentiate the resulting interval. Here are the steps:</p>
+<p>To obtain a confidence interval for the odds-ratio, we work with the log-odds ratio and then exponentiate the resulting interval. Here are the steps for a <span class="math inline">\(2\times 2\)</span>:</p>
 <ol type="1">
 <li>The sample data in a 2x2 table can be labelled as <span class="math inline">\(n_{11}, n_{12}, n_{21}, n_{22}\)</span>.</li>
 <li>The <em>sample</em> odds ratio is <span class="math display">\[
@@ -762,27 +939,27 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 \]</span></li>
 </ul>
 <div id="exm-chest-pain-4" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.6 (Chest Pain and Gender Odds Ratio)</strong></span> </p>
+<p><span class="theorem-title"><strong>Example 4.10 (Chest Pain and Gender Odds Ratio)</strong></span> </p>
 <p>Let us compute the confidence interval for the odds ratio in the chest pain and gender example from earlier.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">library</span>(DescTools)</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">OddsRatio</span>(chest_tab,<span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">OddsRatio</span>(chest_tab,<span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>odds ratio     lwr.ci     upr.ci 
  1.3534040  0.8626023  2.1234612 </code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb22-2"><a href="#cb22-2"></a>chest_tab2 <span class="op">=</span> sm.stats.Table2x2(chest_array)</span>
-<span id="cb22-3"><a href="#cb22-3"></a></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="bu">print</span>(chest_tab2.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb28-2"><a href="#cb28-2"></a>chest_tab2 <span class="op">=</span> sm.stats.Table2x2(chest_array)</span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="bu">print</span>(chest_tab2.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               Estimate   SE   LCB    UCB  p-value
 --------------------------------------------------
@@ -829,23 +1006,24 @@ Log risk ratio    0.279 0.212 -0.137 0.695   0.188
 </ol>
 <p>For both measures, values close to 0 indicate a very weak trend, while values close to 1 (or -1) indicate a strong positive (negative) association.</p>
 <div id="exm-job-income-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.7 (Job Satisfaction by Income)</strong></span> </p>
+<p><span class="theorem-title"><strong>Example 4.11 (Job Satisfaction by Income)</strong></span> </p>
 <p>Consider the following table, obtained from <span class="citation" data-cites="agresti2012categorical">Agresti (<a href="references.html#ref-agresti2012categorical" role="doc-biblioref">2012</a>)</span>. The original data come from a nationwide survey conducted in the US in 1996.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
-<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">6</span>,</span>
-<span id="cb24-2"><a href="#cb24-2"></a>              <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">7</span>,</span>
-<span id="cb24-3"><a href="#cb24-3"></a>              <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">14</span>, <span class="dv">12</span>,</span>
-<span id="cb24-4"><a href="#cb24-4"></a>              <span class="dv">0</span>, <span class="dv">1</span>,  <span class="dv">9</span>, <span class="dv">11</span>), <span class="at">ncol=</span><span class="dv">4</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="fu">dimnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"&lt;15,000"</span>, <span class="st">"15,000-25,000"</span>, <span class="st">"25,000-40,000"</span>, <span class="st">"&gt;40,000"</span>), </span>
-<span id="cb24-6"><a href="#cb24-6"></a>                    <span class="fu">c</span>(<span class="st">"Very Dissat."</span>, <span class="st">"Little Dissat."</span>, <span class="st">"Mod. Sat."</span>, <span class="st">"Very Sat."</span>))</span>
-<span id="cb24-7"><a href="#cb24-7"></a>us_svy_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(x)</span>
-<span id="cb24-8"><a href="#cb24-8"></a></span>
-<span id="cb24-9"><a href="#cb24-9"></a>output <span class="ot">&lt;-</span> <span class="fu">Desc</span>(x, <span class="at">plotit =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="dv">3</span>)</span>
-<span id="cb24-10"><a href="#cb24-10"></a>output[[<span class="dv">1</span>]]<span class="sc">$</span>assocs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">6</span>,</span>
+<span id="cb30-2"><a href="#cb30-2"></a>              <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">7</span>,</span>
+<span id="cb30-3"><a href="#cb30-3"></a>              <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">14</span>, <span class="dv">12</span>,</span>
+<span id="cb30-4"><a href="#cb30-4"></a>              <span class="dv">0</span>, <span class="dv">1</span>,  <span class="dv">9</span>, <span class="dv">11</span>), <span class="at">ncol=</span><span class="dv">4</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="fu">dimnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"&lt;15,000"</span>, <span class="st">"15,000-25,000"</span>, <span class="st">"25,000-40,000"</span>, <span class="st">"&gt;40,000"</span>), </span>
+<span id="cb30-6"><a href="#cb30-6"></a>                    <span class="fu">c</span>(<span class="st">"Very Dissat."</span>, <span class="st">"Little Dissat."</span>, <span class="st">"Mod. Sat."</span>, </span>
+<span id="cb30-7"><a href="#cb30-7"></a>                      <span class="st">"Very Sat."</span>))</span>
+<span id="cb30-8"><a href="#cb30-8"></a>us_svy_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(x)</span>
+<span id="cb30-9"><a href="#cb30-9"></a></span>
+<span id="cb30-10"><a href="#cb30-10"></a>output <span class="ot">&lt;-</span> <span class="fu">Desc</span>(x, <span class="at">plotit =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="dv">3</span>)</span>
+<span id="cb30-11"><a href="#cb30-11"></a>output[[<span class="dv">1</span>]]<span class="sc">$</span>assocs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                       estimate  lwr.ci  upr.ci
 Contingency Coeff.       0.2419       -       -
@@ -867,147 +1045,33 @@ Mutual Information       0.0508       -       -</code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb26-2"><a href="#cb26-2"></a></span>
-<span id="cb26-3"><a href="#cb26-3"></a>us_svy_tab <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">6</span>], </span>
-<span id="cb26-4"><a href="#cb26-4"></a>                      [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">7</span>],</span>
-<span id="cb26-5"><a href="#cb26-5"></a>                      [<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">14</span>, <span class="dv">12</span>],</span>
-<span id="cb26-6"><a href="#cb26-6"></a>                      [<span class="dv">0</span>, <span class="dv">1</span>,  <span class="dv">9</span>, <span class="dv">11</span>]])</span>
-<span id="cb26-7"><a href="#cb26-7"></a></span>
-<span id="cb26-8"><a href="#cb26-8"></a>dim1 <span class="op">=</span> us_svy_tab.shape</span>
-<span id="cb26-9"><a href="#cb26-9"></a>x <span class="op">=</span> []<span class="op">;</span> y<span class="op">=</span>[]</span>
-<span id="cb26-10"><a href="#cb26-10"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, dim1[<span class="dv">0</span>]):</span>
-<span id="cb26-11"><a href="#cb26-11"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, dim1[<span class="dv">1</span>]):</span>
-<span id="cb26-12"><a href="#cb26-12"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, us_svy_tab[i,j]):</span>
-<span id="cb26-13"><a href="#cb26-13"></a>            x.append(i)</span>
-<span id="cb26-14"><a href="#cb26-14"></a>            y.append(j)</span>
-<span id="cb26-15"><a href="#cb26-15"></a></span>
-<span id="cb26-16"><a href="#cb26-16"></a>stats.kendalltau(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb32-2"><a href="#cb32-2"></a></span>
+<span id="cb32-3"><a href="#cb32-3"></a>us_svy_tab <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">6</span>], </span>
+<span id="cb32-4"><a href="#cb32-4"></a>                      [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">7</span>],</span>
+<span id="cb32-5"><a href="#cb32-5"></a>                      [<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">14</span>, <span class="dv">12</span>],</span>
+<span id="cb32-6"><a href="#cb32-6"></a>                      [<span class="dv">0</span>, <span class="dv">1</span>,  <span class="dv">9</span>, <span class="dv">11</span>]])</span>
+<span id="cb32-7"><a href="#cb32-7"></a></span>
+<span id="cb32-8"><a href="#cb32-8"></a>dim1 <span class="op">=</span> us_svy_tab.shape</span>
+<span id="cb32-9"><a href="#cb32-9"></a>x <span class="op">=</span> []<span class="op">;</span> y<span class="op">=</span>[]</span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, dim1[<span class="dv">0</span>]):</span>
+<span id="cb32-11"><a href="#cb32-11"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, dim1[<span class="dv">1</span>]):</span>
+<span id="cb32-12"><a href="#cb32-12"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, us_svy_tab[i,j]):</span>
+<span id="cb32-13"><a href="#cb32-13"></a>            x.append(i)</span>
+<span id="cb32-14"><a href="#cb32-14"></a>            y.append(j)</span>
+<span id="cb32-15"><a href="#cb32-15"></a></span>
+<span id="cb32-16"><a href="#cb32-16"></a>kt_output <span class="op">=</span> stats.kendalltau(x, y)</span>
+<span id="cb32-17"><a href="#cb32-17"></a><span class="bu">print</span>(<span class="ss">f"The estimate of tau-b is </span><span class="sc">{</span>kt_output<span class="sc">.</span>statistic<span class="sc">:.4f}</span><span class="ss">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SignificanceResult(statistic=np.float64(0.15235215134659688), pvalue=np.float64(0.0860294855671433))</code></pre>
+<pre><code>The estimate of tau-b is 0.1524.</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 <p>The output shows that both <span class="math inline">\(\gamma = 0.22\)</span> and <span class="math inline">\(\tau_b =0.15\)</span> are close to significant. The lower confidence limit is close to being positive.</p>
-</div>
-</section>
-</section>
-<section id="visualisations" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="visualisations"><span class="header-section-number">4.5</span> Visualisations</h2>
-<section id="bar-charts" class="level3">
-<h3 class="anchored" data-anchor-id="bar-charts">Bar charts</h3>
-<p>A common method for visualisation cross combinations of categorical data is to use a bar chart.</p>
-<div id="exm-pol-assoc-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.8 (Political Association and Gender Barchart)</strong></span> </p>
-<p>Here is the R code to make the barchart for the political affiliations data, directly from the contingency table in <a href="#exm-pol-assoc-1" class="quarto-xref">Example&nbsp;<span>4.5</span></a>.</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">library</span>(lattice)</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="fu">barchart</span>(political_tab<span class="sc">/</span><span class="fu">rowSums</span>(political_tab), </span>
-<span id="cb28-3"><a href="#cb28-3"></a>         <span class="at">horizontal =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-pol-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>However, the downside is that it does not reflect that the marginal count for males was much less than that for females.</p>
-</div>
-<p>Let us turn to making bar charts with pandas and Python. We shall use the table from the Claritin example earlier in <a href="#exm-claritin-1" class="quarto-xref">Example&nbsp;<span>4.4</span></a>:</p>
-<div id="exm-claritin-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.9 (Claritin and Nervousness Barchart)</strong></span> </p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>claritin_prop <span class="op">=</span> claritin_tab<span class="op">/</span>claritin_tab.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).reshape((<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb29-2"><a href="#cb29-2"></a></span>
-<span id="cb29-3"><a href="#cb29-3"></a>xx <span class="op">=</span> pd.DataFrame(claritin_prop, </span>
-<span id="cb29-4"><a href="#cb29-4"></a>                  columns<span class="op">=</span>[<span class="st">'nervous'</span>, <span class="st">'not_nervous'</span>], </span>
-<span id="cb29-5"><a href="#cb29-5"></a>                  index<span class="op">=</span>[<span class="st">'claritin'</span>, <span class="st">'placebo'</span>])</span>
-<span id="cb29-6"><a href="#cb29-6"></a></span>
-<span id="cb29-7"><a href="#cb29-7"></a>xx.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/py-claritin-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="mosaic-plots" class="level3">
-<h3 class="anchored" data-anchor-id="mosaic-plots">Mosaic plots</h3>
-<p>Unlike a bar chart, a mosaic plot reflects the count in each cell (through the area), along with the proportions of interest. Let us inspect how we can make mosaic plots for the political association data earlier.</p>
-<div id="exm-pol-assoc-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.10 (Political Association and Gender Mosaic Plot)</strong></span> </p>
-<p>The colours in the output for the R code reflect the sizes of the standardised residuals displayed below <a href="#exm-pol-assoc-1" class="quarto-xref">Example&nbsp;<span>4.5</span></a>.</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li></ul>
-<div class="tab-content">
-<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">mosaicplot</span>(political_tab, <span class="at">shade=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-pol-4-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a><span class="im">from</span> statsmodels.graphics.mosaicplot <span class="im">import</span> mosaic</span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb31-3"><a href="#cb31-3"></a></span>
-<span id="cb31-4"><a href="#cb31-4"></a>political_tab <span class="op">=</span> np.asarray([[<span class="dv">762</span>,<span class="dv">327</span>,<span class="dv">468</span>], [<span class="dv">484</span>,<span class="dv">239</span>,<span class="dv">477</span>]])</span>
-<span id="cb31-5"><a href="#cb31-5"></a>mosaic(political_tab, statistic<span class="op">=</span><span class="va">True</span>, gap<span class="op">=</span><span class="fl">0.05</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/py-pol-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="conditional-density-plots" class="level3">
-<h3 class="anchored" data-anchor-id="conditional-density-plots">Conditional Density Plots</h3>
-<p>When we have one categorical and one quantitative variable, the kind of plot we make really depends on which is the response, and which is the explanatory variable. If the response variable is the quantitative one, it makes sense to create boxplots or histograms. However, if the response variable is a the categorical one, we should really be making something along these lines:</p>
-<div id="exm-heart-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.11</strong></span> </p>
-<p>The dataset at <a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records">UCI repository</a> contains records on 299 patients who had heart failure. The data was collected during the follow-up period; each patient had 13 clinical features recorded. The primary variable of interest was whether they died or not. Suppose we wished to plot how this varied with age (a quantitative variable):</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>heart_failure <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv"</span>)</span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="fu">spineplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-cd-1-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>It reflects how the probability of an event varies with the quantitative explanatory variable. A smoothed version of this is known as the conditional density plot:</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">cdplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-cd-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
-</figure>
-</div>
-</div>
-</div>
 </div>
 </section>
 </section>
