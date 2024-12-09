@@ -24,15 +24,17 @@ The first step is to create a SAS profile: Use your *NUS email address* to regis
 and create your SAS profile using [this link](https://www.sas.com/profile/ui/#/create).
 
 Once you have verified your account using the email that would be sent to you, 
-the [following link](https://welcome.oda.sas.com/) should take you to this page:
+the [following link](https://welcome.oda.sas.com/) should take you to the login 
+page shown in @fig-sas-1.
 
-![SAS Studio Login](figs/sas_welcome-01.png){#fig-sas-1 fig-alt="SAS login" fig-align="center" width=75%}
+![SAS Studio Login](figs/sas_welcome-01.png){#fig-sas-1 fig-alt="SAS login" fig-align="center" width=70%}
 
 Subsequently logging in should take you to the landing page, where you can begin 
-writing SAS code and using SAS:
+writing SAS code and using SAS. This interface can be seen in @fig-sas-2.
 
-![SAS Studio](figs/sas_welcome-02.png){#fig-sas-2 fig-alt="SAS Studio" fig-align="center" width=75%}
+![SAS Studio](figs/sas_welcome-02.png){#fig-sas-2 fig-alt="SAS Studio" fig-align="center" width=70%}
 
+{{< pagebreak >}}
 
 ## An Overview of SAS Language
 
@@ -70,9 +72,9 @@ RUN;
 ```
 
 To run the above program, click on the "Running Man" icon in SAS studio. You 
-should obtain the following output:
+should obtain the output shown in @fig-sas-3.
 
-![SAS output](figs/sas_ex-1.png){#fig-sas-3 fig-alt="SAS output" fig-align="center" width=75%}
+![SAS output](figs/sas_ex-1.png){#fig-sas-3 fig-alt="SAS output" fig-align="center" width=70%}
 
 This dataset has only one observation (row).
 
@@ -112,12 +114,12 @@ VAR CA1 CA2;
 RUN;
 ```
 
-The output for the above code should be as follows:
+The output for the above code is shown in @fig-sas-4a and @fig-sas-4b.
 
 ::: {layout-nrow=2}
-![Dataset output](figs/sas_ex-2a.png){#fig-sas-4 fig-alt="DATA output" fig-align="center" width=70%}
+![Dataset output](figs/sas_ex-2a.png){#fig-sas-4a fig-alt="DATA output" fig-align="center" width=70%}
 
-![Proc output](figs/sas_ex-2b.png){#fig-sas-4 fig-alt="PROC output" fig-align="center" width=70%}
+![Proc output](figs/sas_ex-2b.png){#fig-sas-4b fig-alt="PROC output" fig-align="center" width=70%}
 :::
 
 In the statements above, the `$`'s in the INPUT statement inform SAS that the 
@@ -250,7 +252,7 @@ SAS studio!
 ## Summarising Numerical Data
 
 The SAS routines we are going to work with can be found in the "Tasks and Utilities"
-section (see highligted tasks in @fig-sas-tasks-01).
+section (see highlighted tasks in @fig-sas-tasks-01).
 
 ![Common ST2137 Tasks](figs/sas_tasks-01.png){#fig-sas-tasks-01 fig-align="center" width=30%}
 
@@ -289,7 +291,7 @@ spring is the most right-skewed.
 To create a scatterplot in SAS, go to Tasks > Graphs > Scatter Plot.
 
 Specify `casual` on the x-axis, `registered` on the y-axis, and `workingday` as 
-the Group. You should observe the following plot created @fig-sas-bike-01:
+the Group. You should observe the plot created @fig-sas-bike-01:
 
 
 ![Scatter plot, Bike Data](figs/sas_bike_scatter-01.png){#fig-sas-bike-01 fig-align="center" width="60%"}
@@ -434,7 +436,8 @@ Once we load the data ST2137.STUD_PERF, we go to Tasks > Table Analysis. After
 selecting the two variables, we check the appropriate box to obtain @fig-sas-tau-01.
 
 ![Walc vs Dalc](figs/sas_stud_tau-01.png){#fig-sas-tau-01 fig-align="center" width=60%}
-
+You may observe that the particular associations computed and returned are similar
+to those by the `Desc` R package that we used in @exm-chest-pain-4.
 
 :::
 

@@ -51,7 +51,7 @@ as well. It is a vastly under-used technique.
 ## Notation
 
 For the rest of this topic, let us settle on some notation. Suppose we have an
-i.i.d sample $X_i$ from a continuous pdf $f$. 
+i.i.d sample $X_i$ from a continuous pdf $f$, where $i=1,ldots,n$.
 
 * We use $q_{f,p}$ to refer to the $p$-th quantile of $f$, i.e. 
 $$
@@ -76,8 +76,8 @@ For this topic, we shall use a couple of datasets that are clearly not Normal.
 \index{Copper!histogram, outlier}
 
 The dataset `chem` comes from the package `MASS`. The data was recorded as part 
-of an analytical chemistry experiment -- the amount of copper ($\mu g^{-1}$) was 
-measured in wholemeal flour was measured using 24 samples.
+of an analytical chemistry experiment -- the amount of copper ($\mu g^{-1}$) 
+in wholemeal flour was measured for 24 samples.
 
 ```{r cu_1}
 #| fig-cap: "Copper measurements dataset"
@@ -125,9 +125,9 @@ mean of the full dataset is larger than the 3rd quartile!
 
 ## Assessing Robustness{#sec-arob}
 
-The focus of this course is on the computational aspects of performing data 
-analyses. However, this section is a little theoretical. It exists to 
-provide a better overview of robust statistical techniques.
+The focus of this course is on the computational aspects of performing data
+analyses. However, this section and the next are a little theoretical. They only
+exist to provide a better overview of robust statistical techniques.
 
 @sec-are introduces an approach for comparing two estimators in general. The 
 remaining subsections (@sec-req-rob onwards) briefly list ways in which 
@@ -143,28 +143,30 @@ $\tilde{\theta}$.
 
 ### Asymptotic Relative Efficiency (ARE)
 
-The asymptotic relative efficiency of $\tilde{\theta}$ relative to $\hat{\theta}$ is
+The asymptotic relative efficiency of $\tilde{\theta}$ relative to
+$\hat{\theta}$ is
 
 $$
 ARE(\tilde{\theta}; \hat{\theta}) = \lim_{n \rightarrow \infty}
 \frac{\text{variance of } \hat{\theta}}{\text{variance of } \tilde{\theta}}
 $$
 
-Usually, $\hat{\theta}$ is the optimal estimator according to some criteria. 
+Usually, $\hat{\theta}$ is the optimal estimator according to some criteria. The 
+intuitive interpretation is that when using $\hat{\theta}$, we only need $ARE$ 
+times as many observations as when using $\tilde{\theta}$. Smaller values of 
+ARE indicate that $\hat{\theta}$ is better than $\tilde{\theta}$.
 
-When using $\hat{\theta}$, we only need $ARE$ times as many observations as when 
-using $\tilde{\theta}$.
 :::
 
-Here are a couple of examples of commonly used estimators and their ARE.
+Here are a couple of commonly used estimators and their AREs.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-mean-med}
 
 ### Median versus Mean
 
-If our data is known to originate from a Normal distribution, due to its 
-symmetry, we can use the sample median *or* the sample mean to estimate $\mu$. 
-Let $\hat{\theta} = \bar{X}$ and $\tilde{\theta} = X_{(1/2)}$.
+If our data is known to originate from a Normal distribution, due to its
+symmetry, we can use either the sample median *or* the sample mean to estimate
+$\mu$. Let $\hat{\theta} = \bar{X}$ and $\tilde{\theta} = X_{(1/2)}$.
 
 Then it can be shown that 
 
@@ -204,8 +206,10 @@ $\epsilon$. Let us refer to this as a *contaminated Normal* distribution.
 
 ```{r r-demo-cn}
 #| echo: false
+#| fig-cap: "Contaminated Normal"
+#| label: fig-cont-normal
 #| fig-align: center
-#| out-width: 75%
+#| fig-width: 7
 
 x <- seq(-3, 3, length=100)
 y1 <- dnorm(x)
@@ -217,8 +221,8 @@ legend("topright", legend=c("Normal", "Contaminated Normal,\nEpsilon=0.01"), col
 
 ```
 
-As you can see from the diagram above, the two pdfs are almost indistinguishable
-by eye. However, the ARE values are very different.
+As you can see from @fig-cont-normal, the two pdfs are almost indistinguishable
+by eye. However, the ARE values are very different:
 
 | $\epsilon$ | ARE |
 |----------|----------|
@@ -241,7 +245,7 @@ which the sample was obtained.
     The first requirement of a robust statistic is that it if the underlying 
     distribution $F$ changes slightly, then the estimate should not change too much.
 2.  *Infinitesimal Robustness*:
-    The second requirement is is tied to the concept of the *influence function*
+    The second requirement is tied to the concept of the *influence function*
     of an estimator. Roughly speaking, the influence function measures the relative 
     extent that a small perturbation in $F$ has on the value of the estimate. In other
     words, it reflects the influence of adding one more observation to a large 
@@ -310,21 +314,17 @@ $$
 \sum_{i=1}^n \psi (x_i - \mu) = 0 
 $$ {#eq-rho-min}
 
-Note that, in general, the use of the sample mean corresponds to the use of 
-$\rho(x) = x^2$. In that case, $\psi$ is unbounded, which results in a lot of 
-importance/weight placed on very large values. Robust estimators should have a 
-bounded $\psi$ function.
-
-$$
-\psi(x) = 2x,\; x \in \mathbb{R}
-$$
+Note that, in general, the use of the sample mean corresponds to the use of
+$\rho(x) = x^2$. In that case, $\psi=2x$ is unbounded, which results in high
+importance/weight placed on very large values. Instead, robust estimators should
+have a bounded $\psi$ function.
 
 The approach outlined above - the use of $\rho$ and $\psi$ to define estimators,
 gave rise to a class of estimators known as M-estimators, since they are
 MLE-like. In the following sections, we shall introduce estimators corresponding
-to various choices of $\rho$. It is not always easy to identify the $\rho$ being used,
-but inspection of the form of $\psi$ leads to an understanding of how much emphasis 
-the estimator places on large outlying values.
+to various choices of $\rho$. It is not always easy to identify the $\rho$ being
+used, but inspection of the form of $\psi$ leads to an understanding of how much
+emphasis the estimator places on large outlying values.
 
 ### Trimmed mean 
 
@@ -347,14 +347,14 @@ the estimate is computed (see @wilcox2011introduction page 54) using the
 following algorithm:
 
 1. Compute the value $g = \lfloor \gamma n \rfloor$, where $\lfloor x \rfloor$ 
-   refers to the floor function[^2].
+   refers to the floor function[^05-floor].
 2. Drop the largest $g$ and smallest $g$ values from the sample.
 3. Compute 
 $$
 \hat{\mu_t} = X_t = \frac{X_{(g+1)} + \cdots X_{(n-g)}}{n - 2g}
 $$
 
-[^2]: The largest integer less than or equal to $x$.
+[^05-floor]: The largest integer less than or equal to $x$.
 
 It can be shown that the influence function for the trimmed mean is 
 $$
@@ -423,17 +423,17 @@ of the spread of the distribution.
 
 ### Median Absolute Deviation
 
-For a random variable $X \sim f$, the mean absolute deviation $w$ is defined by
+For a random variable $X \sim f$, the median absolute deviation $w$ is defined by
 $$
 P(|X - q_{f,0.5} | \le w) = 0.5
 $$
 We sometimes refer to $w$ as $MAD(X)$. In other words, it is the median of the
-distribution associated with $|X - q_{f,0.5}|$; it is the *median of absolute deviations from the median*.
+distribution associated with $|X - q_{f,0.5}|$; it is the 
+*median of absolute deviations from the median*.
 
-If observations are truly from a Normal distribution, MAD does not estimate
-$\sigma$. Instead, it can be shown in this case that $MAD$ estimates 
-$z_{0.75} \sigma$. Hence, in practice, MAD is divided by $z_{0.75}$ so that 
-it coincides with $\sigma$ *if the underlying distribution is Normal*.
+If observations are truly from a Normal distribution, it can be shown that $MAD$
+estimates $z_{0.75} \sigma$. Hence, in general, MAD is divided by $z_{0.75}$ so
+that it coincides with $\sigma$ *if the underlying distribution is Normal*.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #prp-iqr-s}
 
@@ -465,14 +465,14 @@ or Python:
 \begin{eqnarray*}
 P(-q / \sigma \le Z \le q / \sigma) &=& 0.5 \\
 1 - 2 \times \Phi(-q / \sigma) &=& 0.5 \\
--q / \sigma &=& -0.6745 \sigma \\
+-q / \sigma &=& -0.6745 \\
 q &=& 0.6745 \sigma
 \end{eqnarray*}
 
 Thus $MAD(X) = 0.6745 \sigma$. The implication is that we can estimate $\sigma$
 in a standard Normal with
 $$
-\hat{\sigma} \approx \frac{1}{0.6745} MAD(X)
+\hat{\sigma} = \frac{1}{0.6745} MAD(X) \approx \frac{1}{0.6745} MAD(X)
 $$
 
 :::
@@ -497,7 +497,7 @@ deviation $\sigma$.
 For $X \sim N(\mu, \sigma^2)$, the following property holds:
 
 $$
-IQR(X) \approx 1.35 \times \sigma
+\sigma \approx \frac{IQR(X)}{1.35}
 $$
 
 ::: {.proof}
@@ -510,23 +510,23 @@ P \left(\frac{X - \mu}{\sigma} \le \frac{q_{0.25} - \mu}{\sigma} \right) &=& 0.2
 P \left(Z \le  \frac{q_{0.25} - \mu}{\sigma} \right) &=& 0.25
 \end{eqnarray*}
 
-Thus (from R or Python[^1]) we know that 
+Thus (from R or Python[^05-qnorm]) we know that 
 
-[^1]: In R: `qnorm(0.25)`
+[^05-qnorm]: In R: `qnorm(0.25)`
 
 \begin{eqnarray*}
-\frac{q_{0.25} - \mu}{\sigma}   = z_{0.25} &=& -0.675 \\
-\therefore q_{0.25} &=& \mu - 0.675 \sigma 
+\frac{q_{0.25} - \mu}{\sigma}   = z_{0.25} &=& -0.6745 \\
+\therefore \; q_{0.25} &=& \mu - 0.6745 \sigma 
 \end{eqnarray*}
 
-Similarly, we can derive that $q_{0.75} = \mu + 0.675 \sigma$. Now we can
+Similarly, we can derive that $q_{0.75} = \mu + 0.6745 \sigma$. Now we can
 derive that 
 $$
-IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
+IQR(X) = q_{0.75} - q_{0.25} \approx 1.35 \sigma
 $$
 
-The implication is that, from sample data, we can estimate $\sigma$ from the sample 
-IQR using:
+The implication is that, if we have sample data from standard Normal, we can 
+estimate $\sigma$ from the IQR using:
 $$
 \hat{\sigma} = \frac{IQR(\{X_1, \ldots X_n\})}{1.35}
 $$
@@ -538,12 +538,12 @@ $$
 ## Examples
 
 
-To begin, let us apply the three estimators of location to the chemical dataset.
-
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-cu-2}
 
 ### Location Estimates: Copper Dataset
 \index{Copper!robust location}
+
+To begin, let us apply the three estimators of location to the chemical dataset.
 
 ::: {.panel-tabset}
 
@@ -587,12 +587,13 @@ isolate value 28.95. They are more indicative of the general set of observations
 
 :::
 
-Now we turn the scale estimators for the self-awareness dataset.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-self-2}
 
 ### Scale Estimates: Copper Dataset
 \index{Copper!robust scale}
+
+Now we turn the scale estimators for the self-awareness dataset.
 
 ::: {.panel-tabset}
 
@@ -612,8 +613,8 @@ IQR(awareness)
 
 ```{python py-scale-copper}
 #| collapse: true
-awareness = np.array([77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 299, 306,
-                      376, 428, 515, 666, 1310, 2611])
+awareness = np.array([77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 
+                      299, 306, 376, 428, 515, 666, 1310, 2611])
 
 awareness.std()
 
@@ -633,9 +634,6 @@ In this topic, we have introduced the concept of robust statistics.
 Understanding how these methods work requires a large amount of theoretical
 derivations and set-up. However, although we have not gone into much depth in
 the notes, we shall investigate the value of these methods in our tutorials.
-
-Notice also that we have not discussed standard errors for these estimators; we shall
-revisit that idea in the topic on simulation.
 
 ## References
 
