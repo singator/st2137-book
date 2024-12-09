@@ -436,6 +436,7 @@ Once we load the data ST2137.STUD_PERF, we go to Tasks > Table Analysis. After
 selecting the two variables, we check the appropriate box to obtain @fig-sas-tau-01.
 
 ![Walc vs Dalc](figs/sas_stud_tau-01.png){#fig-sas-tau-01 fig-align="center" width=60%}
+
 You may observe that the particular associations computed and returned are similar
 to those by the `Desc` R package that we used in @exm-chest-pain-4.
 
