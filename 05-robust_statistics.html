@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -235,7 +235,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Two-sample Hypothesis Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -320,7 +320,7 @@ window.Quarto = {
 </section>
 <section id="notation" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="notation"><span class="header-section-number">5.2</span> Notation</h2>
-<p>For the rest of this topic, let us settle on some notation. Suppose we have an i.i.d sample <span class="math inline">\(X_i\)</span> from a continuous pdf <span class="math inline">\(f\)</span>.</p>
+<p>For the rest of this topic, let us settle on some notation. Suppose we have an i.i.d sample <span class="math inline">\(X_i\)</span> from a continuous pdf <span class="math inline">\(f\)</span>, where <span class="math inline">\(i=1,ldots,n\)</span>.</p>
 <ul>
 <li>We use <span class="math inline">\(q_{f,p}\)</span> to refer to the <span class="math inline">\(p\)</span>-th quantile of <span class="math inline">\(f\)</span>, i.e.&nbsp; <span class="math display">\[
 P( X \le q_{f,p}) = p
@@ -338,7 +338,7 @@ X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
 <p>For this topic, we shall use a couple of datasets that are clearly not Normal.</p>
 <div id="exm-cu-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 5.1 (Copper in Wholemeal Flour)</strong></span> </p>
-<p>The dataset <code>chem</code> comes from the package <code>MASS</code>. The data was recorded as part of an analytical chemistry experiment – the amount of copper (<span class="math inline">\(\mu g^{-1}\)</span>) was measured in wholemeal flour was measured using 24 samples.</p>
+<p>The dataset <code>chem</code> comes from the package <code>MASS</code>. The data was recorded as part of an analytical chemistry experiment – the amount of copper (<span class="math inline">\(\mu g^{-1}\)</span>) in wholemeal flour was measured for 24 samples.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(MASS)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">hist</span>(chem, <span class="at">breaks =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -388,7 +388,7 @@ X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
 </section>
 <section id="sec-arob" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="sec-arob"><span class="header-section-number">5.4</span> Assessing Robustness</h2>
-<p>The focus of this course is on the computational aspects of performing data analyses. However, this section is a little theoretical. It exists to provide a better overview of robust statistical techniques.</p>
+<p>The focus of this course is on the computational aspects of performing data analyses. However, this section and the next are a little theoretical. They only exist to provide a better overview of robust statistical techniques.</p>
 <p><a href="#sec-are" class="quarto-xref"><span>Section 5.4.1</span></a> introduces an approach for comparing two estimators in general. The remaining subsections (<a href="#sec-req-rob" class="quarto-xref"><span>Section 5.5</span></a> onwards) briefly list ways in which robust statistics are evaluated.</p>
 <section id="sec-are" class="level3">
 <h3 class="anchored" data-anchor-id="sec-are">Asymptotic Relative Efficiency</h3>
@@ -399,12 +399,11 @@ X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
 ARE(\tilde{\theta}; \hat{\theta}) = \lim_{n \rightarrow \infty}
 \frac{\text{variance of } \hat{\theta}}{\text{variance of } \tilde{\theta}}
 \]</span></p>
-<p>Usually, <span class="math inline">\(\hat{\theta}\)</span> is the optimal estimator according to some criteria.</p>
-<p>When using <span class="math inline">\(\hat{\theta}\)</span>, we only need <span class="math inline">\(ARE\)</span> times as many observations as when using <span class="math inline">\(\tilde{\theta}\)</span>.</p>
+<p>Usually, <span class="math inline">\(\hat{\theta}\)</span> is the optimal estimator according to some criteria. The intuitive interpretation is that when using <span class="math inline">\(\hat{\theta}\)</span>, we only need <span class="math inline">\(ARE\)</span> times as many observations as when using <span class="math inline">\(\tilde{\theta}\)</span>. Smaller values of ARE indicate that <span class="math inline">\(\hat{\theta}\)</span> is better than <span class="math inline">\(\tilde{\theta}\)</span>.</p>
 </div>
-<p>Here are a couple of examples of commonly used estimators and their ARE.</p>
+<p>Here are a couple of commonly used estimators and their AREs.</p>
 <div id="exm-mean-med" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 5.3 (Median versus Mean)</strong></span> If our data is known to originate from a Normal distribution, due to its symmetry, we can use the sample median <em>or</em> the sample mean to estimate <span class="math inline">\(\mu\)</span>. Let <span class="math inline">\(\hat{\theta} = \bar{X}\)</span> and <span class="math inline">\(\tilde{\theta} = X_{(1/2)}\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 5.3 (Median versus Mean)</strong></span> If our data is known to originate from a Normal distribution, due to its symmetry, we can use either the sample median <em>or</em> the sample mean to estimate <span class="math inline">\(\mu\)</span>. Let <span class="math inline">\(\hat{\theta} = \bar{X}\)</span> and <span class="math inline">\(\tilde{\theta} = X_{(1/2)}\)</span>.</p>
 <p>Then it can be shown that</p>
 <p><span class="math display">\[
 ARE(\tilde{\theta}; \hat{\theta}) = 2/\pi \approx 64\%
@@ -426,14 +425,19 @@ ARE(\tilde{\sigma}^2; \hat{\sigma}^2) =  87.6\%
 <p>However, now consider a situation where <span class="math inline">\(Y_i \sim N(\mu, \sigma^2)\)</span> with probability <span class="math inline">\(1 - \epsilon\)</span> and <span class="math inline">\(Y_i \sim N(\mu, 9\sigma^2)\)</span> with probability <span class="math inline">\(\epsilon\)</span>. Let us refer to this as a <em>contaminated Normal</em> distribution.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="05-robust_statistics_files/figure-html/r-demo-cn-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+<div id="fig-cont-normal" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cont-normal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-robust_statistics_files/figure-html/fig-cont-normal-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cont-normal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Contaminated Normal
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>As you can see from the diagram above, the two pdfs are almost indistinguishable by eye. However, the ARE values are very different.</p>
+<p>As you can see from <a href="#fig-cont-normal" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>, the two pdfs are almost indistinguishable by eye. However, the ARE values are very different:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -461,7 +465,7 @@ ARE(\tilde{\sigma}^2; \hat{\sigma}^2) =  87.6\%
 <h2 data-number="5.5" class="anchored" data-anchor-id="sec-req-rob"><span class="header-section-number">5.5</span> Requirements of Robust Summaries</h2>
 <ol type="1">
 <li><em>Qualitative Robustness</em>: The first requirement of a robust statistic is that it if the underlying distribution <span class="math inline">\(F\)</span> changes slightly, then the estimate should not change too much.</li>
-<li><em>Infinitesimal Robustness</em>: The second requirement is is tied to the concept of the <em>influence function</em> of an estimator. Roughly speaking, the influence function measures the relative extent that a small perturbation in <span class="math inline">\(F\)</span> has on the value of the estimate. In other words, it reflects the influence of adding one more observation to a large sample.</li>
+<li><em>Infinitesimal Robustness</em>: The second requirement is tied to the concept of the <em>influence function</em> of an estimator. Roughly speaking, the influence function measures the relative extent that a small perturbation in <span class="math inline">\(F\)</span> has on the value of the estimate. In other words, it reflects the influence of adding one more observation to a large sample.</li>
 <li><em>Quantitative Robustness</em>: The final requirement is related to the contaminated distribution we touched on in <a href="#exm-s-d" class="quarto-xref">Example&nbsp;<span>5.4</span></a>. Consider <span class="math display">\[
 F_{x,\epsilon} = (1- \epsilon)F + \epsilon \Delta_x
 \]</span> where <span class="math inline">\(\Delta_x\)</span> is the degenerate probability distribution at <span class="math inline">\(x\)</span>. The minimum value of <span class="math inline">\(\epsilon\)</span> for which the estimator goes to infinity as <span class="math inline">\(x\)</span> gets large, is referred to as the <em>breakdown point</em>. For the sample mean, the breakdown point is <span class="math inline">\(\epsilon = 0\)</span>. For the sample median, the breakdown point is <span class="math inline">\(\epsilon = 0.5\)</span>.</li>
@@ -491,10 +495,7 @@ L(\mu, \sigma^2) = \prod_{i=1}^n  \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-(x_i - \mu
 <p>There are constraints on the choice of <span class="math inline">\(\rho\)</span> above, but we can understand the resulting estimator through <span class="math inline">\(\rho\)</span>. For instance, <span class="math inline">\(\psi = \rho'\)</span> is referred to as the <em>influence function</em>, which measures the relative change in a statistic as a new observation is added. To find the <span class="math inline">\(\hat{\mu}\)</span> that minimised <a href="#eq-rho-min" class="quarto-xref">Equation&nbsp;<span>5.3</span></a>, it is equivalent to setting the derivative to zero and solving for <span class="math inline">\(\hat{\mu}\)</span>: <span id="eq-rho-min"><span class="math display">\[
 \sum_{i=1}^n \psi (x_i - \mu) = 0
 \tag{5.3}\]</span></span></p>
-<p>Note that, in general, the use of the sample mean corresponds to the use of <span class="math inline">\(\rho(x) = x^2\)</span>. In that case, <span class="math inline">\(\psi\)</span> is unbounded, which results in a lot of importance/weight placed on very large values. Robust estimators should have a bounded <span class="math inline">\(\psi\)</span> function.</p>
-<p><span class="math display">\[
-\psi(x) = 2x,\; x \in \mathbb{R}
-\]</span></p>
+<p>Note that, in general, the use of the sample mean corresponds to the use of <span class="math inline">\(\rho(x) = x^2\)</span>. In that case, <span class="math inline">\(\psi=2x\)</span> is unbounded, which results in high importance/weight placed on very large values. Instead, robust estimators should have a bounded <span class="math inline">\(\psi\)</span> function.</p>
 <p>The approach outlined above - the use of <span class="math inline">\(\rho\)</span> and <span class="math inline">\(\psi\)</span> to define estimators, gave rise to a class of estimators known as M-estimators, since they are MLE-like. In the following sections, we shall introduce estimators corresponding to various choices of <span class="math inline">\(\rho\)</span>. It is not always easy to identify the <span class="math inline">\(\rho\)</span> being used, but inspection of the form of <span class="math inline">\(\psi\)</span> leads to an understanding of how much emphasis the estimator places on large outlying values.</p>
 </section>
 <section id="trimmed-mean" class="level3">
@@ -564,10 +565,10 @@ s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2
 </section>
 <section id="median-absolute-deviation" class="level3">
 <h3 class="anchored" data-anchor-id="median-absolute-deviation">Median Absolute Deviation</h3>
-<p>For a random variable <span class="math inline">\(X \sim f\)</span>, the mean absolute deviation <span class="math inline">\(w\)</span> is defined by <span class="math display">\[
+<p>For a random variable <span class="math inline">\(X \sim f\)</span>, the median absolute deviation <span class="math inline">\(w\)</span> is defined by <span class="math display">\[
 P(|X - q_{f,0.5} | \le w) = 0.5
 \]</span> We sometimes refer to <span class="math inline">\(w\)</span> as <span class="math inline">\(MAD(X)\)</span>. In other words, it is the median of the distribution associated with <span class="math inline">\(|X - q_{f,0.5}|\)</span>; it is the <em>median of absolute deviations from the median</em>.</p>
-<p>If observations are truly from a Normal distribution, MAD does not estimate <span class="math inline">\(\sigma\)</span>. Instead, it can be shown in this case that <span class="math inline">\(MAD\)</span> estimates <span class="math inline">\(z_{0.75} \sigma\)</span>. Hence, in practice, MAD is divided by <span class="math inline">\(z_{0.75}\)</span> so that it coincides with <span class="math inline">\(\sigma\)</span> <em>if the underlying distribution is Normal</em>.</p>
+<p>If observations are truly from a Normal distribution, it can be shown that <span class="math inline">\(MAD\)</span> estimates <span class="math inline">\(z_{0.75} \sigma\)</span>. Hence, in general, MAD is divided by <span class="math inline">\(z_{0.75}\)</span> so that it coincides with <span class="math inline">\(\sigma\)</span> <em>if the underlying distribution is Normal</em>.</p>
 <div id="prp-iqr-s" class="theorem proposition" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Proposition 5.1 (MAD for Normal)</strong></span> For <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, the following property holds: <span class="math display">\[
 \sigma \approx 1.4826 \times MAD(X)
@@ -585,11 +586,11 @@ P\left( \left| \frac{X - \mu}{\sigma} \right| \le q/\sigma \right) = P(|Z| \le q
 <p><span class="math display">\[\begin{eqnarray*}
 P(-q / \sigma \le Z \le q / \sigma) &amp;=&amp; 0.5 \\
 1 - 2 \times \Phi(-q / \sigma) &amp;=&amp; 0.5 \\
--q / \sigma &amp;=&amp; -0.6745 \sigma \\
+-q / \sigma &amp;=&amp; -0.6745 \\
 q &amp;=&amp; 0.6745 \sigma
 \end{eqnarray*}\]</span></p>
 <p>Thus <span class="math inline">\(MAD(X) = 0.6745 \sigma\)</span>. The implication is that we can estimate <span class="math inline">\(\sigma\)</span> in a standard Normal with <span class="math display">\[
-\hat{\sigma} \approx \frac{1}{0.6745} MAD(X)
+\hat{\sigma} = \frac{1}{0.6745} MAD(X) \approx \frac{1}{0.6745} MAD(X)
 \]</span></p>
 </div>
 </div>
@@ -603,7 +604,7 @@ q_{f, 0.75} - q_{f,0.25}
 <div id="prp-iqr-s" class="theorem proposition" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Proposition 5.2 (IQR for Normal)</strong></span> For <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, the following property holds:</p>
 <p><span class="math display">\[
-IQR(X) \approx 1.35 \times \sigma
+\sigma \approx \frac{IQR(X)}{1.35}
 \]</span></p>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>For <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, let <span class="math inline">\(q_{0.25}\)</span> and <span class="math inline">\(q_{0.75}\)</span> represent the 1st and 3rd quartiles of the distribution.</p>
@@ -614,13 +615,13 @@ P \left(Z \le  \frac{q_{0.25} - \mu}{\sigma} \right) &amp;=&amp; 0.25
 \end{eqnarray*}\]</span></p>
 <p>Thus (from R or Python<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>) we know that</p>
 <p><span class="math display">\[\begin{eqnarray*}
-\frac{q_{0.25} - \mu}{\sigma}   = z_{0.25} &amp;=&amp; -0.675 \\
-\therefore q_{0.25} &amp;=&amp; \mu - 0.675 \sigma
+\frac{q_{0.25} - \mu}{\sigma}   = z_{0.25} &amp;=&amp; -0.6745 \\
+\therefore \; q_{0.25} &amp;=&amp; \mu - 0.6745 \sigma
 \end{eqnarray*}\]</span></p>
-<p>Similarly, we can derive that <span class="math inline">\(q_{0.75} = \mu + 0.675 \sigma\)</span>. Now we can derive that <span class="math display">\[
-IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
+<p>Similarly, we can derive that <span class="math inline">\(q_{0.75} = \mu + 0.6745 \sigma\)</span>. Now we can derive that <span class="math display">\[
+IQR(X) = q_{0.75} - q_{0.25} \approx 1.35 \sigma
 \]</span></p>
-<p>The implication is that, from sample data, we can estimate <span class="math inline">\(\sigma\)</span> from the sample IQR using: <span class="math display">\[
+<p>The implication is that, if we have sample data from standard Normal, we can estimate <span class="math inline">\(\sigma\)</span> from the IQR using: <span class="math display">\[
 \hat{\sigma} = \frac{IQR(\{X_1, \ldots X_n\})}{1.35}
 \]</span></p>
 </div>
@@ -629,9 +630,9 @@ IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
 </section>
 <section id="examples" class="level2" data-number="5.8">
 <h2 data-number="5.8" class="anchored" data-anchor-id="examples"><span class="header-section-number">5.8</span> Examples</h2>
-<p>To begin, let us apply the three estimators of location to the chemical dataset.</p>
 <div id="exm-cu-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 5.5 (Location Estimates: Copper Dataset)</strong></span> </p>
+<p>To begin, let us apply the three estimators of location to the chemical dataset.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
@@ -647,7 +648,7 @@ IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
 <span id="cb9-8"><a href="#cb9-8"></a>vals <span class="ot">=</span> <span class="fu">quantile</span>(chem, <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>))</span>
 <span id="cb9-9"><a href="#cb9-9"></a>win_sample <span class="ot">&lt;-</span> <span class="fu">Winsorize</span>(chem, vals) <span class="co"># gamma = 0.1</span></span>
 <span id="cb9-10"><a href="#cb9-10"></a><span class="fu">mean</span>(win_sample)</span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="do">## [1] 3.55575</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="do">## [1] 3.277792</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -659,22 +660,22 @@ IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
 <span id="cb10-5"><a href="#cb10-5"></a>chem <span class="op">=</span> pd.read_csv(<span class="st">"data/mass_chem.csv"</span>)</span>
 <span id="cb10-6"><a href="#cb10-6"></a></span>
 <span id="cb10-7"><a href="#cb10-7"></a>chem.chem.mean()</span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">## np.float64(4.2804166666666665)</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">## 4.2804166666666665</span></span>
 <span id="cb10-9"><a href="#cb10-9"></a></span>
 <span id="cb10-10"><a href="#cb10-10"></a>stats.trim_mean(chem, proportiontocut<span class="op">=</span><span class="fl">0.1</span>)</span>
 <span id="cb10-11"><a href="#cb10-11"></a><span class="co">## array([3.205])</span></span>
 <span id="cb10-12"><a href="#cb10-12"></a></span>
 <span id="cb10-13"><a href="#cb10-13"></a>stats.mstats.winsorize(chem.chem, limits<span class="op">=</span><span class="fl">0.1</span>).mean()</span>
-<span id="cb10-14"><a href="#cb10-14"></a><span class="co">## np.float64(3.185)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="co">## 3.185</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 <p>As we observe, the robust estimates are less affected by the extreme and isolate value 28.95. They are more indicative of the general set of observations.</p>
 </div>
-<p>Now we turn the scale estimators for the self-awareness dataset.</p>
 <div id="exm-self-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 5.6 (Scale Estimates: Copper Dataset)</strong></span> </p>
+<p>Now we turn the scale estimators for the self-awareness dataset.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
@@ -692,17 +693,17 @@ IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>awareness <span class="op">=</span> np.array([<span class="dv">77</span>, <span class="dv">87</span>, <span class="dv">88</span>, <span class="dv">114</span>, <span class="dv">151</span>, <span class="dv">210</span>, <span class="dv">219</span>, <span class="dv">246</span>, <span class="dv">253</span>, <span class="dv">262</span>, <span class="dv">296</span>, <span class="dv">299</span>, <span class="dv">306</span>,</span>
-<span id="cb12-2"><a href="#cb12-2"></a>                      <span class="dv">376</span>, <span class="dv">428</span>, <span class="dv">515</span>, <span class="dv">666</span>, <span class="dv">1310</span>, <span class="dv">2611</span>])</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>awareness <span class="op">=</span> np.array([<span class="dv">77</span>, <span class="dv">87</span>, <span class="dv">88</span>, <span class="dv">114</span>, <span class="dv">151</span>, <span class="dv">210</span>, <span class="dv">219</span>, <span class="dv">246</span>, <span class="dv">253</span>, <span class="dv">262</span>, <span class="dv">296</span>, </span>
+<span id="cb12-2"><a href="#cb12-2"></a>                      <span class="dv">299</span>, <span class="dv">306</span>, <span class="dv">376</span>, <span class="dv">428</span>, <span class="dv">515</span>, <span class="dv">666</span>, <span class="dv">1310</span>, <span class="dv">2611</span>])</span>
 <span id="cb12-3"><a href="#cb12-3"></a></span>
 <span id="cb12-4"><a href="#cb12-4"></a>awareness.std()</span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">## np.float64(578.7698292373723)</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="co">## 578.7698292373723</span></span>
 <span id="cb12-6"><a href="#cb12-6"></a></span>
 <span id="cb12-7"><a href="#cb12-7"></a>stats.median_abs_deviation(awareness)</span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## np.float64(114.0)</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## 114.0</span></span>
 <span id="cb12-9"><a href="#cb12-9"></a></span>
 <span id="cb12-10"><a href="#cb12-10"></a>stats.iqr(awareness)</span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="co">## np.float64(221.5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="co">## 221.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -712,7 +713,6 @@ IQR(X) = q_{0.75} - q_{0.25} = 1.35 \sigma
 <section id="summary" class="level2" data-number="5.9">
 <h2 data-number="5.9" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.9</span> Summary</h2>
 <p>In this topic, we have introduced the concept of robust statistics. Understanding how these methods work requires a large amount of theoretical derivations and set-up. However, although we have not gone into much depth in the notes, we shall investigate the value of these methods in our tutorials.</p>
-<p>Notice also that we have not discussed standard errors for these estimators; we shall revisit that idea in the topic on simulation.</p>
 </section>
 <section id="references" class="level2" data-number="5.10">
 <h2 data-number="5.10" class="anchored" data-anchor-id="references"><span class="header-section-number">5.10</span> References</h2>

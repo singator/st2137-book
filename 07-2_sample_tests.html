@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; 2-sample Hypothesis Tests – Statistical Computing and Programming</title>
+<title>7&nbsp; Two-sample Hypothesis Tests – Statistical Computing and Programming</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -165,7 +165,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-2_sample_tests.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-2_sample_tests.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Two-sample Hypothesis Tests</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -235,7 +235,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Two-sample Hypothesis Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -287,7 +287,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Two-sample Hypothesis Tests</span></h1>
 </div>
 
 
@@ -307,14 +307,14 @@ window.Quarto = {
 <section id="introduction" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
 <p>In this topic, we introduce the routines for a common class of hypothesis tests: the scenario of comparing the location parameter of two groups. This technique is commonly used in A/B testing to assess if an intervention has resulted in a significant difference between two groups.</p>
-<p>Hypothesis tests are routinely abused in many ways by investigators. Such tests typically require strong assumptions to hold, and can result in false positives or negatives. As such, personally, I prefer to use confidence intervals to make an assessment of the significance of a result. However, in this topic, we introduce how the <span class="math inline">\(p\)</span>-values can be obtained for these tests.</p>
+<p>Hypothesis tests are routinely abused in many ways by investigators. Such tests typically require strong assumptions to hold, and can result in false positives or negatives. As such, personally, I prefer to use confidence intervals to make an assessment of the significance of a result. However, in this topic, we introduce how the <span class="math inline">\(p\)</span>-values can be obtained for these hypothesis tests.</p>
 </section>
 <section id="sec-sig-test-proc" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="sec-sig-test-proc"><span class="header-section-number">7.2</span> Procedure for Significance Tests</h2>
 <p>As a recap, here is the general approach for conducting a hypothesis test:</p>
 <section id="step-1-assumptions" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-assumptions">Step 1: Assumptions</h3>
-<p>In this step, we make a note of the assumptions required for the test to be valid. In some tests, this step is carried out at the end of the others, but it is still essential to perform. Some tests are very sensitive to the assumptions - this is the main reason that the class of robust statistics was invented.</p>
+<p>In this step, we make a note of the assumptions required for the test to be valid. In some tests, this step is carried out at the end of the others, but it is always essential to perform. Some tests are very sensitive to the assumptions - this is the main reason that the class of robust statistics was invented.</p>
 </section>
 <section id="step-2-state-the-hypotheses-and-significance-level" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-state-the-hypotheses-and-significance-level">Step 2: State the hypotheses and significance level</h3>
@@ -329,7 +329,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A hypothesis is a statement about population, usually claiming that a parameter takes a particular numerical value or falls in a certain range of values.</p>
+<p>A hypothesis is a statement about <em>population</em>, usually claiming that a parameter takes a particular numerical value or falls in a certain range of values.</p>
 </div>
 </div>
 <p>The hypotheses will be stated as a pair: The first hypothesis is the null hypothesis <span class="math inline">\(H_0\)</span> and the second is the alternative hypothesis <span class="math inline">\(H_1\)</span>. Both statements will involve the <strong>population parameter</strong> (not the data summary) of interest. For example, if we have a sample of observations from two groups <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, and we wish to assess if the mean of the populations is different, the hypotheses would be</p>
@@ -352,6 +352,12 @@ Warning
 <p>It is important to state the significance level at this stage, because if it is chosen <em>after inspecting the data</em>, the test is no longer valid. This is because, after knowing the <span class="math inline">\(p\)</span>-value, one could always choose the significance level such that it yields the <em>desired</em> decision (reject or not).</p>
 </div>
 </div>
+<p>It is also possible to test <em>one-sided</em> alternatives. In such scenarios, the hypotheses would be of the form:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+H_0: &amp; \mu_A = \mu_B \\
+H_1: &amp; \mu_A &gt; \mu_B
+\end{eqnarray*}\]</span></p>
+<p>Such a test is known as a one-tailed test.</p>
 </section>
 <section id="step-3-compute-the-test-statistic" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-compute-the-test-statistic">Step 3: Compute the test statistic</h3>
@@ -360,11 +366,12 @@ Warning
 </section>
 <section id="step-4-compute-the-p-value" class="level3">
 <h3 class="anchored" data-anchor-id="step-4-compute-the-p-value">Step 4: Compute the <span class="math inline">\(p\)</span>-value</h3>
-<p>The <span class="math inline">\(p\)</span>-value quantifies the chance of observing such a dataset under <span class="math inline">\(H_0\)</span>. The distribution of the test statistic under <span class="math inline">\(H_0\)</span> is used to compute this value between 0 and 1. A value closer to 0 indicates stronger evidence against <span class="math inline">\(H_0\)</span>.</p>
+<p>The <span class="math inline">\(p\)</span>-value quantifies the chance of observing such a test statistic, or one that is more extreme in the direction of <span class="math inline">\(H_1\)</span>, under <span class="math inline">\(H_0\)</span>. The distribution of the test statistic under <span class="math inline">\(H_0\)</span> is used to compute this value between 0 and 1. A value closer to 0 indicates stronger evidence against <span class="math inline">\(H_0\)</span>.</p>
+<p>In the case of a one-tailed test, try to understand the behaviour of the test statistic, and identify the <em>signal</em> that would yield more evidence supporting the alternative hypothesis.</p>
 </section>
 <section id="step-5-state-your-conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="step-5-state-your-conclusion">Step 5: State your conclusion</h3>
-<p>This is the binary decision stage - either we reject <span class="math inline">\(H_0\)</span>, or we do not reject <span class="math inline">\(H_0\)</span>. It is conventional to use this terminology (instead of “accepting <span class="math inline">\(H_1\)</span>”) since our <span class="math inline">\(p\)</span>-value is obtained with respect to <span class="math inline">\(H_0\)</span>.</p>
+<p>This is the binary decision stage. If the <span class="math inline">\(p\)</span>-value is less than the stated significance level, we conclude that we reject <span class="math inline">\(H_0\)</span>. Otherwise, we say that we do not reject <span class="math inline">\(H_0\)</span>. It is conventional to use this terminology (instead of “accepting <span class="math inline">\(H_1\)</span>”) since our <span class="math inline">\(p\)</span>-value is obtained with respect to <span class="math inline">\(H_0\)</span>.</p>
 </section>
 </section>
 <section id="confidence-intervals" class="level2" data-number="7.3">
@@ -420,6 +427,11 @@ s^2_p = \frac{(n_1 - 1)s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 -2 }
 <p><span class="math display">\[
 (\bar{X} - \bar{Y}) \pm t_{n_1 + n_2 -2, 1 - \alpha/2} \times s_p\sqrt{1/n_1 + 1/n_2}
 \]</span></p>
+<p>The set-up above corresponds to the case where the variance within each group is assumed to be the same. We use information from both groups to estimate the common variance. If we find evidence in the data to the contrary, we used the <em>unpooled</em> variance in the denominator of <span class="math inline">\(T_1\)</span>:</p>
+<p><span class="math display">\[
+T_{1,unpooled} = \frac{(\bar{X} - \bar{Y}) - 0 }{\sqrt{s^2_1/n_1 + s^2_2/n_2} }
+\]</span></p>
+<p>where <span class="math inline">\(s^2_1\)</span> and <span class="math inline">\(s^2_2\)</span> are the sample variance from groups 1 and 2. The test statistic still follows a <span class="math inline">\(t\)</span> distribution, but the degrees of freedom are approximated. This approximation is known as the Satterthwaite approximation.</p>
 <div id="exm-abalone-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 7.1 (Abalone Measurements)</strong></span> </p>
 <p>The dataset on abalone measurements from the <a href="https://archive.ics.uci.edu/dataset/1/abalone">UCI machine learning repository</a> contains measurements of physical characteristics, along with the gender status. We derive a sample of 50 measurements of male and female abalone records for use here. Our goal is to study if there is a significant difference between the viscera weight<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> between males and females. The derived dataset can be found on Canvas.</p>
@@ -432,10 +444,10 @@ s^2_p = \frac{(n_1 - 1)s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 -2 }
 <span id="cb1-2"><a href="#cb1-2"></a>x <span class="ot">&lt;-</span> abl<span class="sc">$</span>viscera[abl<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"M"</span>]</span>
 <span id="cb1-3"><a href="#cb1-3"></a>y <span class="ot">&lt;-</span> abl<span class="sc">$</span>viscera[abl<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"F"</span>]</span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">t.test</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">t.test</span>(x, y, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    Welch Two Sample t-test
+    Two Sample t-test
 
 data:  x and y
 t = 0.91008, df = 98, p-value = 0.365
@@ -459,10 +471,10 @@ mean of x mean of y
 <span id="cb3-7"><a href="#cb3-7"></a><span class="co">#abl.head()</span></span>
 <span id="cb3-8"><a href="#cb3-8"></a><span class="co">#abalone_df.describe()</span></span>
 <span id="cb3-9"><a href="#cb3-9"></a></span>
-<span id="cb3-10"><a href="#cb3-10"></a>x <span class="op">=</span> abl.viscera[abl.gender <span class="op">==</span> <span class="st">"F"</span>]</span>
-<span id="cb3-11"><a href="#cb3-11"></a>y <span class="op">=</span> abl.viscera[abl.gender <span class="op">==</span> <span class="st">"M"</span>]</span>
+<span id="cb3-10"><a href="#cb3-10"></a>x <span class="op">=</span> abl.viscera[abl.gender <span class="op">==</span> <span class="st">"M"</span>]</span>
+<span id="cb3-11"><a href="#cb3-11"></a>y <span class="op">=</span> abl.viscera[abl.gender <span class="op">==</span> <span class="st">"F"</span>]</span>
 <span id="cb3-12"><a href="#cb3-12"></a></span>
-<span id="cb3-13"><a href="#cb3-13"></a>t_out <span class="op">=</span> stats.ttest_ind(y, x)</span>
+<span id="cb3-13"><a href="#cb3-13"></a>t_out <span class="op">=</span> stats.ttest_ind(x, y)</span>
 <span id="cb3-14"><a href="#cb3-14"></a>ci_95 <span class="op">=</span> t_out.confidence_interval()</span>
 <span id="cb3-15"><a href="#cb3-15"></a></span>
 <span id="cb3-16"><a href="#cb3-16"></a><span class="bu">print</span>(<span class="ss">f"""</span></span>
@@ -486,10 +498,10 @@ mean of x mean of y
 <div class="quarto-layout-panel" data-layout-ncol="1">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-sas-abalone-001" class="quarto-float quarto-figure quarto-figure-center anchored" data-out-width="60%" data-fig-align="center">
+<div id="fig-sas-abalone-001" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-abalone-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figs/sas_abalone_ind_ttest-001.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-out-width="60%">
+<img src="figs/sas_abalone_ind_ttest-001a.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-abalone-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7.1: SAS Abalone, Independent
@@ -606,7 +618,7 @@ g_1 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^3}{[\frac{1}{n}\sum_{i=1}^n 
 </section>
 <section id="kurtosis" class="level4">
 <h4 class="anchored" data-anchor-id="kurtosis">Kurtosis</h4>
-<p>Kurtosis measures the thickness of the tails of a distribution. Large kurtosis implies that the tails are “fatter” than those of a Normal, whil small, negative values indicate that the tails are “thinner” than those of a Normal.</p>
+<p>Kurtosis measures the thickness of the tails of a distribution. Positive kurtosis implies that the tails are “fatter” than those of a Normal. Negative values indicate that the tails are “thinner” than those of a Normal.</p>
 <p>The method of moments estimator is</p>
 <p><span class="math display">\[
 g_2 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^4}{[\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 ]^2} - 3
@@ -661,15 +673,15 @@ H_1: &amp; \text{ Data does not follow a Normal distribution}
 <span id="cb11-9"><a href="#cb11-9"></a><span class="co">## F: -0.1390</span></span>
 <span id="cb11-10"><a href="#cb11-10"></a><span class="co">## M: 1.4220</span></span>
 <span id="cb11-11"><a href="#cb11-11"></a>    </span>
-<span id="cb11-12"><a href="#cb11-12"></a>stats.shapiro(y)</span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="co">## ShapiroResult(statistic=np.float64(0.9677872659314101), pvalue=np.float64(0.1878490793650714))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-12"><a href="#cb11-12"></a>stats.shapiro(x)</span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co">## ShapiroResult(statistic=0.9677872659314101, pvalue=0.1878490793650714)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
 <div id="fig-sas-norm-001" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-norm-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figs/sas_abalone_normality_tests.png" class="img-fluid figure-img">
+<img src="figs/sas_abalone_normality_tests_a.png" class="img-fluid figure-img" style="width:65.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-norm-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7.3: SAS Normality tests
@@ -750,16 +762,21 @@ mean difference
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>hr_df <span class="op">=</span> pd.read_csv(<span class="st">"data/health_promo_hr.csv"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="co">#hr_df.head()</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a></span>
-<span id="cb14-4"><a href="#cb14-4"></a>stats.ttest_rel(hr_df.baseline, hr_df.after5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4"></a>paired_out <span class="op">=</span> stats.ttest_rel(hr_df.baseline, hr_df.after5)</span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="bu">print</span>(<span class="ss">f"""</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="ss">Test statistic: </span><span class="sc">{</span>paired_out<span class="sc">.</span>statistic<span class="sc">:.3f}</span><span class="ss">.</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="ss">p-val: </span><span class="sc">{</span>paired_out<span class="sc">.</span>pvalue<span class="sc">:.3f}</span><span class="ss">."""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>TtestResult(statistic=np.float64(-21.71364533004281), pvalue=np.float64(2.208665955512109e-10), df=np.int64(11))</code></pre>
+<pre><code>
+Test statistic: -21.714.
+p-val: 0.000.</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_hr_paired_ttest.png" class="img-fluid figure-img"></p>
+<p><img src="figs/sas_hr_paired_ttest_a.png" class="img-fluid figure-img" style="width:65.0%"></p>
 <figcaption>SAS HR Paired t-test</figcaption>
 </figure>
 </div>
@@ -767,32 +784,40 @@ mean difference
 </div>
 </div>
 <p>It is imperative to also make the checks for Normality. If you were to make them, you would realise that the sample size is rather small - it is difficult to make the case for Normality here.</p>
-<p>A couple of interesting plots from SAS are these:</p>
+<p>A couple of interesting plots from SAS are shown in <a href="#fig-sas-paired-prof" class="quarto-xref">Figure&nbsp;<span>7.4</span></a> and <a href="#fig-sas-agreement" class="quarto-xref">Figure&nbsp;<span>7.5</span></a>.</p>
 <div>
 
 </div>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figs/sas_hr_paired_profiles.png" class="img-fluid figure-img"></p>
-<figcaption>Paired Profiles</figcaption>
+<div id="fig-sas-paired-prof" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-paired-prof-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_hr_paired_profiles.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-paired-prof-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.4: Paired Profiles
+</figcaption>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figs/sas_hr_agreement.png" class="img-fluid figure-img"></p>
-<figcaption>Agreement</figcaption>
+<div id="fig-sas-agreement" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-agreement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_hr_agreement.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-agreement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.5: Agreement
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <p>When we inspect the paired plot, we are looking for a similar gradient for each line, or at least similar in sign. If instead, we observed a combination of positive and negative gradients, then we would be less confident that there is a difference in means between the groups.</p>
-<p>For the agreement, if we were to observe a cloud of points centered around the mean, with no clear trend to the points, then we would be more inclined to believe that the mean difference is not 0.</p>
+<p>For the agreement plot, if we were to observe the points scattered around the line <span class="math inline">\(y=x\)</span>, then we would be more inclined to believe that the mean difference is indeed 0.</p>
 </div>
 </section>
 </section>
@@ -819,7 +844,7 @@ H_1 &amp;: &amp; F(x) = G(x - \Delta), \Delta \neq 0
 \]</span></p>
 <p>Under <span class="math inline">\(H_0\)</span>, the expected rank sum of group 1 is <span class="math display">\[
 E(R_1) = n_1 \times  \frac{n_1 + n_2 + 1}{2}
-\]</span> Thus the test statistic is a comparison of <span class="math inline">\(R_1\)</span> with the above expected value:</p>
+\]</span> The test statistic is a comparison of <span class="math inline">\(R_1\)</span> with the above expected value:</p>
 <p><span class="math display">\[
 W_1 = \begin{cases}
 \frac{\left|R_1 - \frac{n_1(n_1+n_2+1)}{2} \right| - \frac{1}{2}}{\sqrt{n_1n_2(n_1 + n_2 +1)/12}}, &amp; R_1 \ne \frac{n_1 (n_1 + n_2 + 1)}{2} \text{ and no ties} \\
@@ -827,8 +852,8 @@ W_1 = \begin{cases}
 0, &amp; R_1 = \frac{n_1 (n_1 + n_2 + 1)}{2}
 \end{cases}
 \]</span></p>
+<p>where <span class="math inline">\(g\)</span> refers to the number of groups with ties, and <span class="math inline">\(t_i\)</span> refers to the number of tied values in each group.</p>
 <p>The test above should only be used if both <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> are at least 10, and if the observations (not the ranks) come from an underlying continuous distribution. If these assumptions hold, then the test statistic <span class="math inline">\(W_1\)</span> follows a <span class="math inline">\(N(0,1)\)</span> distribution.</p>
-<p>Just as in <a href="#sec-pair-nonpar" class="quarto-xref"><span>Section 7.5.2</span></a>, the <span class="math inline">\(g\)</span> refers to the number of groups with ties, and <span class="math inline">\(t_i\)</span> refers to the number of tied values in each group.</p>
 <div id="exm-abalone-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 7.5 (Abalone Measurements)</strong></span> </p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -851,28 +876,37 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <p>As mentioned, the Mann-Whitney test will return the same <span class="math inline">\(p\)</span>-value as the WRS test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>stats.mannwhitneyu(y, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>wrs_out <span class="op">=</span> stats.mannwhitneyu(x, y)</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="bu">print</span>(<span class="ss">f"""Test statistic: </span><span class="sc">{</span>wrs_out<span class="sc">.</span>statistic<span class="sc">:.3f}</span><span class="ss">.</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="ss">p-val: </span><span class="sc">{</span>wrs_out<span class="sc">.</span>pvalue<span class="sc">:.3f}</span><span class="ss">."""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>MannwhitneyuResult(statistic=np.float64(1415.5), pvalue=np.float64(0.25527909580927854))</code></pre>
+<pre><code>Test statistic: 1415.500.
+p-val: 0.255.</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
-<p>The SAS output can be seen in <a href="#fig-sas-wrs-001" class="quarto-xref">Figure&nbsp;<span>7.4</span></a>.</p>
+<p>The SAS output can be seen in <a href="#fig-sas-wrs-001" class="quarto-xref">Figure&nbsp;<span>7.6</span></a>.</p>
 <div id="fig-sas-wrs-001" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-wrs-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figs/sas_abalone_wrs.png" class="img-fluid figure-img">
+<img src="figs/sas_abalone_wrs_a.png" class="img-fluid figure-img" style="width:65.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-wrs-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.4: SAS Output, Wilcoxon Rank Sum
+Figure&nbsp;7.6: SAS Output, Wilcoxon Rank Sum
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<p>Since we know the number of observations in each group to be more than 10, the approximation holds. Comparing to the <a href="10-simulation.html#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>10.8</span></a>, observe that we have a similar conclusion.</p>
+<p>Since we know the number of observations in each group to be more than 10, the approximation holds. Comparing to the <a href="#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>7.1</span></a>, observe that we have a similar conclusion.</p>
+<p>Notice that the test statistic appears different in SAS. However, it is simply a matter of a location shift of the test statistic. R and Python subtract the smallest possible sum of ranks from group 1, but SAS does not. In our example, the group size is 50. Hence we can recover the SAS test statistic from the R test statistic with</p>
+<p><span class="math display">\[
+1415.5 + \frac{50(50+1)}{2} = 2690.5
+\]</span></p>
+<p>The <span class="math inline">\(p\)</span>-value is identical in all three software.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </section>
@@ -924,17 +958,20 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>stats.wilcoxon(hr_df.baseline, hr_df.after5, </span>
-<span id="cb22-2"><a href="#cb22-2"></a>               correction<span class="op">=</span><span class="va">True</span>, method<span class="op">=</span><span class="st">'approx'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>wsr_out <span class="op">=</span> stats.wilcoxon(hr_df.baseline, hr_df.after5,  </span>
+<span id="cb22-2"><a href="#cb22-2"></a>                         correction<span class="op">=</span><span class="va">True</span>, method<span class="op">=</span><span class="st">'approx'</span>)</span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="bu">print</span>(<span class="ss">f"""Test statistic: </span><span class="sc">{</span>wsr_out<span class="sc">.</span>statistic<span class="sc">:.3f}</span><span class="ss">.</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="ss">p-val: </span><span class="sc">{</span>wsr_out<span class="sc">.</span>pvalue<span class="sc">:.3f}</span><span class="ss">."""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>WilcoxonResult(statistic=np.float64(0.0), pvalue=np.float64(0.002506841661528245))</code></pre>
+<pre><code>Test statistic: 0.000.
+p-val: 0.003.</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_hr_wilcox.png" class="img-fluid figure-img"></p>
+<p><img src="figs/sas_hr_wilcox_a.png" class="img-fluid figure-img" style="width:65.0%"></p>
 <figcaption>SAS Signed Rank Test</figcaption>
 </figure>
 </div>
@@ -942,7 +979,11 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 </div>
 <p>In this problem, we do not have 16 non-zero <span class="math inline">\(D_i\)</span>’s. Hence, we should in fact be using the “exact” version of the test (R and Python). However, the exact version of the test cannot be used when there are ties.</p>
-<p>In cases like this, we can turn to the bootstrap, or we can use a permutation test. We shall revisit these in our final topic.</p>
+<p>SAS does indeed use the “exact” version of the test, so that accounts for the difference in <span class="math inline">\(p\)</span>-values. The test statistic in SAS is computed by subtracting <span class="math inline">\(E(R_1)\)</span>, but in R and Python this subtraction is not done. To get from test statistic in R (0) to the one in SAS (-39):</p>
+<p><span class="math display">\[
+0 - \frac{12(12 + 1)}{4} = -39
+\]</span></p>
+<p>In cases like this, we can turn to the bootstrap, or we can use a permutation test. We shall revisit these in our final topic <a href="10-simulation.html#sec-simulation" class="quarto-xref"><span>Section 10.1</span></a>.</p>
 </div>
 </section>
 </section>
@@ -956,7 +997,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="sec-web-ref-07" class="level3">
 <h3 class="anchored" data-anchor-id="sec-web-ref-07">Website References</h3>
 <ol type="1">
-<li><a href="https://archive.ics.uci.edu/dataset/1/abalone">UCI full abalone dataset</a>: The dataset in the examples above, starting from <a href="10-simulation.html#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>10.8</span></a>, consists of samples from the full dataset.</li>
+<li><a href="https://archive.ics.uci.edu/dataset/1/abalone">UCI full abalone dataset</a>: The dataset in the examples above, starting from <a href="#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>7.1</span></a>, consists of samples from the full dataset.</li>
 <li>Inference recap from Penn State:
 <ul>
 <li><a href="https://online.stat.psu.edu/statprogram/reviews/statistical-concepts/hypothesis-testing">Hypothesis testing recap</a></li>

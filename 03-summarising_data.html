@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -235,7 +235,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Two-sample Hypothesis Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -308,7 +308,7 @@ window.Quarto = {
 <p>This is the first topic where we are going to see how to perform statistical analysis using two software: R and Python. Every language has it’s strengths and weaknesses, so instead of attempting to exactly replicate the same chart/output in each software, we shall try to understand their respective approaches better.</p>
 <p>Our end goal is to analyse data - toward that end, we should be versatile and adaptable. Focus on learning how to be fast and productive in whichever environment you are told to work in. If you have a choice, then be aware of what each framework can do best, so that you can choose the right one.</p>
 <p>Although it is a simplistic view, the following diagram, <a href="#fig-sum-1" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>, provides a useful taxonomy of the types of columns we might have in our dataset. Having at least an initial inkling of the type of data matters, because it helps decide what type of summary to generate or what type of plot to make. Quantitative data are sometimes also referred to as <em>numerical data</em>.</p>
-<div id="fig-sum-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Data types">
+<div id="fig-sum-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Data types" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" alt="Data types">
@@ -673,7 +673,7 @@ Medu
 <li>When the mean is much larger than the median, it suggests that there could be a few very large observations. It has resulted in a <em>right-skewed</em> distribution. Conversely, if the mean is much smaller than the median, we probably have a <em>left-skewed</em> distribution.</li>
 </ul>
 <p>While numerical summaries provide us with some basic information about the data, they also leave out a lot. Even for experts, it is possible to have a wrong mental idea about the data from the numerical summaries alone. For instance, all three histograms in <a href="#fig-sum-2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> have a mean of 0 and standard deviation of 1!</p>
-<div id="fig-sum-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="3 histograms">
+<div id="fig-sum-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="3 histograms" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%" alt="3 histograms">
@@ -888,7 +888,7 @@ Note
 <li>Excluding the potential outliers, the maximum point determines the <em>upper whisker</em> and the minimum point determines the <em>lower whisker</em> of a boxplot.</li>
 </ol>
 <p>A boxplot helps us to identify the median, lower and upper quantiles and outlier(s) (see <a href="#fig-sum-8" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>).</p>
-<div id="fig-sum-8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Boxplot construction">
+<div id="fig-sum-8" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxplot construction" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-08.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Boxplot construction">
@@ -1257,162 +1257,162 @@ Figure&nbsp;3.10: Non-linear relation
 <span id="cb30-3"><a href="#cb30-3"></a>corr.style.background_gradient(cmap<span class="op">=</span><span class="st">'coolwarm_r'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <style type="text/css">
-#T_f302f_row0_col0, #T_f302f_row1_col1, #T_f302f_row2_col2, #T_f302f_row3_col3, #T_f302f_row4_col4, #T_f302f_row5_col5 {
+#T_be3ac_row0_col0, #T_be3ac_row1_col1, #T_be3ac_row2_col2, #T_be3ac_row3_col3, #T_be3ac_row4_col4, #T_be3ac_row5_col5 {
   background-color: #3b4cc0;
   color: #f1f1f1;
 }
-#T_f302f_row0_col1 {
+#T_be3ac_row0_col1 {
   background-color: #cb3e38;
   color: #f1f1f1;
 }
-#T_f302f_row0_col2, #T_f302f_row3_col4 {
+#T_be3ac_row0_col2, #T_be3ac_row3_col4 {
   background-color: #c5d6f2;
   color: #000000;
 }
-#T_f302f_row0_col3 {
+#T_be3ac_row0_col3 {
   background-color: #f4c6af;
   color: #000000;
 }
-#T_f302f_row0_col4 {
+#T_be3ac_row0_col4 {
   background-color: #f7b89c;
   color: #000000;
 }
-#T_f302f_row0_col5 {
+#T_be3ac_row0_col5 {
   background-color: #f3c8b2;
   color: #000000;
 }
-#T_f302f_row1_col0, #T_f302f_row1_col2, #T_f302f_row1_col4, #T_f302f_row1_col5, #T_f302f_row2_col1, #T_f302f_row2_col3, #T_f302f_row5_col1 {
+#T_be3ac_row1_col0, #T_be3ac_row1_col2, #T_be3ac_row1_col4, #T_be3ac_row1_col5, #T_be3ac_row2_col1, #T_be3ac_row2_col3, #T_be3ac_row5_col1 {
   background-color: #b40426;
   color: #f1f1f1;
 }
-#T_f302f_row1_col3 {
+#T_be3ac_row1_col3 {
   background-color: #ea7b60;
   color: #f1f1f1;
 }
-#T_f302f_row2_col0 {
+#T_be3ac_row2_col0 {
   background-color: #cedaeb;
   color: #000000;
 }
-#T_f302f_row2_col4 {
+#T_be3ac_row2_col4 {
   background-color: #c53334;
   color: #f1f1f1;
 }
-#T_f302f_row2_col5, #T_f302f_row5_col2 {
+#T_be3ac_row2_col5, #T_be3ac_row5_col2 {
   background-color: #e46e56;
   color: #f1f1f1;
 }
-#T_f302f_row3_col0 {
+#T_be3ac_row3_col0 {
   background-color: #f5c4ac;
   color: #000000;
 }
-#T_f302f_row3_col1 {
+#T_be3ac_row3_col1 {
   background-color: #f29072;
   color: #f1f1f1;
 }
-#T_f302f_row3_col2 {
+#T_be3ac_row3_col2 {
   background-color: #c83836;
   color: #f1f1f1;
 }
-#T_f302f_row3_col5 {
+#T_be3ac_row3_col5 {
   background-color: #96b7ff;
   color: #000000;
 }
-#T_f302f_row4_col0 {
+#T_be3ac_row4_col0 {
   background-color: #f7b194;
   color: #000000;
 }
-#T_f302f_row4_col1 {
+#T_be3ac_row4_col1 {
   background-color: #c12b30;
   color: #f1f1f1;
 }
-#T_f302f_row4_col2 {
+#T_be3ac_row4_col2 {
   background-color: #d0473d;
   color: #f1f1f1;
 }
-#T_f302f_row4_col3 {
+#T_be3ac_row4_col3 {
   background-color: #c7d7f0;
   color: #000000;
 }
-#T_f302f_row4_col5, #T_f302f_row5_col4 {
+#T_be3ac_row4_col5, #T_be3ac_row5_col4 {
   background-color: #506bda;
   color: #f1f1f1;
 }
-#T_f302f_row5_col0 {
+#T_be3ac_row5_col0 {
   background-color: #f7bca1;
   color: #000000;
 }
-#T_f302f_row5_col3 {
+#T_be3ac_row5_col3 {
   background-color: #9dbdff;
   color: #000000;
 }
 </style>
 
-<table id="T_f302f" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_be3ac" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_f302f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Cement</th>
-<th id="T_f302f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Slag</th>
-<th id="T_f302f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Comp_Strength</th>
-<th id="T_f302f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Water</th>
-<th id="T_f302f_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">SLUMP(cm)</th>
-<th id="T_f302f_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">FLOW(cm)</th>
+<th id="T_be3ac_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Cement</th>
+<th id="T_be3ac_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Slag</th>
+<th id="T_be3ac_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Comp_Strength</th>
+<th id="T_be3ac_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Water</th>
+<th id="T_be3ac_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">SLUMP(cm)</th>
+<th id="T_be3ac_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">FLOW(cm)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_f302f_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cement</td>
-<td id="T_f302f_row0_col0" class="data row0 col0">1.000000</td>
-<td id="T_f302f_row0_col1" class="data row0 col1">-0.243553</td>
-<td id="T_f302f_row0_col2" class="data row0 col2">0.445725</td>
-<td id="T_f302f_row0_col3" class="data row0 col3">0.221091</td>
-<td id="T_f302f_row0_col4" class="data row0 col4">0.145913</td>
-<td id="T_f302f_row0_col5" class="data row0 col5">0.186461</td>
+<td id="T_be3ac_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cement</td>
+<td id="T_be3ac_row0_col0" class="data row0 col0">1.000000</td>
+<td id="T_be3ac_row0_col1" class="data row0 col1">-0.243553</td>
+<td id="T_be3ac_row0_col2" class="data row0 col2">0.445725</td>
+<td id="T_be3ac_row0_col3" class="data row0 col3">0.221091</td>
+<td id="T_be3ac_row0_col4" class="data row0 col4">0.145913</td>
+<td id="T_be3ac_row0_col5" class="data row0 col5">0.186461</td>
 </tr>
 <tr class="even">
-<td id="T_f302f_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Slag</td>
-<td id="T_f302f_row1_col0" class="data row1 col0">-0.243553</td>
-<td id="T_f302f_row1_col1" class="data row1 col1">1.000000</td>
-<td id="T_f302f_row1_col2" class="data row1 col2">-0.331588</td>
-<td id="T_f302f_row1_col3" class="data row1 col3">-0.026775</td>
-<td id="T_f302f_row1_col4" class="data row1 col4">-0.284037</td>
-<td id="T_f302f_row1_col5" class="data row1 col5">-0.327231</td>
+<td id="T_be3ac_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Slag</td>
+<td id="T_be3ac_row1_col0" class="data row1 col0">-0.243553</td>
+<td id="T_be3ac_row1_col1" class="data row1 col1">1.000000</td>
+<td id="T_be3ac_row1_col2" class="data row1 col2">-0.331588</td>
+<td id="T_be3ac_row1_col3" class="data row1 col3">-0.026775</td>
+<td id="T_be3ac_row1_col4" class="data row1 col4">-0.284037</td>
+<td id="T_be3ac_row1_col5" class="data row1 col5">-0.327231</td>
 </tr>
 <tr class="odd">
-<td id="T_f302f_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Comp_Strength</td>
-<td id="T_f302f_row2_col0" class="data row2 col0">0.445725</td>
-<td id="T_f302f_row2_col1" class="data row2 col1">-0.331588</td>
-<td id="T_f302f_row2_col2" class="data row2 col2">1.000000</td>
-<td id="T_f302f_row2_col3" class="data row2 col3">-0.254235</td>
-<td id="T_f302f_row2_col4" class="data row2 col4">-0.223358</td>
-<td id="T_f302f_row2_col5" class="data row2 col5">-0.124029</td>
+<td id="T_be3ac_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Comp_Strength</td>
+<td id="T_be3ac_row2_col0" class="data row2 col0">0.445725</td>
+<td id="T_be3ac_row2_col1" class="data row2 col1">-0.331588</td>
+<td id="T_be3ac_row2_col2" class="data row2 col2">1.000000</td>
+<td id="T_be3ac_row2_col3" class="data row2 col3">-0.254235</td>
+<td id="T_be3ac_row2_col4" class="data row2 col4">-0.223358</td>
+<td id="T_be3ac_row2_col5" class="data row2 col5">-0.124029</td>
 </tr>
 <tr class="even">
-<td id="T_f302f_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Water</td>
-<td id="T_f302f_row3_col0" class="data row3 col0">0.221091</td>
-<td id="T_f302f_row3_col1" class="data row3 col1">-0.026775</td>
-<td id="T_f302f_row3_col2" class="data row3 col2">-0.254235</td>
-<td id="T_f302f_row3_col3" class="data row3 col3">1.000000</td>
-<td id="T_f302f_row3_col4" class="data row3 col4">0.466568</td>
-<td id="T_f302f_row3_col5" class="data row3 col5">0.632026</td>
+<td id="T_be3ac_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Water</td>
+<td id="T_be3ac_row3_col0" class="data row3 col0">0.221091</td>
+<td id="T_be3ac_row3_col1" class="data row3 col1">-0.026775</td>
+<td id="T_be3ac_row3_col2" class="data row3 col2">-0.254235</td>
+<td id="T_be3ac_row3_col3" class="data row3 col3">1.000000</td>
+<td id="T_be3ac_row3_col4" class="data row3 col4">0.466568</td>
+<td id="T_be3ac_row3_col5" class="data row3 col5">0.632026</td>
 </tr>
 <tr class="odd">
-<td id="T_f302f_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">SLUMP(cm)</td>
-<td id="T_f302f_row4_col0" class="data row4 col0">0.145913</td>
-<td id="T_f302f_row4_col1" class="data row4 col1">-0.284037</td>
-<td id="T_f302f_row4_col2" class="data row4 col2">-0.223358</td>
-<td id="T_f302f_row4_col3" class="data row4 col3">0.466568</td>
-<td id="T_f302f_row4_col4" class="data row4 col4">1.000000</td>
-<td id="T_f302f_row4_col5" class="data row4 col5">0.906135</td>
+<td id="T_be3ac_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">SLUMP(cm)</td>
+<td id="T_be3ac_row4_col0" class="data row4 col0">0.145913</td>
+<td id="T_be3ac_row4_col1" class="data row4 col1">-0.284037</td>
+<td id="T_be3ac_row4_col2" class="data row4 col2">-0.223358</td>
+<td id="T_be3ac_row4_col3" class="data row4 col3">0.466568</td>
+<td id="T_be3ac_row4_col4" class="data row4 col4">1.000000</td>
+<td id="T_be3ac_row4_col5" class="data row4 col5">0.906135</td>
 </tr>
 <tr class="even">
-<td id="T_f302f_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">FLOW(cm)</td>
-<td id="T_f302f_row5_col0" class="data row5 col0">0.186461</td>
-<td id="T_f302f_row5_col1" class="data row5 col1">-0.327231</td>
-<td id="T_f302f_row5_col2" class="data row5 col2">-0.124029</td>
-<td id="T_f302f_row5_col3" class="data row5 col3">0.632026</td>
-<td id="T_f302f_row5_col4" class="data row5 col4">0.906135</td>
-<td id="T_f302f_row5_col5" class="data row5 col5">1.000000</td>
+<td id="T_be3ac_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">FLOW(cm)</td>
+<td id="T_be3ac_row5_col0" class="data row5 col0">0.186461</td>
+<td id="T_be3ac_row5_col1" class="data row5 col1">-0.327231</td>
+<td id="T_be3ac_row5_col2" class="data row5 col2">-0.124029</td>
+<td id="T_be3ac_row5_col3" class="data row5 col3">0.632026</td>
+<td id="T_be3ac_row5_col4" class="data row5 col4">0.906135</td>
+<td id="T_be3ac_row5_col5" class="data row5 col5">1.000000</td>
 </tr>
 </tbody>
 </table>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -215,7 +215,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-2_sample_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">2-sample Hypothesis Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Two-sample Hypothesis Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -252,7 +252,7 @@ window.Quarto = {
     <h2 id="toc-title">Contents</h2>
    
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">10.1</span> Introduction</a></li>
+  <li><a href="#sec-simulation" id="toc-sec-simulation" class="nav-link active" data-scroll-target="#sec-simulation"><span class="header-section-number">10.1</span> Introduction</a></li>
   <li><a href="#theory" id="toc-theory" class="nav-link" data-scroll-target="#theory"><span class="header-section-number">10.2</span> Theory</a></li>
   <li><a href="#generating-random-variables-in-r-and-python" id="toc-generating-random-variables-in-r-and-python" class="nav-link" data-scroll-target="#generating-random-variables-in-r-and-python"><span class="header-section-number">10.3</span> Generating Random Variables in R and Python</a></li>
   <li><a href="#monte-carlo-integration" id="toc-monte-carlo-integration" class="nav-link" data-scroll-target="#monte-carlo-integration"><span class="header-section-number">10.4</span> Monte-Carlo Integration</a></li>
@@ -285,8 +285,8 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.1</span> Introduction</h2>
+<section id="sec-simulation" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="sec-simulation"><span class="header-section-number">10.1</span> Introduction</h2>
 <p>The objective of any simulation study is to estimate an expectation <span class="math inline">\(E(X)\)</span>. Simulation studies involve the use of a computer to generate independent copies of the random variable of interest <span class="math inline">\(X\)</span>. Here are a couple of examples where simulation studies would be applicable.</p>
 <div id="exm-ins-01" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 10.1 (Insurance Claims)</strong></span> Before the financial year begins, an insurance company has to decide how much cash to keep, in order to pay out the claims for that year. Suppose that claims are independent of each other and are distributed as <span class="math inline">\(Exp(1/200)\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> dollars. Also suppose that the number of claims in a year is a Poisson random variable with mean 8.2.</p>
@@ -554,7 +554,7 @@ Important
 <span id="cb6-4"><a href="#cb6-4"></a>hX <span class="op">=</span> np.exp(<span class="dv">2</span><span class="op">*</span>X)</span>
 <span id="cb6-5"><a href="#cb6-5"></a>hX.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>np.float64(3.2090955591090915)</code></pre>
+<pre><code>3.2090955591090915</code></pre>
 </div>
 </div>
 </div>
@@ -614,7 +614,7 @@ Important
 <span id="cb10-12"><a href="#cb10-12"></a>        output_vec[i] <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb10-13"><a href="#cb10-13"></a>output_vec.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>np.float64(0.86)</code></pre>
+<pre><code>0.86</code></pre>
 </div>
 </div>
 </div>
@@ -666,7 +666,7 @@ Important
 <span id="cb14-9"><a href="#cb14-9"></a>output_vec <span class="op">=</span> np.array([generate_one_test() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2000</span>)])</span>
 <span id="cb14-10"><a href="#cb14-10"></a>output_vec.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>np.float64(0.102)</code></pre>
+<pre><code>0.102</code></pre>
 </div>
 </div>
 </div>
@@ -734,8 +734,8 @@ h(X) =
 <section id="resampling-methods" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="resampling-methods"><span class="header-section-number">10.6</span> Resampling Methods</h2>
 <p>The next section introduces two techniques that are based on resampling the data. They will not be tested/covered in our exam.</p>
-<section id="permutation-test" class="level3">
-<h3 class="anchored" data-anchor-id="permutation-test">Permutation Test</h3>
+<section id="sec-perm-test" class="level3">
+<h3 class="anchored" data-anchor-id="sec-perm-test">Permutation Test</h3>
 <p>Consider the two-sample t-test that we introduced in topic 06. This parametric test requires us to check if the data from the two groups came from Normal distributions. The non-parametric version requires each group to have at least 10 observations. What if our data satisfies neither criteria?</p>
 <p>The permutation test is applicable in such a situation. It makes no distributional assumptions whatsoever on the data. Here is pseudo-code for how it works:</p>
 <ol type="1">
@@ -746,7 +746,7 @@ h(X) =
 <li>Repeat steps 2 - 4 multiple times (order of 1000).</li>
 </ol>
 <p>The <span class="math inline">\(p\)</span>-value for the null hypothesis can be computed by computing the proportion of simulated statistics that were larger in absolute value than the observed one.</p>
-<div id="exm-abalone-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
+<div id="exm-abalone-1-repeat" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 10.8 (Abalone Data)</strong></span> </p>
 <p>In the abalone dataset, this was the output from the t-test:</p>
 <div class="cell">
