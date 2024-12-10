@@ -13,7 +13,7 @@ id <- match(Sys.info()["nodename"], venv_paths$nodename)
 use_virtualenv(venv_paths$path[id])
 ```
 
-## Introduction
+## Introduction {#sec-simulation}
 
 The objective of any simulation study is to estimate an expectation $E(X)$.
 Simulation studies involve the use of a computer to generate independent copies 
@@ -515,7 +515,7 @@ print(f"The 90% CI for the mean is ({CI[0]: .3f}, {CI[1]: .3f}).")
 The next section introduces two techniques that are based on resampling the data.
 They will not be tested/covered in our exam.
 
-### Permutation Test
+### Permutation Test {#sec-perm-test}
 
 Consider the two-sample t-test that we introduced in topic 06. This parametric 
 test requires us to check if the data from the two groups came from Normal distributions.
@@ -536,7 +536,7 @@ The $p$-value for the null hypothesis can be computed by computing the proportio
 simulated statistics that were larger in absolute value than the observed one.
 
 
-::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-1}
+::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-1-repeat}
 ### Abalone Data 
 \index{Abalone!permutation test}
 
