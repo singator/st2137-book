@@ -307,19 +307,24 @@ window.Quarto = {
 
 <section id="introduction" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
-<p>In the previous topic, we learned how to run 2-sample <span class="math inline">\(t\)</span>-tests. The objective of these procedures is to compare the means from two groups. Frequently, however, the means of more than two groups need to be compared.</p>
-<p>In this topic, we introduce the <em>one-way analysis of variance</em> (ANOVA), which generalises the <span class="math inline">\(t\)</span>-test methodology to more than 2 groups. Hypothesis tests in the ANOVA framework require the assumption of Normality. When this does not hold, we turn to the Kruskal-Wallis test - the non-parametric version, to compare the distributions within the groups.</p>
+<p>In the previous topic, we learned how to run two-sample <span class="math inline">\(t\)</span>-tests. The objective of these procedures is to compare the means from two groups. Frequently, however, the means of more than two groups need to be compared.</p>
+<p>In this topic, we introduce the <em>one-way analysis of variance</em> (ANOVA), which generalises the <span class="math inline">\(t\)</span>-test methodology to more than 2 groups. Hypothesis tests in the ANOVA framework require the assumption of Normality. When this does not hold, we turn to the Kruskal-Wallis test - the non-parametric version, to compare distributions between groups.</p>
 <p>While the <span class="math inline">\(F\)</span>-test in ANOVA provides a determination of whether or not the group means are different, in practice, we would always want to follow up with specific comparisons between groups as well. This topic covers how we can construct confidence intervals in those cases as well.</p>
 <div id="exm-antibiotics-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 8.1 (Effect of Antibiotics)</strong></span> </p>
 <p>The following example was taken from <span class="citation" data-cites="ekstrom2015statistical">Ekstrøm and Sørensen (<a href="references.html#ref-ekstrom2015statistical" role="doc-biblioref">2015</a>)</span>. An experiment with dung from heifers<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> was carried out in order to explore the influence of antibiotics on the decomposition of dung organic material. As part of the experiment, 36 heifers were randomly assigned into six groups.</p>
 <p>Antibiotics of different types were added to the feed for heifers in five of the groups. The remaining group served as a control group. For each heifer, a bag of dung was dug into the soil, and after 8 weeks the amount of organic material was measured for each bag.</p>
-<p>Here is a boxplot of the data from each group, along with summary statistics in a table below.</p>
+<p><a href="#fig-heifers-bp" class="quarto-xref">Figure&nbsp;<span>8.1</span></a> contains a boxplot of the data from each group.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="08-anova_files/figure-html/heifer-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<div id="fig-heifers-bp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heifers-bp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-anova_files/figure-html/fig-heifers-bp-1.png" id="fig-heifers-bp" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-heifers-bp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1
+</figcaption>
 </figure>
 </div>
 </div>
@@ -327,16 +332,16 @@ window.Quarto = {
 <p>Compared to the control group, it does appear that the median organic weight of the dung from the other heifer groups is higher. The following table displays the mean, standard deviation, and count from each group:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>      type   org.mean     org.sd  org.count
-1  Control 2.60333333 0.11877149 6.00000000
-2  Alfacyp 2.89500000 0.11674759 6.00000000
-3 Enroflox 2.71000000 0.16198765 6.00000000
-4 Fenbenda 2.83333333 0.12355835 6.00000000
-5 Ivermect 3.00166667 0.10943796 6.00000000
-6 Spiramyc 2.85500000 0.05446712 4.00000000</code></pre>
+<pre><code>      type  mean    sd count
+1  Control 2.603 0.119     6
+2  Alfacyp 2.895 0.117     6
+3 Enroflox 2.710 0.162     6
+4 Fenbenda 2.833 0.124     6
+5 Ivermect 3.002 0.109     6
+6 Spiramyc 2.855 0.054     4</code></pre>
 </div>
 </div>
-<p>Observe that the Spiramycin group only yielded 4 readings instead of 6. Our goal in this topic is to understand a technique for assessing if group means are statistically different from one another. Here are the specific analyses that we shall carry out:</p>
+<p>Observe that the Spiramycin group only yielded 4 readings instead of 6. Our goal in this topic is to apply a technique for assessing if group means are statistically different from one another. Here are the specific analyses that we shall carry out:</p>
 <ol type="1">
 <li>Is there any significant difference, at 5% level, between the mean decomposition level of the groups?</li>
 <li>At 5% level, is the mean level for Enrofloxacin different from the control group?</li>
@@ -371,7 +376,7 @@ Y_{ij} \sim N(\mu + \alpha_i,\; \sigma^2)
 Y_{ij} - \overline{\overline{Y}} = \underbrace{(Y_{ij} - \overline{Y_i})}_{\text{within}} +
 \underbrace{(\overline{Y_i} - \overline{\overline{Y}})}_{\text{between}}
 \tag{8.2}\]</span></span></p>
-<p>The first term on the right of the above equation is an indication of <em>within-group variability</em>. The second term on the right is an indication of <em>between-group variability</em>. The intuition behind the ANOVA procedure is that if the between-group variability is large and the within-group variability is small, then we have evidence that the group means are different.</p>
+<p>The first term on the right of the above equation is the source of <em>within-group variability</em>. The second term on the right gives rise to <em>between-group variability</em>. The intuition behind the ANOVA procedure is that if the between-group variability is large and the within-group variability is small, then we have evidence that the group means are different.</p>
 <p>If we square both sides of <a href="#eq-y-dev" class="quarto-xref">Equation&nbsp;<span>8.2</span></a> and sum over all observations, we arrive at the following equation; the essence of ANOVA:</p>
 <p><span class="math display">\[
 \sum_{i=1}^k \sum_{j=1}^{n_i} \left( Y_{ij} - \overline{\overline{Y}} \right)^2 =
@@ -422,6 +427,7 @@ Y_{ij} - \overline{Y_i}
 </ol>
 <div id="exm-antibiotics-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 8.2 (F-test)</strong></span> </p>
+<p>We being by applying the overall <span class="math inline">\(F\)</span>-test to the heifers data, to assess if there is any significant difference between the means.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">SAS output</a></li></ul>
 <div class="tab-content">
@@ -432,12 +438,15 @@ Y_{ij} - \overline{Y_i}
 <span id="cb2-3"><a href="#cb2-3"></a>u_levels <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(heifers<span class="sc">$</span>type))</span>
 <span id="cb2-4"><a href="#cb2-4"></a>heifers<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">factor</span>(heifers<span class="sc">$</span>type, </span>
 <span id="cb2-5"><a href="#cb2-5"></a>                       <span class="at">levels=</span>u_levels[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)])</span>
-<span id="cb2-6"><a href="#cb2-6"></a>anova1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(org <span class="sc">~</span> type, <span class="at">data=</span>heifers)</span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">summary</span>(anova1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-6"><a href="#cb2-6"></a>heifers_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(org <span class="sc">~</span> type, <span class="at">data=</span>heifers)</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">anova</span>(heifers_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
-type         5 0.5908 0.11816   7.973 8.95e-05 ***
-Residuals   28 0.4150 0.01482                     
+<pre><code>Analysis of Variance Table
+
+Response: org
+          Df  Sum Sq  Mean Sq F value    Pr(&gt;F)    
+type       5 0.59082 0.118165  7.9726 8.953e-05 ***
+Residuals 28 0.41500 0.014821                      
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -466,198 +475,95 @@ Residual  28.0  0.415000  0.014821       NaN      NaN</code></pre>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_anova_f_test.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="650"></p>
+<p><img src="figs/sas_anova_f_test.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<p>At the 5% significance level, we reject the null hypothesis to conclude that the group means are significantly different from one another. This answers question 1 from <a href="#exm-antibiotics-1" class="quarto-xref">Example&nbsp;<span>8.1</span></a>.</p>
+<p>At the 5% significance level, we reject the null hypothesis to conclude that the group means are significantly different from one another. This answers question (1) from <a href="#exm-antibiotics-1" class="quarto-xref">Example&nbsp;<span>8.1</span></a>.</p>
 <p>To extract the estimated parameters, we can use the following code:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">SAS output</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># R</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">coef</span>(anova1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">summary</span>(heifers_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> (Intercept)  typeAlfacyp typeEnroflox typeFenbenda typeIvermect typeSpiramyc 
-   2.6033333    0.2916667    0.1066667    0.2300000    0.3983333    0.2516667 </code></pre>
+<pre><code>
+Call:
+lm(formula = org ~ type, data = heifers)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.29000 -0.06000  0.01833  0.07250  0.18667 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   2.60333    0.04970  52.379  &lt; 2e-16 ***
+typeAlfacyp   0.29167    0.07029   4.150 0.000281 ***
+typeEnroflox  0.10667    0.07029   1.518 0.140338    
+typeFenbenda  0.23000    0.07029   3.272 0.002834 ** 
+typeIvermect  0.39833    0.07029   5.667  4.5e-06 ***
+typeSpiramyc  0.25167    0.07858   3.202 0.003384 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1217 on 28 degrees of freedom
+Multiple R-squared:  0.5874,    Adjusted R-squared:  0.5137 
+F-statistic: 7.973 on 5 and 28 DF,  p-value: 8.953e-05</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Python</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>heifer_lm.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>OLS Regression Results</caption>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Dep. Variable:</td>
-<td>org</td>
-<td data-quarto-table-cell-role="th">R-squared:</td>
-<td>0.587</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Model:</td>
-<td>OLS</td>
-<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
-<td>0.514</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Method:</td>
-<td>Least Squares</td>
-<td data-quarto-table-cell-role="th">F-statistic:</td>
-<td>7.973</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Date:</td>
-<td>Fri, 18 Oct 2024</td>
-<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
-<td>8.95e-05</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Time:</td>
-<td>16:02:59</td>
-<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
-<td>26.655</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">No. Observations:</td>
-<td>34</td>
-<td data-quarto-table-cell-role="th">AIC:</td>
-<td>-41.31</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Df Residuals:</td>
-<td>28</td>
-<td data-quarto-table-cell-role="th">BIC:</td>
-<td>-32.15</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Df Model:</td>
-<td>5</td>
-<td data-quarto-table-cell-role="th"></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Covariance Type:</td>
-<td>nonrobust</td>
-<td data-quarto-table-cell-role="th"></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="bu">print</span>(heifer_lm.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                    org   R-squared:                       0.587
+Model:                            OLS   Adj. R-squared:                  0.514
+Method:                 Least Squares   F-statistic:                     7.973
+Date:                Wed, 11 Dec 2024   Prob (F-statistic):           8.95e-05
+Time:                        13:50:20   Log-Likelihood:                 26.655
+No. Observations:                  34   AIC:                            -41.31
+Df Residuals:                      28   BIC:                            -32.15
+Df Model:                           5                                         
+Covariance Type:            nonrobust                                         
+====================================================================================
+                       coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------------
+Intercept            2.8950      0.050     58.248      0.000       2.793       2.997
+type[T.Control]     -0.2917      0.070     -4.150      0.000      -0.436      -0.148
+type[T.Enroflox]    -0.1850      0.070     -2.632      0.014      -0.329      -0.041
+type[T.Fenbenda]    -0.0617      0.070     -0.877      0.388      -0.206       0.082
+type[T.Ivermect]     0.1067      0.070      1.518      0.140      -0.037       0.251
+type[T.Spiramyc]    -0.0400      0.079     -0.509      0.615      -0.201       0.121
+==============================================================================
+Omnibus:                        2.172   Durbin-Watson:                   2.146
+Prob(Omnibus):                  0.338   Jarque-Bera (JB):                1.704
+Skew:                          -0.545   Prob(JB):                        0.427
+Kurtosis:                       2.876   Cond. No.                         6.71
+==============================================================================
 
-
-<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd">
-<td></td>
-<td data-quarto-table-cell-role="th">coef</td>
-<td data-quarto-table-cell-role="th">std err</td>
-<td data-quarto-table-cell-role="th">t</td>
-<td data-quarto-table-cell-role="th">P&gt;|t|</td>
-<td data-quarto-table-cell-role="th">[0.025</td>
-<td data-quarto-table-cell-role="th">0.975]</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Intercept</td>
-<td>2.8950</td>
-<td>0.050</td>
-<td>58.248</td>
-<td>0.000</td>
-<td>2.793</td>
-<td>2.997</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">type[T.Control]</td>
-<td>-0.2917</td>
-<td>0.070</td>
-<td>-4.150</td>
-<td>0.000</td>
-<td>-0.436</td>
-<td>-0.148</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">type[T.Enroflox]</td>
-<td>-0.1850</td>
-<td>0.070</td>
-<td>-2.632</td>
-<td>0.014</td>
-<td>-0.329</td>
-<td>-0.041</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">type[T.Fenbenda]</td>
-<td>-0.0617</td>
-<td>0.070</td>
-<td>-0.877</td>
-<td>0.388</td>
-<td>-0.206</td>
-<td>0.082</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">type[T.Ivermect]</td>
-<td>0.1067</td>
-<td>0.070</td>
-<td>1.518</td>
-<td>0.140</td>
-<td>-0.037</td>
-<td>0.251</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">type[T.Spiramyc]</td>
-<td>-0.0400</td>
-<td>0.079</td>
-<td>-0.509</td>
-<td>0.615</td>
-<td>-0.201</td>
-<td>0.121</td>
-</tr>
-</tbody>
-</table>
-
-
-<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Omnibus:</td>
-<td>2.172</td>
-<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
-<td>2.146</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
-<td>0.338</td>
-<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
-<td>1.704</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Skew:</td>
-<td>-0.545</td>
-<td data-quarto-table-cell-role="th">Prob(JB):</td>
-<td>0.427</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Kurtosis:</td>
-<td>2.876</td>
-<td data-quarto-table-cell-role="th">Cond. No.</td>
-<td>6.71</td>
-</tr>
-</tbody>
-</table>
-<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_anova_heifer_group_means.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
 </div>
 </div>
 </div>
 </div>
 <p>When estimating, both R and Python set one of the <span class="math inline">\(\alpha_i\)</span> to be equal to 0. In the case of R, it is the coefficient for <code>Control</code>, since we set it as the first level in the factor. For Python, we can tell from the output that the constraint has been placed on the coefficient for <code>Alfacyp</code> (since it is missing).</p>
-<p>However, both estimates are identical. From the R output, we can compute that the estimate of the mean for the <code>Alfacyp</code> group is <span class="math display">\[
+<p>However, all estimates are group means are identical. From the R output, we can compute that the estimate of the mean for the <code>Alfacyp</code> group is <span class="math display">\[
 2.603 + 0.292 = 2.895
 \]</span> From the Python output, we can read off (the Intercept term) that the estimate for <code>Alfacyp</code> is precisely <span class="math display">\[
 2.895 + 0 = 2.895
@@ -667,10 +573,10 @@ Residual  28.0  0.415000  0.014821       NaN      NaN</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># R</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>r1 <span class="ot">&lt;-</span> <span class="fu">residuals</span>(anova1)</span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="fu">hist</span>(r1)</span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="fu">qqnorm</span>(r1); <span class="fu">qqline</span>(r1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># R</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>r1 <span class="ot">&lt;-</span> <span class="fu">residuals</span>(heifers_lm)</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">hist</span>(r1)</span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="fu">qqnorm</span>(r1); <span class="fu">qqline</span>(r1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -684,14 +590,14 @@ Residual  28.0  0.415000  0.014821       NaN      NaN</code></pre>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Python</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a>f, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">4</span>))</span>
-<span id="cb10-5"><a href="#cb10-5"></a>tmp <span class="op">=</span> plt.subplot(<span class="dv">121</span>)</span>
-<span id="cb10-6"><a href="#cb10-6"></a>heifer_lm.resid.hist()<span class="op">;</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>tmp <span class="op">=</span> plt.subplot(<span class="dv">122</span>)</span>
-<span id="cb10-8"><a href="#cb10-8"></a>sm.qqplot(heifer_lm.resid, line<span class="op">=</span><span class="st">"q"</span>, ax<span class="op">=</span>tmp)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Python</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>f, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">4</span>))</span>
+<span id="cb11-5"><a href="#cb11-5"></a>tmp <span class="op">=</span> plt.subplot(<span class="dv">121</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a>heifer_lm.resid.hist()<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>tmp <span class="op">=</span> plt.subplot(<span class="dv">122</span>)</span>
+<span id="cb11-8"><a href="#cb11-8"></a>sm.qqplot(heifer_lm.resid, line<span class="op">=</span><span class="st">"q"</span>, ax<span class="op">=</span>tmp)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -733,49 +639,70 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you notice from the output in <a href="#exm-antibiotics-1" class="quarto-xref">Example&nbsp;<span>8.1</span></a>, the rule-of-thumb regarding standard deviations has not been satisfied. The ratio of largest to smallest standard deviations is slightly more than 2. Hence <em>we should switch to the non-parametric version of the test</em>; the pooled estimate of the variance may not be valid.</p>
-<p>However, we shall proceed with this dataset just to demonstrate the next few techniques, instead of introducing a new dataset.</p>
+<p>If you notice from the output in <a href="#exm-antibiotics-1" class="quarto-xref">Example&nbsp;<span>8.1</span></a>, the rule-of-thumb regarding standard deviations has not been satisfied. The ratio of largest to smallest standard deviations is slightly more than 2. Hence we should in fact switch to the non-parametric version of the test; the pooled estimate of the variance may not be valid. However, we shall proceed with this dataset just to demonstrate the next few techniques, instead of introducing a new dataset.</p>
 </div>
 </div>
 <div id="exm-antibiotics-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 8.3 (Enrofloxacin vs.&nbsp;Control)</strong></span> </p>
 <p>Let us attempt to answer question (2), that we had set out earlier in <a href="#exm-antibiotics-1" class="quarto-xref">Example&nbsp;<span>8.1</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">SAS code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># R </span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>summary_out <span class="ot">&lt;-</span> <span class="fu">summary</span>(anova1)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>est_coef <span class="ot">&lt;-</span> <span class="fu">coef</span>(anova1)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>est1  <span class="ot">&lt;-</span> <span class="fu">unname</span>(est_coef[<span class="dv">3</span>]) <span class="co"># coefficient for Enrofloxacin</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a>MSW <span class="ot">&lt;-</span> summary_out[[<span class="dv">1</span>]]<span class="sc">$</span><span class="st">`</span><span class="at">Mean Sq</span><span class="st">`</span>[<span class="dv">2</span>]</span>
-<span id="cb11-6"><a href="#cb11-6"></a>df <span class="ot">&lt;-</span> summary_out[[<span class="dv">1</span>]]<span class="sc">$</span>Df[<span class="dv">2</span>]</span>
-<span id="cb11-7"><a href="#cb11-7"></a>q1 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, df, <span class="dv">0</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-8"><a href="#cb11-8"></a></span>
-<span id="cb11-9"><a href="#cb11-9"></a>lower_ci <span class="ot">&lt;-</span> est1 <span class="sc">-</span> q1<span class="sc">*</span><span class="fu">sqrt</span>(MSW <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>))</span>
-<span id="cb11-10"><a href="#cb11-10"></a>upper_ci <span class="ot">&lt;-</span> est1 <span class="sc">+</span> q1<span class="sc">*</span><span class="fu">sqrt</span>(MSW <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>))</span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="fu">cat</span>(<span class="st">"The 95% CI for the diff. between Enrofloxacin and Control is ("</span>,</span>
-<span id="cb11-12"><a href="#cb11-12"></a>    <span class="fu">format</span>(lower_ci, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">","</span>, <span class="fu">format</span>(upper_ci, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">")."</span>, <span class="at">sep=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># R </span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>summary_out <span class="ot">&lt;-</span> <span class="fu">anova</span>(heifers_lm)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>est_coef <span class="ot">&lt;-</span> <span class="fu">coef</span>(heifers_lm)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>est1  <span class="ot">&lt;-</span> <span class="fu">unname</span>(est_coef[<span class="dv">3</span>]) <span class="co"># coefficient for Enrofloxacin</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>MSW <span class="ot">&lt;-</span> summary_out<span class="sc">$</span><span class="st">`</span><span class="at">Mean Sq</span><span class="st">`</span>[<span class="dv">2</span>]</span>
+<span id="cb12-6"><a href="#cb12-6"></a>df <span class="ot">&lt;-</span> summary_out<span class="sc">$</span>Df[<span class="dv">2</span>]</span>
+<span id="cb12-7"><a href="#cb12-7"></a>q1 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, df, <span class="dv">0</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-8"><a href="#cb12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9"></a>lower_ci <span class="ot">&lt;-</span> est1 <span class="sc">-</span> q1<span class="sc">*</span><span class="fu">sqrt</span>(MSW <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>))</span>
+<span id="cb12-10"><a href="#cb12-10"></a>upper_ci <span class="ot">&lt;-</span> est1 <span class="sc">+</span> q1<span class="sc">*</span><span class="fu">sqrt</span>(MSW <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>))</span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="fu">cat</span>(<span class="st">"The 95% CI for the diff. between Enrofloxacin and Control is ("</span>,</span>
+<span id="cb12-12"><a href="#cb12-12"></a>    <span class="fu">format</span>(lower_ci, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">","</span>, </span>
+<span id="cb12-13"><a href="#cb12-13"></a>    <span class="fu">format</span>(upper_ci, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">")."</span>, <span class="at">sep=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The 95% CI for the diff. between Enrofloxacin and Control is (-0.0543,0.268).</code></pre>
+<pre><code>The 95% CI for the diff. between Enrofloxacin and Control is (-0.0373,0.251).</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Python</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>est1  <span class="op">=</span> heifer_lm.params.iloc[<span class="dv">2</span>] <span class="op">-</span> heifer_lm.params.iloc[<span class="dv">1</span>]</span>
-<span id="cb13-3"><a href="#cb13-3"></a>MSW <span class="op">=</span> heifer_lm.mse_resid</span>
-<span id="cb13-4"><a href="#cb13-4"></a>df <span class="op">=</span> heifer_lm.df_resid</span>
-<span id="cb13-5"><a href="#cb13-5"></a>q1 <span class="op">=</span> <span class="op">-</span>stats.t.ppf(<span class="fl">0.025</span>, df)</span>
-<span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a>lower_ci <span class="op">=</span> est1 <span class="op">-</span> q1<span class="op">*</span>np.sqrt(MSW <span class="op">*</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span>))</span>
-<span id="cb13-8"><a href="#cb13-8"></a>upper_ci <span class="op">=</span> est1 <span class="op">+</span> q1<span class="op">*</span>np.sqrt(MSW <span class="op">*</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">4</span>))</span>
-<span id="cb13-9"><a href="#cb13-9"></a><span class="bu">print</span>(<span class="ss">f"The 95% CI for the diff. between Enrofloxacin and control is (</span><span class="sc">{</span>lower_ci<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>upper_ci<span class="sc">:.3f}</span><span class="ss">)."</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Python</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>est1  <span class="op">=</span> heifer_lm.params.iloc[<span class="dv">2</span>] <span class="op">-</span> heifer_lm.params.iloc[<span class="dv">1</span>]</span>
+<span id="cb14-3"><a href="#cb14-3"></a>MSW <span class="op">=</span> heifer_lm.mse_resid</span>
+<span id="cb14-4"><a href="#cb14-4"></a>df <span class="op">=</span> heifer_lm.df_resid</span>
+<span id="cb14-5"><a href="#cb14-5"></a>q1 <span class="op">=</span> <span class="op">-</span>stats.t.ppf(<span class="fl">0.025</span>, df)</span>
+<span id="cb14-6"><a href="#cb14-6"></a></span>
+<span id="cb14-7"><a href="#cb14-7"></a>lower_ci <span class="op">=</span> est1 <span class="op">-</span> q1<span class="op">*</span>np.sqrt(MSW <span class="op">*</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>))</span>
+<span id="cb14-8"><a href="#cb14-8"></a>upper_ci <span class="op">=</span> est1 <span class="op">+</span> q1<span class="op">*</span>np.sqrt(MSW <span class="op">*</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">6</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>))</span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="bu">print</span>(<span class="ss">f"""The 95% CI for the diff. between Enrofloxacin and control is</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a><span class="ss">(</span><span class="sc">{</span>lower_ci<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>upper_ci<span class="sc">:.3f}</span><span class="ss">)."""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The 95% CI for the diff. between Enrofloxacin and control is (-0.054, 0.268).</code></pre>
+<pre><code>The 95% CI for the diff. between Enrofloxacin and control is
+(-0.037, 0.251).</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<p>In order to get SAS to generate the estimate, modify the code to include <code>clparm</code> in the <code>model</code> statement, and include the <code>estimate</code> statement.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>proc glm data<span class="ot">=</span>ST2137.HEIFERS;</span>
+<span id="cb16-2"><a href="#cb16-2"></a>    class type;</span>
+<span id="cb16-3"><a href="#cb16-3"></a>    model org<span class="ot">=</span>type <span class="sc">/</span> clparm;</span>
+<span id="cb16-4"><a href="#cb16-4"></a>    means type <span class="sc">/</span> hovtest<span class="ot">=</span>levene welch plots<span class="ot">=</span>none;</span>
+<span id="cb16-5"><a href="#cb16-5"></a>    lsmeans type <span class="sc">/</span> adjust<span class="ot">=</span>tukey pdiff alpha<span class="ot">=</span>.<span class="dv">05</span>;</span>
+<span id="cb16-6"><a href="#cb16-6"></a>    estimate <span class="st">'enro_vs_control'</span> type <span class="dv">0</span> <span class="sc">-</span><span class="dv">1</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>;</span>
+<span id="cb16-7"><a href="#cb16-7"></a>    output out<span class="ot">=</span>work.Oneway_stats r<span class="ot">=</span>residual;</span>
+<span id="cb16-8"><a href="#cb16-8"></a>    run;</span>
+<span id="cb16-9"><a href="#cb16-9"></a>quit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_anova_heifer_pairwise.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
 </div>
 </div>
 </div>
@@ -808,24 +735,25 @@ t_{n-k, \alpha/2}  \times
 <p><span class="theorem-title"><strong>Example 8.4 (Comparing collection of groups)</strong></span> </p>
 <p>Let sub-group 1 consist of Ivermectin and Fenbendazole. Here is how we can compute a confidence interval for the difference between this sub-group, and Enrofloxacin.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">SAS code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>n_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>)</span>
-<span id="cb15-3"><a href="#cb15-3"></a>L <span class="ot">&lt;-</span> <span class="fu">sum</span>(c1<span class="sc">*</span>est_coef[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>])</span>
-<span id="cb15-4"><a href="#cb15-4"></a></span>
-<span id="cb15-5"><a href="#cb15-5"></a>MSW <span class="ot">&lt;-</span> summary_out[[<span class="dv">1</span>]]<span class="sc">$</span><span class="st">`</span><span class="at">Mean Sq</span><span class="st">`</span>[<span class="dv">2</span>]</span>
-<span id="cb15-6"><a href="#cb15-6"></a>df <span class="ot">&lt;-</span> summary_out[[<span class="dv">1</span>]]<span class="sc">$</span>Df[<span class="dv">2</span>]</span>
-<span id="cb15-7"><a href="#cb15-7"></a>se1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(MSW <span class="sc">*</span> <span class="fu">sum</span>( c1<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_vals ) )</span>
-<span id="cb15-8"><a href="#cb15-8"></a></span>
-<span id="cb15-9"><a href="#cb15-9"></a>q1 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, df, <span class="dv">0</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-10"><a href="#cb15-10"></a></span>
-<span id="cb15-11"><a href="#cb15-11"></a>lower_ci <span class="ot">&lt;-</span> L <span class="sc">-</span> q1<span class="sc">*</span>se1</span>
-<span id="cb15-12"><a href="#cb15-12"></a>upper_ci <span class="ot">&lt;-</span> L <span class="sc">+</span> q1<span class="sc">*</span>se1</span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="fu">cat</span>(<span class="st">"The 95% CI for the diff. between the two groups is ("</span>,</span>
-<span id="cb15-14"><a href="#cb15-14"></a>    <span class="fu">format</span>(lower_ci, <span class="at">digits =</span> <span class="dv">2</span>), <span class="st">","</span>, <span class="fu">format</span>(upper_ci, <span class="at">digits =</span> <span class="dv">2</span>), <span class="st">")."</span>, <span class="at">sep=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a>n_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb17-3"><a href="#cb17-3"></a>L <span class="ot">&lt;-</span> <span class="fu">sum</span>(c1<span class="sc">*</span>est_coef[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="co">#MSW &lt;- summary_out[[1]]$`Mean Sq`[2]</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="co">#df &lt;- summary_out[[1]]$Df[2]</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a>se1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(MSW <span class="sc">*</span> <span class="fu">sum</span>( c1<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_vals ) )</span>
+<span id="cb17-8"><a href="#cb17-8"></a></span>
+<span id="cb17-9"><a href="#cb17-9"></a>q1 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, df, <span class="dv">0</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-10"><a href="#cb17-10"></a></span>
+<span id="cb17-11"><a href="#cb17-11"></a>lower_ci <span class="ot">&lt;-</span> L <span class="sc">-</span> q1<span class="sc">*</span>se1</span>
+<span id="cb17-12"><a href="#cb17-12"></a>upper_ci <span class="ot">&lt;-</span> L <span class="sc">+</span> q1<span class="sc">*</span>se1</span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="fu">cat</span>(<span class="st">"The 95% CI for the diff. between the two groups is ("</span>,</span>
+<span id="cb17-14"><a href="#cb17-14"></a>    <span class="fu">format</span>(lower_ci, <span class="at">digits =</span> <span class="dv">2</span>), <span class="st">","</span>, </span>
+<span id="cb17-15"><a href="#cb17-15"></a>    <span class="fu">format</span>(upper_ci, <span class="at">digits =</span> <span class="dv">2</span>), <span class="st">")."</span>, <span class="at">sep=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The 95% CI for the diff. between the two groups is (0.083,0.33).</code></pre>
 </div>
@@ -833,21 +761,41 @@ t_{n-k, \alpha/2}  \times
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>c1 <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>])</span>
-<span id="cb17-2"><a href="#cb17-2"></a>n_vals <span class="op">=</span> np.array([<span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>,])</span>
-<span id="cb17-3"><a href="#cb17-3"></a>L <span class="op">=</span> np.<span class="bu">sum</span>(c1 <span class="op">*</span> heifer_lm.params.iloc[<span class="dv">2</span>:<span class="dv">5</span>])</span>
-<span id="cb17-4"><a href="#cb17-4"></a></span>
-<span id="cb17-5"><a href="#cb17-5"></a>MSW <span class="op">=</span> heifer_lm.mse_resid</span>
-<span id="cb17-6"><a href="#cb17-6"></a>df <span class="op">=</span> heifer_lm.df_resid</span>
-<span id="cb17-7"><a href="#cb17-7"></a>q1 <span class="op">=</span> <span class="op">-</span>stats.t.ppf(<span class="fl">0.025</span>, df)</span>
-<span id="cb17-8"><a href="#cb17-8"></a>se1 <span class="op">=</span> np.sqrt(MSW<span class="op">*</span>np.<span class="bu">sum</span>(c1<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> n_vals))</span>
-<span id="cb17-9"><a href="#cb17-9"></a></span>
-<span id="cb17-10"><a href="#cb17-10"></a>lower_ci <span class="op">=</span> L <span class="op">-</span> q1<span class="op">*</span>se1</span>
-<span id="cb17-11"><a href="#cb17-11"></a>upper_ci <span class="op">=</span> L <span class="op">+</span> q1<span class="op">*</span>se1</span>
-<span id="cb17-12"><a href="#cb17-12"></a><span class="bu">print</span>(<span class="ss">f"The 95% CI for the diff. between the two groups is (</span><span class="sc">{</span>lower_ci<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>upper_ci<span class="sc">:.3f}</span><span class="ss">)."</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>c1 <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>])</span>
+<span id="cb19-2"><a href="#cb19-2"></a>n_vals <span class="op">=</span> np.array([<span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>,])</span>
+<span id="cb19-3"><a href="#cb19-3"></a>L <span class="op">=</span> np.<span class="bu">sum</span>(c1 <span class="op">*</span> heifer_lm.params.iloc[<span class="dv">2</span>:<span class="dv">5</span>])</span>
+<span id="cb19-4"><a href="#cb19-4"></a></span>
+<span id="cb19-5"><a href="#cb19-5"></a>MSW <span class="op">=</span> heifer_lm.mse_resid</span>
+<span id="cb19-6"><a href="#cb19-6"></a>df <span class="op">=</span> heifer_lm.df_resid</span>
+<span id="cb19-7"><a href="#cb19-7"></a>q1 <span class="op">=</span> <span class="op">-</span>stats.t.ppf(<span class="fl">0.025</span>, df)</span>
+<span id="cb19-8"><a href="#cb19-8"></a>se1 <span class="op">=</span> np.sqrt(MSW<span class="op">*</span>np.<span class="bu">sum</span>(c1<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> n_vals))</span>
+<span id="cb19-9"><a href="#cb19-9"></a></span>
+<span id="cb19-10"><a href="#cb19-10"></a>lower_ci <span class="op">=</span> L <span class="op">-</span> q1<span class="op">*</span>se1</span>
+<span id="cb19-11"><a href="#cb19-11"></a>upper_ci <span class="op">=</span> L <span class="op">+</span> q1<span class="op">*</span>se1</span>
+<span id="cb19-12"><a href="#cb19-12"></a><span class="bu">print</span>(<span class="ss">f"""The 95% CI for the diff. between the two groups is </span></span>
+<span id="cb19-13"><a href="#cb19-13"></a><span class="ss">(</span><span class="sc">{</span>lower_ci<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>upper_ci<span class="sc">:.3f}</span><span class="ss">)."""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The 95% CI for the diff. between the two groups is (0.083, 0.332).</code></pre>
+<pre><code>The 95% CI for the diff. between the two groups is 
+(0.083, 0.332).</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>proc glm data<span class="ot">=</span>ST2137.HEIFERS;</span>
+<span id="cb21-2"><a href="#cb21-2"></a>    class type;</span>
+<span id="cb21-3"><a href="#cb21-3"></a>    model org<span class="ot">=</span>type <span class="sc">/</span> clparm;</span>
+<span id="cb21-4"><a href="#cb21-4"></a>    means type <span class="sc">/</span> hovtest<span class="ot">=</span>levene welch plots<span class="ot">=</span>none;</span>
+<span id="cb21-5"><a href="#cb21-5"></a>    lsmeans type <span class="sc">/</span> adjust<span class="ot">=</span>tukey pdiff alpha<span class="ot">=</span>.<span class="dv">05</span>;</span>
+<span id="cb21-6"><a href="#cb21-6"></a>    estimate <span class="st">'group_A_vs_enro'</span> type <span class="dv">0</span> <span class="dv">0</span> <span class="sc">-</span><span class="dv">1</span> <span class="fl">0.5</span> <span class="fl">0.5</span> <span class="dv">0</span>;</span>
+<span id="cb21-7"><a href="#cb21-7"></a>    output out<span class="ot">=</span>work.Oneway_stats r<span class="ot">=</span>residual;</span>
+<span id="cb21-8"><a href="#cb21-8"></a>    run;</span>
+<span id="cb21-9"><a href="#cb21-9"></a>quit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_anova_heifer_contrast2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
 </div>
 </div>
 </div>
@@ -865,17 +813,17 @@ t_{n-k, \alpha/2}  \times
 <h3 class="anchored" data-anchor-id="tukeyhsd">TukeyHSD</h3>
 <p>This procedure is known as Tukey’s Honestly Significant Difference. It is designed to construct confidence intervals for <strong>all</strong> pairwise comparisons. For the same <span class="math inline">\(\alpha\)</span>-level, Tukey’s HSD method provides shorter confidence intervals than a Bonferroni correction for all pairwise comparisons.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">SAS output</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">TukeyHSD</span>(anova1, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(heifers_lm), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
     factor levels have been ordered
 
-Fit: aov(formula = org ~ type, data = heifers)
+Fit: aov(formula = heifers_lm)
 
 $type
                         diff         lwr       upr     p adj
@@ -899,11 +847,11 @@ Ivermect-Alfacyp  0.10666667 -0.10812638 0.3214597 0.6563131</code></pre>
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="im">import</span> statsmodels.stats.multicomp <span class="im">as</span> mc</span>
-<span id="cb21-2"><a href="#cb21-2"></a></span>
-<span id="cb21-3"><a href="#cb21-3"></a>cp <span class="op">=</span> mc.MultiComparison(heifers.org, heifers.<span class="bu">type</span>)</span>
-<span id="cb21-4"><a href="#cb21-4"></a>tk <span class="op">=</span> cp.tukeyhsd()</span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="bu">print</span>(tk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="im">import</span> statsmodels.stats.multicomp <span class="im">as</span> mc</span>
+<span id="cb24-2"><a href="#cb24-2"></a></span>
+<span id="cb24-3"><a href="#cb24-3"></a>cp <span class="op">=</span> mc.MultiComparison(heifers.org, heifers.<span class="bu">type</span>)</span>
+<span id="cb24-4"><a href="#cb24-4"></a>tk <span class="op">=</span> cp.tukeyhsd()</span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="bu">print</span>(tk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Multiple Comparison of Means - Tukey HSD, FWER=0.05   
 ========================================================
@@ -926,6 +874,13 @@ Fenbenda Spiramyc   0.0217 0.9998 -0.2185  0.2618  False
 Ivermect Spiramyc  -0.1467 0.4424 -0.3868  0.0935  False
 --------------------------------------------------------</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/sas_anova_heifer_hsd.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
 </div>
 </div>
 </div>
@@ -965,12 +920,13 @@ Important
 </div>
 <div id="exm-antibiotics-4" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 8.5 (Kruskal-Wallis Test)</strong></span> </p>
+<p>Here is the code and output from running the Kruskal-Wallis test in the three software.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false">SAS output</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">kruskal.test</span>(heifers<span class="sc">$</span>org, heifers<span class="sc">$</span>type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">kruskal.test</span>(heifers<span class="sc">$</span>org, heifers<span class="sc">$</span>type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Kruskal-Wallis rank sum test
@@ -982,17 +938,20 @@ Kruskal-Wallis chi-squared = 19.645, df = 5, p-value = 0.001457</code></pre>
 </div>
 <div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>out <span class="op">=</span> [x[<span class="dv">1</span>] <span class="cf">for</span> x <span class="kw">in</span> heifers.org.groupby(heifers.<span class="bu">type</span>)]</span>
-<span id="cb25-2"><a href="#cb25-2"></a>stats.kruskal(<span class="op">*</span>out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>out <span class="op">=</span> [x[<span class="dv">1</span>] <span class="cf">for</span> x <span class="kw">in</span> heifers.org.groupby(heifers.<span class="bu">type</span>)]</span>
+<span id="cb28-2"><a href="#cb28-2"></a>kw_out <span class="op">=</span> stats.kruskal(<span class="op">*</span>out)</span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="bu">print</span>(<span class="ss">f"""The test statistic is </span><span class="sc">{</span>kw_out<span class="sc">.</span>statistic<span class="sc">:.3f}</span><span class="ss">,</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="ss">the p-value is </span><span class="sc">{</span>kw_out<span class="sc">.</span>pvalue<span class="sc">:.3f}</span><span class="ss">."""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>KruskalResult(statistic=np.float64(19.644660342717277), pvalue=np.float64(0.0014568414041391754))</code></pre>
+<pre><code>The test statistic is 19.645,
+the p-value is 0.001.</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_kruskal_wallis.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="700"></p>
+<p><img src="figs/sas_kruskal_wallis_a.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1016,6 +975,7 @@ Kruskal-Wallis chi-squared = 19.645, df = 5, p-value = 0.001457</code></pre>
 <li><a href="https://statisticsbyjim.com/anova/welchs-anova-compared-to-classic-one-way-anova/">Welch’s ANOVA</a> This website discusses an alternative test when the equal variance assumption has not been satisfied. It is for information only; it will not be tested.</li>
 <li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html">scipy stats</a> This website contains documentation on the distribution-related functions that we might need from scipy stats, e.g.&nbsp;retrieving quantiles.</li>
 <li><a href="https://stats.oarc.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/">Contrast coding</a></li>
+<li><a href="https://rcompanion.org/rcompanion/d_04.html">Type I,II,III SS</a></li>
 </ol>
 
 
