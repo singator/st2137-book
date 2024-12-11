@@ -26,7 +26,7 @@ simulation studies would be applicable.
 
 Before the financial year begins, an insurance company has to decide how much
 cash to keep, in order to pay out the claims for that year. Suppose that 
-claims are independent of each other and are distributed as $Exp(1/200)$[^1]
+claims are independent of each other and are distributed as $Exp(1/200)$[^10-exp]
 dollars. Also suppose that the number of claims in a year is a Poisson
 random variable with mean 8.2.
 
@@ -40,7 +40,7 @@ If we let $Y$ be the random variable representing the total sum of claims, we
 are interested in estimating $P(Y > 12000)$. Since probabilities are expectations,
 we can use simulation to estimate this value.
 
-[^1]: $f_X(x) = \frac{1}{200} \exp(-x/200),\; x > 0$
+[^10-exp]: $f_X(x) = \frac{1}{200} \exp(-x/200),\; x > 0$
 
 :::
 
@@ -513,7 +513,6 @@ print(f"The 90% CI for the mean is ({CI[0]: .3f}, {CI[1]: .3f}).")
 ## Resampling Methods
 
 The next section introduces two techniques that are based on resampling the data.
-They will not be tested/covered in our exam.
 
 ### Permutation Test {#sec-perm-test}
 
@@ -547,7 +546,7 @@ abl <- read.csv("data/abalone_sub.csv")
 x <- abl$viscera[abl$gender == "M"]
 y <- abl$viscera[abl$gender == "F"]
 
-t.test(x, y)
+t.test(x, y, var.equal=TRUE)
 ```
 
 This would be the procedure for a permutation test:
@@ -577,15 +576,19 @@ hist(sampled_diff)
 
 ### Bootstrapping
 
-The video on Canvas provides a very brief introduction to bootstrapping. One of 
-the greatest benefits of the bootstrap is the ability to provide confidence 
-intervals for estimators for which we may not have the know-how to derive analytic 
-or asymptotic results.
+The video on Canvas provides a very brief introduction to bootstrapping. One of
+the greatest benefits of the bootstrap is the ability to provide confidence
+intervals for estimators for which we may not have the know-how to derive
+analytic or asymptotic results.
 
-Consider the confidence interval for the trimmed mean, that we encountered in topic 04.
+Consider obtaining a confidence interval for the trimmed mean, that we
+encountered in @sec-robust.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-chem-1}
 \index{Copper!bootstrap CI}
+
+This is how we can use bootstrapping to obtain a confidence interval for a 
+trimmed mean.
 
 ```{r}
 library(MASS)
