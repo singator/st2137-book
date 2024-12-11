@@ -733,7 +733,7 @@ h(X) =
 </section>
 <section id="resampling-methods" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="resampling-methods"><span class="header-section-number">10.6</span> Resampling Methods</h2>
-<p>The next section introduces two techniques that are based on resampling the data. They will not be tested/covered in our exam.</p>
+<p>The next section introduces two techniques that are based on resampling the data.</p>
 <section id="sec-perm-test" class="level3">
 <h3 class="anchored" data-anchor-id="sec-perm-test">Permutation Test</h3>
 <p>Consider the two-sample t-test that we introduced in topic 06. This parametric test requires us to check if the data from the two groups came from Normal distributions. The non-parametric version requires each group to have at least 10 observations. What if our data satisfies neither criteria?</p>
@@ -754,10 +754,10 @@ h(X) =
 <span id="cb20-2"><a href="#cb20-2"></a>x <span class="ot">&lt;-</span> abl<span class="sc">$</span>viscera[abl<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"M"</span>]</span>
 <span id="cb20-3"><a href="#cb20-3"></a>y <span class="ot">&lt;-</span> abl<span class="sc">$</span>viscera[abl<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"F"</span>]</span>
 <span id="cb20-4"><a href="#cb20-4"></a></span>
-<span id="cb20-5"><a href="#cb20-5"></a><span class="fu">t.test</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="fu">t.test</span>(x, y, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    Welch Two Sample t-test
+    Two Sample t-test
 
 data:  x and y
 t = 0.91008, df = 98, p-value = 0.365
@@ -803,9 +803,10 @@ mean of x mean of y
 <section id="bootstrapping" class="level3">
 <h3 class="anchored" data-anchor-id="bootstrapping">Bootstrapping</h3>
 <p>The video on Canvas provides a very brief introduction to bootstrapping. One of the greatest benefits of the bootstrap is the ability to provide confidence intervals for estimators for which we may not have the know-how to derive analytic or asymptotic results.</p>
-<p>Consider the confidence interval for the trimmed mean, that we encountered in topic 04.</p>
+<p>Consider obtaining a confidence interval for the trimmed mean, that we encountered in <a href="05-robust_statistics.html#sec-robust" class="quarto-xref"><span>Section 5.1</span></a>.</p>
 <div id="exm-chem-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 10.9</strong></span> </p>
+<p>This is how we can use bootstrapping to obtain a confidence interval for a trimmed mean.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">library</span>(MASS)</span>
 <span id="cb27-2"><a href="#cb27-2"></a></span>
