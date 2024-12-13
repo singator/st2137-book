@@ -434,7 +434,7 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
-chem = pd.read_csv("../data/mass_chem.csv")
+chem = pd.read_csv("data/mass_chem.csv")
 
 chem.chem.mean()
 

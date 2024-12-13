@@ -162,7 +162,7 @@ col_x[0:3]
 ## Specifying argument for header:
 
 ```{python read-1}
-data1 = pd.read_table('../data/crab.txt', header=0, 
+data1 = pd.read_table('data/crab.txt', header=0, 
                       delim_whitespace=True)
 data1.head()
 ```
@@ -171,7 +171,7 @@ data1.head()
 
 ```{python read-2}
 varnames = ["Subject", "Gender", "CA1", "CA2", "HW"]
-data2 = pd.read_table('../data/ex_1.txt', header=None,  
+data2 = pd.read_table('data/ex_1.txt', header=None,  
                       names=varnames, delim_whitespace=True)
 data2
 ```

@@ -1,5 +1,5 @@
 ---
-title: "2-sample Hypothesis Tests"
+title: "Two-sample Hypothesis Tests"
 format: 
   beamer:
     aspectratio: 169
@@ -96,7 +96,7 @@ $$
 ### R code 
 
 ```{r r-abalone-1}
-abl <- read.csv("../data/abalone_sub.csv")
+abl <- read.csv("data/abalone_sub.csv")
 x <- abl$viscera[abl$gender == "M"]
 y <- abl$viscera[abl$gender == "F"]
 t.test(x, y)
@@ -115,12 +115,12 @@ import statsmodels.api as sm
 ```
 
 ```{python py-abalone-1b}
-abl = pd.read_csv("../data/abalone_sub.csv")
+abl = pd.read_csv("data/abalone_sub.csv")
 
-x = abl.viscera[abl.gender == "F"]
-y = abl.viscera[abl.gender == "M"]
+x = abl.viscera[abl.gender == "M"]
+y = abl.viscera[abl.gender == "F"]
 
-t_out = stats.ttest_ind(y, x)
+t_out = stats.ttest_ind(x, y)
 ci_95 = t_out.confidence_interval()
 
 ```{python py-abalone-1c}
@@ -349,7 +349,7 @@ $$
 ### R code 
 
 ```{r r-hr-1a}
-hr_df <- read.csv("../data/health_promo_hr.csv")
+hr_df <- read.csv("data/health_promo_hr.csv")
 before <- hr_df$baseline
 after <- hr_df$after5
 t.test(before, after, paired=TRUE)
@@ -369,8 +369,7 @@ t.test(before, after, paired=TRUE)
 ### Python code
 
 ```{python py-hr-1}
-hr_df = pd.read_csv("../data/health_promo_hr.csv")
-#hr_df.head()
+hr_df = pd.read_csv("data/health_promo_hr.csv")
 
 stats.ttest_rel(hr_df.baseline, hr_df.after5)
 ```

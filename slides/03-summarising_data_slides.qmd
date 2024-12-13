@@ -1,5 +1,5 @@
 ---
-title: "Summarising Numerical Data"
+title: "Exploring Quantitative Data"
 format: 
   beamer:
     aspectratio: 169
@@ -64,7 +64,7 @@ Techniques for categorical variables will be covered in a subsequent topic.
 ```{r r-stud-perf-1}
 #| warning: false
 #| message: false
-stud_perf <- read.table("../data/student/student-mat.csv", sep=";", 
+stud_perf <- read.table("data/student/student-mat.csv", sep=";", 
                         header=TRUE)
 summary(stud_perf$G3)
 sum(is.na(stud_perf$G3))
@@ -82,7 +82,7 @@ import numpy as np
 #### Python code
 
 ```{python py-stud-perf-1}
-stud_perf  = pd.read_csv("../data/student/student-mat.csv", delimiter=";")
+stud_perf  = pd.read_csv("data/student/student-mat.csv", delimiter=";")
 stud_perf.G3.describe()
 ```
 
@@ -306,7 +306,7 @@ Output variables (3):
 To read in the data in R:
 
 ```{r}
-concrete <- read.csv("../data/concrete+slump+test/slump_test.data")
+concrete <- read.csv("data/concrete+slump+test/slump_test.data")
 names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 ```
 
@@ -315,7 +315,7 @@ names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 #### Python code
 
 ```{python}
-concrete = pd.read_csv("../data/concrete+slump+test/slump_test.data")
+concrete = pd.read_csv("data/concrete+slump+test/slump_test.data")
 concrete.rename(columns={'No':'id', 
                          'Compressive Strength (28-day)(Mpa)':'Comp_Strength'}, 
                 inplace=True)

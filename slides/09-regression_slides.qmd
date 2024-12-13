@@ -48,7 +48,7 @@ the relationship between variables like X and Y. Here are some examples:
 #| label: fig-flow-water
 #| fig-cap: "Scatterplot with simple linear regression model"
 library(lattice)
-concrete <- read.csv("../data/concrete+slump+test/slump_test.data")
+concrete <- read.csv("data/concrete+slump+test/slump_test.data")
 names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 xyplot(FLOW.cm. ~ Water, type=c("p", "r"), data= concrete, main="Concrete data")
 ```
@@ -63,7 +63,7 @@ xyplot(FLOW.cm. ~ Water, type=c("p", "r"), data= concrete, main="Concrete data")
 #| echo: false
 #| label: fig-reg-casual
 #| fig-cap: Scatterplot of registered vs. casual bike renters
-bike2 <- read.csv("../data/bike2.csv")
+bike2 <- read.csv("data/bike2.csv")
 xyplot(registered ~ casual, groups=workingday, type=c("p", "r"), data=bike2,
        auto.key = TRUE, main="Registered vs. Casual, by Working Day Status")
 ```
@@ -211,7 +211,7 @@ $$
 
 ```{r r-concrete-lm}
 #R 
-concrete <- read.csv("../data/concrete+slump+test/slump_test.data")
+concrete <- read.csv("data/concrete+slump+test/slump_test.data")
 names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 lm_flow_water <- lm(FLOW.cm. ~ Water, data=concrete)
 summary(lm_flow_water)
@@ -231,7 +231,7 @@ from statsmodels.formula.api import ols
 ```
 
 ```{python py-concrete-lm-b}
-concrete = pd.read_csv("../data/concrete+slump+test/slump_test.data")
+concrete = pd.read_csv("data/concrete+slump+test/slump_test.data")
 concrete.rename(columns={'No':'id', 
                          'Compressive Strength (28-day)(Mpa)':'Comp_Strength',
                          'FLOW(cm)': 'Flow'},
@@ -276,7 +276,7 @@ The 95% Confidence intervals are:
 
 ```{r r-bike-lm}
 #R 
-bike2 <- read.csv("../data/bike2.csv")
+bike2 <- read.csv("data/bike2.csv")
 bike2_sub <- bike2[bike2$workingday == "no", ]
 lm_reg_casual <- lm(registered ~ casual, data=bike2_sub)
 anova(lm_reg_casual)
@@ -288,7 +288,7 @@ anova(lm_reg_casual)
 
 ```{python py-bike-lm}
 #Python
-bike2 = pd.read_csv("../data/bike2.csv")
+bike2 = pd.read_csv("data/bike2.csv")
 bike2_sub = bike2[bike2.workingday == "no"]
 
 lm_reg_casual = ols('registered ~ casual', bike2_sub).fit()

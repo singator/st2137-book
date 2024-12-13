@@ -46,7 +46,7 @@ use_virtualenv(venv_paths$path[id])
 #| echo: false
 #| out-width: 60%
 library(lattice)
-heifers <- read.csv("../data/antibio.csv")
+heifers <- read.csv("data/antibio.csv")
 u_levels <- sort(unique(heifers$type))
 heifers$type <- factor(heifers$type, levels=u_levels[c(2, 1, 3, 4, 5, 6)])
 bwplot(org ~ as.factor(type), data=heifers, 
@@ -182,7 +182,7 @@ $$
 
 ```{r r-f-test}
 #R 
-heifers <- read.csv("../data/antibio.csv")
+heifers <- read.csv("data/antibio.csv")
 u_levels <- sort(unique(heifers$type))
 heifers$type <- factor(heifers$type, 
                        levels=u_levels[c(2, 1, 3, 4, 5, 6)])
@@ -206,7 +206,7 @@ import matplotlib.pyplot as plt
 ```
 
 ```{python py-f-test-b}
-heifers = pd.read_csv("../data/antibio.csv")
+heifers = pd.read_csv("data/antibio.csv")
 heifer_lm = ols('org ~ type', data=heifers).fit()
 anova_tab = sm.stats.anova_lm(heifer_lm, type=3,)
 ```
@@ -298,8 +298,8 @@ MSW <- summary_out[[1]]$`Mean Sq`[2]
 df <- summary_out[[1]]$Df[2]
 q1 <- qt(0.025, df, 0, lower.tail = FALSE)
 
-lower_ci <- est1 - q1*sqrt(MSW * (1/6 + 1/4))
-upper_ci <- est1 + q1*sqrt(MSW * (1/6 + 1/4))
+lower_ci <- est1 - q1*sqrt(MSW * (1/6 + 1/6))
+upper_ci <- est1 + q1*sqrt(MSW * (1/6 + 1/6))
 cat("The 95% CI for the diff. between Enrofloxacin and Control is (",
     format(lower_ci, digits = 3), ",", format(upper_ci, digits = 3), ").", sep="")
 ```

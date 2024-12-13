@@ -1,5 +1,5 @@
 ---
-title: "Categorical Data Analysis"
+title: "Exploring Categorical Data"
 format: 
   beamer:
     aspectratio: 169
@@ -567,7 +567,7 @@ mosaic(political_tab, statistic=True, gap=0.05);
 ```{r r-cd-1}
 #| fig-align: center
 #| out-width: 65%
-heart_failure <- read.csv("../data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv")
+heart_failure <- read.csv("data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv")
 spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
 ```
 
