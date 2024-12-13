@@ -66,8 +66,8 @@ names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 xyplot(FLOW.cm. ~ Water, type=c("p", "r"), data= concrete, main="Concrete data")
 ```
 
-It does appear that there is a trend in the scatter plot. We shall figure out 
-how to estimate this line in this topic.
+Note that trend in the scatterplot in @fig-flow-water. In this topic, we shall
+figure out how to estimate this line in this topic.
 
 :::
 
@@ -92,7 +92,7 @@ xyplot(registered ~ casual, groups=workingday, type=c("p", "r"), data=bike2,
 ```
 
 Contingent on whether the day is a working one or not, it does appear that the 
-trendline is different.
+trendline is different (see @fig-reg-casual).
 
 :::
 
@@ -319,13 +319,13 @@ precise equation that was plotted in @fig-flow-water. The $R^2$ is labelled as
 "Multiple R-squared" in the R output. The value is 0.3995, which means that about 
 40% of the variation in $Y$ is explained by $X$. 
 
-A simple interpretation[^1] of the model is as follows:
+A simple interpretation[^09-interpret] of the model is as follows:
 
 > For every 1 unit increase in Water, there is an average associated increase in
 > Flow rate of 0.55 units.
 
-[^1]: This interpretation has to be taken very cautiously, especially when there are
-      other explanatory variables in the model.
+[^09-interpret]: This interpretation has to be taken very cautiously, especially when there are
+                 other explanatory variables in the model.
       
 To obtain confidence intervals for the parameters, we can use the following code in
 R. The Python summary already contains the confidence intervals.
@@ -438,6 +438,8 @@ up a new matrix of $X$-values corresponding to the desired range.
 
 ```{r r-concrete-pred}
 #| fig-align: center
+#| fig-height: 4
+
 #R 
 new_df <- data.frame(Water = seq(160, 240, by = 5))
 conf_intervals <- predict(lm_flow_water, new_df, interval="conf")
@@ -483,9 +485,6 @@ the upper bounds separately. Notice how the limits get wider the further away
 we are from $\bar{X} \approx 200$.
 
 :::
-
-
-{{< pagebreak >}}
 
 ## Multiple Linear Regression
 
@@ -671,8 +670,6 @@ if all the assumptions listed in @sec-formal-slr have been met. We shall do so
 in subsequent sections.
 
 :::
-
-{{< pagebreak >}}
 
 ## Indicator Variables
 
@@ -889,8 +886,6 @@ abline(est_coef[1]+est_coef[3], est_coef[2]+est_coef[4], col="salmon")
 
 :::
 
-{{< pagebreak >}}
-
 ## Residual Diagnostics
 
 Recall from @eq-res-def that residuals are computed as 
@@ -943,13 +938,14 @@ for our course.
 ### Concrete Data Normality Check
 \index{Concrete slump!residual Normality}
 
+Let us inspect the residuals from the concrete model for Normality.
+
 ::: {.panel-tabset}
 
 #### R code 
 
 ```{r r-concrete-qq-1}
 #| layout-ncol: 2
-# R 
 r_s <- rstandard(lm_flow_water_slag)
 hist(r_s)
 qqnorm(r_s)
@@ -1019,6 +1015,8 @@ We typically inspect the plots for the following patterns:
 ### Concrete Data Residual Plots
 \index{Concrete slump!residual plots}
 
+These are residual plots for the concrete data example.
+
 ::: {.panel-tabset}
 
 #### R code 
@@ -1068,6 +1066,8 @@ distance values greater than 1 indicate possibly influential points.
 
 ### Concrete Data Influential Points
 \index{Concrete slump!influential points}
+
+To inspect influential points for the concrete data, we can use this code.
 
 ::: {.panel-tabset}
 

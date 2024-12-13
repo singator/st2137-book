@@ -1,5 +1,5 @@
 ---
-title: "2-sample Hypothesis Tests"
+title: "Two-sample Hypothesis Tests"
 ---
 
 ```{r setup}
@@ -24,7 +24,7 @@ Hypothesis tests are routinely abused in many ways by investigators. Such tests
 typically require strong assumptions to hold, and can result in false positives
 or negatives. As such, personally, I prefer to use confidence intervals to make
 an assessment of the significance of a result. However, in this topic, we
-introduce how the $p$-values can be obtained for these tests.
+introduce how the $p$-values can be obtained for these hypothesis tests.
 
 ## Procedure for Significance Tests {#sec-sig-test-proc}
 
@@ -34,7 +34,7 @@ As a recap, here is the general approach for conducting a hypothesis test:
 
 In this step, we make a note of the assumptions required for the test to be
 valid. In some tests, this step is carried out at the end of the others, but it
-is still essential to perform. Some tests are very sensitive to the assumptions
+is always essential to perform. Some tests are very sensitive to the assumptions
 - this is the main reason that the class of robust statistics was invented.
 
 ### Step 2: State the hypotheses and significance level
@@ -44,7 +44,7 @@ population from which the data arose. This inferential statement is what we
 refer to as the hypothesis regarding the population.
 
 ::: {.callout-note}
-A hypothesis is a statement about population, usually claiming that a parameter
+A hypothesis is a statement about *population*, usually claiming that a parameter
 takes a particular numerical value or falls in a certain range of values.
 :::
 
@@ -79,6 +79,16 @@ after knowing the $p$-value, one could always choose the significance level such
 that it yields the *desired* decision (reject or not).
 :::
 
+It is also possible to test *one-sided* alternatives. In such scenarios, the 
+hypotheses would be of the form:
+
+\begin{eqnarray*}
+H_0: & \mu_A = \mu_B \\
+H_1: & \mu_A > \mu_B 
+\end{eqnarray*}
+
+Such a test is known as a one-tailed test.
+
 ### Step 3: Compute the test statistic
 
 The test statistic is usually a measure of how far the observed data deviates 
@@ -91,15 +101,21 @@ assumption could render this distribution incorrect.
 
 ### Step 4: Compute the $p$-value
 
-The $p$-value quantifies the chance of observing such a dataset under $H_0$. The 
-distribution of the test statistic under $H_0$ is used to compute this value between 
-0 and 1. A value closer to 0 indicates stronger evidence against $H_0$.
+The $p$-value quantifies the chance of observing such a test statistic, or one
+that is more extreme in the direction of $H_1$, under $H_0$. The distribution of
+the test statistic under $H_0$ is used to compute this value between 0 and 1. A
+value closer to 0 indicates stronger evidence against $H_0$.
+
+In the case of a one-tailed test, try to understand the behaviour of the test 
+statistic, and identify the *signal* that would yield more evidence supporting
+the alternative hypothesis.
 
 ### Step 5: State your conclusion
 
-This is the binary decision stage - either we reject $H_0$, or we do not reject
-$H_0$. It is conventional to use this terminology (instead of "accepting $H_1$")
-since our $p$-value is obtained with respect to $H_0$.
+This is the binary decision stage. If the $p$-value is less than the stated 
+significance level, we conclude that we reject $H_0$. Otherwise, we say that 
+we do not reject $H_0$. It is conventional to use this terminology (instead of 
+"accepting $H_1$") since our $p$-value is obtained with respect to $H_0$.
 
 ## Confidence Intervals
 
@@ -205,6 +221,19 @@ $$
 (\bar{X} - \bar{Y}) \pm t_{n_1 + n_2 -2, 1 - \alpha/2} \times s_p\sqrt{1/n_1 + 1/n_2}
 $$
 
+The set-up above corresponds to the case where the variance within each group is
+assumed to be the same. We use information from both groups to estimate the 
+common variance. If we find evidence in the data to the contrary, we used 
+the *unpooled* variance in the denominator of $T_1$:
+
+$$
+T_{1,unpooled} = \frac{(\bar{X} - \bar{Y}) - 0 }{\sqrt{s^2_1/n_1 + s^2_2/n_2} }
+$$
+
+where $s^2_1$ and $s^2_2$ are the sample variance from groups 1 and 2. The test
+statistic still follows a $t$ distribution, but the degrees of freedom are 
+approximated. This approximation is known as the Satterthwaite approximation.
+
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-1}
 
 ### Abalone Measurements
@@ -214,10 +243,10 @@ The dataset on abalone measurements from the [UCI machine learning
 repository](https://archive.ics.uci.edu/dataset/1/abalone) contains measurements
 of physical characteristics, along with the gender status. We derive a sample of
 50 measurements of male and female abalone records for use here. Our goal is 
-to study if there is a significant difference between the viscera weight[^1] between
+to study if there is a significant difference between the viscera weight[^07-viscera] between
 males and females. The derived dataset can be found on Canvas.
 
-[^1]: Viscera is the gut weight after bleeding out the abalone (in grams).
+[^07-viscera]: Viscera is the gut weight after bleeding out the abalone (in grams).
 
 ::: {.panel-tabset}
 
@@ -228,7 +257,7 @@ abl <- read.csv("data/abalone_sub.csv")
 x <- abl$viscera[abl$gender == "M"]
 y <- abl$viscera[abl$gender == "F"]
 
-t.test(x, y)
+t.test(x, y, var.equal=TRUE)
 ```
 
 #### Python code
@@ -243,10 +272,10 @@ abl = pd.read_csv("data/abalone_sub.csv")
 #abl.head()
 #abalone_df.describe()
 
-x = abl.viscera[abl.gender == "F"]
-y = abl.viscera[abl.gender == "M"]
+x = abl.viscera[abl.gender == "M"]
+y = abl.viscera[abl.gender == "F"]
 
-t_out = stats.ttest_ind(y, x)
+t_out = stats.ttest_ind(x, y)
 ci_95 = t_out.confidence_interval()
 
 print(f"""
@@ -262,7 +291,7 @@ When we run the independent samples t-test on SAS, we should observe the followi
 output @fig-sas-abalone-001.
 
 ::: {layout-ncol=1}
-![SAS Abalone, Independent](figs/sas_abalone_ind_ttest-001.png){#fig-sas-abalone-001 fig-align="center" out-width=60%}
+![SAS Abalone, Independent](figs/sas_abalone_ind_ttest-001a.png){#fig-sas-abalone-001 fig-align="center" width=65%}
 :::
 
 :::
@@ -342,8 +371,8 @@ right-skew and negative values to left-skew.
 
 #### Kurtosis 
 
-Kurtosis measures the thickness of the tails of a distribution. Large kurtosis 
-implies that the tails are "fatter" than those of a Normal, whil small, negative 
+Kurtosis measures the thickness of the tails of a distribution. Positive
+kurtosis implies that the tails are "fatter" than those of a Normal. Negative
 values indicate that the tails are "thinner" than those of a Normal.
 
 The method of moments estimator is 
@@ -400,12 +429,12 @@ abl.groupby("gender").skew()
 for i,df in abl.groupby('gender'):
     print(f"{df.gender.iloc[0]}: {df.viscera.kurt():.4f}")
     
-stats.shapiro(y)
+stats.shapiro(x)
 ```
 
 #### SAS output 
 
-![SAS Normality tests](figs/sas_abalone_normality_tests.png){#fig-sas-norm-001}
+![SAS Normality tests](figs/sas_abalone_normality_tests_a.png){#fig-sas-norm-001 width=65%}
 
 :::
 
@@ -514,12 +543,15 @@ t.test(before, after, paired=TRUE)
 hr_df = pd.read_csv("data/health_promo_hr.csv")
 #hr_df.head()
 
-stats.ttest_rel(hr_df.baseline, hr_df.after5)
+paired_out = stats.ttest_rel(hr_df.baseline, hr_df.after5)
+print(f"""
+Test statistic: {paired_out.statistic:.3f}.
+p-val: {paired_out.pvalue:.3f}.""")
 ```
 
 #### SAS Output
 
-![SAS HR Paired t-test](figs/sas_hr_paired_ttest.png)
+![SAS HR Paired t-test](figs/sas_hr_paired_ttest_a.png){width=65%}
 
 
 ::: 
@@ -528,13 +560,14 @@ It is imperative to also make the checks for Normality. If you were to make
 them, you would realise that the sample size is rather small - it is difficult
 to make the case for Normality here.
 
-A couple of interesting plots from SAS are these:
+A couple of interesting plots from SAS are shown in @fig-sas-paired-prof and 
+@fig-sas-agreement.
 
 ::: {layout-ncol=2}
 
-![Paired Profiles](figs/sas_hr_paired_profiles.png)
+![Paired Profiles](figs/sas_hr_paired_profiles.png){#fig-sas-paired-prof}
 
-![Agreement](figs/sas_hr_agreement.png)
+![Agreement](figs/sas_hr_agreement.png){#fig-sas-agreement}
 
 :::
 
@@ -543,9 +576,9 @@ or at least similar in sign. If instead, we observed a combination of positive
 and negative gradients, then we would be less confident that there is a difference 
 in means between the groups.
 
-For the agreement, if we were to observe a cloud of points centered around the
-mean, with no clear trend to the points, then we would be more inclined to
-believe that the mean difference is not 0.
+For the agreement plot, if we were to observe the points scattered around the
+line $y=x$, then we would be more inclined to believe that the mean difference
+is indeed 0.
 
 :::
 
@@ -601,7 +634,7 @@ Under $H_0$, the expected rank sum of group 1 is
 $$
 E(R_1) = n_1 \times  \frac{n_1 + n_2 + 1}{2}
 $$
-Thus the test statistic is a comparison of $R_1$ with the above expected value:
+The test statistic is a comparison of $R_1$ with the above expected value:
 
 $$
 W_1 = \begin{cases}
@@ -611,12 +644,13 @@ W_1 = \begin{cases}
 \end{cases}
 $$
 
-The test above should only be used if both $n_1$ and $n_2$ are at least 10, and if 
-the observations (not the ranks) come from an underlying continuous distribution. If these 
-assumptions hold, then the test statistic $W_1$ follows a $N(0,1)$ distribution.
+where $g$ refers to the number of groups with ties, and $t_i$ refers to the
+number of tied values in each group.
 
-Just as in @sec-pair-nonpar, the $g$ refers to the number of groups with ties,
-and $t_i$ refers to the number of tied values in each group.
+The test above should only be used if both $n_1$ and $n_2$ are at least 10, and
+if the observations (not the ranks) come from an underlying continuous
+distribution. If these assumptions hold, then the test statistic $W_1$ follows a
+$N(0,1)$ distribution.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-abalone-2}
 
@@ -639,20 +673,35 @@ As mentioned, the Mann-Whitney test will return the same $p$-value as the
 WRS test.
 
 ```{python py-abalone-5}
-stats.mannwhitneyu(y, x)
+wrs_out = stats.mannwhitneyu(x, y)
+
+print(f"""Test statistic: {wrs_out.statistic:.3f}.
+p-val: {wrs_out.pvalue:.3f}.""")
 ```
 
 #### SAS Output
 
 The SAS output can be seen in @fig-sas-wrs-001.
 
-![SAS Output, Wilcoxon Rank Sum](figs/sas_abalone_wrs.png){#fig-sas-wrs-001}
+![SAS Output, Wilcoxon Rank Sum](figs/sas_abalone_wrs_a.png){#fig-sas-wrs-001 width=65%}
 
 :::
 
 Since we know the number of observations in each group to be more than 10, the
 approximation holds. Comparing to the @exm-abalone-1, observe that we have a
 similar conclusion.
+
+Notice that the test statistic appears different in SAS. However, it is simply 
+a matter of a location shift of the test statistic. R and Python subtract the 
+smallest possible sum of ranks from group 1, but SAS does not. In our example, 
+the group size is 50. Hence we can recover the SAS test statistic from the R
+test statistic with
+
+$$
+1415.5 + \frac{50(50+1)}{2} = 2690.5
+$$
+
+The $p$-value is identical in all three software.
 
 :::
 
@@ -723,13 +772,15 @@ wilcox.test(before, after, paired = TRUE, exact = FALSE)
 #### Python code
 
 ```{python py-hr-5}
-stats.wilcoxon(hr_df.baseline, hr_df.after5, 
-               correction=True, method='approx')
+wsr_out = stats.wilcoxon(hr_df.baseline, hr_df.after5,  
+                         correction=True, method='approx')
+print(f"""Test statistic: {wsr_out.statistic:.3f}.
+p-val: {wsr_out.pvalue:.3f}.""")
 ```
 
 #### SAS Output 
 
-![SAS Signed Rank Test](figs/sas_hr_wilcox.png)
+![SAS Signed Rank Test](figs/sas_hr_wilcox_a.png){width=65%}
 
 :::
 
@@ -737,8 +788,17 @@ In this problem, we do not have 16 non-zero $D_i$'s. Hence, we should in fact
 be using the "exact" version of the test (R and Python). However, the exact version 
 of the test cannot be used when there are ties. 
 
+SAS does indeed use the "exact" version of the test, so that accounts for the
+difference in $p$-values. The test statistic in SAS is computed by subtracting
+$E(R_1)$, but in R and Python this subtraction is not done. To get from test
+statistic in R (0) to the one in SAS (-39):
+
+$$
+0 - \frac{12(12 + 1)}{4} = -39
+$$
+
 In cases like this, we can turn to the bootstrap, or we can use a permutation test. We 
-shall revisit these in our final topic.
+shall revisit these in our final topic @sec-simulation.
 
 :::
 
