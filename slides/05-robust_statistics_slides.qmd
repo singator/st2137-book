@@ -420,7 +420,8 @@ mean(chem)
 mean(chem, trim = 0.1) # using gamma = 0.1
 
 library(DescTools)
-win_sample <- Winsorize(chem, probs=c(0.1, 0.9)) # gamma = 0.1
+vals <- quantile(chem, probs=c(0.05, 0.95))
+win_sample <- Winsorize(chem, vals) # gamma = 0.1
 mean(win_sample)
 ```
 
