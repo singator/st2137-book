@@ -405,7 +405,7 @@ data2[data2$Gender == "M" & data2$CA2 > 85, ]
 4. `>=`     : greater than or equal to     
 5. `==`     : equal to                     
 6. `!=`     : not equal to                 
-7. `x : y`  : (vectorised) OR              
+7. `x | y`  : (vectorised) OR              
 8. `x & y`  : (vectorised) AND             
 
 ## Creating New Columns
