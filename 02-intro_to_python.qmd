@@ -161,8 +161,9 @@ positive and negative indexes work together.
 ## Numpy Arrays
 
 Just like R, Python has several contributed packages that are essential for statistics
-and data analysis. These include `numpy` and `pandas`. Please install these two 
-packages (through Anaconda) before proceeding with the rest of this topic.
+and data analysis. These include `numpy` and `pandas`. These appropriate versions of these
+packages would have been installed if you had used the requirements file when setting up 
+Python.
 
 ```{python np-1}
 import numpy as np
