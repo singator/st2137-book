@@ -200,7 +200,7 @@ The objects referred to in the second column are from the earlier lines of code.
 | `T`         | Transposes the array, e.g. `matrix1.T`      |
 | `mean`      | Computes col- or row-wise means, e.g. `matrix1.mean(axis=0)` or `matrix1.mean(axis=1)` |
 | `sum`       | Computes col- or row-wise means, e.g. `matrix1.sum(axis=0)` or `matrix1.sum(axis=1)` |
-| `argmax`    | Return the index corresponding to the max within the specified dimension, e.g. `matrix1.argmax(axis=0)` for the max within the row.  |
+| `argmax`    | Return the index corresponding to the max within the specified dimension, e.g. `matrix1.argmax(axis=0)` for the position with the max within each column.  |
 | `reshape`   | To change the dimensions, e.g. `array1.reshape((5,1))` converts the array into a 5x1 matrix |
 
 To combine arrays, we use the functions `vstack` and `hstack`. These are analogous to 
