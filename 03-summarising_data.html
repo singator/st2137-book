@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Exploring Quantitative Data – Statistical Computing and Programming</title>
+<title>Statistical Computing and Programming - 3&nbsp; Exploring Quantitative Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -162,13 +162,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-summarising_data.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Exploring Quantitative Data</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -308,7 +308,7 @@ window.Quarto = {
 <p>This is the first topic where we are going to see how to perform statistical analysis using two software: R and Python. Every language has it’s strengths and weaknesses, so instead of attempting to exactly replicate the same chart/output in each software, we shall try to understand their respective approaches better.</p>
 <p>Our end goal is to analyse data - toward that end, we should be versatile and adaptable. Focus on learning how to be fast and productive in whichever environment you are told to work in. If you have a choice, then be aware of what each framework can do best, so that you can choose the right one.</p>
 <p>Although it is a simplistic view, the following diagram, <a href="#fig-sum-1" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>, provides a useful taxonomy of the types of columns we might have in our dataset. Having at least an initial inkling of the type of data matters, because it helps decide what type of summary to generate or what type of plot to make. Quantitative data are sometimes also referred to as <em>numerical data</em>.</p>
-<div id="fig-sum-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Data types">
+<div id="fig-sum-1" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="Data types">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" alt="Data types">
@@ -334,7 +334,7 @@ Figure&nbsp;3.1: Data types
 <li><code>student-por.csv</code> (performance in Portugese)</li>
 </ul>
 <p>Each dataset was collected using school reports and questionnaires. Each row corresponds to a student. The columns are attributes, including student grades, demographic information, and other social and school-related information. Each file corresponds to the students’ performance in one of the two subjects. For more information, you can refer to <span class="citation" data-cites="cortez2008using">Cortez and Silva (<a href="references.html#ref-cortez2008using" role="doc-biblioref">2008</a>)</span>.</p>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 2%">
 <col style="width: 6%">
@@ -533,7 +533,7 @@ Figure&nbsp;3.1: Data types
 </tbody>
 </table>
 <p>In the explanatory variables above, notice that also severable variables have been stored in the dataset file using numbers, they are in fact <em>categorical variables</em>. Examples of these are variables 24 to 29. It seems fair to treat the three output columns as numeric though. G3 is the main output variable.</p>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 5%">
 <col style="width: 12%">
@@ -673,7 +673,7 @@ Medu
 <li>When the mean is much larger than the median, it suggests that there could be a few very large observations. It has resulted in a <em>right-skewed</em> distribution. Conversely, if the mean is much smaller than the median, we probably have a <em>left-skewed</em> distribution.</li>
 </ul>
 <p>While numerical summaries provide us with some basic information about the data, they also leave out a lot. Even for experts, it is possible to have a wrong mental idea about the data from the numerical summaries alone. For instance, all three histograms in <a href="#fig-sum-2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> have a mean of 0 and standard deviation of 1!</p>
-<div id="fig-sum-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="3 histograms">
+<div id="fig-sum-2" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="3 histograms">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%" alt="3 histograms">
@@ -703,7 +703,7 @@ Figure&nbsp;3.2: Three datasets with mean 0 and s.d. 1
 <div class="quarto-layout-panel" data-layout="[[1,1], [1]]">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-hist-outliers" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-hist-outliers" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hist-outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-03.png" class="img-fluid figure-img">
@@ -715,7 +715,7 @@ Figure&nbsp;3.3: Histogram with outliers
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-hist-bimodal" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-hist-bimodal" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hist-bimodal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-04.png" class="img-fluid figure-img">
@@ -729,7 +729,7 @@ Figure&nbsp;3.4: Bimodal histogram
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-hist-skewed-egs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-hist-skewed-egs" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hist-skewed-egs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-05.png" class="img-fluid figure-img">
@@ -888,7 +888,7 @@ Note
 <li>Excluding the potential outliers, the maximum point determines the <em>upper whisker</em> and the minimum point determines the <em>lower whisker</em> of a boxplot.</li>
 </ol>
 <p>A boxplot helps us to identify the median, lower and upper quantiles and outlier(s) (see <a href="#fig-sum-8" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>).</p>
-<div id="fig-sum-8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Boxplot construction">
+<div id="fig-sum-8" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" alt="Boxplot construction">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-08.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Boxplot construction">
@@ -946,7 +946,7 @@ dtype: object</code></pre>
 <div aria-describedby="fig-qq-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-qq-1" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-qq-1-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-qq-1-1" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-qq-1-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="03-summarising_data_files/figure-html/fig-qq-1-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-ref-parent="fig-qq-1" width="672">
@@ -958,7 +958,7 @@ dtype: object</code></pre>
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-qq-1" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-qq-1-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-qq-1-2" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-qq-1-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="03-summarising_data_files/figure-html/fig-qq-1-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-ref-parent="fig-qq-1" width="672">
@@ -993,7 +993,7 @@ Note
 <p><span class="theorem-title"><strong>Example 3.6 (Concrete Slump: Dataset Introduction)</strong></span> </p>
 <p>Concrete is a highly complex material. The slump flow of concrete is not only determined by the water content, but that is also influenced by other concrete ingredients. The UCI page for this dataset is <a href="https://archive.ics.uci.edu/dataset/182/concrete+slump+test">here</a>. The reference for this article is <span class="citation" data-cites="yeh2007modeling">Yeh (<a href="references.html#ref-yeh2007modeling" role="doc-biblioref">2007</a>)</span>.</p>
 <p>The data set includes 103 data points. There are 7 input variables, and 3 output variables in the data set. These are the input columns in the data, all in units of kg per <span class="math inline">\(m^3\)</span> concrete:</p>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 31%">
@@ -1045,7 +1045,7 @@ Note
 </tbody>
 </table>
 <p>There are three output variables in the dataset. You can read more about Slump and Flow from this <a href="https://en.wikipedia.org/wiki/Concrete_slump_test">wikipedia page</a>.</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>#</th>
@@ -1095,7 +1095,7 @@ Note
 <p>Let us consider the Comp.Strength output variable. The histogram overlay in <a href="#fig-concrete-1" class="quarto-xref">Figure&nbsp;<span>3.8</span></a> suggests some skewness and fatter tails than the Normal.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-concrete-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-concrete-1" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-concrete-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="03-summarising_data_files/figure-html/fig-concrete-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
@@ -1158,7 +1158,7 @@ r = \frac{1}{n-1} \sum_{i=1}^n \frac{(x_i - \bar{x})(y_i - \bar{y})}{s_x s_y}
 <div class="quarto-layout-panel" data-layout-nrow="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-corr-linear" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-out-width="50%">
+<div id="fig-corr-linear" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" data-out-width="50%">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-corr-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-06.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-out-width="50%">
@@ -1172,7 +1172,7 @@ Figure&nbsp;3.9: Linear Relation
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-corr-non-linear" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-out-width="50%">
+<div id="fig-corr-non-linear" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center" data-out-width="50%">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-corr-non-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-07.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-out-width="50%">
@@ -1257,162 +1257,162 @@ Figure&nbsp;3.10: Non-linear relation
 <span id="cb30-3"><a href="#cb30-3"></a>corr.style.background_gradient(cmap<span class="op">=</span><span class="st">'coolwarm_r'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <style type="text/css">
-#T_be3ac_row0_col0, #T_be3ac_row1_col1, #T_be3ac_row2_col2, #T_be3ac_row3_col3, #T_be3ac_row4_col4, #T_be3ac_row5_col5 {
+#T_41234_row0_col0, #T_41234_row1_col1, #T_41234_row2_col2, #T_41234_row3_col3, #T_41234_row4_col4, #T_41234_row5_col5 {
   background-color: #3b4cc0;
   color: #f1f1f1;
 }
-#T_be3ac_row0_col1 {
+#T_41234_row0_col1 {
   background-color: #cb3e38;
   color: #f1f1f1;
 }
-#T_be3ac_row0_col2, #T_be3ac_row3_col4 {
+#T_41234_row0_col2, #T_41234_row3_col4 {
   background-color: #c5d6f2;
   color: #000000;
 }
-#T_be3ac_row0_col3 {
+#T_41234_row0_col3 {
   background-color: #f4c6af;
   color: #000000;
 }
-#T_be3ac_row0_col4 {
+#T_41234_row0_col4 {
   background-color: #f7b89c;
   color: #000000;
 }
-#T_be3ac_row0_col5 {
+#T_41234_row0_col5 {
   background-color: #f3c8b2;
   color: #000000;
 }
-#T_be3ac_row1_col0, #T_be3ac_row1_col2, #T_be3ac_row1_col4, #T_be3ac_row1_col5, #T_be3ac_row2_col1, #T_be3ac_row2_col3, #T_be3ac_row5_col1 {
+#T_41234_row1_col0, #T_41234_row1_col2, #T_41234_row1_col4, #T_41234_row1_col5, #T_41234_row2_col1, #T_41234_row2_col3, #T_41234_row5_col1 {
   background-color: #b40426;
   color: #f1f1f1;
 }
-#T_be3ac_row1_col3 {
+#T_41234_row1_col3 {
   background-color: #ea7b60;
   color: #f1f1f1;
 }
-#T_be3ac_row2_col0 {
+#T_41234_row2_col0 {
   background-color: #cedaeb;
   color: #000000;
 }
-#T_be3ac_row2_col4 {
+#T_41234_row2_col4 {
   background-color: #c53334;
   color: #f1f1f1;
 }
-#T_be3ac_row2_col5, #T_be3ac_row5_col2 {
+#T_41234_row2_col5, #T_41234_row5_col2 {
   background-color: #e46e56;
   color: #f1f1f1;
 }
-#T_be3ac_row3_col0 {
+#T_41234_row3_col0 {
   background-color: #f5c4ac;
   color: #000000;
 }
-#T_be3ac_row3_col1 {
+#T_41234_row3_col1 {
   background-color: #f29072;
   color: #f1f1f1;
 }
-#T_be3ac_row3_col2 {
+#T_41234_row3_col2 {
   background-color: #c83836;
   color: #f1f1f1;
 }
-#T_be3ac_row3_col5 {
+#T_41234_row3_col5 {
   background-color: #96b7ff;
   color: #000000;
 }
-#T_be3ac_row4_col0 {
+#T_41234_row4_col0 {
   background-color: #f7b194;
   color: #000000;
 }
-#T_be3ac_row4_col1 {
+#T_41234_row4_col1 {
   background-color: #c12b30;
   color: #f1f1f1;
 }
-#T_be3ac_row4_col2 {
+#T_41234_row4_col2 {
   background-color: #d0473d;
   color: #f1f1f1;
 }
-#T_be3ac_row4_col3 {
+#T_41234_row4_col3 {
   background-color: #c7d7f0;
   color: #000000;
 }
-#T_be3ac_row4_col5, #T_be3ac_row5_col4 {
+#T_41234_row4_col5, #T_41234_row5_col4 {
   background-color: #506bda;
   color: #f1f1f1;
 }
-#T_be3ac_row5_col0 {
+#T_41234_row5_col0 {
   background-color: #f7bca1;
   color: #000000;
 }
-#T_be3ac_row5_col3 {
+#T_41234_row5_col3 {
   background-color: #9dbdff;
   color: #000000;
 }
 </style>
 
-<table id="T_be3ac" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_41234" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_be3ac_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Cement</th>
-<th id="T_be3ac_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Slag</th>
-<th id="T_be3ac_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Comp_Strength</th>
-<th id="T_be3ac_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Water</th>
-<th id="T_be3ac_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">SLUMP(cm)</th>
-<th id="T_be3ac_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">FLOW(cm)</th>
+<th id="T_41234_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Cement</th>
+<th id="T_41234_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Slag</th>
+<th id="T_41234_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Comp_Strength</th>
+<th id="T_41234_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Water</th>
+<th id="T_41234_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">SLUMP(cm)</th>
+<th id="T_41234_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">FLOW(cm)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_be3ac_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cement</td>
-<td id="T_be3ac_row0_col0" class="data row0 col0">1.000000</td>
-<td id="T_be3ac_row0_col1" class="data row0 col1">-0.243553</td>
-<td id="T_be3ac_row0_col2" class="data row0 col2">0.445725</td>
-<td id="T_be3ac_row0_col3" class="data row0 col3">0.221091</td>
-<td id="T_be3ac_row0_col4" class="data row0 col4">0.145913</td>
-<td id="T_be3ac_row0_col5" class="data row0 col5">0.186461</td>
+<td id="T_41234_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cement</td>
+<td id="T_41234_row0_col0" class="data row0 col0">1.000000</td>
+<td id="T_41234_row0_col1" class="data row0 col1">-0.243553</td>
+<td id="T_41234_row0_col2" class="data row0 col2">0.445725</td>
+<td id="T_41234_row0_col3" class="data row0 col3">0.221091</td>
+<td id="T_41234_row0_col4" class="data row0 col4">0.145913</td>
+<td id="T_41234_row0_col5" class="data row0 col5">0.186461</td>
 </tr>
 <tr class="even">
-<td id="T_be3ac_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Slag</td>
-<td id="T_be3ac_row1_col0" class="data row1 col0">-0.243553</td>
-<td id="T_be3ac_row1_col1" class="data row1 col1">1.000000</td>
-<td id="T_be3ac_row1_col2" class="data row1 col2">-0.331588</td>
-<td id="T_be3ac_row1_col3" class="data row1 col3">-0.026775</td>
-<td id="T_be3ac_row1_col4" class="data row1 col4">-0.284037</td>
-<td id="T_be3ac_row1_col5" class="data row1 col5">-0.327231</td>
+<td id="T_41234_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Slag</td>
+<td id="T_41234_row1_col0" class="data row1 col0">-0.243553</td>
+<td id="T_41234_row1_col1" class="data row1 col1">1.000000</td>
+<td id="T_41234_row1_col2" class="data row1 col2">-0.331588</td>
+<td id="T_41234_row1_col3" class="data row1 col3">-0.026775</td>
+<td id="T_41234_row1_col4" class="data row1 col4">-0.284037</td>
+<td id="T_41234_row1_col5" class="data row1 col5">-0.327231</td>
 </tr>
 <tr class="odd">
-<td id="T_be3ac_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Comp_Strength</td>
-<td id="T_be3ac_row2_col0" class="data row2 col0">0.445725</td>
-<td id="T_be3ac_row2_col1" class="data row2 col1">-0.331588</td>
-<td id="T_be3ac_row2_col2" class="data row2 col2">1.000000</td>
-<td id="T_be3ac_row2_col3" class="data row2 col3">-0.254235</td>
-<td id="T_be3ac_row2_col4" class="data row2 col4">-0.223358</td>
-<td id="T_be3ac_row2_col5" class="data row2 col5">-0.124029</td>
+<td id="T_41234_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Comp_Strength</td>
+<td id="T_41234_row2_col0" class="data row2 col0">0.445725</td>
+<td id="T_41234_row2_col1" class="data row2 col1">-0.331588</td>
+<td id="T_41234_row2_col2" class="data row2 col2">1.000000</td>
+<td id="T_41234_row2_col3" class="data row2 col3">-0.254235</td>
+<td id="T_41234_row2_col4" class="data row2 col4">-0.223358</td>
+<td id="T_41234_row2_col5" class="data row2 col5">-0.124029</td>
 </tr>
 <tr class="even">
-<td id="T_be3ac_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Water</td>
-<td id="T_be3ac_row3_col0" class="data row3 col0">0.221091</td>
-<td id="T_be3ac_row3_col1" class="data row3 col1">-0.026775</td>
-<td id="T_be3ac_row3_col2" class="data row3 col2">-0.254235</td>
-<td id="T_be3ac_row3_col3" class="data row3 col3">1.000000</td>
-<td id="T_be3ac_row3_col4" class="data row3 col4">0.466568</td>
-<td id="T_be3ac_row3_col5" class="data row3 col5">0.632026</td>
+<td id="T_41234_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Water</td>
+<td id="T_41234_row3_col0" class="data row3 col0">0.221091</td>
+<td id="T_41234_row3_col1" class="data row3 col1">-0.026775</td>
+<td id="T_41234_row3_col2" class="data row3 col2">-0.254235</td>
+<td id="T_41234_row3_col3" class="data row3 col3">1.000000</td>
+<td id="T_41234_row3_col4" class="data row3 col4">0.466568</td>
+<td id="T_41234_row3_col5" class="data row3 col5">0.632026</td>
 </tr>
 <tr class="odd">
-<td id="T_be3ac_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">SLUMP(cm)</td>
-<td id="T_be3ac_row4_col0" class="data row4 col0">0.145913</td>
-<td id="T_be3ac_row4_col1" class="data row4 col1">-0.284037</td>
-<td id="T_be3ac_row4_col2" class="data row4 col2">-0.223358</td>
-<td id="T_be3ac_row4_col3" class="data row4 col3">0.466568</td>
-<td id="T_be3ac_row4_col4" class="data row4 col4">1.000000</td>
-<td id="T_be3ac_row4_col5" class="data row4 col5">0.906135</td>
+<td id="T_41234_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">SLUMP(cm)</td>
+<td id="T_41234_row4_col0" class="data row4 col0">0.145913</td>
+<td id="T_41234_row4_col1" class="data row4 col1">-0.284037</td>
+<td id="T_41234_row4_col2" class="data row4 col2">-0.223358</td>
+<td id="T_41234_row4_col3" class="data row4 col3">0.466568</td>
+<td id="T_41234_row4_col4" class="data row4 col4">1.000000</td>
+<td id="T_41234_row4_col5" class="data row4 col5">0.906135</td>
 </tr>
 <tr class="even">
-<td id="T_be3ac_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">FLOW(cm)</td>
-<td id="T_be3ac_row5_col0" class="data row5 col0">0.186461</td>
-<td id="T_be3ac_row5_col1" class="data row5 col1">-0.327231</td>
-<td id="T_be3ac_row5_col2" class="data row5 col2">-0.124029</td>
-<td id="T_be3ac_row5_col3" class="data row5 col3">0.632026</td>
-<td id="T_be3ac_row5_col4" class="data row5 col4">0.906135</td>
-<td id="T_be3ac_row5_col5" class="data row5 col5">1.000000</td>
+<td id="T_41234_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">FLOW(cm)</td>
+<td id="T_41234_row5_col0" class="data row5 col0">0.186461</td>
+<td id="T_41234_row5_col1" class="data row5 col1">-0.327231</td>
+<td id="T_41234_row5_col2" class="data row5 col2">-0.124029</td>
+<td id="T_41234_row5_col3" class="data row5 col3">0.632026</td>
+<td id="T_41234_row5_col4" class="data row5 col4">0.906135</td>
+<td id="T_41234_row5_col5" class="data row5 col5">1.000000</td>
 </tr>
 </tbody>
 </table>
@@ -1482,7 +1482,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1514,47 +1525,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1589,11 +1560,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1869,12 +1836,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./02-intro_to_python.html" class="pagination-link" aria-label="Introduction to Python">
+      <a href="./02-intro_to_python.html" class="pagination-link  aria-label=" &lt;span="" to="" python&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Python</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./04-categorical_data_analysis.html" class="pagination-link" aria-label="Exploring Categorical Data">
+      <a href="./04-categorical_data_analysis.html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>Exploring Categorical Data</span>">
         <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploring Categorical Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
