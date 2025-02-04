@@ -70,7 +70,7 @@ print(chest_gender_df)
 This format is  known as a *contingency table*.
 
 ```{r chest_gender_2}
-#| echo: false
+#| echo: true
 x <- matrix(c(46, 37, 474, 516), nrow=2)
 dimnames(x) <- list(c("male", "female"), c("pain", "no pain"))
 chest_tab <- as.table(x)
@@ -79,6 +79,142 @@ print(chest_tab)
 
 * Each observation from the dataset falls in exactly one  of the cells. 
 * The sum of all entries in the cells equals the number of independent observations in the dataset.
+
+
+## Political Association and Gender {.smaller}
+
+```{r}
+#| echo: true
+x <- matrix(c(762,327,468,484,239,477), ncol=3, byrow=TRUE)
+dimnames(x) <- list(c("female", "male"), 
+                    c("Dem", "Ind", "Rep"))
+political_tab <- as.table(x)
+print(political_tab)
+```
+
+## Political Association and Gender Barchart {.smaller}
+
+### R code for barchart:
+
+```{r r-pol-3}
+#| fig-align: center
+#| out-width: 50%
+library(lattice)
+barchart(political_tab/rowSums(political_tab), 
+         horizontal = FALSE)
+```
+
+However, the downside is that it does not reflect that the marginal count for 
+males was much less than that for females. 
+
+## Claritin and Nervousness {.smaller}
+
+*  Claritin is a drug for treating allergies. 
+*  It has a side effect of inducing nervousness in patients. 
+*  From a sample of 450 subjects, 188 of them were randomly assigned to take Claritin, 
+   and the remaining were assigned to take the placebo. 
+
+```{r r-claritin-0}
+#| echo: true
+y <-  matrix(c(4, 2, 184, 260), nrow=2)
+dimnames(y) <- list(c("claritin", "placebo"), c("nervous", "not nervous"))
+claritin_tab <- as.table(y)
+print(claritin_tab)
+```
+
+
+## Claritin and Nervousness Barchart {.smaller}
+
+### Python code for barchart:
+
+```{python py-claritin-2a}
+#| fig-align: center
+#| out-width: 50%
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+claritin_tab = np.array([[4, 184], [2, 260]])
+claritin_prop = claritin_tab/claritin_tab.sum(axis=1).reshape((2,1))
+
+xx = pd.DataFrame(claritin_prop, 
+                  columns=['nervous', 'not_nervous'], 
+                  index=['claritin', 'placebo'])
+```
+
+## Claritin and Nervousness Barchart {.smaller}
+
+### Python code for barchart:
+
+```{python py-claritin-2b}
+#| fig-align: center
+#| out-width: 50%
+xx.plot(kind='bar', stacked=True)
+```
+
+## Political Association and Gender Mosaic Plot {.smaller}
+
+* A mosaic plot reflects the count in each cell (through the area)
+
+### R code 
+
+```{r r-pol-4}
+#| fig-align: center
+#| out-width: 50%
+mosaicplot(political_tab, shade=TRUE)
+```
+
+## Political Association and Gender Mosaic Plot {.smaller}
+
+### Python code
+
+```{python py-pol-4a}
+from statsmodels.graphics.mosaicplot import mosaic
+
+political_tab = np.asarray([[762,327,468], [484,239,477]])
+```
+
+## Political Association and Gender Mosaic Plot {.smaller}
+
+### Python code
+
+```{python py-pol-4b}
+#| fig-align: center
+#| out-width: 50%
+mosaic(political_tab, statistic=True, gap=0.05);
+```
+
+## Conditional Density Plots {.smaller}
+
+* When we have one categorical and one quantitative variable, it depends on 
+  which variable is the response, and which is the explanatory variable. 
+* if the response variable is a the categorical one, we should not be making 
+  boxplots. 
+
+## Heart failure records {.smaller}
+
+* Data  contains records on 299 patients who had heart failure. 
+* The data was collected during the follow-up period; each patient had 13 clinical features recorded. 
+* The primary variable of interest was whether they died or not. 
+* Suppose we wished to plot how this varied with age (a quantitative variable):
+
+## Heart failure records {.smaller}
+
+```{r r-cd-1}
+#| fig-align: center
+#| out-width: 65%
+heart_failure <- read.csv("data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv")
+spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+```
+
+## Heart failure records {.smaller}
+
+```{r r-cd-2}
+#| fig-align: center
+#| out-width: 65%
+cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+```
+
 
 ## Associated Categorical Variables {.smaller}
 
@@ -134,10 +270,6 @@ The sum is taken over every cell in the table.
 #### R code
 
 ```{r r-chest_gender-1}
-x <- matrix(c(46, 37, 474, 516), nrow=2)
-dimnames(x) <- list(c("male", "female"), c("pain", "no pain"))
-chest_tab <- as.table(x)
-
 chisq_output <- chisq.test(chest_tab)
 chisq_output
 ```
@@ -209,30 +341,11 @@ larger than 5.
 *  The $p$-value is  typically obtained by simulating tables with the same marginals 
    as the observed dataset.
   
-## Claritin and Nervousness {.smaller}
-
-*  Claritin is a drug for treating allergies. 
-*  It has a side effect of inducing nervousness in patients. 
-*  From a sample of 450 subjects, 188 of them were randomly assigned to take Claritin, 
-   and the remaining were assigned to take the placebo. 
-
-```{r r-claritin-0}
-#| echo: false
-y <-  matrix(c(4, 2, 184, 260), nrow=2)
-dimnames(y) <- list(c("claritin", "placebo"), c("nervous", "not nervous"))
-claritin_tab <- as.table(y)
-print(claritin_tab)
-```
-
 ## Claritin and Nervousness (Fisher Exact Test) {.smaller}
 
 #### R code 
 
 ```{r r-claritin-1}
-y <-  matrix(c(4, 2, 184, 260), nrow=2)
-dimnames(y) <- list(c("claritin", "placebo"), c("nervous", "not nervous"))
-claritin_tab <- as.table(y)
-
 fisher.test(claritin_tab)
 ```
 
@@ -260,24 +373,9 @@ chisq.test(claritin_tab)$expected
 
 ## Political Association and Gender {.smaller}
 
-```{r}
-#| echo: false
-x <- matrix(c(762,327,468,484,239,477), ncol=3, byrow=TRUE)
-dimnames(x) <- list(c("female", "male"), 
-                    c("Dem", "Ind", "Rep"))
-political_tab <- as.table(x)
-print(political_tab)
-```
-
-## Political Association and Gender {.smaller}
-
 ### R code
 
 ```{r pol-1}
-x <- matrix(c(762,327,468,484,239,477), ncol=3, byrow=TRUE)
-dimnames(x) <- list(c("female", "male"), 
-                    c("Dem", "Ind", "Rep"))
-political_tab <- as.table(x)
 chisq.test(political_tab)
 ```
 
@@ -474,109 +572,6 @@ for i in range(0, dim1[0]):
             y.append(j)
 
 stats.kendalltau(x, y)
-```
-
-## Political Association and Gender Barchart {.smaller}
-
-### R code for barchart:
-
-```{r r-pol-3}
-#| fig-align: center
-#| out-width: 50%
-library(lattice)
-barchart(political_tab/rowSums(political_tab), 
-         horizontal = FALSE)
-```
-
-However, the downside is that it does not reflect that the marginal count for 
-males was much less than that for females. 
-
-## Claritin and Nervousness Barchart {.smaller}
-
-### Python code for barchart:
-
-```{python py-claritin-2a}
-#| fig-align: center
-#| out-width: 50%
-claritin_prop = claritin_tab/claritin_tab.sum(axis=1).reshape((2,1))
-
-xx = pd.DataFrame(claritin_prop, 
-                  columns=['nervous', 'not_nervous'], 
-                  index=['claritin', 'placebo'])
-```
-
-## Claritin and Nervousness Barchart {.smaller}
-
-### Python code for barchart:
-
-```{python py-claritin-2b}
-#| fig-align: center
-#| out-width: 50%
-xx.plot(kind='bar', stacked=True)
-```
-
-## Political Association and Gender Mosaic Plot {.smaller}
-
-* A mosaic plot reflects the count in each cell (through the area)
-
-### R code 
-
-```{r r-pol-4}
-#| fig-align: center
-#| out-width: 50%
-mosaicplot(political_tab, shade=TRUE)
-```
-
-## Political Association and Gender Mosaic Plot {.smaller}
-
-### Python code
-
-```{python py-pol-4a}
-from statsmodels.graphics.mosaicplot import mosaic
-import matplotlib.pyplot as plt
-
-political_tab = np.asarray([[762,327,468], [484,239,477]])
-```
-
-## Political Association and Gender Mosaic Plot {.smaller}
-
-### Python code
-
-```{python py-pol-4b}
-#| fig-align: center
-#| out-width: 50%
-mosaic(political_tab, statistic=True, gap=0.05);
-```
-
-## Conditional Density Plots {.smaller}
-
-* When we have one categorical and one quantitative variable, it depends on 
-  which variable is the response, and which is the explanatory variable. 
-* if the response variable is a the categorical one, we should not be making 
-  boxplots. 
-
-## Heart failure records {.smaller}
-
-* Data  contains records on 299 patients who had heart failure. 
-* The data was collected during the follow-up period; each patient had 13 clinical features recorded. 
-* The primary variable of interest was whether they died or not. 
-* Suppose we wished to plot how this varied with age (a quantitative variable):
-
-## Heart failure records {.smaller}
-
-```{r r-cd-1}
-#| fig-align: center
-#| out-width: 65%
-heart_failure <- read.csv("data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv")
-spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
-```
-
-## Heart failure records {.smaller}
-
-```{r r-cd-2}
-#| fig-align: center
-#| out-width: 65%
-cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
 ```
 
 ## Recap {.smaller}
