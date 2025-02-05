@@ -434,13 +434,13 @@ What is the support of $W$?
 To transfer this to the context of $2 \times 2$ tables, suppose we have fix the
 marginal counts of the table, and consider the count in the top-left corner to
 be a random variable following a hypergeometric distribution, with $r_{1\cdot}$
-black balls and $r_{2 \cdot}$ red balls. Consider drawing a sample of size
+red balls and $r_{2 \cdot}$ black balls. Consider drawing a sample of size
 $c_{1 \cdot}$ from these $r_{1\cdot} + r_{2 \cdot}$ balls.
 
 |                                   |              |                             |
 |-----------------------------------|--------------|-----------------------------|
-| $W$                               | \-           | $r_{1 \cdot}$ (black balls) |
-| \-                                | \-           | $r_{2\cdot}$ (red balls)    |
+| $W$                               | \-           | $r_{1 \cdot}$ (red balls)   |
+| \-                                | \-           | $r_{2\cdot}$ (black balls)  |
 | $c_{1 \cdot}$ (sample size drawn) | $c_{2\cdot}$ |                             |
 
 Note that, assuming the marginal counts are fixed, knowledge of one of the four 
