@@ -300,9 +300,9 @@ $$
 
 * The above estimator is  not robust to outliers.
 
-## Mean Absolute Deviation  {.smaller}
+## Median Absolute Deviation  {.smaller}
 
-* For a random variable $X \sim f$, the mean absolute deviation $w$ is defined by
+* For a random variable $X \sim f$, the median absolute deviation $w$ is defined by
 $$
 P(|X - q_{f,0.5} | \le w) = 0.5
 $$
