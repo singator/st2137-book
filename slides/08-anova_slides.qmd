@@ -186,8 +186,8 @@ heifers <- read.csv("data/antibio.csv")
 u_levels <- sort(unique(heifers$type))
 heifers$type <- factor(heifers$type, 
                        levels=u_levels[c(2, 1, 3, 4, 5, 6)])
-anova1 <- aov(org ~ type, data=heifers)
-summary(anova1)
+heifers_lm <- lm(org ~ type, data=heifers)
+anova(heifers_lm)
 ```
 
 ## F-test for Antibiotics data  {.smaller}
@@ -207,8 +207,8 @@ import matplotlib.pyplot as plt
 
 ```{python py-f-test-b}
 heifers = pd.read_csv("data/antibio.csv")
-heifer_lm = ols('org ~ type', data=heifers).fit()
-anova_tab = sm.stats.anova_lm(heifer_lm, type=3,)
+heifers_lm = ols('org ~ type', data=heifers).fit()
+anova_tab = sm.stats.anova_lm(heifers_lm, type=3,)
 ```
 ```{python py-f-test-c}
 #| echo: false
@@ -230,7 +230,7 @@ group means are significantly different from one another.
 
 ```{r r-coef}
 # R
-coef(anova1)
+coef(heifers_lm)
 ```
 
 ## Parameters for Antibiotics data  {.smaller}
@@ -239,7 +239,7 @@ coef(anova1)
 
 ```{python py-coef}
 # Python
-heifer_lm.summary()
+heifers_lm.summary()
 ```
 
 ## Assumptions for Antibiotics Data {.smaller}
@@ -249,7 +249,7 @@ heifer_lm.summary()
 ```{r r-normality}
 #| layout-ncol: 2
 #| out-width: "45%"
-r1 <- residuals(anova1)
+r1 <- residuals(heifers_lm)
 hist(r1)
 qqnorm(r1); qqline(r1)
 
@@ -263,9 +263,9 @@ qqnorm(r1); qqline(r1)
 #| out-width: "45%"
 f, axs = plt.subplots(1, 2, figsize=(8,4))
 tmp = plt.subplot(121)
-heifer_lm.resid.hist();
+heifers_lm.resid.hist();
 tmp = plt.subplot(122)
-sm.qqplot(heifer_lm.resid, line="q", ax=tmp);
+sm.qqplot(heifers_lm.resid, line="q", ax=tmp);
 ```
 
 ## Comparing specific groups  {.smaller}
@@ -291,17 +291,18 @@ $$
 
 ```{r r-pairwise}
 # R 
-summary_out <- summary(anova1)
-est_coef <- coef(anova1)
+summary_out <- anova(heifers_lm)
+est_coef <- coef(heifers_lm)
 est1  <- unname(est_coef[3]) # coefficient for Enrofloxacin
-MSW <- summary_out[[1]]$`Mean Sq`[2]
-df <- summary_out[[1]]$Df[2]
+MSW <- summary_out$`Mean Sq`[2]
+df <- summary_out$Df[2]
 q1 <- qt(0.025, df, 0, lower.tail = FALSE)
 
 lower_ci <- est1 - q1*sqrt(MSW * (1/6 + 1/6))
 upper_ci <- est1 + q1*sqrt(MSW * (1/6 + 1/6))
 cat("The 95% CI for the diff. between Enrofloxacin and Control is (",
-    format(lower_ci, digits = 3), ",", format(upper_ci, digits = 3), ").", sep="")
+    format(lower_ci, digits = 3), ",", 
+    format(upper_ci, digits = 3), ").", sep="")
 ```
 
 ## Enrofloxacin vs. Control
@@ -310,14 +311,15 @@ cat("The 95% CI for the diff. between Enrofloxacin and Control is (",
 
 ```{python py-pairwise}
 # Python
-est1  = heifer_lm.params.iloc[2] - heifer_lm.params.iloc[1]
-MSW = heifer_lm.mse_resid
-df = heifer_lm.df_resid
+est1  = heifers_lm.params.iloc[2] - heifers_lm.params.iloc[1]
+MSW = heifers_lm.mse_resid
+df = heifers_lm.df_resid
 q1 = -stats.t.ppf(0.025, df)
 
-lower_ci = est1 - q1*np.sqrt(MSW * (1/6 + 1/4))
-upper_ci = est1 + q1*np.sqrt(MSW * (1/6 + 1/4))
-print(f"The 95% CI for the diff. between Spiramycin and control is ({lower_ci:.3f}, {upper_ci:.3f}).") 
+lower_ci = est1 - q1*np.sqrt(MSW * (1/6 + 1/6))
+upper_ci = est1 + q1*np.sqrt(MSW * (1/6 + 1/6))
+print(f"""The 95% CI for the diff. between Enrofloxacin and control is
+({lower_ci:.3f}, {upper_ci:.3f}).""") 
 ```
 
 ## Contrast Estimation {.smaller}
@@ -360,14 +362,17 @@ c1 <- c(-1, 0.5, 0.5)
 n_vals <- c(6, 6, 6)
 L <- sum(c1*est_coef[3:5])
 
-MSW <- summary_out[[1]]$`Mean Sq`[2]
-df <- summary_out[[1]]$Df[2]
+#MSW <- summary_out[[1]]$`Mean Sq`[2]
+#df <- summary_out[[1]]$Df[2]
 se1 <- sqrt(MSW * sum( c1^2 / n_vals ) )
 
 q1 <- qt(0.025, df, 0, lower.tail = FALSE)
 
 lower_ci <- L - q1*se1
 upper_ci <- L + q1*se1
+cat("The 95% CI for the diff. between the two groups is (",
+    format(lower_ci, digits = 2), ",", 
+    format(upper_ci, digits = 2), ").", sep="")
 ```
 
 ## Contrast in Antibiotics data {.smaller}
@@ -386,10 +391,10 @@ cat("The 95% CI for the diff. between the two groups is (",
 ```{python py-contrast}
 c1 = np.array([-1, 0.5, 0.5])
 n_vals = np.array([6, 6, 6,])
-L = np.sum(c1 * heifer_lm.params.iloc[2:5])
+L = np.sum(c1 * heifers_lm.params.iloc[2:5])
 
-MSW = heifer_lm.mse_resid
-df = heifer_lm.df_resid
+MSW = heifers_lm.mse_resid
+df = heifers_lm.df_resid
 q1 = -stats.t.ppf(0.025, df)
 se1 = np.sqrt(MSW*np.sum(c1**2 / n_vals))
 
@@ -411,7 +416,7 @@ print(f"The 95% CI for the diff. between the two groups is ({lower_ci:.3f}, {upp
 ### R code 
 
 ```{r r-tukey}
-TukeyHSD(anova1, ordered = TRUE)
+TukeyHSD(aov(heifers_lm), ordered = TRUE)
 ```
 
 ## Tukey HSD
