@@ -96,8 +96,6 @@ E(\bar{X}) = E(X), \quad E(s^2) = \sigma^2
 $$
 where $s^2 = \frac{\sum (X_i - \bar{X})^2}{n-1}$.
 
-## Properties of Estimators {.smaller}
-
 ## Confidence Intervals for Mean {.smaller}
 
 To obtain a $(1-\alpha)100%$ confidence interval for $\mu$, we use the following 
@@ -137,8 +135,6 @@ $$
 ```{r r-rng-1}
 #| fig-align: center
 #| out-width: 50%
-#| echo: false
-#R 
 set.seed(2137)
 
 opar <- par(mfrow=c(1,3))
@@ -160,7 +156,6 @@ par(opar)
 
 ```{python py-rng-1}
 #| fig-align: center
-#| echo: false
 #| out-width: 50%
 #Python
 import numpy as np
@@ -197,8 +192,6 @@ $$
     1. Being able to introduce a pdf to the integral
     2. Being to able to simulate from that pdf. 
 
-##  MC Integration Example 1 {.smaller}
-
 ## Monte Carlo Integration over (0,1)
 
 Suppose Suppose we wish to evaluate
@@ -218,7 +211,7 @@ Thus we can follow this pseudo-code:
 1. Generate $X_1,X_2,\ldots,X_n \sim Unif(0,1)$.
 2. Estimate the integral using
 $$
-\frac{1}{n} \sum_{i=1}^n e^{2 X_i}
+\frac{1}{2} \sum_{i=1}^n e^{2 X_i}
 $$
 
 In this simple case, we can in fact work out analytically that the integral is 
