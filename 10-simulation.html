@@ -583,7 +583,7 @@ Important
 <span id="cb8-4"><a href="#cb8-4"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
 <span id="cb8-6"><a href="#cb8-6"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(output_vec)) {</span>
-<span id="cb8-7"><a href="#cb8-7"></a>  X <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">15</span>, .<span class="dv">5</span>)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>  X <span class="ot">&lt;-</span> <span class="fu">rpois</span>(n, .<span class="dv">5</span>)</span>
 <span id="cb8-8"><a href="#cb8-8"></a>  Xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span>
 <span id="cb8-9"><a href="#cb8-9"></a>  s <span class="ot">&lt;-</span> <span class="fu">sd</span>(X)</span>
 <span id="cb8-10"><a href="#cb8-10"></a>  t <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n<span class="dv">-1</span>)</span>
@@ -594,7 +594,7 @@ Important
 <span id="cb8-15"><a href="#cb8-15"></a>}</span>
 <span id="cb8-16"><a href="#cb8-16"></a><span class="fu">mean</span>(output_vec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.84</code></pre>
+<pre><code>[1] 0.92</code></pre>
 </div>
 </div>
 </div>
@@ -605,7 +605,7 @@ Important
 <span id="cb10-3"><a href="#cb10-3"></a>n <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb10-4"><a href="#cb10-4"></a>lambda_ <span class="op">=</span> <span class="fl">0.5</span></span>
 <span id="cb10-5"><a href="#cb10-5"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb10-6"><a href="#cb10-6"></a>    X <span class="op">=</span> poisson.rvs(<span class="fl">0.5</span>, size<span class="op">=</span><span class="dv">15</span>, random_state<span class="op">=</span>rng)</span>
+<span id="cb10-6"><a href="#cb10-6"></a>    X <span class="op">=</span> poisson.rvs(<span class="fl">0.5</span>, size<span class="op">=</span>n, random_state<span class="op">=</span>rng)</span>
 <span id="cb10-7"><a href="#cb10-7"></a>    Xbar <span class="op">=</span> X.mean()</span>
 <span id="cb10-8"><a href="#cb10-8"></a>    s <span class="op">=</span> X.std()</span>
 <span id="cb10-9"><a href="#cb10-9"></a>    t <span class="op">=</span> norm.ppf(<span class="fl">0.975</span>)</span>
@@ -666,7 +666,7 @@ Important
 <span id="cb14-9"><a href="#cb14-9"></a>output_vec <span class="op">=</span> np.array([generate_one_test() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2000</span>)])</span>
 <span id="cb14-10"><a href="#cb14-10"></a>output_vec.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>np.float64(0.102)</code></pre>
+<pre><code>np.float64(0.0955)</code></pre>
 </div>
 </div>
 </div>
@@ -722,7 +722,7 @@ h(X) =
 <span id="cb18-9"><a href="#cb18-9"></a>CI <span class="op">=</span> [Xbar <span class="op">-</span> t<span class="op">*</span>s<span class="op">/</span>np.sqrt(n), Xbar <span class="op">+</span> t<span class="op">*</span>s<span class="op">/</span>np.sqrt(n)]</span>
 <span id="cb18-10"><a href="#cb18-10"></a><span class="bu">print</span>(<span class="ss">f"The 90% CI for the mean is (</span><span class="sc">{</span>CI[<span class="dv">0</span>]<span class="sc">: .3f}</span><span class="ss">, </span><span class="sc">{</span>CI[<span class="dv">1</span>]<span class="sc">: .3f}</span><span class="ss">)."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The 90% CI for the mean is ( 9623.529,  9658.387).</code></pre>
+<pre><code>The 90% CI for the mean is ( 9623.651,  9658.579).</code></pre>
 </div>
 </div>
 </div>
