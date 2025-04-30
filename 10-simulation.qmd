@@ -360,7 +360,7 @@ output_vec <- rep(0, length=100)
 n <- 20
 lambda <- 0.5
 for(i in 1:length(output_vec)) {
-  X <- rpois(15, .5)
+  X <- rpois(n, .5)
   Xbar <- mean(X)
   s <- sd(X)
   t <- qt(0.975, n-1)
@@ -380,7 +380,7 @@ output_vec = np.zeros(100)
 n = 20
 lambda_ = 0.5
 for i in range(100):
-    X = poisson.rvs(0.5, size=15, random_state=rng)
+    X = poisson.rvs(0.5, size=n, random_state=rng)
     Xbar = X.mean()
     s = X.std()
     t = norm.ppf(0.975)
