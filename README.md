@@ -1,7 +1,8 @@
 # st2137-book
 Course textbook for ST2137 Statistical Computing and Programming
 
-The rendered book can be accessed here: <https://singator.github.io/st2137-book/>
+The rendered html book can be accessed here: <https://singator.github.io/st2137-book/>
+The pdf version of the book can be obtained from here: <https://blog.nus.edu.sg/stavg/textbooks/>
 
 ## Rendering your own version
 
