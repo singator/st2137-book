@@ -163,3 +163,5 @@ cython_debug/
 
 /.quarto/
 .Rproj.user
+
+**/*.quarto_ipynb
