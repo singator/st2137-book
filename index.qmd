@@ -10,7 +10,8 @@ time wondering if this course is still relevant; I played the song quite a few t
 
 Here's what I mean: The course is meant to introduce statistics majors (and
 minors) to three computing languages: R, Python and SAS. But.. why does anyone
-need to know this when we can just ask Gemini?
+need to know this when we can just ask Gemini? You can read more about this course
+on [NUSmods](https://nusmods.com/courses/ST2137/statistical-computing-and-programming).
 
 If you are taking this course, should you pretend that AI does not exist?
 Obviously not! If you really need help, don't hesitate to use
@@ -21,19 +22,29 @@ I believe there is a need for data analysts to know how to code from scratch, if
 only because of the value of the process. By coding from nought, and by digging
 into data ourselves, we sharpen our minds. 
 
-In "How to Solve It", Polya recommends that, upon finding one solution to a
-problem, we ought to go back and find ways to generalise the solution or to
-optimise it. Challenging ourselves in these small ways will improve us as 
-data analysts. I hope this course provides you opportunities to do so.
+This textbook is used in a 13-week semester at the National University of
+Singapore [NUS](https://www.nus.edu.sg/). As mentioned, the course introduces R,
+Python and SAS to statistics majors. If you are an instructor and are planning
+to use it, but only plan to use one of the languages (R or Python only), the
+flow of material will still work - just leave out chapters 1 or 2, and chapter
+6. Chapters 3 to 10 contain R and Python code, while chapters 6 to 9 contain SAS
+code as well. In general, later chapters build on results and findings from
+earlier chapters.
 
-I believe there is great value in struggling with a problem. That's what
-university was meant to be about - to allow you to experiment, make mistakes and
-find your inclinations without too much damage. I sincerely hope you find joy in 
-working with data, R, Python and SAS during this course!
+If you are a student taking the course, try to go through the material in the
+book on your own. Lectures will contain more in-depth explanations of concepts
+and code. As part of your revision, try to give yourself small problems, that
+build on the examples in the book. Challenging yourself in this way will improve
+you as a data analysts.
 
-If you are a fellow instructor and you find something useful in this textbook,
-please do let me know at vik.gopal@nus.edu.sg. The book, along with slides and
-scripts/notebooks can all be found in the 
+It's ok if you cannot solve every problem that you have set for yourself. There
+is great value in simply struggling with a problem. As part of that journey, you
+will learn *some* skills that will be useful in *other* problems. I sincerely
+hope you find joy in working with data, R, Python and SAS during this course!
+
+If you find something useful in this textbook, please do let me know at
+vik.gopal@nus.edu.sg. The book, along with slides and scripts/notebooks can all
+be found in the
 [github repository](https://github.com/singator/st2137-book). If you need more
 details about anything, do feel free to write as well.
 

@@ -8,10 +8,7 @@ title: "Introduction to Python"
 #| warning: false
 library(tidyverse)
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
+#library(reticulate)
 ```
 
 ## Introduction

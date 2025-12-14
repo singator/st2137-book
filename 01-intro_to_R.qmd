@@ -28,11 +28,11 @@ mind:
     arithmetic expressions, and as a very flexible and general object-oriented
     programming language to perform more extensive data manipulation.
 
-Later on, S evolved into S-PLUS, which became very costly. **R**oss Ihaka and
-**R**obert Gentleman from the University of Auckland, decided to write a
-stripped-down version of S, which was R. Five years later, version 1.0.0 of R
-was released on 29 Feb 2000. As of Dec 2024, the latest version of R is 4.4.2 It
-is maintained by the [@rmanual].
+Later on, S evolved into S-PLUS, which then became rather costly. **R**oss Ihaka
+and **R**obert Gentleman from the University of Auckland decided to write a
+stripped-down version of S. They named the new language R. Five years later,
+version 1.0.0 of R was released on 29 Feb 2000. As of Dec 2025, the latest
+version of R is 4.5.2 It is maintained by the [@rmanual].
 
 ## Installing R and Rstudio
 
@@ -44,7 +44,7 @@ A new major version is released once a year, and there are 2 - 3 minor releases
 each year. Upgrading is painful, but it gets worse if you wait to upgrade.
 
 ::: callout-important
-For our class, please ensure that you have version 4.4.1 or later. Functions in
+For our class, please ensure that you have version 4.5.1 or later. Functions in
 older versions work differently, so you might face problems or differences with
 some of the codes in the notes.
 :::
@@ -63,7 +63,7 @@ does not, including:
 
 The installation file for RStudio can be obtained from [this
 URL](https://www.rstudio.com/products/rstudio/download/). It is updated a couple
-of times a year. Make sure you have at least version 2024.09.x for our course.
+of times a year. Make sure you have at least version 2025.09.x for our course.
 
 ![Rstudio interface](figs/rstudio_gui.PNG){#fig-rstudio
 fig-alt="Rstudio GUI" fig-align="center"}
@@ -173,7 +173,7 @@ seq(2, 5, 0.8) * 2
 
 The final example above, where the sequence vector of length 4 is multiplied by
 a scalar 2, is an example of the *recycling rule* in R -- the shorter vector is
-recycled to match the length of the longer one. This rule applies in all
+recycled to match the length of the longer one. This rule applies within all
 built-in R functions. Try to use this rule to your advantage when using R.
 
 If you only need to create a vector of integers that increase by 1, you do not
@@ -210,7 +210,7 @@ b <- c(5,6,7,8)
 ab_row <- rbind(a,b)
 ab_row
 
-ab_col <- cbind(ab_row, c(9,10))
+ab_col <- cbind(m1, c(7,8))
 ab_col
 ```
 
@@ -302,7 +302,7 @@ ls1$A
 ```
 
 ::: {#exm-list style="background-color: #D5D1D164; padding: 20px"}
-### Extracting p-values
+### Extracting $p$-values
 
 The `iris` dataset is a very famous dataset that comes with R. It contains
 measurements on the flowers of three different species. Let us conduct a
@@ -387,7 +387,7 @@ data3
 
 We now turn to the task of accessing a subset of rows and/or columns of a
 dataframe. The notation uses rectangular brackets, along with a comma inside
-these brackets to distinguish the row and column specifiers.
+these brackets to demarcate the row and column specifiers.
 
 To access all rows from a particular set of columns, we leave the row column
 specification empty.
@@ -402,20 +402,20 @@ To retrieve a subset of rows, we use the space *before* the comma.
 data3[1:3, ]
 ```
 
-Individual columns can be retrieved from a dataframe (as a vector) using the `$`
-operator. These columns can then be used to retrieve only the rows that satisfy
-certain conditions. In order to achieve this task, we turn to logical vectors.
-The following code returns only the rows corresponding to Gender equal to
-\`\`M''.
+In R, dataframes are special kinds of lists. Hence, individual columns can be
+retrieved from a dataframe (as a vector) using the `$` operator. These columns
+can then be used to retrieve only the rows that satisfy certain conditions. In
+order to achieve this task, we turn to logical vectors. The following code
+returns only the rows corresponding to Gender equal to "M".
 
 ```{r r-access-3}
 data2[data2$Gender == "M", ]
 ```
 
-Logical vectors contain TRUE/FALSE values in their components. These vectors can
-be combined with logical operations to yield only the rows that satisfy all
-conditions. The `&` operator is the AND operator. Below, we return all rows
-where Gender is equal to \`\`M'' and CA2 is greater than 85.
+Logical vectors contain `TRUE`/`FALSE` values in their components. These vectors
+can be combined with `&` (AND) and `|` (OR) operations to yield only the rows
+that satisfy all conditions. Below, we return all rows where Gender is equal to
+"M" and CA2 is greater than 85.
 
 ```{r r-access-4}
 data2[data2$Gender == "M" & data2$CA2 > 85, ]
@@ -451,21 +451,21 @@ descending order.
 data2[order(data2$CA1), ]
 
 # arranges in reverse order:
-data2[rev(order(data2$CA1)), ] 
+data2[order(data2$CA1, decreasing = TRUE), ] 
 ```
 
 ## Loops in R {#sec-r-loops}
 
 `while` loops execute a set of instructions as long as a particular condition
 holds true. On the other hand, `for` loops iterate over a set of items,
-executing a set of instructions each time.
+executing the instructions a fixed number of times.
 
 ::: panel-tabset
 
 ### While Loops
 
 The syntax for a `while` loop is as follows. The condition is checked at the
-beginning of each iteration. As long as it is TRUE, the set of R expressions
+beginning of each iteration. As long as it is TRUE, the block of R expressions
 within the curly braces will be executed.
 
 ```{r}
@@ -617,10 +617,10 @@ circumference(1.3)
 
 All functions in R are documented. When you need to find out more about the
 arguments of a function, or if you need examples of code that is guaranteed to
-work, then do look up the help page (even before turning to stackexchange). The
+work, then do look up the help page (even before turning to [stackexchange](https://stackexchange.com/)). The
 help pages within R are accessible even if you are offline.
 
-To access the help page of a particular function, use the following command:
+To access the help page for a particular function, use the following command:
 
 ```{r misc-1}
 #| eval: false
@@ -639,14 +639,14 @@ fuzzy search operator to return a page with a list of matching functions:
 
 R is an open-source software. Many researchers and inventors of new statistical
 methodologies contribute to the software through packages[^01-intro_to_r-1]. At
-last check (Dec 2024), there are 21749 such packages. The packages can be
+last check (Dec 2025), there are 23067 such packages. The packages can be
 perused by name, through [this
 link](https://cran.r-project.org/web/packages/available_packages_by_name.html).
 
 [^01-intro_to_r-1]: packages are simply *collections* of functions.
 
 To install one of these packages, you can use `install.packages()`. For
-instance, this command will install `stringr` (a package for string
+instance, the following command will install `stringr` (a package for string
 manipulations) and all its dependencies on your machine.
 
 ```{r install-1}
@@ -693,7 +693,6 @@ differences:
 -   The assignment operator in R is `<-`, but in Python it is `=`.
 -   To create vectors in R, you need to use `c( )`.
 
-
 ## References
 
 ### Website References
@@ -702,3 +701,31 @@ differences:
     information on this classic dataset.
 2.  [Installing R](https://cran.r-project.org/)
 3.  [Installing Rstudio](https://posit.co/downloads/)
+
+## Exercises
+
+1.  Use the `rep()` function to create the following vector:
+```{r}
+#| echo: false
+rep(rep(1:3, c(3,2,1)), 2)
+```
+
+2.  What do the functions `saveRDS()` and `readRDS()` do?
+
+3.  From the `data2` dataframe in @sec-01-read-data, return all rows where
+    either `Gender` is equal to "M", or `HW` is "A".
+    
+4.  Create a list object that, when printed, returns:
+```{r}
+#| echo: false
+l1 <- list("1" = list("Will", "Mike", "Dustin", "Lucas"), c("Max"))
+l1
+```
+
+5.  Why does this line of code return an error? When should `&&` be used?
+```{r}
+#| eval: false
+data2[data2$Gender == "M" && data2$CA2 > 85, ]
+```
+
+

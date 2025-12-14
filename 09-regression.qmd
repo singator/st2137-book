@@ -7,10 +7,10 @@ title: "Linear Regression"
 #| message: false
 #| warning: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
+# library(reticulate)
+# venv_paths <- read.csv("venv_paths.csv")
+# id <- match(Sys.info()["nodename"], venv_paths$nodename)
+# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -55,7 +55,7 @@ data. We shall go on to fit a linear regression to understand the relationship
 between the output of the flow test, and the amount of water used to create the 
 concrete.
 
-```{r r-concrete-1}
+```{r}
 #| fig-align: center
 #| echo: false
 #| label: fig-flow-water
@@ -81,7 +81,7 @@ In the introduction to SAS, we encountered data on bike rentals in the USA over 
 period of 2 years. Here, we shall attempt to model the number of registered users 
 on the number of casual users.
 
-```{r r-bike-1}
+```{r}
 #| fig-align: center
 #| echo: false
 #| label: fig-reg-casual

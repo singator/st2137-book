@@ -7,10 +7,10 @@ title: "ANOVA"
 #| message: false
 #| warning: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
+# library(reticulate)
+# venv_paths <- read.csv("venv_paths.csv")
+# id <- match(Sys.info()["nodename"], venv_paths$nodename)
+# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -49,7 +49,7 @@ measured for each bag.
 
 @fig-heifers-bp contains a boxplot of the data from each group.
 
-```{r heifer-plot}
+```{r}
 #| fig-align: center
 #| label: fig-heifers-bp
 #| echo: false

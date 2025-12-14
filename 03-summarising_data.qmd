@@ -8,10 +8,10 @@ title: "Exploring Quantitative Data"
 #| warning: false
 library(tidyverse)
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
+# library(reticulate)
+# venv_paths <- read.csv("venv_paths.csv")
+# id <- match(Sys.info()["nodename"], venv_paths$nodename)
+# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -439,7 +439,7 @@ Especially for unimodal datasets, the points in the middle will typically fall
 close to the line. The value of a QQ-plot is in judging if the tails of the data
 are fatter or thinner than the tails of the Normal.
 
-```{r qq-eg-1}
+```{r}
 #| echo: false
 #| label: fig-qq-1
 #| layout-ncol: 2
