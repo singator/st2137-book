@@ -41,11 +41,13 @@ format:
     toc: true
     toc-title: Contents
     toc-depth: 3
+    lof: true
     number-sections: true
     number-depth: 2 
     include-in-header: 
       text: |
         \usepackage{makeidx}
+        \usepackage{tocbibind}
         \makeindex
     include-after-body: 
       text: |
