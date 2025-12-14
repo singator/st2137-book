@@ -7,11 +7,11 @@ title: "Robust Statistics"
 #| message: false
 #| warning: false
 library(knitr)
-library(reticulate)
+# library(reticulate)
 library(MASS)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
+# venv_paths <- read.csv("venv_paths.csv")
+# id <- match(Sys.info()["nodename"], venv_paths$nodename)
+# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction {#sec-robust}
@@ -204,7 +204,7 @@ However, now consider a situation where $Y_i \sim N(\mu, \sigma^2)$ with
 probability $1 - \epsilon$ and $Y_i \sim N(\mu, 9\sigma^2)$ with probability 
 $\epsilon$. Let us refer to this as a *contaminated Normal* distribution.
 
-```{r r-demo-cn}
+```{r}
 #| echo: false
 #| fig-cap: "Contaminated Normal"
 #| label: fig-cont-normal

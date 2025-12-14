@@ -165,3 +165,4 @@ cython_debug/
 .Rproj.user
 
 **/*.quarto_ipynb
+/env/
