@@ -8,7 +8,6 @@ title: "Introduction to Python"
 #| warning: false
 library(tidyverse)
 library(knitr)
-#library(reticulate)
 ```
 
 ## Introduction
@@ -19,7 +18,8 @@ compiled before execution.
 
 It was originally conceived back in the 1980s by Guido van Rossum at Centrum
 Wiskunde & Informatica (CWI) in the Netherlands. The language is named after a
-BBC TV show (Guido’s favorite program) “Monty Python's Flying Circus”.
+BBC TV show (Guido’s favorite program) “Monty Python's Flying Circus”, not the 
+snake!
 
 Python reached version 1.0 in January 1994. Python 2.0 was released on October
 16, 2000. Python 3.0, which is backwards-*incompatible* with earlier versions,
@@ -27,7 +27,7 @@ was released on 3 December 2008.
 
 Python is a very flexible language; it is simple to learn yet is fast enough to 
 be used in production. Over the past ten years, more and more comprehensive data 
-science toolkits (e.g. scikit-learn, NTLK, tensorflow, keras) have been written 
+science toolkits (e.g. scikit-learn, NLTK, tensorflow, keras) have been written 
 in Python and are now the standard frameworks for those models. 
 
 Just like R, Python is an open-source software. It is free to use and extend.
@@ -39,7 +39,8 @@ To install Python, navigate to the official
 appropriate installer for your operating system. 
 
 ::: {.callout-important}
-For our class, please ensure that you are using at least Python 3.12.
+For our class, please ensure that you are using at least Python 3.12, and that 
+you have installed the package versions in `requirements.txt`.
 :::
 
 The next step is to create a virtual environment for this course. Virtual 
@@ -55,7 +56,8 @@ continue using that to run the codes for this course.
 
 ::: {.callout-important}
 Even if you are using Anaconda/Spyder/VSCode, you still need to create a virtual
-environment.
+environment, and you still need to install packages using the `requirements.txt`
+file.
 :::
 
 Jupyter notebooks consist of cells, which can be of three main types: 
@@ -64,7 +66,7 @@ Jupyter notebooks consist of cells, which can be of three main types:
 * output cells, and 
 * markdown cells. 
 
-![Jupyter Lab](figs/jupyter_lab2.png){#fig-jupyter fig-alt="Jupyter Lab" fig-align="center"}
+![Py: JupyterLab interface](figs/jupyter_lab2.png){#fig-jupyter fig-alt="Jupyter Lab" fig-align="center"}
 
 In @fig-jupyter, the red box labelled 1 is a markdown cell. It can be used to
 contain descriptions or summary of the code. The cells in the box labelled 2 are
@@ -97,31 +99,8 @@ deal with are dataframes (from pandas) and arrays (from numpy). However, the
 latter two require add-on packages; the three object classes listed above are
 baked into Python.
 
-By the way, this is what mean by (im)mutable:
-
-```{python mutable-1}
-x = [1, 3, 5, 7, 8, 9, 10]
-
-# The following is OK, because "x" is a list, and hence mutable
-x[3] = 17     
-print(x)  
-```
-
-```{python mutable-2}
-#| eval: false
-
-# The following will return an error, because x_tuple is a tuple, and hence 
-# immutable.
-x_tuple = (1, 3, 5, 6, 8, 9, 10)
-x_tuple[3] = 17 
-```
-
-::: {.callout-note}
-Note that we do *not* need the `c( )` function, like we did in R. This is a 
-common mistake I make when switching between the two languages.
-:::
-
-Here is how we create lists, tuples and dictionaries.
+Here is how we create lists, tuples and dictionaries. Elements in lists and
+tuples can be accessed using a square bracket notation, just like in R.
 
 ```{python create-obj}
 x_list = [1, 2, 3]
@@ -129,13 +108,36 @@ x_tuple = (1, 2, 3)
 x_dict = {'a': 1, 'b': 2, 'c': 3} # access with x_dict['a']
 ```
 
+Suppose we have the following list:
+```{python}
+x = [1, 3, 5, 7, 8, 9, 10]
+```
+
+The following assignment is OK, because `x` is a list, and hence mutable.
+```{python mutable-1}
+x[3] = 17     
+print(x)  
+```
+
+However, the following will return an error, because `x_tuple` is a tuple, and
+hence immutable.
+```{python mutable-2}
+#| eval: false
+x_tuple = (1, 3, 5, 6, 8, 9, 10)
+x_tuple[3] = 17 
+```
+
+::: {.callout-note}
+Note that we do *not* need the `c( )` function, like we did in R. This is a 
+common mistake when switching between the two languages.
+:::
 
 ## Slice Operator in Python
 
-One important point to take note is that, contrary to R, Python begins indexing 
-of objects starting with 0. Second, the slice operator in Python is a little more 
-powerful than in R. It can be used to extract regular sequences from a list, tuple or 
-string easily.
+One important point to take note is that, in contrast to R, Python indexes
+objects starting with 0. Second, the slice operator in Python is a little more
+powerful than in R. It can be used to extract regular sequences from a list,
+tuple or string easily.
 
 In general, the syntax is `<list-like object>[a:b]`, where `a` and `b` are integers. 
 Such a call would return the elements at indices `a`, `a+1` until `b-1`. Take note that 
@@ -149,18 +151,20 @@ len(char_list)         # returns number of elements in list-like object.
 char_list[::2]         # from first to last, every 2 apart.
 ```
 
-This indexing syntax is used in the additional packages we use as well, so it is
-good to know about it. @fig-py-slice displays a pictorial representation of how
-positive and negative indexes work together.
+This indexing syntax is used in the additional packages we are going to use as
+well, so it is good to know about it. Take note that in Python, a negative index
+does not correspond to the element being dropped; it corresponds to counting
+from the end of the array-like object. @fig-py-slice displays a pictorial
+representation of how positive and negative indexes work together.
 
-![Positive and negative indices](figs/python_slice.png){#fig-py-slice fig-alt="Python slice" fig-align="center" width="55%"}
+![Py: Positive and negative indexing](figs/python_slice.png){#fig-py-slice fig-alt="Python slice" fig-align="center" width="55%"}
 
 ## Numpy Arrays
 
-Just like R, Python has several contributed packages that are essential for statistics
-and data analysis. These include `numpy` and `pandas`. These appropriate versions of these
-packages would have been installed if you had used the requirements file when setting up 
-Python.
+Just like R, Python has several contributed packages that are essential for
+statistics and data analysis. These include `numpy` and `pandas`. These correct
+versions of these packages would have been installed if you had used the provided
+requirements file.
 
 ```{python np-1}
 import numpy as np
@@ -178,8 +182,8 @@ matrix1[0, 0::3]       # returns first row, columns 1 and 4
 matrix1[1, 1:3]        # returns second row, columns 2 and 3
 ```
 
-The numpy arrays are objects in Python, with several methods associated with them.
-For instance, here are a couple and how we can use them:
+The numpy arrays are objects in Python, with several attributes and methods
+associated with them. Here are a couple of attributes:
 
 ```{python np-3}
 # To obtain the dimensions of an array:
@@ -188,13 +192,11 @@ matrix1.shape
 matrix1.T
 ```
 
-Here is a table with some common operations that you can apply on a numpy array. 
+Here is a table with some common methods associated with numpy arrays. 
 The objects referred to in the second column are from the earlier lines of code.
 
 | Method      | Description                                 |
 |-------------|---------------------------------------------|
-| `shape`     | Returns dimensions, e.g. `matrix1.shape`    |
-| `T`         | Transposes the array, e.g. `matrix1.T`      |
 | `mean`      | Computes col- or row-wise means, e.g. `matrix1.mean(axis=0)` or `matrix1.mean(axis=1)` |
 | `sum`       | Computes col- or row-wise means, e.g. `matrix1.sum(axis=0)` or `matrix1.sum(axis=1)` |
 | `argmax`    | Return the index corresponding to the max within the specified dimension, e.g. `matrix1.argmax(axis=0)` for the position with the max within each column.  |
@@ -215,8 +217,8 @@ np.hstack([array1.reshape((5,1)),
 
 The next important add-on package that we shall work with is `pandas`. It provides a
 `DataFrame` class of objects for working with tabular data, just like `data.frame` 
-within R. However, there are some syntactic differences with R that we shall get 
-to soon. The following command creates a simple pandas 
+within R. However, there are some syntactic differences with R that we shall soon
+get to. The following command creates a simple pandas dataframe.
 
 ```{python pd-1}
 import pandas as pd
@@ -246,7 +248,7 @@ elements has to be a float point number. Pandas DataFrames are tabular objects,
 where, within a column, each element has to be of the same type.
 :::
 
-## Reading Data into Python
+## Reading Data into Python {#sec-01-read-data-py}
 
 Let us begin with the same file that we began with in the topic on R: `crab.txt`. 
 In @sec-01-read-data, we observed that this file contained headings, 
@@ -282,13 +284,15 @@ brackets.
 
 The `.loc` notation is used when we wish to index rows and columns according 
 to their names. The general syntax is `<DataFrame>.loc[ , ]`. A slice operator 
-can be used for each row subset and column subset to be retrieved.
+can be used separately for the row subset and the column subset to be retrieved.
 
+For instance, to retrieve rows 0,1,2 and columns from color to width:
 ```{python subset-1}
-# retrieve rows 0,1,2 and columns from color to width
 data1.loc[0:2, 'color':'width']
+```
 
-# retrieve every second row starting from row 0 until row 5, and all columns
+To retrieve every second row starting from row 0 until row 5, and all columns:
+```{python subset-1a}
 data1.loc[0:5:2, ]
 ```
 
@@ -354,7 +358,7 @@ test = True
 while test:
     x += 1  
     test = x < 6
-    print(f"{x**2}, {test}")
+    print(f"{x**2:2d}, {test}")
 ```
 
 It is also straightforward to write a for-loop to perform the above, since we
@@ -362,8 +366,8 @@ know when the break-point of the loop will be. The `np.arange()` function
 generates evenly spaced integers.
 
 ```{python iter-4}
-for y in np.arange(6):
-    print(f"The square of {y} is {y**2}.")
+for y in np.arange(1, 7):
+    print(f"The square of {y} is {y**2:2d}.")
 ```
 
 ## User Defined Functions
@@ -377,8 +381,8 @@ def fn_name(arguments):
   Returned object
 ```
 
-Here is the same function as earlier, computing the circumference of a circle 
-with a given radius.
+Here is the Python version of the function from earlier, computing the
+circumference of a circle with a given radius.
 
 ```{python user-fn-2}
 import math
@@ -437,8 +441,45 @@ Before we leave this topic, take note of some very obvious differences with R:
    This is a quickstart to pandas, from the official website. You can find more 
    tutorials on this page too.
 3. [Python official documentation](https://docs.python.org/3/): This is from the
-official Python page. It contains a tutorial, an overview of all built-in
-packages, and several howto's, including on regular expression. A very good
-website to learn from.
-4. [Python download](https://www.python.org/downloads/)
-5. [Jupyter Lab help](https://jupyterlab.readthedocs.io/en/stable/user/interface.html)
+   official Python page. It contains a tutorial, an overview of all built-in
+   packages, and several howto's, including on regular expression. A very good
+   website to learn from.
+4. [Python download](https://www.python.org/downloads/): The official download page 
+   for Python. 
+5. [Jupyter Lab help](https://jupyterlab.readthedocs.io/en/stable/user/interface.html):
+   The documentation site for Jupyter Lab.
+   
+## Exercises
+
+1.  Write a Python function to return the area of a circle. It should take the 
+    radius as the input argument.
+2.  Refer to `data1` from  @sec-01-read-data-py. Use logical indexing to retrieve 
+    all rows corresponding to `color` equals 2, or `spine` equals 1.
+3.  Consider once more, the dataframe `data1` from @sec-01-read-data-py. Complete 
+    the following code to result in the output that follows. The output corresponds 
+    to rows where `satell` is greater than 10.
+```{python}
+#| eval: false
+
+for z in data1.iterrows():
+    if _____ > 10:
+        print(_____)
+```
+```{python}
+#| echo: false
+
+for z in data1.iterrows():
+    if z[1]['satell'] > 10:
+        print(f"Row {z[0]}: The weight is {z[1]['weight']}")
+```
+
+4.  Use the slice operator, along with `.iloc` or `.loc`, to return every second 
+    row from `data1`.
+5.  What does the following code do? How different is it from a conventional loop
+    in Python?
+```{python}
+#| eval: false
+olist = [dict1[x] for x in dict1.keys()]
+```
+
+
