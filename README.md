@@ -13,3 +13,5 @@ Here is a brief outline of the steps, for those who wish to create/render a vers
 3. The book is rendered using [Quarto](https://quarto.org/docs/books/).
 4. Once you are happy with your updated version, use a command like `quarto publish gh-pages`. That should do the rest!
 
+
+- tested on python 3.14 on windows?
