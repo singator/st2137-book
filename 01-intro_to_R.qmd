@@ -49,8 +49,7 @@ older versions work differently, so you might face problems or differences with
 some of the codes in the notes.
 :::
 
-![Base R](figs/base_r_gui.PNG){#fig-base-R fig-alt="Base R GUI"
-fig-align="center"}
+![R: Base R GUI](figs/base_r_gui.PNG){#fig-base-R fig-alt="Base R GUI" fig-align="center"}
 
 After installing, you can start using R straightaway. However, the basic GUI is
 not very user-friendly, as you can see from @fig-base-R. Instead of using the
@@ -65,8 +64,7 @@ The installation file for RStudio can be obtained from [this
 URL](https://www.rstudio.com/products/rstudio/download/). It is updated a couple
 of times a year. Make sure you have at least version 2025.09.x for our course.
 
-![Rstudio interface](figs/rstudio_gui.PNG){#fig-rstudio
-fig-alt="Rstudio GUI" fig-align="center"}
+![R: Rstudio interface](figs/rstudio_gui.PNG){#fig-rstudio fig-alt="Rstudio GUI" fig-align="center"}
 
 Here's a quick orientation of the panels in Rstudio, with reference to
 @fig-rstudio.

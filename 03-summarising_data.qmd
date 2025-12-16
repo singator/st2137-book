@@ -6,27 +6,23 @@ title: "Exploring Quantitative Data"
 #| echo: false
 #| message: false
 #| warning: false
-library(tidyverse)
-library(knitr)
-# library(reticulate)
-# venv_paths <- read.csv("venv_paths.csv")
-# id <- match(Sys.info()["nodename"], venv_paths$nodename)
-# use_virtualenv(venv_paths$path[id])
+#library(tidyverse)
+#library(knitr)
 ```
 
 ## Introduction
 
 This is the first topic where we are going to see how to perform statistical
-analysis using two software: R and Python. Every language has it's strengths and
+analysis using two software: R and Python. Every language has its strengths and
 weaknesses, so instead of attempting to exactly replicate the same chart/output
 in each software, we shall try to understand their respective approaches better.
 
-Our end goal is to analyse data - toward that end, we should be versatile and
+Our end goal is to analyse data. Toward that end, we should be versatile and
 adaptable. Focus on learning how to be fast and productive in whichever
 environment you are told to work in. If you have a choice, then be aware of what
 each framework can do best, so that you can choose the right one.
 
-Although it is a simplistic view, the following diagram, @fig-sum-1, provides a
+Although it is a simplistic view, @fig-sum-1 provides a
 useful taxonomy of the types of columns we might have in our dataset. Having at
 least an initial inkling of the type of data matters, because it helps decide
 what type of summary to generate or what type of plot to make. Quantitative data 
@@ -53,17 +49,17 @@ very useful place to get datasets for practice.
 ### Student Performance: Dataset Introduction
 \index{Student performance!description}
 
-The particular dataset can be downloaded from 
+The full dataset can be downloaded from 
 [this page](https://archive.ics.uci.edu/dataset/320/student+performance). 
 Once you unzip the file, you will find two `csv` files in the `student/` folder:
 
 * `student-mat.csv` (performance in Mathematics)
 * `student-por.csv` (performance in Portugese)
 
-Each dataset was collected using school reports and questionnaires. Each row 
-corresponds to a student. The columns are attributes, including student grades,
-demographic information, and other social and school-related information. Each 
-file corresponds to the students' performance in one of the two subjects. For more 
+Each dataset was collected using school reports and questionnaires. Each row
+corresponds to a student. The columns include student grades, demographic
+information, and other social and school-related information. Each file
+corresponds to the students' performance in one of the two subjects. For more
 information, you can refer to @cortez2008using.
 
 | #  | Feature    | Description (Type)                                   | Details                                                                                                        |
@@ -99,10 +95,11 @@ information, you can refer to @cortez2008using.
 | 29 | health     | current health status (numeric)                      | from 1 - very bad to 5 - very good                                                                             |
 | 30 | absences   | number of school absences (numeric)                  | from 0 to 93                                                                                                   |
 
-In the explanatory variables above, notice that also severable variables have been
-stored in the dataset file using numbers, they are in fact *categorical variables*.
-Examples of these are variables 24 to 29. It seems fair to treat the three output 
-columns as numeric though. G3 is the main output variable.
+In the explanatory variables above, notice that although several variables have
+been stored in the dataset file as numbers, they are in fact 
+*categorical variables*. Examples of these are variables 24 to 29. However, it 
+does seem fair to treat the three output columns as numeric. G3 is the main output
+variable.
 
 | #  | Feature | Description (Type)               | Details                    |
 |----|---------|----------------------------------|----------------------------|
@@ -185,7 +182,7 @@ Now we begin to understand the context of G3 a little better. As the education
 level of the mother increases, the mean does increase. The middle 50-percent of
 the grade does seem to increase as well. The exception is the case where the
 mother has no education, but we can see that there are only 3 observations in
-that category so we should read too much into it.
+that category, so we should not read too much into it.
 
 :::
 
@@ -204,7 +201,7 @@ they also leave out a lot. Even for experts, it is possible to have a wrong
 mental idea about the data from the numerical summaries alone. For instance,
 all three histograms in @fig-sum-2 have a mean of 0 and standard deviation of 1!
 
-![Three datasets with mean 0 and s.d. 1](figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="65%"}
+![Three vastly different datasets, all with mean 0 and s.d. 1](figs/summ_data-02.png){#fig-sum-2 fig-alt="3 histograms" fig-align="center" width="65%"}
 
 That's why we have to turn to *graphics* as well, in order to summarise our
 data.
@@ -221,11 +218,12 @@ When we create a histogram, here are some things that we look for:
 
 1.  *What is the overall pattern?*: Do the data cluster together, or is there a 
     gap such that one or more observations deviate from the rest?
-2.  *Do the data have a single mound or peak?* If yes, then we have what is 
+2.  *Are there any suspected outliers?* See @fig-hist-outliers.
+3.  *Do the data have a single mound or peak?* If yes, then we have what is 
     known as a unimodal distribution. Data with two 'peaks' are referred to as 
-    bimodal, and data with many peaks are referred to as multimodal. See @fig-hist-bimodal.
-3.  *Is the distribution symmetric or skewed?* See @fig-hist-skewed-egs.
-4.  *Are there any suspected outliers?* See @fig-hist-outliers.
+    bimodal, and data with many peaks are referred to as multimodal. See 
+    @fig-hist-bimodal.
+4.  *Is the distribution symmetric or skewed?* See @fig-hist-skewed-egs.
 
 ::: {layout="[[1,1], [1]]"}
 ![Histogram with outliers](figs/summ_data-03.png){#fig-hist-outliers}
@@ -251,23 +249,27 @@ Now let us return to the student performance dataset.
 
 ```{r r-stud-perf-3}
 #| fig-align: center
+#| fig-cap: "R: Histogram of G3 scores"
+#| label: fig-r-histogram-g3
 #| out-width: "70%"
-hist(stud_perf$G3, main="G3 histogram")
+hist(stud_perf$G3, main="G3 histogram", xlab="G3 scores")
 ```
 
 #### Python code
 
 ```{python py-stud-perf-3}
 #| fig-align: center
+#| fig-cap: "Py: Histogram of G3 scores"
 #| out-width: "70%"
 fig = stud_perf.G3.hist(grid=False)
-fig.set_title('G3 histogram');
+fig.set_title('G3 histogram')
+fig.set_xlabel('G3 scores');
 ```
 
 :::
 
 ::: {.callout-note}
-Do you notice anything different with the two histograms? 
+Do you notice any differences between the two histograms? 
 :::
 
 In general, we now have a little more information to accompany the 5 number summaries.
@@ -285,16 +287,19 @@ variable `G3` is quantitative, and the explanatory variable `Medu` is ordinal.
 
 ```{r r-stud-perf-4}
 #| fig-align: center
+#| fig-cap: "R: Lattice plot of G3 scores by Medu"
+#| label: fig-r-lattice-g3
 #| out-width: "80%"
 library(lattice)
 histogram(~G3 | Medu, data=stud_perf, type="density",
-          as.table=TRUE)
+          main="G3 scores, by Medu levels", as.table=TRUE)
 ```
 
 #### Python code
 
 ```{python py-stud-perf-4}
 #| fig-align: center
+#| fig-cap: "Py: Lattice plot of G3 scores by Medu"
 #| out-width: "80%"
 stud_perf.G3.hist(by=stud_perf.Medu, figsize=(15,10), density=True, 
                   layout=(2,3));
@@ -336,20 +341,25 @@ where
 ### Student Performance: Density Estimates
 \index{Student performance!density plots}
 
+Here is how we can make density plots with R and Python for the G3 scores.
+
 ::: {.panel-tabset}
 
 #### R code 
 
 ```{r r-stud-perf-5}
 #| fig-align: center
+#| fig-cap: "R: Estimated densities for G3 scores, by Medu"
 #| out-width: "80%"
-densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
+densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, 
+            main="G3 scores, by Medu", bw=1.5)
 ```
 
 #### Python code
 
 ```{python py-stud-perf-5}
 #| fig-align: center
+#| fig-cap: "Py: Estimated densities for G3 scores, by Medu"
 #| out-width: "80%"
 import matplotlib.pyplot as plt
 f, axs = plt.subplots(2, 3, squeeze=False, figsize=(15,6))
@@ -394,12 +404,12 @@ A boxplot helps us to identify the median, lower and upper quantiles and outlier
 ### Student Performance: Boxplots
 \index{Student performance!boxplots}
 
-Instead of using mother's education once again, we use the number of times a 
-student goes out (`goout`) as the explanatory variable this time. From the
-boxplot outputs, it appears there is no strong strictly increasing/decreasing 
-trend associated with G3. Instead, although the differences between the 
-categories are not large, it seems as though there is an "optimal" number of 
-times that students could go out. Too little and too much leads to lower median
+This time, instead of using mother's education, we use the number of times a
+student goes out (`goout`) as the explanatory variable. From the boxplot
+outputs, it appears there is no strong strictly increasing/decreasing trend
+associated with G3. Instead, although the differences between the categories are
+not large, it seems as though there is an "optimal" number of times that
+students could go out. Too little and too much going out leads to lower median
 G3 scores.
 
 ::: {.panel-tabset}
@@ -408,16 +418,21 @@ G3 scores.
 
 ```{r r-stud-perf-6}
 #| fig-align: center
+#| fig-cap: "R: Boxplot of G3 scores, by gout variable"
 #| out-width: "70%"
-bwplot(G3 ~ goout, horizontal = FALSE, data=stud_perf)
+bwplot(G3 ~ goout, horizontal = FALSE, main="G3 scores, by goout", 
+       xlab="No. of times the student goes out per week",
+       data=stud_perf)
 ```
 
 #### Python code
 
 ```{python py-stud-perf-6}
 #| fig-align: center
+#| fig-cap: "Py: Boxplot of G3 scores, by gout variable"
 #| out-width: "70%"
-stud_perf.plot.box(column='G3', by='goout')
+stud_perf.plot.box(column='G3', by='goout', 
+                   xlabel='No. of times student goes out per week');
 ```
 
 :::
@@ -432,8 +447,8 @@ tool for assessing if a dataset follows a particular distribution. Most of the t
 we would be interested in comparing against a Normal distribution. 
 
 A QQ-plot plots the standardized sample quantiles against the theoretical
-quantiles of a N(0; 1) distribution. If they fall on a straight line, then we
-would say that there is evidence that the data came from a normal distribution.
+quantiles of a N(0; 1) distribution. If the points fall on a straight line, then we 
+say there is evidence that the data comes from a Normal distribution.
 
 Especially for unimodal datasets, the points in the middle will typically fall
 close to the line. The value of a QQ-plot is in judging if the tails of the data
@@ -471,14 +486,14 @@ observe and interpret accordingly.
 \index{Concrete slump!description}
 
 Concrete is a highly complex material. The slump flow of concrete is not only
-determined by the water content, but that is also influenced by other concrete
-ingredients. The UCI page for this dataset is
+determined by the water content, but also by other ingredients. The UCI page for 
+this particular dataset is
 [here](https://archive.ics.uci.edu/dataset/182/concrete+slump+test). The reference
-for this article is @yeh2007modeling.
+article on this dataset is @yeh2007modeling.
 
 The data set includes 103 data points. There are 7 input variables, and 3 output
 variables in the data set. These are the input columns in the data, all in 
-units of kg per $m^3$ concrete:
+units of $kg/m^3$ concrete:
 
 | #   | Feature              | Details                                   |
 |-----|----------------------|-------------------------------------------|
@@ -504,7 +519,7 @@ about Slump and Flow from this
 
 #### R code 
 
-To read in the data in R:
+To read the data into R:
 
 ```{r}
 concrete <- read.csv("data/concrete+slump+test/slump_test.data")
@@ -512,6 +527,8 @@ names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 ```
 
 #### Python code
+
+The corresponding Python code is:
 
 ```{python}
 concrete = pd.read_csv("data/concrete+slump+test/slump_test.data")
@@ -560,6 +577,7 @@ The next chart is a QQ-plot, for assessing deviations from Normality.
 
 ```{r r-concrete-1}
 #| fig-align: center
+#| fig-cap: "R: QQ plot for compressive strength"
 #| out-width: "70%"
 qqnorm(concrete$Comp.Strength)
 qqline(concrete$Comp.Strength)
@@ -569,6 +587,7 @@ qqline(concrete$Comp.Strength)
 
 ```{python py-concrete-1}
 #| fig-align: center
+#| fig-cap: "Py: QQ plot for compressive strength"
 #| out-width: "70%"
 from scipy import stats
 import statsmodels.api as sm
@@ -595,9 +614,9 @@ where $s_x$ and $s_y$ are the sample standard deviations. $r$ is an estimate of
 the correlation between random variables $X$ and $Y$.
 
 ::: {layout-nrow=2}
-![Linear Relation](figs/summ_data-06.png){#fig-corr-linear fig-align=center out-width=50%}
+![Varying linear relations and corresponding $r$-values](figs/summ_data-06.png){#fig-corr-linear fig-align=center out-width=50%}
 
-![Non-linear relation](figs/summ_data-07.png){#fig-corr-non-linear fig-align=center out-width=50%}
+![Non-linear relations and corresponding $r$-values](figs/summ_data-07.png){#fig-corr-non-linear fig-align=center out-width=50%}
 :::
 
 A few things to note about the value $r$, which is also referred to as the 
@@ -632,6 +651,7 @@ bivariate relationships.
 
 ```{r r-concrete-2}
 #| fig-align: center
+#| fig-cap: "R: Scatterplot matrix for concrete dataset"
 #| out-width: "100%"
 #| fig-width: 12
 #| fig-height: 12
@@ -644,6 +664,7 @@ pairs(concrete[, col_to_use], panel = panel.smooth)
 
 ```{python py-concrete-3}
 #| fig-align: center
+#| fig-cap: "Py: Scatterplot matrix for concrete dataset"
 #| out-width: "100%"
 pd.plotting.scatter_matrix(concrete[['Cement', 'Slag', 'Comp_Strength', 'Water', 
                                      'SLUMP(cm)', 'FLOW(cm)']], 
@@ -664,16 +685,21 @@ also good to compute the correlation of all pairs of variables.
 
 ```{r r-concrete-3}
 #| fig-align: center
+#| fig-cap: "R: Heatmap of correlation matrix for concrete data"
 #| message: false
 #| warning: false
 #| fig-width: 6
 #| fig-height: 5
 
 library(psych)
-corPlot(cor(concrete[, col_to_use]), cex=0.8, show.legend = FALSE)
+corPlot(cor(concrete[, col_to_use]), cex=0.8, cex.axis=0.6, 
+        show.legend = FALSE)
 ```
 
 #### Python code
+
+The interactive heatmap created by Python is only available in the HTML format
+of the textbook.
 
 ```{python py-concrete-4}
 #| fig-align: center
@@ -692,12 +718,30 @@ very similar to one another.
 
 :::
 
-
-
 ## References
 
 ### Website References
 
-1. [UCI Machine Learning Repository](https://archive.ics.uci.edu/)
-2. [Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance).
-3. [Kernel density estimation](https://en.wikipedia.org/wiki/Kernel_density_estimation)
+1.  [UCI Machine Learning Repository](https://archive.ics.uci.edu/): This site is 
+    an invaluable learning resource for data analysts. It contains several datasets
+    for practice. In this chapter, we used the following two:
+    * [Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance).
+    * [Concrete Dataset](https://archive.ics.uci.edu/dataset/182/concrete+slump+test)
+3.  [Kernel density estimation](https://en.wikipedia.org/wiki/Kernel_density_estimation): Wikipedia contains a good overview explanation of the technique. 
+
+## Exercises
+
+In the questions, do try to answer each question using both R and Python whenever
+possible.
+
+1.  From @fig-r-histogram-g3 alone, can you make a rough guess: What proportion of 
+    students scored 6 or less?
+2.  Divide the concrete data into two subsets - one with Water less than or equal to 
+    200 and one with Water greater than 200. Compute the Pearson correlations with
+    compressive strength. How different are these values with the value for the full
+    dataset?
+3.  Remove all rows with zero values for Slag from the concrete dataset. Create 
+    a QQ-plot for Slag and assess if the data is Normal.
+4.  How does bandwidth affect a density estimate (`bw` argument)? Experiment with 
+    different values to understand more.
+5.  Create numerical summaries of `G3` scores, by `goout`, and compare the groups.
