@@ -32,7 +32,7 @@ As a recap, here is the general approach for conducting a hypothesis test:
 
 ### Step 1: Assumptions
 
-In this step, we make a note of the assumptions required for the test to be
+In this step, we verify that the assumptions required for the test are
 valid. In some tests, this step is carried out at the end of the others, but it
 is always essential to perform. Some tests are very sensitive to the assumptions
 - this is the main reason that the class of robust statistics was invented.
@@ -115,7 +115,7 @@ the alternative hypothesis.
 This is the binary decision stage. If the $p$-value is less than the stated 
 significance level, we conclude that we reject $H_0$. Otherwise, we say that 
 we do not reject $H_0$. It is conventional to use this terminology (instead of 
-"accepting $H_1$") since our $p$-value is obtained with respect to $H_0$.
+saying "accept $H_1$") since our $p$-value is obtained with respect to $H_0$.
 
 ## Confidence Intervals
 
@@ -144,7 +144,8 @@ of freedom.
 
 The formulas for many confidence intervals rely on asymptotic Normality of the 
 estimator. However, this is an assumption that can be overcome with the technique 
-of bootstrapping. We shall touch on this in the final topic of our course. 
+of bootstrapping. We shall touch on this in the final topic of our course, 
+in @sec-bootstrapping.
 
 Bootstrapping can also be used to sidestep the distributional assumptions in hypothesis
 tests, but I still much prefer confidence intervals to tests because they yield an 
@@ -287,41 +288,21 @@ print(f"""
 
 #### SAS Output 
 
-When we run the independent samples t-test on SAS, we should observe the following 
-output @fig-sas-abalone-001.
+When we run the independent samples t-test on SAS, we should observe the output
+in @fig-sas-abalone-001.
 
 ::: {layout-ncol=1}
-![SAS Abalone, Independent](figs/sas_abalone_ind_ttest-001a.png){#fig-sas-abalone-001 fig-align="center" width=65%}
+![SAS: Independent samples t-test, Abalone data](figs/sas_abalone_ind_ttest-001a.png){#fig-sas-abalone-001 fig-align="center" width=65%}
 :::
 
 :::
 
-To assess the normality assumption, we make histograms and qq-plots.
-
-::: {.callout-note}
-Only the R code is shown here.
-:::
-
-```{r r-abalone-2}
-#| layout: [[1], [1,1]]
-#| fig-align: center
-#| out-width: 70%
-#| fig-cap: 
-#|   - "Histograms"
-#|   - "QQ-plot for females"
-#|   - "QQ-plot for males"
-
-library(lattice)
-histogram(~viscera | gender, data=abl, type="count")
-qqnorm(y, main="Female Abalones");  qqline(y)
-qqnorm(x, main="Male Abalones");  qqline(x)
-```
-
-We also need to assess if the variances are equal. While there are many
-hypothesis tests specifically for assessing if variances are equal (e.g. Levene,
-Bartlett), in our class, I advocate a simple rule of thumb. If the larger s.d is
-more than twice the smaller one, than we should not use the equal variance form
-of the test. This rule of thumb is widely used in practice (see @sec-web-ref-07).
+The assumptions of the test include Normality and equal variance. Let us assess
+the equality of variance first. While there are many hypothesis tests
+specifically for assessing if variances are equal (e.g. Levene, Bartlett), in
+our class, I advocate a simple rule of thumb. If the larger s.d is more than
+twice the smaller one, than we should not use the equal variance form of the
+test. This rule of thumb is widely used in practice (see @sec-web-ref-07).
 
 ::: {.panel-tabset}
 
@@ -339,6 +320,31 @@ abl.groupby('gender').describe()
 ```
 :::
 
+To assess the Normality assumption, we make also histograms and qq-plots
+(see @fig-r-abalone-normality-1, @fig-r-abalone-normality-2, and  
+@fig-r-abalone-normality-3).
+
+::: {.callout-note}
+Only the R code is shown here.
+:::
+
+```{r}
+#| layout: [[1], [1,1]]
+#| fig-align: center
+#| out-width: 70%
+#| fig-cap: 
+#|   - "R: Histograms for males and females"
+#|   - "R: QQ-plot for females"
+#|   - "R: QQ-plot for males"
+#| label: fig-r-abalone-normality
+
+library(lattice)
+histogram(~viscera | gender, data=abl, type="count")
+qqnorm(y, main="Female Abalones");  qqline(y)
+qqnorm(x, main="Male Abalones");  qqline(x)
+```
+
+
 
 We would conclude that there is no significant difference between the mean 
 viscera weight of males and females.
@@ -353,14 +359,10 @@ used to assess how much a dataset deviates from Normality.
 
 #### Skewness 
 
-The Normal distribution is symmetric about it's mean. Hence if we observe asymmetry 
-in our histogram, we might suspect deviation from Normality. To quantify this 
-asymmetry, we use *skewness*. As we can see from @fig-skew, a histogram with a 
-long tail on the right (left) is referred to as right-skewed (corr. left-skewed).
-
-![Right/Non/Left-Skewed histograms](figs/summ_data-05.png){#fig-skew fig-align="center"}
-
-One method of estimating the skewness of a distribution from data is:
+The Normal distribution is symmetric about it's mean. Hence if we observe
+asymmetry in our histogram, we might suspect deviation from Normality. To
+quantify this asymmetry, we use *skewness*. One method of estimating the
+skewness of a distribution from data is:
 
 $$
 g_1 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^3}{[\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 ]^{3/2}}
@@ -434,7 +436,7 @@ stats.shapiro(x)
 
 #### SAS output 
 
-![SAS Normality tests](figs/sas_abalone_normality_tests_a.png){#fig-sas-norm-001 width=65%}
+![SAS: Normality tests](figs/sas_abalone_normality_tests_a.png){#fig-sas-norm-001 width=65%}
 
 :::
 
@@ -551,7 +553,7 @@ p-val: {paired_out.pvalue:.3f}.""")
 
 #### SAS Output
 
-![SAS HR Paired t-test](figs/sas_hr_paired_ttest_a.png){width=65%}
+![SAS: HR paired t-test](figs/sas_hr_paired_ttest_a.png){width=65%}
 
 
 ::: 
@@ -565,9 +567,9 @@ A couple of interesting plots from SAS are shown in @fig-sas-paired-prof and
 
 ::: {layout-ncol=2}
 
-![Paired Profiles](figs/sas_hr_paired_profiles.png){#fig-sas-paired-prof}
+![SAS: Paired profiles](figs/sas_hr_paired_profiles.png){#fig-sas-paired-prof}
 
-![Agreement](figs/sas_hr_agreement.png){#fig-sas-agreement}
+![SAS: Agreement plot](figs/sas_hr_agreement.png){#fig-sas-agreement}
 
 :::
 
@@ -683,12 +685,12 @@ p-val: {wrs_out.pvalue:.3f}.""")
 
 The SAS output can be seen in @fig-sas-wrs-001.
 
-![SAS Output, Wilcoxon Rank Sum](figs/sas_abalone_wrs_a.png){#fig-sas-wrs-001 width=65%}
+![SAS: Wilcoxon rank sum output](figs/sas_abalone_wrs_a.png){#fig-sas-wrs-001 width=65%}
 
 :::
 
 Since we know the number of observations in each group to be more than 10, the
-approximation holds. Comparing to the @exm-abalone-1, observe that we have a
+approximation holds. Comparing with @exm-abalone-1, observe that we have a
 similar conclusion.
 
 Notice that the test statistic appears different in SAS. However, it is simply 
@@ -729,23 +731,23 @@ We begin by ranking the $|D_i|$. Ignoring pairs for which $D_i = 0$, we rank the
 remaining observations from 1 for the pair with the smallest absolute value, 
 up to $n$ for the pair with the largest absolute value (assuming no ties).
 
-We then compute $R_1$, the sum of ranks for the positive $D_i$. If this sum is 
+We then compute $R_2$, the sum of ranks for the positive $D_i$. If this sum is 
 large, we expect that the pairs with $X_i > Y_i$ have a larger difference (in 
 absolute values) than those with $X_i < Y_i$. Under $H_0$, it can be shown that 
 
 $$
-E(R_1) = m(m+1)/4
+E(R_2) = m(m+1)/4
 $$
 where $m$ is the number of of non-zero differences.
 
-Thus the test statistic is a comparison of $R_1$ with the above expected value:
+Thus the test statistic is a comparison of $R_2$ with the above expected value:
 
 $$
 W_2 = \begin{cases}
-\frac{\left|R_1 - \frac{n(n + 1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n + 1)/24}}, & R_1 \ne \frac{n(n + 1)}{4} \text{ and no ties} \\
-\frac{\left|R_1 - \frac{n(n+1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n+1)/(24 - 
-\sum_{i=1}^g (t^3_i - t_i) / 48 )}}, & R_1 \ne \frac{n (n + 1)}{4} \text{ and ties present} \\
-0, & R_1 = \frac{n (n + 1)}{4} 
+\frac{\left|R_2 - \frac{n(n + 1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n + 1)/24}}, & R_2 \ne \frac{n(n + 1)}{4} \text{ and no ties} \\
+\frac{\left|R_2 - \frac{n(n+1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n+1)/(24 - 
+\sum_{i=1}^g (t^3_i - t_i) / 48 )}}, & R_2 \ne \frac{n (n + 1)}{4} \text{ and ties present} \\
+0, & R_2 = \frac{n (n + 1)}{4} 
 \end{cases}
 $$
 where $g$ denotes the number of tied groups, and $t_i$ refers to the number of 
@@ -760,6 +762,8 @@ follows a $N(0,1)$ distribution approximately.
 \index{Treadmill!non-parametric paired test}
 
 ::: {.panel-tabset}
+
+Here is how we can perform the non-parametric test in the various software.
 
 #### R code
 
@@ -780,7 +784,7 @@ p-val: {wsr_out.pvalue:.3f}.""")
 
 #### SAS Output 
 
-![SAS Signed Rank Test](figs/sas_hr_wilcox_a.png){width=65%}
+![SAS: Signed rank test output](figs/sas_hr_wilcox_a.png){width=65%}
 
 :::
 
@@ -790,14 +794,14 @@ of the test cannot be used when there are ties.
 
 SAS does indeed use the "exact" version of the test, so that accounts for the
 difference in $p$-values. The test statistic in SAS is computed by subtracting
-$E(R_1)$, but in R and Python this subtraction is not done. To get from test
+$E(R_2)$, but in R and Python this subtraction is not done. To get from test
 statistic in R (0) to the one in SAS (-39):
 
 $$
 0 - \frac{12(12 + 1)}{4} = -39
 $$
 
-In cases like this, we can turn to the bootstrap, or we can use a permutation test. We 
+In cases like these, we can turn to the bootstrap, or we can use a permutation test. We 
 shall revisit these in our final topic @sec-simulation.
 
 :::
@@ -810,8 +814,8 @@ statistic in @sec-indep-nonpar and @sec-pair-nonpar were both taken from
 @rosner2015fundamentals. However, take note that different software have
 slightly different implementations, for instance in how they deal with ties. As
 always, my advice is to read the documentation as much as possible, and then 
-to use the output of the tests as a guide to your decision-making (instead of the 
-absolute truth).
+to use the output of the tests as a guide to your decision-making (instead of 
+treating them as the absolute truth).
 
 ## References
 
@@ -828,3 +832,14 @@ absolute truth).
    equal variance test, and when to use the unequal variances version.
 6. [SAS vs. R/Python](https://stats.stackexchange.com/questions/65875/different-ways-to-calculate-the-test-statistic-for-the-wilcoxon-rank-sum-test) This link provides an explanation why the WRS test statistic for 
   SAS is different from R in @exm-abalone-2.
+
+## Exercises
+
+1.  List the different methods of assessing Normality.
+2.  Compute skewness for all variables in the concrete data set.
+3.  Compute $R_1$, the test statistic for the Wilcoxon Rank Sum Test, using R 
+    and Python.
+4.  Compute kurtosis for the `chem` data from chapter 5. Remove the outliers 
+    and recompute.
+5.  Perform the 2-sample t-test for `G3` scores, comparing scores for `Medu=1`
+    to `Medu=4`.
