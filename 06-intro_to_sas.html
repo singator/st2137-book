@@ -321,7 +321,7 @@ window.Quarto = {
 <img src="figs/sas_welcome-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="SAS login">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.1: SAS Studio Login
+Figure&nbsp;6.1: SAS: Login page
 </figcaption>
 </figure>
 </div>
@@ -332,7 +332,7 @@ Figure&nbsp;6.1: SAS Studio Login
 <img src="figs/sas_welcome-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="SAS Studio">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.2: SAS Studio
+Figure&nbsp;6.2: SAS: Studio interface
 </figcaption>
 </figure>
 </div>
@@ -363,7 +363,7 @@ Figure&nbsp;6.2: SAS Studio
 <img src="figs/sas_ex-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="SAS output">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.3: SAS output
+Figure&nbsp;6.3: SAS: Simple data creation
 </figcaption>
 </figure>
 </div>
@@ -403,7 +403,7 @@ Figure&nbsp;6.3: SAS output
 <img src="figs/sas_ex-2a.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="DATA output">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-4a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.4: Dataset output
+Figure&nbsp;6.4: SAS: Inline data created
 </figcaption>
 </figure>
 </div>
@@ -417,7 +417,7 @@ Figure&nbsp;6.4: Dataset output
 <img src="figs/sas_ex-2b.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="PROC output">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-4b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.5: Proc output
+Figure&nbsp;6.5: SAs: PROC MEANS output
 </figcaption>
 </figure>
 </div>
@@ -433,16 +433,16 @@ Figure&nbsp;6.5: Proc output
 </div>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<section id="data-steps" class="level3 quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<h3 class="anchored" data-anchor-id="data-steps">DATA steps</h3>
+<section id="data-steps" class="level4 quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<h4 class="anchored" data-anchor-id="data-steps">DATA steps</h4>
 <ul>
 <li>begin with DATA statements.</li>
 <li>read and modify data.</li>
 <li>create a SAS dataset.</li>
 </ul>
 </section>
-<section id="proc-steps" class="level3 quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<h3 class="anchored" data-anchor-id="proc-steps">PROC steps</h3>
+<section id="proc-steps" class="level4 quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<h4 class="anchored" data-anchor-id="proc-steps">PROC steps</h4>
 <ul>
 <li>begin with PROC statements.</li>
 <li>perform specific analysis or function.</li>
@@ -543,7 +543,7 @@ Figure&nbsp;6.5: Proc output
 </tr>
 <tr class="odd">
 <td>atemp</td>
-<td>Normalized feeling temperature in Celsius. Divided by 50 (max)</td>
+<td>Normalized perceived temperature in Celsius. Divided by 50 (max)</td>
 </tr>
 <tr class="even">
 <td>hum</td>
@@ -555,11 +555,11 @@ Figure&nbsp;6.5: Proc output
 </tr>
 <tr class="even">
 <td>casual</td>
-<td>Count of casual users</td>
+<td>Count of casual rental bike users</td>
 </tr>
 <tr class="odd">
 <td>registered</td>
-<td>Count of registered users</td>
+<td>Count of registered rental bike users</td>
 </tr>
 <tr class="even">
 <td>cnt</td>
@@ -574,7 +574,7 @@ Figure&nbsp;6.5: Proc output
 <h2 data-number="6.6" class="anchored" data-anchor-id="uploading-and-using-datasets"><span class="header-section-number">6.6</span> Uploading and Using Datasets</h2>
 <p>To use our own datasets on SAS Studio, we have to execute the following steps:</p>
 <ol type="1">
-<li>Create a new library. In SAS, a library is a collection of datasets. If you already have a library created, you can simply import datasets into it. The default library on SAS is called <code>WORK</code>. However, the datasets will be purged every time you sign out. Hence it is better to create a new one.</li>
+<li>Create a new library. In SAS, a library is a collection of datasets. If you already have a library created, you can simply import datasets into it. The default library on SAS is called <code>WORK</code>. However, the datasets in <code>WORK</code> will be purged every time you sign out. Hence it is better to create a new, dedicated library for this course.</li>
 <li>Import your dataset (csv, xlsx, etc.) into the library.</li>
 <li>After this, the data will be available for use with the reference name <code>&lt;library-name&gt;.&lt;dataset-name&gt;</code>.</li>
 </ol>
@@ -591,7 +591,7 @@ Figure&nbsp;6.5: Proc output
 <img src="figs/sas_library-02.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-lib-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.6: New library
+Figure&nbsp;6.6: SAS: New library creation icon
 </figcaption>
 </figure>
 </div>
@@ -603,7 +603,7 @@ Figure&nbsp;6.6: New library
 <img src="figs/sas_servers_files-02.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-lib-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.7: Upload data
+Figure&nbsp;6.7: SAS: Upload data icon
 </figcaption>
 </figure>
 </div>
@@ -615,14 +615,14 @@ Figure&nbsp;6.7: Upload data
 </section>
 <section id="summarising-numerical-data" class="level2" data-number="6.7">
 <h2 data-number="6.7" class="anchored" data-anchor-id="summarising-numerical-data"><span class="header-section-number">6.7</span> Summarising Numerical Data</h2>
-<p>The SAS routines we are going to work with can be found in the “Tasks and Utilities” section (see highlighted tasks in <a href="#fig-sas-tasks-01" class="quarto-xref">Figure&nbsp;<span>6.8</span></a>).</p>
+<p>Most of the SAS routines we are going to work with can be found in the “Tasks and Utilities” section (see highlighted tasks in <a href="#fig-sas-tasks-01" class="quarto-xref">Figure&nbsp;<span>6.8</span></a>).</p>
 <div id="fig-sas-tasks-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-tasks-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_tasks-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-tasks-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.8: Common ST2137 Tasks
+Figure&nbsp;6.8: SAS: Common ST2137 procedures
 </figcaption>
 </figure>
 </div>
@@ -631,14 +631,14 @@ Figure&nbsp;6.8: Common ST2137 Tasks
 <div id="exm-bike-summ-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 6.4 (5-number Summaries)</strong></span> </p>
 <p>We expect that the total count of users will vary by the seasons. Hence, we begin by computing five-number summaries for each season.</p>
-<p>Under Tasks, go to Statistcs &gt; Summary Statistics. Select <code>cnt</code> as the analysis variable, and <code>season</code> as the classification variable. Under the options tab, select the lower and upper quartiles, along with comparative boxplots. The output should look like this <a href="#fig-sas-bike-02" class="quarto-xref">Figure&nbsp;<span>6.9</span></a>:</p>
+<p>Under Tasks, go to Statistcs &gt; Summary Statistics. Select <code>cnt</code> as the analysis variable, and <code>season</code> as the classification variable. Under the options tab, select the lower and upper quartiles, along with comparative boxplots. The output should look like <a href="#fig-sas-bike-02" class="quarto-xref">Figure&nbsp;<span>6.9</span></a>:</p>
 <div id="fig-sas-bike-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-bike-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_summaries-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-bike-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.9: Summaries, Bike data
+Figure&nbsp;6.9: SAS: 5-number-summaries and boxplots for bike rental data
 </figcaption>
 </figure>
 </div>
@@ -657,7 +657,7 @@ Figure&nbsp;6.9: Summaries, Bike data
 <img src="figs/sas_bike_scatter-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-bike-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.10: Scatter plot, Bike Data
+Figure&nbsp;6.10: SAS: Scatterplot for bike rental data
 </figcaption>
 </figure>
 </div>
@@ -675,7 +675,7 @@ Figure&nbsp;6.10: Scatter plot, Bike Data
 <img src="figs/sas_bike_hist-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-hist-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.11: Histograms, Bike Data
+Figure&nbsp;6.11: SAS: Histograms for bike rental data
 </figcaption>
 </figure>
 </div>
@@ -686,19 +686,19 @@ Figure&nbsp;6.11: Histograms, Bike Data
 <h3 class="anchored" data-anchor-id="boxplots">Boxplots</h3>
 <p></p>
 <div id="exm-bike-box-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 6.7 (Boxplots for Casual Users, by Season)</strong></span> In <a href="#exm-bike-summ-1" class="quarto-xref">Example&nbsp;<span>6.4</span></a>, we observed that total counts vary by users, and in <a href="#exm-bike-hist-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>, we observed that working days seem to have fewer casual users. Let us investigate if this difference is related to season.</p>
-<p>To create boxplots, go to Tasks &gt; Box Plot. Select <code>casual</code> as the analysis variable, <code>season</code> as the category and <code>workingday</code> as the subcategory. You should obtain a plot like this <a href="#fig-sas-box-01" class="quarto-xref">Figure&nbsp;<span>6.12</span></a>:</p>
+<p><span class="theorem-title"><strong>Example 6.7 (Boxplots for Casual Users, by Season)</strong></span> In <a href="#exm-bike-summ-1" class="quarto-xref">Example&nbsp;<span>6.4</span></a>, we observed that total counts vary by season, and in <a href="#exm-bike-hist-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>, we observed that working days seem to have fewer casual users. Let us investigate if this difference is related to season.</p>
+<p>To create boxplots, go to Tasks &gt; Box Plot. Select <code>casual</code> as the analysis variable, <code>season</code> as the category and <code>workingday</code> as the subcategory. You should obtain the plot in <a href="#fig-sas-box-01" class="quarto-xref">Figure&nbsp;<span>6.12</span></a>.</p>
 <div id="fig-sas-box-01" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-box-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_boxplot-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-box-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.12: Boxplots, Bike Data
+Figure&nbsp;6.12: SAS: Boxplots for bike rentals, by season
 </figcaption>
 </figure>
 </div>
-<p>In order to order the seasons according to the calendar, I had to add this line to the code:</p>
+<p>To order the seasons according to the calendar, I had to add this line to the code:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>proc sgplot data<span class="ot">=</span>ST2137.BIKE2;</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    vbox casual <span class="sc">/</span> category<span class="ot">=</span>season group<span class="ot">=</span>workingday grouporder<span class="ot">=</span>ascending;</span>
@@ -706,18 +706,18 @@ Figure&nbsp;6.12: Boxplots, Bike Data
 <span id="cb3-4"><a href="#cb3-4"></a>    yaxis grid;</span>
 <span id="cb3-5"><a href="#cb3-5"></a>run;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>There is little insight from the previous two examples. However, now try the same plots, but on the log scale (modify the APPEARANCE tab and re-run). You should now obtain <a href="#fig-sas-box-02" class="quarto-xref">Figure&nbsp;<span>6.13</span></a>:</p>
+<p>There is little further insight compared to the previous two examples. However, now try the same plots, but on the log scale (modify the APPEARANCE tab and re-run). You should now obtain <a href="#fig-sas-box-02" class="quarto-xref">Figure&nbsp;<span>6.13</span></a>.</p>
 <div id="fig-sas-box-02" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-box-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_bike_boxplot-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-box-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.13: Boxplots log scale, Bike Data
+Figure&nbsp;6.13: SAS: Boxplots for bike rentals on log-scale, by season
 </figcaption>
 </figure>
 </div>
-<p>Now, we can observe that the difference within each season, is constant across seasons. Because the difference in logarithms is constant, it means that, on the original scale, it is a constant multiplicative factor that increases counts from workingday to non-working day.</p>
+<p>Now, we can observe that the difference within each season is constant across seasons. Because the difference in logarithms is constant, it means that, on the original scale, it is a constant multiplicative factor that increases counts from workingday to non-working day.</p>
 <p>We have arrived at a more succint representation of the relationship by using the log transform.</p>
 </div>
 </section>
@@ -736,7 +736,7 @@ Figure&nbsp;6.13: Boxplots log scale, Bike Data
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figs/sas_bike_qq-01.png" class="img-fluid figure-img"></p>
-<figcaption>Histogram for humidity</figcaption>
+<figcaption>SAS: Histogram for humidity</figcaption>
 </figure>
 </div>
 </div>
@@ -744,7 +744,7 @@ Figure&nbsp;6.13: Boxplots log scale, Bike Data
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figs/sas_bike_qq-02.png" class="img-fluid figure-img"></p>
-<figcaption>QQ-plot for humidity</figcaption>
+<figcaption>sAS: QQ-plot for humidity</figcaption>
 </figure>
 </div>
 </div>
@@ -765,7 +765,7 @@ Figure&nbsp;6.13: Boxplots log scale, Bike Data
 <li><code>paid</code> as the row variable.</li>
 <li>Under OPTIONS, check the “Chi-square statistics” box.</li>
 </ul>
-<p>The following output should enable you to perform the test (<a href="#fig-sas-chisq-01" class="quarto-xref">Figure&nbsp;<span>6.14</span></a> and <a href="#fig-sas-chisq-02" class="quarto-xref">Figure&nbsp;<span>6.15</span></a>).</p>
+<p>The output in <a href="#fig-sas-chisq-01" class="quarto-xref">Figure&nbsp;<span>6.14</span></a> and <a href="#fig-sas-chisq-02" class="quarto-xref">Figure&nbsp;<span>6.15</span></a> should enable you to perform the test.</p>
 <div>
 
 </div>
@@ -778,7 +778,7 @@ Figure&nbsp;6.13: Boxplots log scale, Bike Data
 <img src="figs/sas_stud_chisq-01.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-chisq-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.14: Observed &amp; Expected Counts
+Figure&nbsp;6.14: SAS: Observed &amp; expected counts, student performance data
 </figcaption>
 </figure>
 </div>
@@ -790,7 +790,7 @@ Figure&nbsp;6.14: Observed &amp; Expected Counts
 <img src="figs/sas_stud_chisq-02.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-chisq-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.15: Test statistic, p-value
+Figure&nbsp;6.15: SAS: Test statistics and p-values for student performance data
 </figcaption>
 </figure>
 </div>
@@ -804,7 +804,7 @@ Figure&nbsp;6.15: Test statistic, p-value
 <img src="figs/sas_stud_mosaic-01.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-mos-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.16: Mosaic Plot
+Figure&nbsp;6.16: SAS: Mosaic plot for student performance data
 </figcaption>
 </figure>
 </div>
@@ -812,7 +812,7 @@ Figure&nbsp;6.16: Mosaic Plot
 </div>
 </div>
 </div>
-<p>For measures of association, we only need to select the option for “Measures of Association” to generate the Kendall <span class="math inline">\(\tau_b\)</span> that we covered earlier.</p>
+<p>For measures of association, we only need to select the option for “Measures of Association” to generate the Kendall <span class="math inline">\(\tau_b\)</span> that we covered earlier in Chapter 4.</p>
 <div id="exm-stud-chisq-1" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 6.10 (Kendall <span class="math inline">\(\tau\)</span> for <code>Walc</code> and <code>Dalc</code>)</strong></span> </p>
 <p>Once we load the data ST2137.STUD_PERF, we go to Tasks &gt; Table Analysis. After selecting the two variables, we check the appropriate box to obtain <a href="#fig-sas-tau-01" class="quarto-xref">Figure&nbsp;<span>6.17</span></a>.</p>
@@ -822,7 +822,7 @@ Figure&nbsp;6.16: Mosaic Plot
 <img src="figs/sas_stud_tau-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-tau-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.17: Walc vs Dalc
+Figure&nbsp;6.17: SAS: Categorical variables’ association, Walc by Dalc
 </figcaption>
 </figure>
 </div>

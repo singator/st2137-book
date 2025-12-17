@@ -279,6 +279,7 @@ window.Quarto = {
   <li><a href="#measures-of-association" id="toc-measures-of-association" class="nav-link" data-scroll-target="#measures-of-association"><span class="header-section-number">4.5</span> Measures of Association</a></li>
   <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">4.6</span> Further readings</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4.7</span> References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.8</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -307,15 +308,15 @@ window.Quarto = {
 <section id="sec-cda" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="sec-cda"><span class="header-section-number">4.1</span> Introduction</h2>
 <p>A variable is known as a <em>categorical variable</em> if each observation belongs to one of a set of categories. Examples of categorical variables are: gender, religion, race and type of residence.</p>
-<p>Categorical variables are typically modeled using discrete random variables, which are strictly defined in terms whether or not the support is countable. The alternative to categorical variables are quantitative variables, which are typically modeled using continuous random variables.</p>
-<p>Another method for distinguishing between quantitative and categorical variables is to ask if there is a meaningful distance between any two points in the data. If such a distance is meaningful then we have quantitative data. For instance, it makes sense to compute the difference in systolic blood pressure between subjects but it does not make sense to consider the mathematical operation (“smoker” - “non-smoker”).</p>
+<p>Categorical variables are typically modeled using discrete random variables, which are strictly defined in terms whether or not the support is countable. The alternative to categorical variables are quantitative variables, which were introduced in the previous chapter.</p>
+<p>Another method for distinguishing between quantitative and categorical variables is to ask if there is a meaningful distance between any two points in the data. If such a distance is meaningful then we have quantitative data. For instance, it makes sense to compute the difference in systolic blood pressure between subjects, but it does not make sense to consider the mathematical operation (“smoker” - “non-smoker”).</p>
 <p>It is important to identify which type of data we have (quantitative or categorical), since it affects the exploration techniques that we can apply.</p>
 <p>There are two sub-types of categorical variables:</p>
 <ul>
 <li>A categorical variable is <em>ordinal</em> if the observations can be ordered, but do not have specific quantitative values.</li>
 <li>A categorical variable is <em>nominal</em> if the observations can be classified into categories, but the categories have no specific ordering.</li>
 </ul>
-<p>In this topic, we shall discuss techniques for identifying the presence, and for measuring the strength, of the association between two categorical variables. We shall also demonstrate common visualisations used with categorical data.</p>
+<p>In this chapter, we shall discuss techniques for identifying the presence, and for measuring the strength, of the association between two categorical variables. We shall also demonstrate common visualisations used with categorical data.</p>
 </section>
 <section id="contingency-tables" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="contingency-tables"><span class="header-section-number">4.2</span> Contingency Tables</h2>
@@ -406,7 +407,7 @@ window.Quarto = {
 <h2 data-number="4.3" class="anchored" data-anchor-id="visualisations"><span class="header-section-number">4.3</span> Visualisations</h2>
 <section id="bar-charts" class="level3">
 <h3 class="anchored" data-anchor-id="bar-charts">Bar charts</h3>
-<p>A common method for visualisation cross combinations of categorical data is to use a bar chart.</p>
+<p>A common method for visualising cross combinations of categorical data is to use a bar chart.</p>
 <div id="exm-pol-assoc-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 4.2 (Political Association and Gender Barchart)</strong></span> </p>
 <p>Consider data given in the table below where both variables are nominal. It cross-classifies poll respondents according to their gender and their political party affiliation.</p>
@@ -446,11 +447,17 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4"></a>                    <span class="fu">c</span>(<span class="st">"Dem"</span>, <span class="st">"Ind"</span>, <span class="st">"Rep"</span>))</span>
 <span id="cb1-5"><a href="#cb1-5"></a>political_tab <span class="ot">&lt;-</span> <span class="fu">as.table</span>(x)</span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="fu">barchart</span>(political_tab<span class="sc">/</span><span class="fu">rowSums</span>(political_tab), </span>
-<span id="cb1-7"><a href="#cb1-7"></a>         <span class="at">horizontal =</span> <span class="cn">FALSE</span>, <span class="at">auto.key=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7"></a>         <span class="at">main=</span><span class="st">"Political association by gender"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>         <span class="at">horizontal =</span> <span class="cn">FALSE</span>, <span class="at">auto.key=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-pol-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+<div id="fig-r-barchart-pol" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-barchart-pol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-categorical_data_analysis_files/figure-html/fig-r-barchart-pol-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-barchart-pol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: R: Stacked barchart for political association data
+</figcaption>
 </figure>
 </div>
 </div>
@@ -498,12 +505,14 @@ window.Quarto = {
 <span id="cb2-8"><a href="#cb2-8"></a>                  columns<span class="op">=</span>[<span class="st">'nervous'</span>, <span class="st">'not_nervous'</span>], </span>
 <span id="cb2-9"><a href="#cb2-9"></a>                  index<span class="op">=</span>[<span class="st">'claritin'</span>, <span class="st">'placebo'</span>])</span>
 <span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>ax <span class="op">=</span> xx.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">False</span>, rot<span class="op">=</span><span class="fl">1.0</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
-<span id="cb2-12"><a href="#cb2-12"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11"></a>ax <span class="op">=</span> xx.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">False</span>, rot<span class="op">=</span><span class="fl">1.0</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>), </span>
+<span id="cb2-12"><a href="#cb2-12"></a>             title<span class="op">=</span><span class="st">'Nervousness by drug'</span>)</span>
+<span id="cb2-13"><a href="#cb2-13"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/py-claritin-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+<p><img src="04-categorical_data_analysis_files/figure-html/py-claritin-2-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Py: Barchart for Claritin data</figcaption>
 </figure>
 </div>
 </div>
@@ -516,17 +525,23 @@ window.Quarto = {
 <p>Unlike a bar chart, a mosaic plot reflects the count in each cell (through the area), along with the proportions of interest. Let us inspect how we can make mosaic plots for the political association data earlier.</p>
 <div id="exm-pol-assoc-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 4.4 (Political Association and Gender Mosaic Plot)</strong></span> </p>
-<p>The colours in the output for the R code reflect the sizes of the standardised residuals. We shall discuss this in more detail in <a href="#sec-rc-tables" class="quarto-xref"><span>Section 4.4.3</span></a>.</p>
+<p>The colours in <a href="#fig-r-mosaic-pol" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> reflect the sizes of the standardised residuals. We shall discuss this in more detail in <a href="#sec-rc-tables" class="quarto-xref"><span>Section 4.4.3</span></a>.</p>
+<p>The greater width of the tiles in the column for females reflects the larger marginal count for females. Compare this visualisation with <a href="#fig-r-barchart-pol" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mosaicplot</span>(political_tab, <span class="at">shade=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mosaicplot</span>(political_tab, <span class="at">shade=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">"Political association by gender"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-pol-4-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+<div id="fig-r-mosaic-pol" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-mosaic-pol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-categorical_data_analysis_files/figure-html/fig-r-mosaic-pol-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-mosaic-pol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: R: Mosaic plot for political association data
+</figcaption>
 </figure>
 </div>
 </div>
@@ -542,7 +557,8 @@ window.Quarto = {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/py-pol-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+<p><img src="04-categorical_data_analysis_files/figure-html/py-pol-4-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Py: Mosaic plot for political association data</figcaption>
 </figure>
 </div>
 </div>
@@ -556,33 +572,45 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="conditional-density-plots">Conditional Density Plots</h3>
 <p>When we have one categorical and one quantitative variable, the kind of plot we make really depends on which is the response, and which is the explanatory variable. If the response variable is the quantitative one, it makes sense to create boxplots or histograms. However, if the response variable is a the categorical one, we should really be making something along these lines:</p>
 <div id="exm-heart-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 4.5</strong></span> </p>
+<p><span class="theorem-title"><strong>Example 4.5 (Heart Failure Dataset)</strong></span> </p>
 <p>The dataset at <a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records">UCI repository</a> contains records on 299 patients who had heart failure. The data was collected during the follow-up period; each patient had 13 clinical features recorded. The primary variable of interest was whether they died or not. Suppose we wished to plot how this varied with age (a quantitative variable):</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>data_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"heart+failure+clinical+records"</span>, </span>
 <span id="cb5-2"><a href="#cb5-2"></a>                       <span class="st">"heart_failure_clinical_records_dataset.csv"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a>heart_failure <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(data_path)</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">spineplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">spineplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>          <span class="at">ylab =</span> <span class="st">"Death"</span>, <span class="at">xlab=</span><span class="st">"Age"</span>, <span class="at">main=</span><span class="st">"Proportion dying, by age"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-cd-1-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+<div id="fig-r-spine-heart" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-spine-heart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-categorical_data_analysis_files/figure-html/fig-r-spine-heart-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-spine-heart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: R: Spine plot for heart failure data
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>It reflects how the probability of an event varies with the quantitative explanatory variable. A smoothed version of this is known as the conditional density plot:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">cdplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">cdplot</span>(<span class="fu">as.factor</span>(DEATH_EVENT) <span class="sc">~</span> age, <span class="at">data=</span>heart_failure,</span>
+<span id="cb6-2"><a href="#cb6-2"></a>       <span class="at">ylab =</span> <span class="st">"Death"</span>, <span class="at">xlab=</span><span class="st">"Age"</span>, <span class="at">main=</span><span class="st">"Proportion dying, by age"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04-categorical_data_analysis_files/figure-html/r-cd-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+<div id="fig-r-cd-heart" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-cd-heart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-categorical_data_analysis_files/figure-html/fig-r-cd-heart-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-cd-heart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: R: Conditional density plot for heart failure data
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>From either plot, it is clear to see that there is an increased proportion of death during follow-up associated with older patients.</p>
+<p>From both <a href="#fig-r-spine-heart" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> and <a href="#fig-r-cd-heart" class="quarto-xref">Figure&nbsp;<span>4.4</span></a>, it is clear to see that there is an increased proportion of death during follow-up associated with older patients.</p>
 </div>
 </section>
 </section>
@@ -750,7 +778,7 @@ Important
 <section id="fishers-exact-test" class="level3">
 <h3 class="anchored" data-anchor-id="fishers-exact-test">Fisher’s Exact Test</h3>
 <p>When the condition above is not met, we turn to Fisher’s Exact Test. The null and alternative hypothesis are the same, but the test statistic is not derived in the same way.</p>
-<p>If the marginal totals are fixed, and the two variables are independent, it can be shown that the individual cell counts arise from the hypergeometric distribution. The hypergeometric distribution is defined as follows.</p>
+<p>If the marginal totals are fixed, and the two variables are independent, it can be shown that the individual cell counts arise from the hypergeometric distribution, which is defined as follows:</p>
 <p>Suppose we have an urn with <span class="math inline">\(m\)</span> black balls and <span class="math inline">\(n\)</span> red balls. From this urn, we draw a random sample (without replacement) of size <span class="math inline">\(k\)</span>. If we let <span class="math inline">\(W\)</span> be the number of red balls drawn, then <span class="math inline">\(W\)</span> follows a hypergeometric distribution. The pmf is:</p>
 <p><span class="math display">\[
 P(W=w) = \frac{\binom{n}{w} \binom{m}{k-w}}{\binom{n+m}{k}}
@@ -855,7 +883,7 @@ placebo  3.493333    258.5067</code></pre>
 </section>
 <section id="sec-rc-tables" class="level3">
 <h3 class="anchored" data-anchor-id="sec-rc-tables"><span class="math inline">\(\chi^2\)</span>-Test for <span class="math inline">\(r \times c\)</span> Tables</h3>
-<p>So far, we have considered the situation of two categorical variables where each one has only two outcomes (2x2 table). However, it is common that we want to check the association between two nominal variables where one of them or both have more than 2 outcomes. Consider data given in the table below where both variables are nominal.</p>
+<p>Thus far, we have considered the situation concerning categorical variables where each has only two possible outcomes (2x2 table). However, it is common to want to check the association between two nominal variables where one of them, or both, has more than 2 outcomes.</p>
 <div id="exm-pol-assoc-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 4.9 (Political Association and Gender)</strong></span> </p>
 <p>Let us return to the political association data, which we plotted in <a href="#exm-pol-assoc-3" class="quarto-xref">Example&nbsp;<span>4.2</span></a>. The R code for applying the test is identical to before</p>
@@ -897,7 +925,7 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 </section>
 <section id="measures-of-association" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="measures-of-association"><span class="header-section-number">4.5</span> Measures of Association</h2>
-<p>This sections covers bivariate measures of association for contingency tables.</p>
+<p>This sections covers bivariate measures of association for categorical variables.</p>
 <section id="odds-ratio" class="level3">
 <h3 class="anchored" data-anchor-id="odds-ratio">Odds Ratio</h3>
 <p>The most generally applicable measure of association, for 2x2 tables, is the Odds Ratio (OR). Suppose we have <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to be Bernoulli random variables with (population) success probabilities <span class="math inline">\(p_1\)</span> and <span class="math inline">\(p_2\)</span>.</p>
@@ -909,9 +937,9 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 \]</span></p>
 <p>The odds ratio can take on any value from 0 to <span class="math inline">\(\infty\)</span>.</p>
 <ul>
-<li>A value of 1 indicates no association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> were independent, this is what we would observe.</li>
+<li>A value of 1 indicates no association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> were independent, this is precisely what we would observe.</li>
 <li>Deviations from 1 indicate stronger association between the variables.</li>
-<li>Note that deviations from 1 are not symmetric. For a given pair of variables, an association of 0.25 or 4 is the same - it is just a matter of which variable we put in the numerator odds.</li>
+<li>Note that, for odds ratios, deviations from 1 are not symmetric. For a given pair of variables, an association of 0.25 or 4 is the same - it is just a matter of which variable we put in the numerator odds.</li>
 </ul>
 <p>Due to the above asymmetry, we often use the log-odds-ratio instead: <span class="math display">\[
 \log \frac{p_1/ (1-p_1)}{p_2/(1-p_2)}
@@ -921,9 +949,9 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 <li>A value of 0 indicates no association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</li>
 <li>Deviations from 0 indicate stronger association between the variables, and deviations are now symmetric; a log-odds-ratio of -0.2 indicates the same <em>strength</em> as 0.2, just the opposite direction.</li>
 </ul>
-<p>To obtain a confidence interval for the odds-ratio, we work with the log-odds ratio and then exponentiate the resulting interval. Here are the steps for a <span class="math inline">\(2\times 2\)</span>:</p>
+<p>To obtain a confidence interval for the odds-ratio, we work with the log-odds ratio and then exponentiate the resulting interval. Here are the steps for a <span class="math inline">\(2\times 2\)</span> table:</p>
 <ol type="1">
-<li>The sample data in a 2x2 table can be labelled as <span class="math inline">\(n_{11}, n_{12}, n_{21}, n_{22}\)</span>.</li>
+<li>Suppose we label the observed counts in the table as <span class="math inline">\(n_{11}, n_{12}, n_{21}, n_{22}\)</span>.</li>
 <li>The <em>sample</em> odds ratio is <span class="math display">\[
 \widehat{OR} = \frac{n_{11} \times n_{22}}{n_{12} \times n_{21}}
 \]</span></li>
@@ -932,12 +960,9 @@ male   -4.5020535 -0.6994517  5.3159455</code></pre>
 \times ASE(\log \widehat{OR})
 \]</span></li>
 </ol>
-<p>where</p>
-<ul>
-<li>the ASE (Asymptotic Standard Error) of the estimator is <span class="math display">\[
+<p>where the ASE (Asymptotic Standard Error) of the estimator is <span class="math display">\[
 \sqrt{\frac{1}{n_{11}} + \frac{1}{n_{12}} + \frac{1}{n_{21}} + \frac{1}{n_{22}}}
-\]</span></li>
-</ul>
+\]</span></p>
 <div id="exm-chest-pain-4" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 4.10 (Chest Pain and Gender Odds Ratio)</strong></span> </p>
 <p>Let us compute the confidence interval for the odds ratio in the chest pain and gender example from earlier.</p>
@@ -1002,7 +1027,7 @@ Log risk ratio    0.279 0.212 -0.137 0.695   0.188
 \]</span></li>
 <li>Kendall <span class="math inline">\(\tau_b\)</span> is <span class="math display">\[
 \tau_b = \frac{C - D}{A}
-\]</span> where <span class="math inline">\(A\)</span> is a normalising constant that results in a measure that works better with ties, and is less sensitive than <span class="math inline">\(\gamma\)</span> to the cut-points defining the categories. <span class="math inline">\(\gamma\)</span> has the advantage that it is more easily interpretable.</li>
+\]</span> where <span class="math inline">\(A\)</span> is a normalising constant that results in a measure that works better with ties, and is less sensitive than <span class="math inline">\(\gamma\)</span> to the cut-points defining the categories. However, <span class="math inline">\(\gamma\)</span> has the advantage that it is more easily interpretable.</li>
 </ol>
 <p>For both measures, values close to 0 indicate a very weak trend, while values close to 1 (or -1) indicate a strong positive (negative) association.</p>
 <div id="exm-job-income-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
@@ -1084,7 +1109,7 @@ Mutual Information       0.0508       -       -</code></pre>
 <li>Mutual Information (for association between all types of pairs of categorical variables)</li>
 <li>Polychoric correlation (for association between two ordinal variables)</li>
 </ol>
-<p>Also, take note of how log odds ratios, <span class="math inline">\(\tau_b\)</span> and <span class="math inline">\(\gamma\)</span> work - they range between -1 to 1 (in general), and values close to 0 reflect weak association. Values of <span class="math inline">\(a\)</span> and <span class="math inline">\(-a\)</span> indicate the same <em>strength</em>, but different direction of association. This allows the same intuition that Pearson’s correlation does. When you are presented with new metrics, try to understand them by asking similar questions about them.</p>
+<p>Also, take note of how log odds ratios, <span class="math inline">\(\tau_b\)</span> and <span class="math inline">\(\gamma\)</span> work. Firstly, values close to 0 reflect weak association. Values of <span class="math inline">\(a\)</span> and <span class="math inline">\(-a\)</span> indicate the same <em>strength</em>, but different direction of association. This allows the same intuition that Pearson’s correlation does. When you are presented with new metrics, try to understand them by asking similar questions about them.</p>
 </section>
 <section id="references" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="references"><span class="header-section-number">4.7</span> References</h2>
@@ -1103,7 +1128,18 @@ Mutual Information       0.0508       -       -</code></pre>
 </ul></li>
 <li><a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records">Heart failure data</a></li>
 <li><a href="https://online.stat.psu.edu/stat509/lesson/18/18.3">More information on Kendall <span class="math inline">\(\tau_b\)</span> statistic</a></li>
-<li>The <span class="math inline">\(\chi^2\)</span> test we studied is a <em>test of independence</em>. It is a variant of the <span class="math inline">\(\chi^2\)</span> goodness-of-fit test, which is used to assess if data come from a particular distribution. It’s just in our case, the presumed distribution is one with independence between the groups. Read more about the <a href="https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/11%3A_Chi-Square_Tests_and_F-Tests/11.02%3A_Chi-Square_One-Sample_Goodness-of-Fit_Tests">goodness-of-fit test here</a>.</li>
+<li>The <span class="math inline">\(\chi^2\)</span> test we studied is a <em>test of independence</em>. It is a variant of the <span class="math inline">\(\chi^2\)</span> goodness-of-fit test, which is used to assess if data come from a particular distribution. In our case, the presumed distribution is one where the variables are independent. Read more about the <a href="https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/11%3A_Chi-Square_Tests_and_F-Tests/11.02%3A_Chi-Square_One-Sample_Goodness-of-Fit_Tests">goodness-of-fit test here</a>.</li>
+</ol>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.8</span> Exercises</h2>
+<ol type="1">
+<li>Use Python to create the spineplot for the heart failure data.</li>
+<li>Write a function in Python that converts a contingency table into “long” format.</li>
+<li>What is the interpretation of <span class="math inline">\(\gamma\)</span> implied by the text?</li>
+<li>From the political association data, extract the standardised residuals (under independence), and create a QQ-plot.</li>
+<li>Apply the Fisher Exact test to the political association data. How does it work in this case?</li>
 </ol>
 
 
@@ -1112,7 +1148,6 @@ Mutual Information       0.0508       -       -</code></pre>
 Agresti, Alan. 2012. <em>Categorical Data Analysis</em>. Vol. 792. John Wiley &amp; Sons.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->

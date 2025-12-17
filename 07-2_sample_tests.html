@@ -279,6 +279,7 @@ window.Quarto = {
   <li><a href="#non-parametric-tests" id="toc-non-parametric-tests" class="nav-link" data-scroll-target="#non-parametric-tests"><span class="header-section-number">7.5</span> Non-parametric Tests</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.6</span> Summary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.7</span> References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">7.8</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -314,7 +315,7 @@ window.Quarto = {
 <p>As a recap, here is the general approach for conducting a hypothesis test:</p>
 <section id="step-1-assumptions" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-assumptions">Step 1: Assumptions</h3>
-<p>In this step, we make a note of the assumptions required for the test to be valid. In some tests, this step is carried out at the end of the others, but it is always essential to perform. Some tests are very sensitive to the assumptions - this is the main reason that the class of robust statistics was invented.</p>
+<p>In this step, we verify that the assumptions required for the test are valid. In some tests, this step is carried out at the end of the others, but it is always essential to perform. Some tests are very sensitive to the assumptions - this is the main reason that the class of robust statistics was invented.</p>
 </section>
 <section id="step-2-state-the-hypotheses-and-significance-level" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-state-the-hypotheses-and-significance-level">Step 2: State the hypotheses and significance level</h3>
@@ -371,7 +372,7 @@ H_1: &amp; \mu_A &gt; \mu_B
 </section>
 <section id="step-5-state-your-conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="step-5-state-your-conclusion">Step 5: State your conclusion</h3>
-<p>This is the binary decision stage. If the <span class="math inline">\(p\)</span>-value is less than the stated significance level, we conclude that we reject <span class="math inline">\(H_0\)</span>. Otherwise, we say that we do not reject <span class="math inline">\(H_0\)</span>. It is conventional to use this terminology (instead of “accepting <span class="math inline">\(H_1\)</span>”) since our <span class="math inline">\(p\)</span>-value is obtained with respect to <span class="math inline">\(H_0\)</span>.</p>
+<p>This is the binary decision stage. If the <span class="math inline">\(p\)</span>-value is less than the stated significance level, we conclude that we reject <span class="math inline">\(H_0\)</span>. Otherwise, we say that we do not reject <span class="math inline">\(H_0\)</span>. It is conventional to use this terminology (instead of saying “accept <span class="math inline">\(H_1\)</span>”) since our <span class="math inline">\(p\)</span>-value is obtained with respect to <span class="math inline">\(H_0\)</span>.</p>
 </section>
 </section>
 <section id="confidence-intervals" class="level2" data-number="7.3">
@@ -388,7 +389,7 @@ H_1: &amp; \mu_A &gt; \mu_B
 <li><span class="math inline">\(s\)</span> is the sample standard deviation, and</li>
 <li><span class="math inline">\(t_{0.025, n-1}\)</span> is the 0.025-quantile from the <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom.</li>
 </ul>
-<p>The formulas for many confidence intervals rely on asymptotic Normality of the estimator. However, this is an assumption that can be overcome with the technique of bootstrapping. We shall touch on this in the final topic of our course.</p>
+<p>The formulas for many confidence intervals rely on asymptotic Normality of the estimator. However, this is an assumption that can be overcome with the technique of bootstrapping. We shall touch on this in the final topic of our course, in <a href="10-simulation.html#sec-bootstrapping" class="quarto-xref"><span>Section 10.6.2</span></a>.</p>
 <p>Bootstrapping can also be used to sidestep the distributional assumptions in hypothesis tests, but I still much prefer confidence intervals to tests because they yield an interval; they provide much more information than a binary outcome.</p>
 </section>
 <section id="parametric-tests" class="level2" data-number="7.4">
@@ -491,7 +492,7 @@ mean of x mean of y
 </div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<p>When we run the independent samples t-test on SAS, we should observe the following output <a href="#fig-sas-abalone-001" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>.</p>
+<p>When we run the independent samples t-test on SAS, we should observe the output in <a href="#fig-sas-abalone-001" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>.</p>
 <div>
 
 </div>
@@ -504,7 +505,7 @@ mean of x mean of y
 <img src="figs/sas_abalone_ind_ttest-001a.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-abalone-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.1: SAS Abalone, Independent
+Figure&nbsp;7.1: SAS: Independent samples t-test, Abalone data
 </figcaption>
 </figure>
 </div>
@@ -514,7 +515,36 @@ Figure&nbsp;7.1: SAS Abalone, Independent
 </div>
 </div>
 </div>
-<p>To assess the normality assumption, we make histograms and qq-plots.</p>
+<p>The assumptions of the test include Normality and equal variance. Let us assess the equality of variance first. While there are many hypothesis tests specifically for assessing if variances are equal (e.g.&nbsp;Levene, Bartlett), in our class, I advocate a simple rule of thumb. If the larger s.d is more than twice the smaller one, than we should not use the equal variance form of the test. This rule of thumb is widely used in practice (see <a href="#sec-web-ref-07" class="quarto-xref"><span>Section 7.7.1</span></a>).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">aggregate</span>(viscera <span class="sc">~</span> gender, <span class="at">data=</span>abl, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gender   viscera
+1      F 0.1087070
+2      M 0.1087461</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>abl.groupby(<span class="st">'gender'</span>).describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       viscera                                                            
+         count     mean       std    min       25%    50%       75%    max
+gender                                                                    
+F         50.0  0.28241  0.108707  0.095  0.201250  0.275  0.365125  0.575
+M         50.0  0.30220  0.108746  0.040  0.253125  0.310  0.348750  0.638</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>To assess the Normality assumption, we make also histograms and qq-plots (see <a href="#fig-r-abalone-normality-1" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>, <a href="#fig-r-abalone-normality-2" class="quarto-xref">Figure&nbsp;<span>7.3</span></a>, and<br>
+<a href="#fig-r-abalone-normality-3" class="quarto-xref">Figure&nbsp;<span>7.4</span></a>).</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -528,64 +558,48 @@ Note
 <p>Only the R code is shown here.</p>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(lattice)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">histogram</span>(<span class="sc">~</span>viscera <span class="sc">|</span> gender, <span class="at">data=</span>abl, <span class="at">type=</span><span class="st">"count"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">qqnorm</span>(y, <span class="at">main=</span><span class="st">"Female Abalones"</span>);  <span class="fu">qqline</span>(y)</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">qqnorm</span>(x, <span class="at">main=</span><span class="st">"Male Abalones"</span>);  <span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell quarto-layout-panel" data-layout="[[1],[1,1]]" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">histogram</span>(<span class="sc">~</span>viscera <span class="sc">|</span> gender, <span class="at">data=</span>abl, <span class="at">type=</span><span class="st">"count"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="fu">qqnorm</span>(y, <span class="at">main=</span><span class="st">"Female Abalones"</span>);  <span class="fu">qqline</span>(y)</span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="fu">qqnorm</span>(x, <span class="at">main=</span><span class="st">"Male Abalones"</span>);  <span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel" data-layout-align="center" data-layout="[[1],[1,1]]">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="07-2_sample_tests_files/figure-html/r-abalone-2-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>Histograms</figcaption>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div id="fig-r-abalone-normality-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-abalone-normality-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-2_sample_tests_files/figure-html/fig-r-abalone-normality-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-abalone-normality-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.2: R: Histograms for males and females
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="07-2_sample_tests_files/figure-html/r-abalone-2-2.png" class="img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>QQ-plot for females</figcaption>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-r-abalone-normality-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-abalone-normality-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-2_sample_tests_files/figure-html/fig-r-abalone-normality-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-abalone-normality-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.3: R: QQ-plot for females
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="07-2_sample_tests_files/figure-html/r-abalone-2-3.png" class="img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>QQ-plot for males</figcaption>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-r-abalone-normality-3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-abalone-normality-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-2_sample_tests_files/figure-html/fig-r-abalone-normality-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-abalone-normality-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.4: R: QQ-plot for males
+</figcaption>
 </figure>
-</div>
-</div>
-</div>
-</div>
-<p>We also need to assess if the variances are equal. While there are many hypothesis tests specifically for assessing if variances are equal (e.g.&nbsp;Levene, Bartlett), in our class, I advocate a simple rule of thumb. If the larger s.d is more than twice the smaller one, than we should not use the equal variance form of the test. This rule of thumb is widely used in practice (see <a href="#sec-web-ref-07" class="quarto-xref"><span>Section 7.7.1</span></a>).</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python code</a></li></ul>
-<div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">aggregate</span>(viscera <span class="sc">~</span> gender, <span class="at">data=</span>abl, sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  gender   viscera
-1      F 0.1087070
-2      M 0.1087461</code></pre>
-</div>
-</div>
-</div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>abl.groupby(<span class="st">'gender'</span>).describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       viscera                                                            
-         count     mean       std    min       25%    50%       75%    max
-gender                                                                    
-F         50.0  0.28241  0.108707  0.095  0.201250  0.275  0.365125  0.575
-M         50.0  0.30220  0.108746  0.040  0.253125  0.310  0.348750  0.638</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -600,18 +614,7 @@ M         50.0  0.30220  0.108746  0.040  0.253125  0.310  0.348750  0.638</code
 <h3 class="anchored" data-anchor-id="more-on-assessing-normality">More on Assessing Normality</h3>
 <section id="skewness" class="level4">
 <h4 class="anchored" data-anchor-id="skewness">Skewness</h4>
-<p>The Normal distribution is symmetric about it’s mean. Hence if we observe asymmetry in our histogram, we might suspect deviation from Normality. To quantify this asymmetry, we use <em>skewness</em>. As we can see from <a href="#fig-skew" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>, a histogram with a long tail on the right (left) is referred to as right-skewed (corr. left-skewed).</p>
-<div id="fig-skew" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-skew-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figs/summ_data-05.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-skew-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.2: Right/Non/Left-Skewed histograms
-</figcaption>
-</figure>
-</div>
-<p>One method of estimating the skewness of a distribution from data is:</p>
+<p>The Normal distribution is symmetric about it’s mean. Hence if we observe asymmetry in our histogram, we might suspect deviation from Normality. To quantify this asymmetry, we use <em>skewness</em>. One method of estimating the skewness of a distribution from data is:</p>
 <p><span class="math display">\[
 g_1 = \frac{\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^3}{[\frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 ]^{3/2}}
 \]</span> This is the method-of-moments estimator for the distribution skewness parameter. A value close to 0 indicates low skewness (i.e.&nbsp;high symmetry). Positive values correspond to right-skew and negative values to left-skew.</p>
@@ -684,14 +687,14 @@ H_1: &amp; \text{ Data does not follow a Normal distribution}
 <img src="figs/sas_abalone_normality_tests_a.png" class="img-fluid figure-img" style="width:65.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-norm-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.3: SAS Normality tests
+Figure&nbsp;7.5: SAS: Normality tests
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<p>Although the skewness seems large for the female group, the Normality tests do not reject the null hypothesis (see <a href="#fig-sas-norm-001" class="quarto-xref">Figure&nbsp;<span>7.3</span></a>).</p>
+<p>Although the skewness seems large for the female group, the Normality tests do not reject the null hypothesis (see <a href="#fig-sas-norm-001" class="quarto-xref">Figure&nbsp;<span>7.5</span></a>).</p>
 </div>
 <div style="page-break-after: always;"></div>
 </section>
@@ -777,14 +780,14 @@ p-val: 0.000.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figs/sas_hr_paired_ttest_a.png" class="img-fluid figure-img" style="width:65.0%"></p>
-<figcaption>SAS HR Paired t-test</figcaption>
+<figcaption>SAS: HR paired t-test</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <p>It is imperative to also make the checks for Normality. If you were to make them, you would realise that the sample size is rather small - it is difficult to make the case for Normality here.</p>
-<p>A couple of interesting plots from SAS are shown in <a href="#fig-sas-paired-prof" class="quarto-xref">Figure&nbsp;<span>7.4</span></a> and <a href="#fig-sas-agreement" class="quarto-xref">Figure&nbsp;<span>7.5</span></a>.</p>
+<p>A couple of interesting plots from SAS are shown in <a href="#fig-sas-paired-prof" class="quarto-xref">Figure&nbsp;<span>7.6</span></a> and <a href="#fig-sas-agreement" class="quarto-xref">Figure&nbsp;<span>7.7</span></a>.</p>
 <div>
 
 </div>
@@ -797,7 +800,7 @@ p-val: 0.000.</code></pre>
 <img src="figs/sas_hr_paired_profiles.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-paired-prof-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.4: Paired Profiles
+Figure&nbsp;7.6: SAS: Paired profiles
 </figcaption>
 </figure>
 </div>
@@ -809,7 +812,7 @@ Figure&nbsp;7.4: Paired Profiles
 <img src="figs/sas_hr_agreement.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-agreement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.5: Agreement
+Figure&nbsp;7.7: SAS: Agreement plot
 </figcaption>
 </figure>
 </div>
@@ -887,21 +890,21 @@ p-val: 0.255.</code></pre>
 </div>
 </div>
 <div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
-<p>The SAS output can be seen in <a href="#fig-sas-wrs-001" class="quarto-xref">Figure&nbsp;<span>7.6</span></a>.</p>
+<p>The SAS output can be seen in <a href="#fig-sas-wrs-001" class="quarto-xref">Figure&nbsp;<span>7.8</span></a>.</p>
 <div id="fig-sas-wrs-001" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sas-wrs-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/sas_abalone_wrs_a.png" class="img-fluid figure-img" style="width:65.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-wrs-001-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.6: SAS Output, Wilcoxon Rank Sum
+Figure&nbsp;7.8: SAS: Wilcoxon rank sum output
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<p>Since we know the number of observations in each group to be more than 10, the approximation holds. Comparing to the <a href="#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>7.1</span></a>, observe that we have a similar conclusion.</p>
+<p>Since we know the number of observations in each group to be more than 10, the approximation holds. Comparing with <a href="#exm-abalone-1" class="quarto-xref">Example&nbsp;<span>7.1</span></a>, observe that we have a similar conclusion.</p>
 <p>Notice that the test statistic appears different in SAS. However, it is simply a matter of a location shift of the test statistic. R and Python subtract the smallest possible sum of ranks from group 1, but SAS does not. In our example, the group size is 50. Hence we can recover the SAS test statistic from the R test statistic with</p>
 <p><span class="math display">\[
 1415.5 + \frac{50(50+1)}{2} = 2690.5
@@ -923,17 +926,17 @@ H_0 &amp;: &amp; \text{median of $D_i$ is 0.} \\
 H_1 &amp;: &amp; \text{median of $D_i$ is not 0.}
 \end{eqnarray*}\]</span></p>
 <p>We begin by ranking the <span class="math inline">\(|D_i|\)</span>. Ignoring pairs for which <span class="math inline">\(D_i = 0\)</span>, we rank the remaining observations from 1 for the pair with the smallest absolute value, up to <span class="math inline">\(n\)</span> for the pair with the largest absolute value (assuming no ties).</p>
-<p>We then compute <span class="math inline">\(R_1\)</span>, the sum of ranks for the positive <span class="math inline">\(D_i\)</span>. If this sum is large, we expect that the pairs with <span class="math inline">\(X_i &gt; Y_i\)</span> have a larger difference (in absolute values) than those with <span class="math inline">\(X_i &lt; Y_i\)</span>. Under <span class="math inline">\(H_0\)</span>, it can be shown that</p>
+<p>We then compute <span class="math inline">\(R_2\)</span>, the sum of ranks for the positive <span class="math inline">\(D_i\)</span>. If this sum is large, we expect that the pairs with <span class="math inline">\(X_i &gt; Y_i\)</span> have a larger difference (in absolute values) than those with <span class="math inline">\(X_i &lt; Y_i\)</span>. Under <span class="math inline">\(H_0\)</span>, it can be shown that</p>
 <p><span class="math display">\[
-E(R_1) = m(m+1)/4
+E(R_2) = m(m+1)/4
 \]</span> where <span class="math inline">\(m\)</span> is the number of of non-zero differences.</p>
-<p>Thus the test statistic is a comparison of <span class="math inline">\(R_1\)</span> with the above expected value:</p>
+<p>Thus the test statistic is a comparison of <span class="math inline">\(R_2\)</span> with the above expected value:</p>
 <p><span class="math display">\[
 W_2 = \begin{cases}
-\frac{\left|R_1 - \frac{n(n + 1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n + 1)/24}}, &amp; R_1 \ne \frac{n(n + 1)}{4} \text{ and no ties} \\
-\frac{\left|R_1 - \frac{n(n+1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n+1)/(24 -
-\sum_{i=1}^g (t^3_i - t_i) / 48 )}}, &amp; R_1 \ne \frac{n (n + 1)}{4} \text{ and ties present} \\
-0, &amp; R_1 = \frac{n (n + 1)}{4}
+\frac{\left|R_2 - \frac{n(n + 1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n + 1)/24}}, &amp; R_2 \ne \frac{n(n + 1)}{4} \text{ and no ties} \\
+\frac{\left|R_2 - \frac{n(n+1)}{4} \right| - \frac{1}{2}}{\sqrt{n (n+1)(2n+1)/(24 -
+\sum_{i=1}^g (t^3_i - t_i) / 48 )}}, &amp; R_2 \ne \frac{n (n + 1)}{4} \text{ and ties present} \\
+0, &amp; R_2 = \frac{n (n + 1)}{4}
 \end{cases}
 \]</span> where <span class="math inline">\(g\)</span> denotes the number of tied groups, and <span class="math inline">\(t_i\)</span> refers to the number of differences with the same absolute value in the <span class="math inline">\(i\)</span>-th tied group.</p>
 <p>If the number of non-zero <span class="math inline">\(D_i\)</span>’s is at least 16, then the test statistic <span class="math inline">\(W_2\)</span> follows a <span class="math inline">\(N(0,1)\)</span> distribution approximately.</p>
@@ -972,25 +975,25 @@ p-val: 0.003.</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figs/sas_hr_wilcox_a.png" class="img-fluid figure-img" style="width:65.0%"></p>
-<figcaption>SAS Signed Rank Test</figcaption>
+<figcaption>SAS: Signed rank test output</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <p>In this problem, we do not have 16 non-zero <span class="math inline">\(D_i\)</span>’s. Hence, we should in fact be using the “exact” version of the test (R and Python). However, the exact version of the test cannot be used when there are ties.</p>
-<p>SAS does indeed use the “exact” version of the test, so that accounts for the difference in <span class="math inline">\(p\)</span>-values. The test statistic in SAS is computed by subtracting <span class="math inline">\(E(R_1)\)</span>, but in R and Python this subtraction is not done. To get from test statistic in R (0) to the one in SAS (-39):</p>
+<p>SAS does indeed use the “exact” version of the test, so that accounts for the difference in <span class="math inline">\(p\)</span>-values. The test statistic in SAS is computed by subtracting <span class="math inline">\(E(R_2)\)</span>, but in R and Python this subtraction is not done. To get from test statistic in R (0) to the one in SAS (-39):</p>
 <p><span class="math display">\[
 0 - \frac{12(12 + 1)}{4} = -39
 \]</span></p>
-<p>In cases like this, we can turn to the bootstrap, or we can use a permutation test. We shall revisit these in our final topic <a href="10-simulation.html#sec-simulation" class="quarto-xref"><span>Section 10.1</span></a>.</p>
+<p>In cases like these, we can turn to the bootstrap, or we can use a permutation test. We shall revisit these in our final topic <a href="10-simulation.html#sec-simulation" class="quarto-xref"><span>Section 10.1</span></a>.</p>
 </div>
 </section>
 </section>
 </section>
 <section id="summary" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.6</span> Summary</h2>
-<p>While the test statistics are shown in detail, we do not need the full details for our class. I should also point out that the definitions of the test statistic in <a href="#sec-indep-nonpar" class="quarto-xref"><span>Section 7.5.1</span></a> and <a href="#sec-pair-nonpar" class="quarto-xref"><span>Section 7.5.2</span></a> were both taken from <span class="citation" data-cites="rosner2015fundamentals">Rosner (<a href="references.html#ref-rosner2015fundamentals" role="doc-biblioref">2015</a>)</span>. However, take note that different software have slightly different implementations, for instance in how they deal with ties. As always, my advice is to read the documentation as much as possible, and then to use the output of the tests as a guide to your decision-making (instead of the absolute truth).</p>
+<p>While the test statistics are shown in detail, we do not need the full details for our class. I should also point out that the definitions of the test statistic in <a href="#sec-indep-nonpar" class="quarto-xref"><span>Section 7.5.1</span></a> and <a href="#sec-pair-nonpar" class="quarto-xref"><span>Section 7.5.2</span></a> were both taken from <span class="citation" data-cites="rosner2015fundamentals">Rosner (<a href="references.html#ref-rosner2015fundamentals" role="doc-biblioref">2015</a>)</span>. However, take note that different software have slightly different implementations, for instance in how they deal with ties. As always, my advice is to read the documentation as much as possible, and then to use the output of the tests as a guide to your decision-making (instead of treating them as the absolute truth).</p>
 </section>
 <section id="references" class="level2" data-number="7.7">
 <h2 data-number="7.7" class="anchored" data-anchor-id="references"><span class="header-section-number">7.7</span> References</h2>
@@ -1007,6 +1010,17 @@ p-val: 0.003.</code></pre>
 <li><a href="https://www.bmj.com/about-bmj/resources-readers/publications/statistics-square-one/7-t-tests">Overview of <span class="math inline">\(t\)</span>-tests</a> This page includes the rule of thumb about deciding when to use the equal variance test, and when to use the unequal variances version.</li>
 <li><a href="https://stats.stackexchange.com/questions/65875/different-ways-to-calculate-the-test-statistic-for-the-wilcoxon-rank-sum-test">SAS vs.&nbsp;R/Python</a> This link provides an explanation why the WRS test statistic for SAS is different from R in <a href="#exm-abalone-2" class="quarto-xref">Example&nbsp;<span>7.5</span></a>.</li>
 </ol>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7.8</span> Exercises</h2>
+<ol type="1">
+<li>List the different methods of assessing Normality.</li>
+<li>Compute skewness for all variables in the concrete data set.</li>
+<li>Compute <span class="math inline">\(R_1\)</span>, the test statistic for the Wilcoxon Rank Sum Test, using R and Python.</li>
+<li>Compute kurtosis for the <code>chem</code> data from chapter 5. Remove the outliers and recompute.</li>
+<li>Perform the 2-sample t-test for <code>G3</code> scores, comparing scores for <code>Medu=1</code> to <code>Medu=4</code>.</li>
+</ol>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -1014,7 +1028,6 @@ p-val: 0.003.</code></pre>
 Rosner, Bernard. 2015. <em>Fundamentals of Biostatistics</em>. Cengage learning.
 </div>
 </div>
-</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

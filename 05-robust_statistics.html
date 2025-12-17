@@ -282,6 +282,7 @@ window.Quarto = {
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">5.8</span> Examples</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.9</span> Summary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5.10</span> References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.11</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -309,18 +310,18 @@ window.Quarto = {
 
 <section id="sec-robust" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="sec-robust"><span class="header-section-number">5.1</span> Introduction</h2>
-<p>Introductory statistics courses describe and discuss inferential methods based on the assumption that data is Normally distributed. However, we never know the true distribution from which our data has arisen; even from the sample, we may observe that it deviates from Normality in various ways. To begin with, we might observe that the data has heavier tails than a Normal distribution. Second, the data could suggest that the originating distribution is heavily skewed, unlike the symmetric Normal.</p>
-<p>Continuing to use Normal based methods will result in confidence intervals and hypothesis tests that have low power. Instead, statisticians have developed a suite of methods that are <strong>robust</strong> to the assumption of Normality. These techniques may be sub-optimal when the data is truly Normal, but they quickly outperform the Normal-based method as soon as the distribution starts to deviate from Normality.</p>
+<p>Introductory statistics courses describe and discuss inferential methods based on the assumption that data is Normally distributed. However, we never truly know the distribution from which our data has arisen. The sample itself may deviate from Normality in various ways. To begin with, we might observe that the data has heavier tails than a Normal distribution. Second, the data could suggest that the originating distribution is heavily skewed, unlike the symmetric Normal.</p>
 <p>A third way in which the Normal-based method could breakdown is when our dataset has extreme values, referred to as outliers. In such cases, many investigators will drop the anomalous points and proceed with the analysis on the remaining observations. This is not ideal for the following reasons:</p>
 <ol type="1">
 <li>The sharp decision to reject an observation is wasteful. We can do better by down-weighting the dubious observations.</li>
 <li>It can be difficult to spot or detect outliers in multivariate data.</li>
 </ol>
-<p>Robust statistical techniques are those that have high efficiency over a collection of distributions. Efficiency can be measured in terms of variance of a particular estimator, or in terms of power of a statistical test. In this topic, we shall introduce the concept of robustness and estimators of location and scale that have this property. Although we only touch on basic statistics in this topic, take note that robust techniques exist for regression and ANOVA as well. It is a vastly under-used technique.</p>
+<p>Continuing to use Normal based methods will result in confidence intervals and hypothesis tests that have low power. Instead, statisticians have developed a suite of methods that are <strong>robust</strong> to the assumption of Normality. These techniques may be sub-optimal when the data is truly Normal, but they quickly outperform the Normal-based method as soon as the distribution starts to deviate from Normality.</p>
+<p>In this chapter, we shall introduce the concept of robustness and estimators of location and scale that have this property. Although we only touch on basic statistics in this topic, take note that robust techniques exist for regression and ANOVA as well. It is a vastly under-used technique.</p>
 </section>
 <section id="notation" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="notation"><span class="header-section-number">5.2</span> Notation</h2>
-<p>For the rest of this topic, let us settle on some notation. Suppose we have an i.i.d sample <span class="math inline">\(X_i\)</span> from a continuous pdf <span class="math inline">\(f\)</span>, where <span class="math inline">\(i=1,ldots,n\)</span>.</p>
+<p>For the rest of this topic, let us settle on some notation. Suppose we have an i.i.d sample <span class="math inline">\(X_i\)</span> from a continuous pdf <span class="math inline">\(f\)</span>, where <span class="math inline">\(i=1,\ldots,n\)</span>.</p>
 <ul>
 <li>We use <span class="math inline">\(q_{f,p}\)</span> to refer to the <span class="math inline">\(p\)</span>-th quantile of <span class="math inline">\(f\)</span>, i.e.&nbsp; <span class="math display">\[
 P( X \le q_{f,p}) = p
@@ -330,18 +331,18 @@ P( X \le q_{f,p}) = p
 \]</span></li>
 <li>We denote the order statistics from the sample with <span class="math inline">\(X_{(i)}\)</span>. In other words, <span class="math display">\[
 X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
-\]</span></li>
+\]</span> We denote the sample median as <span class="math inline">\(X_{(1/2)}\)</span>.</li>
 </ul>
 </section>
 <section id="datasets" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="datasets"><span class="header-section-number">5.3</span> Datasets</h2>
-<p>For this topic, we shall use a couple of datasets that are clearly not Normal.</p>
+<p>For this topic, we shall work with a couple of datasets that are clearly not Normal.</p>
 <div id="exm-cu-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 5.1 (Copper in Wholemeal Flour)</strong></span> </p>
-<p>The dataset <code>chem</code> comes from the package <code>MASS</code>. The data was recorded as part of an analytical chemistry experiment – the amount of copper (<span class="math inline">\(\mu g^{-1}\)</span>) in wholemeal flour was measured for 24 samples.</p>
+<p>The dataset <code>chem</code> comes from the package <code>MASS</code>. The data was recorded as part of an analytical chemistry experiment – the amount of copper (<span class="math inline">\(\mu g\)</span>) in wholemeal flour was measured for 24 samples.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">hist</span>(chem, <span class="at">breaks =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">hist</span>(chem, <span class="at">breaks =</span> <span class="dv">20</span>, <span class="at">xlab=</span><span class="st">"Amount of copper"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -360,16 +361,16 @@ X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
 <pre><code>[1] 4.280417</code></pre>
 </div>
 </div>
-<p>Although 22 out of the 24 points are less than 4, the mean is 4.28. This statistic is clearly being affected by the largest two values. Removing them would yield a summary statistic that is more representative of the majority of observations. This topic is about techniques that will work well even in the presence of such large anomalous values.</p>
+<p>Although 22 out of the 24 points are less than 4, the mean is 4.28. This statistic is clearly being affected by the largest two values. This topic is about techniques that will work well even in the presence of such large anomalous values.</p>
 </div>
-<p>The second dataset is also from a textbook:</p>
+<p>The second dataset is from a textbook on robust estimation techniques.</p>
 <div id="exm-self-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 5.2 (Self-awareness Dataset)</strong></span> </p>
 <p>For a second dataset, we use one on self-awareness from <span class="citation" data-cites="wilcox2011introduction">(<a href="references.html#ref-wilcox2011introduction" role="doc-biblioref">Wilcox and R 2011</a>)</span>, where participants in a psychometric study were timed how long they could keep a portion of an apparatus in contact with a specified target.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>awareness <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">77</span>, <span class="dv">87</span>, <span class="dv">88</span>, <span class="dv">114</span>, <span class="dv">151</span>, <span class="dv">210</span>, <span class="dv">219</span>, <span class="dv">246</span>, <span class="dv">253</span>, <span class="dv">262</span>, <span class="dv">296</span>, <span class="dv">299</span>, <span class="dv">306</span>,</span>
 <span id="cb6-2"><a href="#cb6-2"></a>               <span class="dv">376</span>, <span class="dv">428</span>, <span class="dv">515</span>, <span class="dv">666</span>, <span class="dv">1310</span>, <span class="dv">2611</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">hist</span>(awareness, <span class="at">breaks=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">hist</span>(awareness, <span class="at">breaks=</span><span class="dv">10</span>, <span class="at">xlab=</span><span class="st">"Timing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -489,12 +490,14 @@ L(\mu, \sigma^2) = \prod_{i=1}^n  \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-(x_i - \mu
 \end{eqnarray*}\]</span></p>
 <p>Observe that in <a href="#eq-norm-lik" class="quarto-xref">Equation&nbsp;<span>5.1</span></a>, we minimised the sum of squared errors, which arose from <em>minimising</em> <span class="math display">\[
 \sum_{i=1}^n - \log f (x_i - \mu)
-\]</span> where <span class="math inline">\(f\)</span> is the standard normal pdf. Instead of using <span class="math inline">\(\log f\)</span>, Huber proposed using alternative functions (let’s call the function <span class="math inline">\(\rho\)</span>) to derive estimators <span class="citation" data-cites="huber1992robust">(<a href="references.html#ref-huber1992robust" role="doc-biblioref">Huber 1992</a>)</span>. The new estimator corresponds to <span id="eq-rho-min"><span class="math display">\[
+\]</span></p>
+<p>where <span class="math inline">\(f\)</span> is the standard normal pdf. Instead of using <span class="math inline">\(\log f\)</span>, Huber proposed using alternative functions (let’s call the function <span class="math inline">\(\rho\)</span>) to derive estimators <span class="citation" data-cites="huber1992robust">(<a href="references.html#ref-huber1992robust" role="doc-biblioref">Huber 1992</a>)</span>. The new estimator corresponds to <span id="eq-rho-min"><span class="math display">\[
 \arg \min_\mu \sum_{i=1}^n \rho (x_i - \mu)
 \tag{5.2}\]</span></span></p>
-<p>There are constraints on the choice of <span class="math inline">\(\rho\)</span> above, but we can understand the resulting estimator through <span class="math inline">\(\rho\)</span>. For instance, <span class="math inline">\(\psi = \rho'\)</span> is referred to as the <em>influence function</em>, which measures the relative change in a statistic as a new observation is added. To find the <span class="math inline">\(\hat{\mu}\)</span> that minimised <a href="#eq-rho-min" class="quarto-xref">Equation&nbsp;<span>5.3</span></a>, it is equivalent to setting the derivative to zero and solving for <span class="math inline">\(\hat{\mu}\)</span>: <span id="eq-rho-min"><span class="math display">\[
+<p>The choice of <span class="math inline">\(\rho\)</span> confers certain properties on the resulting estimator. For instance, <span class="math inline">\(\psi = \rho'\)</span> is referred to as the <em>influence function</em>, which measures the relative change in a statistic as a new observation is added. To find the <span class="math inline">\(\hat{\mu}\)</span> that minimises <a href="#eq-rho-min" class="quarto-xref">Equation&nbsp;<span>5.2</span></a>, it is equivalent to setting the derivative to zero and solving for <span class="math inline">\(\hat{\mu}\)</span>:</p>
+<p><span class="math display">\[
 \sum_{i=1}^n \psi (x_i - \mu) = 0
-\tag{5.3}\]</span></span></p>
+\]</span></p>
 <p>Note that, in general, the use of the sample mean corresponds to the use of <span class="math inline">\(\rho(x) = x^2\)</span>. In that case, <span class="math inline">\(\psi=2x\)</span> is unbounded, which results in high importance/weight placed on very large values. Instead, robust estimators should have a bounded <span class="math inline">\(\psi\)</span> function.</p>
 <p>The approach outlined above - the use of <span class="math inline">\(\rho\)</span> and <span class="math inline">\(\psi\)</span> to define estimators, gave rise to a class of estimators known as M-estimators, since they are MLE-like. In the following sections, we shall introduce estimators corresponding to various choices of <span class="math inline">\(\rho\)</span>. It is not always easy to identify the <span class="math inline">\(\rho\)</span> being used, but inspection of the form of <span class="math inline">\(\psi\)</span> leads to an understanding of how much emphasis the estimator places on large outlying values.</p>
 </section>
@@ -504,7 +507,7 @@ L(\mu, \sigma^2) = \prod_{i=1}^n  \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-(x_i - \mu
 <p>In formal terms, suppose that <span class="math inline">\(X\)</span> is a continuous random variable with pdf <span class="math inline">\(f\)</span>. The usual mean is of course just <span class="math inline">\(\mu = \int x f(x) dx\)</span>. The trimmed mean of the distribution is</p>
 <p><span id="eq-tm-pop"><span class="math display">\[
 \mu_t = \int_{q_{f,\gamma}}^{q_{f,1-\gamma}} x \frac{f(x)}{1 - 2 \gamma} dx
-\tag{5.4}\]</span></span></p>
+\tag{5.3}\]</span></span></p>
 <p>Using the trimmed mean focuses on the middle portion of a distribution. The recommended value of <span class="math inline">\(\gamma\)</span> is (0, 0.2]. For a sample <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span>, the estimate is computed (see <span class="citation" data-cites="wilcox2011introduction">Wilcox and R (<a href="references.html#ref-wilcox2011introduction" role="doc-biblioref">2011</a>)</span> page 54) using the following algorithm:</p>
 <ol type="1">
 <li>Compute the value <span class="math inline">\(g = \lfloor \gamma n \rfloor\)</span>, where <span class="math inline">\(\lfloor x \rfloor\)</span> refers to the floor function<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</li>
@@ -645,11 +648,10 @@ IQR(X) = q_{0.75} - q_{0.25} \approx 1.35 \sigma
 <span id="cb9-5"><a href="#cb9-5"></a><span class="do">## [1] 3.205</span></span>
 <span id="cb9-6"><a href="#cb9-6"></a></span>
 <span id="cb9-7"><a href="#cb9-7"></a><span class="fu">library</span>(DescTools)</span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="do">## Warning: package 'DescTools' was built under R version 4.4.2</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a>vals <span class="ot">&lt;-</span> <span class="fu">quantile</span>(chem, <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>))</span>
-<span id="cb9-10"><a href="#cb9-10"></a>win_sample <span class="ot">&lt;-</span> <span class="fu">Winsorize</span>(chem, vals) <span class="co"># gamma = 0.1</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="fu">mean</span>(win_sample)</span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="do">## [1] 3.277792</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-8"><a href="#cb9-8"></a>vals <span class="ot">&lt;-</span> <span class="fu">quantile</span>(chem, <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>))</span>
+<span id="cb9-9"><a href="#cb9-9"></a>win_sample <span class="ot">&lt;-</span> <span class="fu">Winsorize</span>(chem, vals) <span class="co"># gamma = 0.1</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="fu">mean</span>(win_sample)</span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="do">## [1] 3.182375</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -721,7 +723,26 @@ IQR(X) = q_{0.75} - q_{0.25} \approx 1.35 \sigma
 <h3 class="anchored" data-anchor-id="website-references">Website References</h3>
 <ol type="1">
 <li><a href="https://en.wikipedia.org/wiki/Robust_statistics">Wikipedia on Robust Statistics</a> This page contains visualisations of the <span class="math inline">\(\psi\)</span> curves for the estimators mentioned above, along with others.</li>
-<li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html#statsrefmanual">Scipy stats</a>: This page contains information on the <code>median_abs_deviation()</code>, <code>trim_mean()</code>, <code>mstats.winsorize()</code> methods in Python.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html#statsrefmanual">Scipy stats</a>: This page contains information on the <code>median_abs_deviation()</code>, <code>trim_mean()</code>, and <code>mstats.winsorize()</code> methods in Python.</li>
+</ol>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.11</span> Exercises</h2>
+<ol type="1">
+<li>List two ways in which data could possibly deviate from Normality.</li>
+<li>Compute the trimmed mean for the <code>G3</code> variable in the student performance dataset, using <span class="math inline">\(\gamma=0.1\)</span>.</li>
+<li>Winsorise the <code>chem</code> dataset, with <span class="math inline">\(\gamma=0.1\)</span>, and create QQ-plots for the original and new dataset.</li>
+<li>Identify the error(s) in the following R implementation of MAD, and create a Python function with the correct algorithm.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mad2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb13-2"><a href="#cb13-2"></a>  deviations <span class="ot">&lt;-</span> <span class="fu">abs</span>(x <span class="sc">-</span> <span class="fu">mean</span>(x))</span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">median</span>(deviations)</span>
+<span id="cb13-4"><a href="#cb13-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="5" type="1">
+<li>Gini’s mean difference is defined to be the mean absolute difference between any two distinct elements of a vector. Write a function that implements it, and compare it with robust measures of spread that were discussed in this chapter.</li>
 </ol>
 
 
@@ -736,7 +757,6 @@ Venables, William N, and Brian D Ripley. 2013. <em>Modern Applied Statistics wit
 Wilcox, R, and R. 2011. <em>Introduction to Robust Estimation and Hypothesis Testing</em>. Academic press.
 </div>
 </div>
-</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

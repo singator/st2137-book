@@ -278,6 +278,7 @@ window.Quarto = {
   <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation"><span class="header-section-number">3.4</span> Correlation</a></li>
   <li><a href="#scatterplot-matrices" id="toc-scatterplot-matrices" class="nav-link" data-scroll-target="#scatterplot-matrices"><span class="header-section-number">3.5</span> Scatterplot Matrices</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">3.6</span> References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.7</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -305,10 +306,10 @@ window.Quarto = {
 
 <section id="introduction" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
-<p>This is the first topic where we are going to see how to perform statistical analysis using two software: R and Python. Every language has it’s strengths and weaknesses, so instead of attempting to exactly replicate the same chart/output in each software, we shall try to understand their respective approaches better.</p>
-<p>Our end goal is to analyse data - toward that end, we should be versatile and adaptable. Focus on learning how to be fast and productive in whichever environment you are told to work in. If you have a choice, then be aware of what each framework can do best, so that you can choose the right one.</p>
-<p>Although it is a simplistic view, the following diagram, <a href="#fig-sum-1" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>, provides a useful taxonomy of the types of columns we might have in our dataset. Having at least an initial inkling of the type of data matters, because it helps decide what type of summary to generate or what type of plot to make. Quantitative data are sometimes also referred to as <em>numerical data</em>.</p>
-<div id="fig-sum-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Data types">
+<p>This is the first topic where we are going to see how to perform statistical analysis using two software: R and Python. Every language has its strengths and weaknesses, so instead of attempting to exactly replicate the same chart/output in each software, we shall try to understand their respective approaches better.</p>
+<p>Our end goal is to analyse data. Toward that end, we should be versatile and adaptable. Focus on learning how to be fast and productive in whichever environment you are told to work in. If you have a choice, then be aware of what each framework can do best, so that you can choose the right one.</p>
+<p>Although it is a simplistic view, <a href="#fig-sum-1" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> provides a useful taxonomy of the types of columns we might have in our dataset. Having at least an initial inkling of the type of data matters, because it helps decide what type of summary to generate or what type of plot to make. Quantitative data are sometimes also referred to as <em>numerical data</em>.</p>
+<div id="fig-sum-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Data types" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" alt="Data types">
@@ -328,12 +329,12 @@ Figure&nbsp;3.1: Data types
 <p>Before proceeding, let us introduce one of the datasets that we’ll be using in this textbook. The dataset comes from the <a href="https://archive.ics.uci.edu/">UCI Machine Learning Repository</a>, which is a very useful place to get datasets for practice.</p>
 <div id="exm-stud-perf-intro" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 3.1 (Student Performance: Dataset Introduction)</strong></span> </p>
-<p>The particular dataset can be downloaded from <a href="https://archive.ics.uci.edu/dataset/320/student+performance">this page</a>. Once you unzip the file, you will find two <code>csv</code> files in the <code>student/</code> folder:</p>
+<p>The full dataset can be downloaded from <a href="https://archive.ics.uci.edu/dataset/320/student+performance">this page</a>. Once you unzip the file, you will find two <code>csv</code> files in the <code>student/</code> folder:</p>
 <ul>
 <li><code>student-mat.csv</code> (performance in Mathematics)</li>
 <li><code>student-por.csv</code> (performance in Portugese)</li>
 </ul>
-<p>Each dataset was collected using school reports and questionnaires. Each row corresponds to a student. The columns are attributes, including student grades, demographic information, and other social and school-related information. Each file corresponds to the students’ performance in one of the two subjects. For more information, you can refer to <span class="citation" data-cites="cortez2008using">Cortez and Silva (<a href="references.html#ref-cortez2008using" role="doc-biblioref">2008</a>)</span>.</p>
+<p>Each dataset was collected using school reports and questionnaires. Each row corresponds to a student. The columns include student grades, demographic information, and other social and school-related information. Each file corresponds to the students’ performance in one of the two subjects. For more information, you can refer to <span class="citation" data-cites="cortez2008using">Cortez and Silva (<a href="references.html#ref-cortez2008using" role="doc-biblioref">2008</a>)</span>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 2%">
@@ -532,7 +533,7 @@ Figure&nbsp;3.1: Data types
 </tr>
 </tbody>
 </table>
-<p>In the explanatory variables above, notice that also severable variables have been stored in the dataset file using numbers, they are in fact <em>categorical variables</em>. Examples of these are variables 24 to 29. It seems fair to treat the three output columns as numeric though. G3 is the main output variable.</p>
+<p>In the explanatory variables above, notice that although several variables have been stored in the dataset file as numbers, they are in fact <em>categorical variables</em>. Examples of these are variables 24 to 29. However, it does seem fair to treat the three output columns as numeric. G3 is the main output variable.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 5%">
@@ -664,7 +665,7 @@ Medu
 </div>
 </div>
 </div>
-<p>Now we begin to understand the context of G3 a little better. As the education level of the mother increases, the mean does increase. The middle 50-percent of the grade does seem to increase as well. The exception is the case where the mother has no education, but we can see that there are only 3 observations in that category so we should read too much into it.</p>
+<p>Now we begin to understand the context of G3 a little better. As the education level of the mother increases, the mean does increase. The middle 50-percent of the grade does seem to increase as well. The exception is the case where the mother has no education, but we can see that there are only 3 observations in that category, so we should not read too much into it.</p>
 </div>
 <p>Here are some things to note about numerical summaries:</p>
 <ul>
@@ -673,13 +674,13 @@ Medu
 <li>When the mean is much larger than the median, it suggests that there could be a few very large observations. It has resulted in a <em>right-skewed</em> distribution. Conversely, if the mean is much smaller than the median, we probably have a <em>left-skewed</em> distribution.</li>
 </ul>
 <p>While numerical summaries provide us with some basic information about the data, they also leave out a lot. Even for experts, it is possible to have a wrong mental idea about the data from the numerical summaries alone. For instance, all three histograms in <a href="#fig-sum-2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> have a mean of 0 and standard deviation of 1!</p>
-<div id="fig-sum-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="3 histograms">
+<div id="fig-sum-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="3 histograms" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%" alt="3 histograms">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sum-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: Three datasets with mean 0 and s.d. 1
+Figure&nbsp;3.2: Three vastly different datasets, all with mean 0 and s.d. 1
 </figcaption>
 </figure>
 </div>
@@ -693,9 +694,12 @@ Figure&nbsp;3.2: Three datasets with mean 0 and s.d. 1
 <p>When we create a histogram, here are some things that we look for:</p>
 <ol type="1">
 <li><em>What is the overall pattern?</em>: Do the data cluster together, or is there a gap such that one or more observations deviate from the rest?</li>
-<li><em>Do the data have a single mound or peak?</em> If yes, then we have what is known as a unimodal distribution. Data with two ‘peaks’ are referred to as bimodal, and data with many peaks are referred to as multimodal. See <a href="#fig-hist-bimodal" class="quarto-xref">Figure&nbsp;<span>3.4</span></a>.</li>
-<li><em>Is the distribution symmetric or skewed?</em> See <a href="#fig-hist-skewed-egs" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>.</li>
 <li><em>Are there any suspected outliers?</em> See <a href="#fig-hist-outliers" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>.</li>
+<li><em>Do the data have a single mound or peak?</em> If yes, then we have what is known as a unimodal distribution. Data with two ‘peaks’ are referred to as bimodal, and data with many peaks are referred to as multimodal. See
+<ol class="example" type="1">
+<li></li>
+</ol></li>
+<li><em>Is the distribution symmetric or skewed?</em> See <a href="#fig-hist-skewed-egs" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>.</li>
 </ol>
 <div>
 
@@ -751,11 +755,16 @@ Figure&nbsp;3.5: Skewed histograms
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">hist</span>(stud_perf<span class="sc">$</span>G3, <span class="at">main=</span><span class="st">"G3 histogram"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">hist</span>(stud_perf<span class="sc">$</span>G3, <span class="at">main=</span><span class="st">"G3 histogram"</span>, <span class="at">xlab=</span><span class="st">"G3 scores"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/r-stud-perf-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<div id="fig-r-histogram-g3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-histogram-g3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-summarising_data_files/figure-html/fig-r-histogram-g3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-histogram-g3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.6: R: Histogram of G3 scores
+</figcaption>
 </figure>
 </div>
 </div>
@@ -764,11 +773,13 @@ Figure&nbsp;3.5: Skewed histograms
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>fig <span class="op">=</span> stud_perf.G3.hist(grid<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>fig.set_title(<span class="st">'G3 histogram'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-2"><a href="#cb15-2"></a>fig.set_title(<span class="st">'G3 histogram'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3"></a>fig.set_xlabel(<span class="st">'G3 scores'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/py-stud-perf-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-3-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Py: Histogram of G3 scores</figcaption>
 </figure>
 </div>
 </div>
@@ -786,7 +797,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do you notice anything different with the two histograms?</p>
+<p>Do you notice any differences between the two histograms?</p>
 </div>
 </div>
 <p>In general, we now have a little more information to accompany the 5 number summaries. It appears that the distribution is not a basic unimodal one. There is a large spike of about 40 students who scored very low scores.</p>
@@ -798,11 +809,16 @@ Note
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(lattice)</span>
 <span id="cb16-2"><a href="#cb16-2"></a><span class="fu">histogram</span>(<span class="sc">~</span>G3 <span class="sc">|</span> Medu, <span class="at">data=</span>stud_perf, <span class="at">type=</span><span class="st">"density"</span>,</span>
-<span id="cb16-3"><a href="#cb16-3"></a>          <span class="at">as.table=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-3"><a href="#cb16-3"></a>          <span class="at">main=</span><span class="st">"G3 scores, by Medu levels"</span>, <span class="at">as.table=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/r-stud-perf-4-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+<div id="fig-r-lattice-g3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-lattice-g3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-summarising_data_files/figure-html/fig-r-lattice-g3-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-lattice-g3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.7: R: Lattice plot of G3 scores by Medu
+</figcaption>
 </figure>
 </div>
 </div>
@@ -815,7 +831,8 @@ Note
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/py-stud-perf-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-4-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Py: Lattice plot of G3 scores by Medu</figcaption>
 </figure>
 </div>
 </div>
@@ -839,16 +856,19 @@ Note
 </ul>
 <div id="exm-stud-perf-dist" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 3.4 (Student Performance: Density Estimates)</strong></span> </p>
+<p>Here is how we can make density plots with R and Python for the G3 scores.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">densityplot</span>(<span class="sc">~</span>G3, <span class="at">groups=</span>Medu, <span class="at">data=</span>stud_perf, <span class="at">auto.key =</span> <span class="cn">TRUE</span>, <span class="at">bw=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">densityplot</span>(<span class="sc">~</span>G3, <span class="at">groups=</span>Medu, <span class="at">data=</span>stud_perf, <span class="at">auto.key =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb18-2"><a href="#cb18-2"></a>            <span class="at">main=</span><span class="st">"G3 scores, by Medu"</span>, <span class="at">bw=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/r-stud-perf-5-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/r-stud-perf-5-3.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R: Estimated densities for G3 scores, by Medu</figcaption>
 </figure>
 </div>
 </div>
@@ -866,7 +886,8 @@ Note
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/py-stud-perf-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-5-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Py: Estimated densities for G3 scores, by Medu</figcaption>
 </figure>
 </div>
 </div>
@@ -887,30 +908,33 @@ Note
 <li>Any data point that is out of the range from the min to max whisker reach is classified as a <em>potential outlier</em>.</li>
 <li>Excluding the potential outliers, the maximum point determines the <em>upper whisker</em> and the minimum point determines the <em>lower whisker</em> of a boxplot.</li>
 </ol>
-<p>A boxplot helps us to identify the median, lower and upper quantiles and outlier(s) (see <a href="#fig-sum-8" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>).</p>
-<div id="fig-sum-8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Boxplot construction">
+<p>A boxplot helps us to identify the median, lower and upper quantiles and outlier(s) (see <a href="#fig-sum-8" class="quarto-xref">Figure&nbsp;<span>3.8</span></a>).</p>
+<div id="fig-sum-8" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxplot construction" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sum-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-08.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" alt="Boxplot construction">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sum-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.6: Boxplot construction
+Figure&nbsp;3.8: Boxplot construction
 </figcaption>
 </figure>
 </div>
 <div id="exm-stud-perf-box" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 3.5 (Student Performance: Boxplots)</strong></span> </p>
-<p>Instead of using mother’s education once again, we use the number of times a student goes out (<code>goout</code>) as the explanatory variable this time. From the boxplot outputs, it appears there is no strong strictly increasing/decreasing trend associated with G3. Instead, although the differences between the categories are not large, it seems as though there is an “optimal” number of times that students could go out. Too little and too much leads to lower median G3 scores.</p>
+<p>This time, instead of using mother’s education, we use the number of times a student goes out (<code>goout</code>) as the explanatory variable. From the boxplot outputs, it appears there is no strong strictly increasing/decreasing trend associated with G3. Instead, although the differences between the categories are not large, it seems as though there is an “optimal” number of times that students could go out. Too little and too much going out leads to lower median G3 scores.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">bwplot</span>(G3 <span class="sc">~</span> goout, <span class="at">horizontal =</span> <span class="cn">FALSE</span>, <span class="at">data=</span>stud_perf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">bwplot</span>(G3 <span class="sc">~</span> goout, <span class="at">horizontal =</span> <span class="cn">FALSE</span>, <span class="at">main=</span><span class="st">"G3 scores, by goout"</span>, </span>
+<span id="cb20-2"><a href="#cb20-2"></a>       <span class="at">xlab=</span><span class="st">"No. of times the student goes out per week"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3"></a>       <span class="at">data=</span>stud_perf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/r-stud-perf-6-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/r-stud-perf-6-3.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>R: Boxplot of G3 scores, by gout variable</figcaption>
 </figure>
 </div>
 </div>
@@ -918,15 +942,13 @@ Figure&nbsp;3.6: Boxplot construction
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>stud_perf.plot.box(column<span class="op">=</span><span class="st">'G3'</span>, by<span class="op">=</span><span class="st">'goout'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>G3    Axes(0.125,0.11;0.775x0.77)
-dtype: object</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>stud_perf.plot.box(column<span class="op">=</span><span class="st">'G3'</span>, by<span class="op">=</span><span class="st">'goout'</span>, </span>
+<span id="cb21-2"><a href="#cb21-2"></a>                   xlabel<span class="op">=</span><span class="st">'No. of times student goes out per week'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/py-stud-perf-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/py-stud-perf-6-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Py: Boxplot of G3 scores, by gout variable</figcaption>
 </figure>
 </div>
 </div>
@@ -939,7 +961,7 @@ dtype: object</code></pre>
 <section id="qq-plots" class="level3">
 <h3 class="anchored" data-anchor-id="qq-plots">QQ-plots</h3>
 <p>Finally, we turn to QQ-plots. A Quantile-Quantile plot is a graphical diagnostic tool for assessing if a dataset follows a particular distribution. Most of the time we would be interested in comparing against a Normal distribution.</p>
-<p>A QQ-plot plots the standardized sample quantiles against the theoretical quantiles of a N(0; 1) distribution. If they fall on a straight line, then we would say that there is evidence that the data came from a normal distribution.</p>
+<p>A QQ-plot plots the standardized sample quantiles against the theoretical quantiles of a N(0; 1) distribution. If the points fall on a straight line, then we say there is evidence that the data comes from a Normal distribution.</p>
 <p>Especially for unimodal datasets, the points in the middle will typically fall close to the line. The value of a QQ-plot is in judging if the tails of the data are fatter or thinner than the tails of the Normal.</p>
 <div id="fig-qq-1" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -972,7 +994,7 @@ dtype: object</code></pre>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qq-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.7: QQ-plots
+Figure&nbsp;3.9: QQ-plots
 </figcaption>
 </figure>
 </div>
@@ -986,13 +1008,13 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Please be careful! Some software/packages will switch the axes (i.e.&nbsp;plot the sample quantiles on the x-axis instead of the y-axis, unlike <a href="#fig-qq-1" class="quarto-xref">Figure&nbsp;<span>3.7</span></a>). Please observe and interpret accordingly.</p>
+<p>Please be careful! Some software/packages will switch the axes (i.e.&nbsp;plot the sample quantiles on the x-axis instead of the y-axis, unlike <a href="#fig-qq-1" class="quarto-xref">Figure&nbsp;<span>3.9</span></a>). Please observe and interpret accordingly.</p>
 </div>
 </div>
 <div id="exm-concrete-intro" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
 <p><span class="theorem-title"><strong>Example 3.6 (Concrete Slump: Dataset Introduction)</strong></span> </p>
-<p>Concrete is a highly complex material. The slump flow of concrete is not only determined by the water content, but that is also influenced by other concrete ingredients. The UCI page for this dataset is <a href="https://archive.ics.uci.edu/dataset/182/concrete+slump+test">here</a>. The reference for this article is <span class="citation" data-cites="yeh2007modeling">Yeh (<a href="references.html#ref-yeh2007modeling" role="doc-biblioref">2007</a>)</span>.</p>
-<p>The data set includes 103 data points. There are 7 input variables, and 3 output variables in the data set. These are the input columns in the data, all in units of kg per <span class="math inline">\(m^3\)</span> concrete:</p>
+<p>Concrete is a highly complex material. The slump flow of concrete is not only determined by the water content, but also by other ingredients. The UCI page for this particular dataset is <a href="https://archive.ics.uci.edu/dataset/182/concrete+slump+test">here</a>. The reference article on this dataset is <span class="citation" data-cites="yeh2007modeling">Yeh (<a href="references.html#ref-yeh2007modeling" role="doc-biblioref">2007</a>)</span>.</p>
+<p>The data set includes 103 data points. There are 7 input variables, and 3 output variables in the data set. These are the input columns in the data, all in units of <span class="math inline">\(kg/m^3\)</span> concrete:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
@@ -1075,24 +1097,25 @@ Note
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<p>To read in the data in R:</p>
+<p>To read the data into R:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>concrete <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="fu">names</span>(concrete)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">11</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"Comp.Strength"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>concrete <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">names</span>(concrete)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">11</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"Comp.Strength"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<p>The corresponding Python code is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>concrete <span class="op">=</span> pd.read_csv(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2"></a>concrete.rename(columns<span class="op">=</span>{<span class="st">'No'</span>:<span class="st">'id'</span>, </span>
-<span id="cb24-3"><a href="#cb24-3"></a>                         <span class="st">'Compressive Strength (28-day)(Mpa)'</span>:<span class="st">'Comp_Strength'</span>},  </span>
-<span id="cb24-4"><a href="#cb24-4"></a>                inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>concrete <span class="op">=</span> pd.read_csv(<span class="st">"data/concrete+slump+test/slump_test.data"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a>concrete.rename(columns<span class="op">=</span>{<span class="st">'No'</span>:<span class="st">'id'</span>, </span>
+<span id="cb23-3"><a href="#cb23-3"></a>                         <span class="st">'Compressive Strength (28-day)(Mpa)'</span>:<span class="st">'Comp_Strength'</span>},  </span>
+<span id="cb23-4"><a href="#cb23-4"></a>                inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>Let us consider the Comp.Strength output variable. The histogram overlay in <a href="#fig-concrete-1" class="quarto-xref">Figure&nbsp;<span>3.8</span></a> suggests some skewness and fatter tails than the Normal.</p>
+<p>Let us consider the Comp.Strength output variable. The histogram overlay in <a href="#fig-concrete-1" class="quarto-xref">Figure&nbsp;<span>3.10</span></a> suggests some skewness and fatter tails than the Normal.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-concrete-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1101,7 +1124,7 @@ Note
 <img src="03-summarising_data_files/figure-html/fig-concrete-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-concrete-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.8: Comparing data with reference Normal (blue)
+Figure&nbsp;3.10: Comparing data with reference Normal (blue)
 </figcaption>
 </figure>
 </div>
@@ -1115,12 +1138,13 @@ Figure&nbsp;3.8: Comparing data with reference Normal (blue)
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">qqnorm</span>(concrete<span class="sc">$</span>Comp.Strength)</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">qqline</span>(concrete<span class="sc">$</span>Comp.Strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">qqnorm</span>(concrete<span class="sc">$</span>Comp.Strength)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">qqline</span>(concrete<span class="sc">$</span>Comp.Strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/r-concrete-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/r-concrete-1-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>R: QQ plot for compressive strength</figcaption>
 </figure>
 </div>
 </div>
@@ -1128,13 +1152,14 @@ Figure&nbsp;3.8: Comparing data with reference Normal (blue)
 </div>
 <div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb26-3"><a href="#cb26-3"></a>sm.qqplot(concrete.Comp_Strength, line<span class="op">=</span><span class="st">"q"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb25-3"><a href="#cb25-3"></a>sm.qqplot(concrete.Comp_Strength, line<span class="op">=</span><span class="st">"q"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/py-concrete-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/py-concrete-1-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Py: QQ plot for compressive strength</figcaption>
 </figure>
 </div>
 </div>
@@ -1158,13 +1183,13 @@ r = \frac{1}{n-1} \sum_{i=1}^n \frac{(x_i - \bar{x})(y_i - \bar{y})}{s_x s_y}
 <div class="quarto-layout-panel" data-layout-nrow="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-corr-linear" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-out-width="50%">
+<div id="fig-corr-linear" class="quarto-float quarto-figure quarto-figure-center anchored" data-out-width="50%" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-corr-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-06.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-out-width="50%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.9: Linear Relation
+Figure&nbsp;3.11: Varying linear relations and corresponding <span class="math inline">\(r\)</span>-values
 </figcaption>
 </figure>
 </div>
@@ -1172,13 +1197,13 @@ Figure&nbsp;3.9: Linear Relation
 </div>
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-corr-non-linear" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-out-width="50%">
+<div id="fig-corr-non-linear" class="quarto-float quarto-figure quarto-figure-center anchored" data-out-width="50%" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-corr-non-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/summ_data-07.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-out-width="50%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-non-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.10: Non-linear relation
+Figure&nbsp;3.12: Non-linear relations and corresponding <span class="math inline">\(r\)</span>-values
 </figcaption>
 </figure>
 </div>
@@ -1191,7 +1216,7 @@ Figure&nbsp;3.10: Non-linear relation
 <li>A positive value for <span class="math inline">\(r\)</span> indicates a positive association and a negative value for <span class="math inline">\(r\)</span> indicates a negative association.</li>
 <li>Two variables have the same correlation, no matter which one is coded as <span class="math inline">\(X\)</span> and which one is coded as <span class="math inline">\(Y\)</span>.</li>
 </ul>
-<p><a href="#fig-corr-linear" class="quarto-xref">Figure&nbsp;<span>3.9</span></a> and <a href="#fig-corr-non-linear" class="quarto-xref">Figure&nbsp;<span>3.10</span></a> contain sample plots of data and their corresponding <span class="math inline">\(r\)</span> values. Notice how <span class="math inline">\(r\)</span> does not reflect strong non-linear relationships.</p>
+<p><a href="#fig-corr-linear" class="quarto-xref">Figure&nbsp;<span>3.11</span></a> and <a href="#fig-corr-non-linear" class="quarto-xref">Figure&nbsp;<span>3.12</span></a> contain sample plots of data and their corresponding <span class="math inline">\(r\)</span> values. Notice how <span class="math inline">\(r\)</span> does not reflect strong non-linear relationships.</p>
 <div style="page-break-after: always;"></div>
 </section>
 <section id="scatterplot-matrices" class="level2" data-number="3.5">
@@ -1204,13 +1229,14 @@ Figure&nbsp;3.10: Non-linear relation
 <div class="tab-content">
 <div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>col_to_use <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Cement"</span>, <span class="st">"Slag"</span>, <span class="st">"Comp.Strength"</span>, <span class="st">"Water"</span>, <span class="st">"SLUMP.cm."</span>,</span>
-<span id="cb27-2"><a href="#cb27-2"></a>                <span class="st">"FLOW.cm."</span>)</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="fu">pairs</span>(concrete[, col_to_use], <span class="at">panel =</span> panel.smooth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>col_to_use <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Cement"</span>, <span class="st">"Slag"</span>, <span class="st">"Comp.Strength"</span>, <span class="st">"Water"</span>, <span class="st">"SLUMP.cm."</span>,</span>
+<span id="cb26-2"><a href="#cb26-2"></a>                <span class="st">"FLOW.cm."</span>)</span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="fu">pairs</span>(concrete[, col_to_use], <span class="at">panel =</span> panel.smooth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/r-concrete-2-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/r-concrete-2-3.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>R: Scatterplot matrix for concrete dataset</figcaption>
 </figure>
 </div>
 </div>
@@ -1218,13 +1244,14 @@ Figure&nbsp;3.10: Non-linear relation
 </div>
 <div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>pd.plotting.scatter_matrix(concrete[[<span class="st">'Cement'</span>, <span class="st">'Slag'</span>, <span class="st">'Comp_Strength'</span>, <span class="st">'Water'</span>, </span>
-<span id="cb28-2"><a href="#cb28-2"></a>                                     <span class="st">'SLUMP(cm)'</span>, <span class="st">'FLOW(cm)'</span>]], </span>
-<span id="cb28-3"><a href="#cb28-3"></a>                           figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">12</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>pd.plotting.scatter_matrix(concrete[[<span class="st">'Cement'</span>, <span class="st">'Slag'</span>, <span class="st">'Comp_Strength'</span>, <span class="st">'Water'</span>, </span>
+<span id="cb27-2"><a href="#cb27-2"></a>                                     <span class="st">'SLUMP(cm)'</span>, <span class="st">'FLOW(cm)'</span>]], </span>
+<span id="cb27-3"><a href="#cb27-3"></a>                           figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">12</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/py-concrete-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+<p><img src="03-summarising_data_files/figure-html/py-concrete-3-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Py: Scatterplot matrix for concrete dataset</figcaption>
 </figure>
 </div>
 </div>
@@ -1239,180 +1266,183 @@ Figure&nbsp;3.10: Non-linear relation
 <div class="tab-content">
 <div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="fu">corPlot</span>(<span class="fu">cor</span>(concrete[, col_to_use]), <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="fu">corPlot</span>(<span class="fu">cor</span>(concrete[, col_to_use]), <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">cex.axis=</span><span class="fl">0.6</span>, </span>
+<span id="cb28-3"><a href="#cb28-3"></a>        <span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="03-summarising_data_files/figure-html/r-concrete-3-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+<p><img src="03-summarising_data_files/figure-html/r-concrete-3-3.png" class="img-fluid figure-img" width="576"></p>
+<figcaption>R: Heatmap of correlation matrix for concrete data</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
+<p>The interactive heatmap created by Python is only available in the HTML format of the textbook.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>corr <span class="op">=</span> concrete[[<span class="st">'Cement'</span>, <span class="st">'Slag'</span>, <span class="st">'Comp_Strength'</span>, <span class="st">'Water'</span>, </span>
-<span id="cb30-2"><a href="#cb30-2"></a>                 <span class="st">'SLUMP(cm)'</span>, <span class="st">'FLOW(cm)'</span>]].corr()</span>
-<span id="cb30-3"><a href="#cb30-3"></a>corr.style.background_gradient(cmap<span class="op">=</span><span class="st">'coolwarm_r'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>corr <span class="op">=</span> concrete[[<span class="st">'Cement'</span>, <span class="st">'Slag'</span>, <span class="st">'Comp_Strength'</span>, <span class="st">'Water'</span>, </span>
+<span id="cb29-2"><a href="#cb29-2"></a>                 <span class="st">'SLUMP(cm)'</span>, <span class="st">'FLOW(cm)'</span>]].corr()</span>
+<span id="cb29-3"><a href="#cb29-3"></a>corr.style.background_gradient(cmap<span class="op">=</span><span class="st">'coolwarm_r'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <style type="text/css">
-#T_be3ac_row0_col0, #T_be3ac_row1_col1, #T_be3ac_row2_col2, #T_be3ac_row3_col3, #T_be3ac_row4_col4, #T_be3ac_row5_col5 {
+#T_fc8d7_row0_col0, #T_fc8d7_row1_col1, #T_fc8d7_row2_col2, #T_fc8d7_row3_col3, #T_fc8d7_row4_col4, #T_fc8d7_row5_col5 {
   background-color: #3b4cc0;
   color: #f1f1f1;
 }
-#T_be3ac_row0_col1 {
+#T_fc8d7_row0_col1 {
   background-color: #cb3e38;
   color: #f1f1f1;
 }
-#T_be3ac_row0_col2, #T_be3ac_row3_col4 {
+#T_fc8d7_row0_col2, #T_fc8d7_row3_col4 {
   background-color: #c5d6f2;
   color: #000000;
 }
-#T_be3ac_row0_col3 {
+#T_fc8d7_row0_col3 {
   background-color: #f4c6af;
   color: #000000;
 }
-#T_be3ac_row0_col4 {
+#T_fc8d7_row0_col4 {
   background-color: #f7b89c;
   color: #000000;
 }
-#T_be3ac_row0_col5 {
+#T_fc8d7_row0_col5 {
   background-color: #f3c8b2;
   color: #000000;
 }
-#T_be3ac_row1_col0, #T_be3ac_row1_col2, #T_be3ac_row1_col4, #T_be3ac_row1_col5, #T_be3ac_row2_col1, #T_be3ac_row2_col3, #T_be3ac_row5_col1 {
+#T_fc8d7_row1_col0, #T_fc8d7_row1_col2, #T_fc8d7_row1_col4, #T_fc8d7_row1_col5, #T_fc8d7_row2_col1, #T_fc8d7_row2_col3, #T_fc8d7_row5_col1 {
   background-color: #b40426;
   color: #f1f1f1;
 }
-#T_be3ac_row1_col3 {
+#T_fc8d7_row1_col3 {
   background-color: #ea7b60;
   color: #f1f1f1;
 }
-#T_be3ac_row2_col0 {
+#T_fc8d7_row2_col0 {
   background-color: #cedaeb;
   color: #000000;
 }
-#T_be3ac_row2_col4 {
+#T_fc8d7_row2_col4 {
   background-color: #c53334;
   color: #f1f1f1;
 }
-#T_be3ac_row2_col5, #T_be3ac_row5_col2 {
+#T_fc8d7_row2_col5, #T_fc8d7_row5_col2 {
   background-color: #e46e56;
   color: #f1f1f1;
 }
-#T_be3ac_row3_col0 {
+#T_fc8d7_row3_col0 {
   background-color: #f5c4ac;
   color: #000000;
 }
-#T_be3ac_row3_col1 {
+#T_fc8d7_row3_col1 {
   background-color: #f29072;
   color: #f1f1f1;
 }
-#T_be3ac_row3_col2 {
+#T_fc8d7_row3_col2 {
   background-color: #c83836;
   color: #f1f1f1;
 }
-#T_be3ac_row3_col5 {
+#T_fc8d7_row3_col5 {
   background-color: #96b7ff;
   color: #000000;
 }
-#T_be3ac_row4_col0 {
+#T_fc8d7_row4_col0 {
   background-color: #f7b194;
   color: #000000;
 }
-#T_be3ac_row4_col1 {
+#T_fc8d7_row4_col1 {
   background-color: #c12b30;
   color: #f1f1f1;
 }
-#T_be3ac_row4_col2 {
+#T_fc8d7_row4_col2 {
   background-color: #d0473d;
   color: #f1f1f1;
 }
-#T_be3ac_row4_col3 {
+#T_fc8d7_row4_col3 {
   background-color: #c7d7f0;
   color: #000000;
 }
-#T_be3ac_row4_col5, #T_be3ac_row5_col4 {
+#T_fc8d7_row4_col5, #T_fc8d7_row5_col4 {
   background-color: #506bda;
   color: #f1f1f1;
 }
-#T_be3ac_row5_col0 {
+#T_fc8d7_row5_col0 {
   background-color: #f7bca1;
   color: #000000;
 }
-#T_be3ac_row5_col3 {
+#T_fc8d7_row5_col3 {
   background-color: #9dbdff;
   color: #000000;
 }
 </style>
 
-<table id="T_be3ac" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_fc8d7" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_be3ac_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Cement</th>
-<th id="T_be3ac_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Slag</th>
-<th id="T_be3ac_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Comp_Strength</th>
-<th id="T_be3ac_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Water</th>
-<th id="T_be3ac_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">SLUMP(cm)</th>
-<th id="T_be3ac_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">FLOW(cm)</th>
+<th id="T_fc8d7_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Cement</th>
+<th id="T_fc8d7_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Slag</th>
+<th id="T_fc8d7_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Comp_Strength</th>
+<th id="T_fc8d7_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Water</th>
+<th id="T_fc8d7_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">SLUMP(cm)</th>
+<th id="T_fc8d7_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">FLOW(cm)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_be3ac_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cement</td>
-<td id="T_be3ac_row0_col0" class="data row0 col0">1.000000</td>
-<td id="T_be3ac_row0_col1" class="data row0 col1">-0.243553</td>
-<td id="T_be3ac_row0_col2" class="data row0 col2">0.445725</td>
-<td id="T_be3ac_row0_col3" class="data row0 col3">0.221091</td>
-<td id="T_be3ac_row0_col4" class="data row0 col4">0.145913</td>
-<td id="T_be3ac_row0_col5" class="data row0 col5">0.186461</td>
+<td id="T_fc8d7_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">Cement</td>
+<td id="T_fc8d7_row0_col0" class="data row0 col0">1.000000</td>
+<td id="T_fc8d7_row0_col1" class="data row0 col1">-0.243553</td>
+<td id="T_fc8d7_row0_col2" class="data row0 col2">0.445725</td>
+<td id="T_fc8d7_row0_col3" class="data row0 col3">0.221091</td>
+<td id="T_fc8d7_row0_col4" class="data row0 col4">0.145913</td>
+<td id="T_fc8d7_row0_col5" class="data row0 col5">0.186461</td>
 </tr>
 <tr class="even">
-<td id="T_be3ac_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Slag</td>
-<td id="T_be3ac_row1_col0" class="data row1 col0">-0.243553</td>
-<td id="T_be3ac_row1_col1" class="data row1 col1">1.000000</td>
-<td id="T_be3ac_row1_col2" class="data row1 col2">-0.331588</td>
-<td id="T_be3ac_row1_col3" class="data row1 col3">-0.026775</td>
-<td id="T_be3ac_row1_col4" class="data row1 col4">-0.284037</td>
-<td id="T_be3ac_row1_col5" class="data row1 col5">-0.327231</td>
+<td id="T_fc8d7_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">Slag</td>
+<td id="T_fc8d7_row1_col0" class="data row1 col0">-0.243553</td>
+<td id="T_fc8d7_row1_col1" class="data row1 col1">1.000000</td>
+<td id="T_fc8d7_row1_col2" class="data row1 col2">-0.331588</td>
+<td id="T_fc8d7_row1_col3" class="data row1 col3">-0.026775</td>
+<td id="T_fc8d7_row1_col4" class="data row1 col4">-0.284037</td>
+<td id="T_fc8d7_row1_col5" class="data row1 col5">-0.327231</td>
 </tr>
 <tr class="odd">
-<td id="T_be3ac_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Comp_Strength</td>
-<td id="T_be3ac_row2_col0" class="data row2 col0">0.445725</td>
-<td id="T_be3ac_row2_col1" class="data row2 col1">-0.331588</td>
-<td id="T_be3ac_row2_col2" class="data row2 col2">1.000000</td>
-<td id="T_be3ac_row2_col3" class="data row2 col3">-0.254235</td>
-<td id="T_be3ac_row2_col4" class="data row2 col4">-0.223358</td>
-<td id="T_be3ac_row2_col5" class="data row2 col5">-0.124029</td>
+<td id="T_fc8d7_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">Comp_Strength</td>
+<td id="T_fc8d7_row2_col0" class="data row2 col0">0.445725</td>
+<td id="T_fc8d7_row2_col1" class="data row2 col1">-0.331588</td>
+<td id="T_fc8d7_row2_col2" class="data row2 col2">1.000000</td>
+<td id="T_fc8d7_row2_col3" class="data row2 col3">-0.254235</td>
+<td id="T_fc8d7_row2_col4" class="data row2 col4">-0.223358</td>
+<td id="T_fc8d7_row2_col5" class="data row2 col5">-0.124029</td>
 </tr>
 <tr class="even">
-<td id="T_be3ac_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Water</td>
-<td id="T_be3ac_row3_col0" class="data row3 col0">0.221091</td>
-<td id="T_be3ac_row3_col1" class="data row3 col1">-0.026775</td>
-<td id="T_be3ac_row3_col2" class="data row3 col2">-0.254235</td>
-<td id="T_be3ac_row3_col3" class="data row3 col3">1.000000</td>
-<td id="T_be3ac_row3_col4" class="data row3 col4">0.466568</td>
-<td id="T_be3ac_row3_col5" class="data row3 col5">0.632026</td>
+<td id="T_fc8d7_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">Water</td>
+<td id="T_fc8d7_row3_col0" class="data row3 col0">0.221091</td>
+<td id="T_fc8d7_row3_col1" class="data row3 col1">-0.026775</td>
+<td id="T_fc8d7_row3_col2" class="data row3 col2">-0.254235</td>
+<td id="T_fc8d7_row3_col3" class="data row3 col3">1.000000</td>
+<td id="T_fc8d7_row3_col4" class="data row3 col4">0.466568</td>
+<td id="T_fc8d7_row3_col5" class="data row3 col5">0.632026</td>
 </tr>
 <tr class="odd">
-<td id="T_be3ac_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">SLUMP(cm)</td>
-<td id="T_be3ac_row4_col0" class="data row4 col0">0.145913</td>
-<td id="T_be3ac_row4_col1" class="data row4 col1">-0.284037</td>
-<td id="T_be3ac_row4_col2" class="data row4 col2">-0.223358</td>
-<td id="T_be3ac_row4_col3" class="data row4 col3">0.466568</td>
-<td id="T_be3ac_row4_col4" class="data row4 col4">1.000000</td>
-<td id="T_be3ac_row4_col5" class="data row4 col5">0.906135</td>
+<td id="T_fc8d7_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">SLUMP(cm)</td>
+<td id="T_fc8d7_row4_col0" class="data row4 col0">0.145913</td>
+<td id="T_fc8d7_row4_col1" class="data row4 col1">-0.284037</td>
+<td id="T_fc8d7_row4_col2" class="data row4 col2">-0.223358</td>
+<td id="T_fc8d7_row4_col3" class="data row4 col3">0.466568</td>
+<td id="T_fc8d7_row4_col4" class="data row4 col4">1.000000</td>
+<td id="T_fc8d7_row4_col5" class="data row4 col5">0.906135</td>
 </tr>
 <tr class="even">
-<td id="T_be3ac_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">FLOW(cm)</td>
-<td id="T_be3ac_row5_col0" class="data row5 col0">0.186461</td>
-<td id="T_be3ac_row5_col1" class="data row5 col1">-0.327231</td>
-<td id="T_be3ac_row5_col2" class="data row5 col2">-0.124029</td>
-<td id="T_be3ac_row5_col3" class="data row5 col3">0.632026</td>
-<td id="T_be3ac_row5_col4" class="data row5 col4">0.906135</td>
-<td id="T_be3ac_row5_col5" class="data row5 col5">1.000000</td>
+<td id="T_fc8d7_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">FLOW(cm)</td>
+<td id="T_fc8d7_row5_col0" class="data row5 col0">0.186461</td>
+<td id="T_fc8d7_row5_col1" class="data row5 col1">-0.327231</td>
+<td id="T_fc8d7_row5_col2" class="data row5 col2">-0.124029</td>
+<td id="T_fc8d7_row5_col3" class="data row5 col3">0.632026</td>
+<td id="T_fc8d7_row5_col4" class="data row5 col4">0.906135</td>
+<td id="T_fc8d7_row5_col5" class="data row5 col5">1.000000</td>
 </tr>
 </tbody>
 </table>
@@ -1429,9 +1459,24 @@ Figure&nbsp;3.10: Non-linear relation
 <section id="website-references" class="level3">
 <h3 class="anchored" data-anchor-id="website-references">Website References</h3>
 <ol type="1">
-<li><a href="https://archive.ics.uci.edu/">UCI Machine Learning Repository</a></li>
+<li><a href="https://archive.ics.uci.edu/">UCI Machine Learning Repository</a>: This site is an invaluable learning resource for data analysts. It contains several datasets for practice. In this chapter, we used the following two:
+<ul>
 <li><a href="https://archive.ics.uci.edu/dataset/320/student+performance">Student Performance Dataset</a>.</li>
-<li><a href="https://en.wikipedia.org/wiki/Kernel_density_estimation">Kernel density estimation</a></li>
+<li><a href="https://archive.ics.uci.edu/dataset/182/concrete+slump+test">Concrete Dataset</a></li>
+</ul></li>
+<li><a href="https://en.wikipedia.org/wiki/Kernel_density_estimation">Kernel density estimation</a>: Wikipedia contains a good overview explanation of the technique.</li>
+</ol>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.7</span> Exercises</h2>
+<p>In the questions, do try to answer each question using both R and Python whenever possible.</p>
+<ol type="1">
+<li>From <a href="#fig-r-histogram-g3" class="quarto-xref">Figure&nbsp;<span>3.6</span></a> alone, can you make a rough guess: What proportion of students scored 6 or less?</li>
+<li>Divide the concrete data into two subsets - one with Water less than or equal to 200 and one with Water greater than 200. Compute the Pearson correlations with compressive strength. How different are these values with the value for the full dataset?</li>
+<li>Remove all rows with zero values for Slag from the concrete dataset. Create a QQ-plot for Slag and assess if the data is Normal.</li>
+<li>How does bandwidth affect a density estimate (<code>bw</code> argument)? Experiment with different values to understand more.</li>
+<li>Create numerical summaries of <code>G3</code> scores, by <code>goout</code>, and compare the groups.</li>
 </ol>
 
 
@@ -1443,7 +1488,6 @@ Cortez, Paulo, and Alice Maria Gonçalves Silva. 2008. <span>“Using Data Minin
 Yeh, I-Cheng. 2007. <span>“Modeling Slump Flow of Concrete Using Second-Order Regressions and Artificial Neural Networks.”</span> <em>Cement and Concrete Composites</em> 29 (6): 474–80.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->

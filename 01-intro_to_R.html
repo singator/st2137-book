@@ -286,6 +286,7 @@ window.Quarto = {
   <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">1.12</span> Further Readings</a></li>
   <li><a href="#heads-up-on-differences-with-python" id="toc-heads-up-on-differences-with-python" class="nav-link" data-scroll-target="#heads-up-on-differences-with-python"><span class="header-section-number">1.13</span> Heads-Up on Differences with Python</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">1.14</span> References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.15</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -319,7 +320,7 @@ window.Quarto = {
 <li>S was to be used for data exploration (tabulating, sorting data, drawing plots to look for trends, etc.)</li>
 <li>It was to be used as a sophisticated calculator to evaluate complex arithmetic expressions, and as a very flexible and general object-oriented programming language to perform more extensive data manipulation.</li>
 </ol>
-<p>Later on, S evolved into S-PLUS, which became very costly. <strong>R</strong>oss Ihaka and <strong>R</strong>obert Gentleman from the University of Auckland, decided to write a stripped-down version of S, which was R. Five years later, version 1.0.0 of R was released on 29 Feb 2000. As of Dec 2024, the latest version of R is 4.4.2 It is maintained by the <span class="citation" data-cites="rmanual">(<a href="references.html#ref-rmanual" role="doc-biblioref">R Core Team 2024</a>)</span>.</p>
+<p>Later on, S evolved into S-PLUS, which then became rather costly. <strong>R</strong>oss Ihaka and <strong>R</strong>obert Gentleman from the University of Auckland decided to write a stripped-down version of S. They named the new language R. Five years later, version 1.0.0 of R was released on 29 Feb 2000. As of Dec 2025, the latest version of R is 4.5.2 It is maintained by the <span class="citation" data-cites="rmanual">(<a href="references.html#ref-rmanual" role="doc-biblioref">R Core Team 2025</a>)</span>.</p>
 </section>
 <section id="installing-r-and-rstudio" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="installing-r-and-rstudio"><span class="header-section-number">1.2</span> Installing R and Rstudio</h2>
@@ -335,7 +336,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For our class, please ensure that you have version 4.4.1 or later. Functions in older versions work differently, so you might face problems or differences with some of the codes in the notes.</p>
+<p>For our class, please ensure that you have version 4.5.1 or later. Functions in older versions work differently, so you might face problems or differences with some of the codes in the notes.</p>
 </div>
 </div>
 <div id="fig-base-R" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Base R GUI">
@@ -344,7 +345,7 @@ Important
 <img src="figs/base_r_gui.PNG" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Base R GUI">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-base-R-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: Base R
+Figure&nbsp;1.1: R: Base R GUI
 </figcaption>
 </figure>
 </div>
@@ -353,14 +354,14 @@ Figure&nbsp;1.1: Base R
 <li>A history of previous plots made.</li>
 <li>The ability to browse the objects in our workspace more easily.</li>
 </ul>
-<p>The installation file for RStudio can be obtained from <a href="https://www.rstudio.com/products/rstudio/download/">this URL</a>. It is updated a couple of times a year. Make sure you have at least version 2024.09.x for our course.</p>
+<p>The installation file for RStudio can be obtained from <a href="https://www.rstudio.com/products/rstudio/download/">this URL</a>. It is updated a couple of times a year. Make sure you have at least version 2025.09.x for our course.</p>
 <div id="fig-rstudio" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Rstudio GUI">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rstudio-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/rstudio_gui.PNG" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Rstudio GUI">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rstudio-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.2: Rstudio interface
+Figure&nbsp;1.2: R: Rstudio interface
 </figcaption>
 </figure>
 </div>
@@ -477,7 +478,7 @@ Levels: female male</code></pre>
 <pre><code>[1] 4.0 5.6 7.2 8.8</code></pre>
 </div>
 </div>
-<p>The final example above, where the sequence vector of length 4 is multiplied by a scalar 2, is an example of the <em>recycling rule</em> in R – the shorter vector is recycled to match the length of the longer one. This rule applies in all built-in R functions. Try to use this rule to your advantage when using R.</p>
+<p>The final example above, where the sequence vector of length 4 is multiplied by a scalar 2, is an example of the <em>recycling rule</em> in R – the shorter vector is recycled to match the length of the longer one. This rule applies within all built-in R functions. Try to use this rule to your advantage when using R.</p>
 <p>If you only need to create a vector of integers that increase by 1, you do not even need <code>seq()</code>. The <code>:</code> colon operator will handle the task.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>s1 <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span></span>
@@ -518,12 +519,12 @@ Levels: female male</code></pre>
 a    1    2    3    4
 b    5    6    7    8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>ab_col <span class="ot">&lt;-</span> <span class="fu">cbind</span>(ab_row, <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">10</span>))</span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>ab_col <span class="ot">&lt;-</span> <span class="fu">cbind</span>(m1, <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">8</span>))</span>
 <span id="cb33-2"><a href="#cb33-2"></a>ab_col</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [,1] [,2] [,3] [,4] [,5]
-a    1    2    3    4    9
-b    5    6    7    8   10</code></pre>
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    1    3    5    7
+[2,]    2    4    6    8</code></pre>
 </div>
 </div>
 </section>
@@ -653,7 +654,7 @@ $B
 </div>
 </div>
 <div id="exm-list" class="theorem example" style="background-color: #D5D1D164; padding: 20px">
-<p><span class="theorem-title"><strong>Example 1.2 (Extracting p-values)</strong></span> The <code>iris</code> dataset is a very famous dataset that comes with R. It contains measurements on the flowers of three different species. Let us conduct a 2-sample <span class="math inline">\(t\)</span>-test, and extract the <span class="math inline">\(p\)</span>-value.</p>
+<p><span class="theorem-title"><strong>Example 1.2 (Extracting <span class="math inline">\(p\)</span>-values)</strong></span> The <code>iris</code> dataset is a very famous dataset that comes with R. It contains measurements on the flowers of three different species. Let us conduct a 2-sample <span class="math inline">\(t\)</span>-test, and extract the <span class="math inline">\(p\)</span>-value.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>setosa <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[iris<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"setosa"</span>]</span>
 <span id="cb47-2"><a href="#cb47-2"></a>virginica <span class="ot">&lt;-</span> iris<span class="sc">$</span>Sepal.Length[iris<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"virginica"</span>]</span>
@@ -760,7 +761,7 @@ $B
 </section>
 <section id="accessing-parts-of-dataframes" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="accessing-parts-of-dataframes"><span class="header-section-number">1.6</span> Accessing Parts of Dataframes</h2>
-<p>We now turn to the task of accessing a subset of rows and/or columns of a dataframe. The notation uses rectangular brackets, along with a comma inside these brackets to distinguish the row and column specifiers.</p>
+<p>We now turn to the task of accessing a subset of rows and/or columns of a dataframe. The notation uses rectangular brackets, along with a comma inside these brackets to demarcate the row and column specifiers.</p>
 <p>To access all rows from a particular set of columns, we leave the row column specification empty.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>data3[, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -784,7 +785,7 @@ $B
 3  4  F 90 86  B</code></pre>
 </div>
 </div>
-<p>Individual columns can be retrieved from a dataframe (as a vector) using the <code>$</code> operator. These columns can then be used to retrieve only the rows that satisfy certain conditions. In order to achieve this task, we turn to logical vectors. The following code returns only the rows corresponding to Gender equal to ``M’’.</p>
+<p>In R, dataframes are special kinds of lists. Hence, individual columns can be retrieved from a dataframe (as a vector) using the <code>$</code> operator. These columns can then be used to retrieve only the rows that satisfy certain conditions. In order to achieve this task, we turn to logical vectors. The following code returns only the rows corresponding to Gender equal to “M”.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a>data2[data2<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"M"</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -794,7 +795,7 @@ $B
 4      20      M  82  85  B</code></pre>
 </div>
 </div>
-<p>Logical vectors contain TRUE/FALSE values in their components. These vectors can be combined with logical operations to yield only the rows that satisfy all conditions. The <code>&amp;</code> operator is the AND operator. Below, we return all rows where Gender is equal to ``M’’ and CA2 is greater than 85.</p>
+<p>Logical vectors contain <code>TRUE</code>/<code>FALSE</code> values in their components. These vectors can be combined with <code>&amp;</code> (AND) and <code>|</code> (OR) operations to yield only the rows that satisfy all conditions. Below, we return all rows where Gender is equal to “M” and CA2 is greater than 85.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>data2[data2<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"M"</span> <span class="sc">&amp;</span> data2<span class="sc">$</span>CA2 <span class="sc">&gt;</span> <span class="dv">85</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -862,7 +863,7 @@ $B
 5      25      F  94  94  A  5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a><span class="co"># arranges in reverse order:</span></span>
-<span id="cb70-2"><a href="#cb70-2"></a>data2[<span class="fu">rev</span>(<span class="fu">order</span>(data2<span class="sc">$</span>CA1)), ] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb70-2"><a href="#cb70-2"></a>data2[<span class="fu">order</span>(data2<span class="sc">$</span>CA1, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Subject Gender CA1 CA2 HW id
 5      25      F  94  94  A  5
@@ -876,12 +877,12 @@ $B
 </section>
 <section id="sec-r-loops" class="level2" data-number="1.7">
 <h2 data-number="1.7" class="anchored" data-anchor-id="sec-r-loops"><span class="header-section-number">1.7</span> Loops in R</h2>
-<p><code>while</code> loops execute a set of instructions as long as a particular condition holds true. On the other hand, <code>for</code> loops iterate over a set of items, executing a set of instructions each time.</p>
+<p><code>while</code> loops execute a set of instructions as long as a particular condition holds true. On the other hand, <code>for</code> loops iterate over a set of items, executing the instructions a fixed number of times.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">While Loops</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">For Loops</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>The syntax for a <code>while</code> loop is as follows. The condition is checked at the beginning of each iteration. As long as it is TRUE, the set of R expressions within the curly braces will be executed.</p>
+<p>The syntax for a <code>while</code> loop is as follows. The condition is checked at the beginning of each iteration. As long as it is TRUE, the block of R expressions within the curly braces will be executed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="cf">while</span>( <span class="sc">&lt;</span>logical condition<span class="sc">&gt;</span> ) {</span>
 <span id="cb72-2"><a href="#cb72-2"></a>  R expressions</span>
@@ -963,20 +964,13 @@ $B
 <span id="cb82-6"><a href="#cb82-6"></a>  x <span class="ot">&lt;-</span> x<span class="sc">+</span><span class="dv">1</span> </span>
 <span id="cb82-7"><a href="#cb82-7"></a>  test <span class="ot">&lt;-</span> <span class="fu">isTRUE</span>(x<span class="sc">&lt;</span><span class="dv">6</span>)  </span>
 <span id="cb82-8"><a href="#cb82-8"></a>  <span class="fu">cat</span>(x<span class="sc">^</span><span class="dv">2</span>, test, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)             <span class="co"># This will be written to the file.</span></span>
-<span id="cb82-9"><a href="#cb82-9"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>1 TRUE 
-4 TRUE 
-9 TRUE 
-16 TRUE 
-25 TRUE 
-36 FALSE </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="fu">sink</span>()                             <span class="co"># turn the sink off </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb82-9"><a href="#cb82-9"></a>}</span>
+<span id="cb82-10"><a href="#cb82-10"></a></span>
+<span id="cb82-11"><a href="#cb82-11"></a><span class="fu">sink</span>()                             <span class="co"># turn the sink off </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When we have finished working with a dataframe, we may want save it to a file. For this purpose, we can use the following code. Once executed, the dataframe <code>data2</code> will be written to a csv file named <code>ex_1_with_IQ.csv</code> in the <code>data/</code> directory.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1"></a><span class="fu">write.csv</span>(data2, <span class="st">"data/ex_1_with_IQ.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1"></a><span class="fu">write.csv</span>(data2, <span class="st">"data/ex_1_with_IQ.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="user-defined-functions-in-r" class="level2" data-number="1.9">
@@ -1030,19 +1024,19 @@ $B
 </table>
 <p>R is a fully-fledged programming language, so it is also possible to write our own functions in R. To define a function for later use in R, the syntax is as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a>fn_name <span class="ot">&lt;-</span> <span class="cf">function</span>(arguments) {</span>
-<span id="cb86-2"><a href="#cb86-2"></a>  R expressions</span>
-<span id="cb86-3"><a href="#cb86-3"></a>  ...</span>
-<span id="cb86-4"><a href="#cb86-4"></a>  Returned object</span>
-<span id="cb86-5"><a href="#cb86-5"></a></span>
-<span id="cb86-6"><a href="#cb86-6"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a>fn_name <span class="ot">&lt;-</span> <span class="cf">function</span>(arguments) {</span>
+<span id="cb84-2"><a href="#cb84-2"></a>  R expressions</span>
+<span id="cb84-3"><a href="#cb84-3"></a>  ...</span>
+<span id="cb84-4"><a href="#cb84-4"></a>  Returned object</span>
+<span id="cb84-5"><a href="#cb84-5"></a></span>
+<span id="cb84-6"><a href="#cb84-6"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The final line of the function definition will determine what gets returned when the function is executed. Here is an example of a function that computes the circumference of a circle of given radius.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1"></a>circumference <span class="ot">&lt;-</span> <span class="cf">function</span>(r) {</span>
-<span id="cb87-2"><a href="#cb87-2"></a>  <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>r</span>
-<span id="cb87-3"><a href="#cb87-3"></a>}</span>
-<span id="cb87-4"><a href="#cb87-4"></a><span class="fu">circumference</span>(<span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1"></a>circumference <span class="ot">&lt;-</span> <span class="cf">function</span>(r) {</span>
+<span id="cb85-2"><a href="#cb85-2"></a>  <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>r</span>
+<span id="cb85-3"><a href="#cb85-3"></a>}</span>
+<span id="cb85-4"><a href="#cb85-4"></a><span class="fu">circumference</span>(<span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8.168141</code></pre>
 </div>
@@ -1052,31 +1046,31 @@ $B
 <h2 data-number="1.10" class="anchored" data-anchor-id="miscellaneous"><span class="header-section-number">1.10</span> Miscellaneous</h2>
 <section id="getting-help" class="level3">
 <h3 class="anchored" data-anchor-id="getting-help">Getting Help</h3>
-<p>All functions in R are documented. When you need to find out more about the arguments of a function, or if you need examples of code that is guaranteed to work, then do look up the help page (even before turning to stackexchange). The help pages within R are accessible even if you are offline.</p>
-<p>To access the help page of a particular function, use the following command:</p>
+<p>All functions in R are documented. When you need to find out more about the arguments of a function, or if you need examples of code that is guaranteed to work, then do look up the help page (even before turning to <a href="https://stackexchange.com/">stackexchange</a>). The help pages within R are accessible even if you are offline.</p>
+<p>To access the help page for a particular function, use the following command:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1"></a>?mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1"></a>?mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you are not sure about the name of the function, you can use the following fuzzy search operator to return a page with a list of matching functions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1"></a>??mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1"></a>??mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="installing-packages" class="level2" data-number="1.11">
 <h2 data-number="1.11" class="anchored" data-anchor-id="installing-packages"><span class="header-section-number">1.11</span> Installing Packages</h2>
-<p>R is an open-source software. Many researchers and inventors of new statistical methodologies contribute to the software through packages<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. At last check (Dec 2024), there are 21749 such packages. The packages can be perused by name, through <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">this link</a>.</p>
-<p>To install one of these packages, you can use <code>install.packages()</code>. For instance, this command will install <code>stringr</code> (a package for string manipulations) and all its dependencies on your machine.</p>
+<p>R is an open-source software. Many researchers and inventors of new statistical methodologies contribute to the software through packages<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. At last check (Dec 2025), there are 23067 such packages. The packages can be perused by name, through <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">this link</a>.</p>
+<p>To install one of these packages, you can use <code>install.packages()</code>. For instance, the following command will install <code>stringr</code> (a package for string manipulations) and all its dependencies on your machine.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1"></a><span class="fu">install.packages</span>(<span class="st">"stringr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1"></a><span class="fu">install.packages</span>(<span class="st">"stringr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once the installation is complete, we still need to <em>load</em> the package whenever we wish to use the functions within it. This is done with the <code>library()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1"></a><span class="fu">library</span>(stringr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1"></a><span class="fu">library</span>(stringr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To access a list of all available functions from a package, use:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1"></a><span class="fu">help</span>(<span class="at">package=</span><span class="st">"stringr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1"></a><span class="fu">help</span>(<span class="at">package=</span><span class="st">"stringr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="further-readings" class="level2" data-number="1.12">
@@ -1103,17 +1097,59 @@ $B
 <li><a href="https://cran.r-project.org/">Installing R</a></li>
 <li><a href="https://posit.co/downloads/">Installing Rstudio</a></li>
 </ol>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="1.15">
+<h2 data-number="1.15" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.15</span> Exercises</h2>
+<ol type="1">
+<li>Use the <code>rep()</code> function to create the following vector:</li>
+</ol>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 1 1 2 2 3 1 1 1 2 2 3</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li><p>What do the functions <code>saveRDS()</code> and <code>readRDS()</code> do?</p></li>
+<li><p>From the <code>data2</code> dataframe in <a href="#sec-01-read-data" class="quarto-xref"><span>Section 1.5</span></a>, return all rows where either <code>Gender</code> is equal to “M”, or <code>HW</code> is “A”.</p></li>
+<li><p>Create a list object that, when printed, returns:</p></li>
+</ol>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$`1`
+$`1`[[1]]
+[1] "Will"
+
+$`1`[[2]]
+[1] "Mike"
+
+$`1`[[3]]
+[1] "Dustin"
+
+$`1`[[4]]
+[1] "Lucas"
+
+
+[[2]]
+[1] "Max"</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Why does this line of code return an error? When should <code>&amp;&amp;</code> be used?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1"></a>data2[data2<span class="sc">$</span>Gender <span class="sc">==</span> <span class="st">"M"</span> <span class="sc">&amp;&amp;</span> data2<span class="sc">$</span>CA2 <span class="sc">&gt;</span> <span class="dv">85</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-rmanual" class="csl-entry" role="listitem">
-R Core Team. 2024. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+R Core Team. 2025. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
 <div id="ref-wickham2023r" class="csl-entry" role="listitem">
 Wickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for Data Science</em>. O’Reilly Media, Inc.
 </div>
 </div>
-</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
