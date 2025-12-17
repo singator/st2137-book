@@ -7,10 +7,6 @@ title: "Linear Regression"
 #| message: false
 #| warning: false
 library(knitr)
-# library(reticulate)
-# venv_paths <- read.csv("venv_paths.csv")
-# id <- match(Sys.info()["nodename"], venv_paths$nodename)
-# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -43,17 +39,14 @@ In our course, we shall focus on the estimation aim, since prediction models req
 paradigm of their own, and are best learnt alongside a larger suite of models
 e.g. decision trees, support vector machines, etc.
 
-In subsequent sections, we shall revisit a couple of datasets from earlier topics
-to run linear regression models  on them. 
-
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-concrete-1}
 
 ### Concrete Data: Flow on Water
 
-Recall the concrete dataset that we first encountered in the topic on summarising 
-data. We shall go on to fit a linear regression to understand the relationship
-between the output of the flow test, and the amount of water used to create the 
-concrete.
+Recall the concrete dataset that we first encountered in @exm-concrete-intro.
+The fitted regression model, that estimates the relationship between the output 
+of the flow test, and the amount of water used to create the concrete, is shown 
+in @fig-flow-water.
 
 ```{r}
 #| fig-align: center
@@ -113,7 +106,7 @@ Y_i = \beta_0 + \beta_1 X_i + e_i
 $${#eq-slr-model}
 where 
 
-* $\beta_0$ is intercept term, 
+* $\beta_0$ is the intercept term, 
 * $\beta_1$ is the slope, and 
 * $e_i$ is an error term, specific to each individual in the dataset.
 
@@ -126,9 +119,9 @@ $$
 e_i \sim N(0, \sigma^2), \; i =1\ldots, n
 $$ {#eq-error-term}
 
-The constant variance assumption is also referred to as homoscedascity (homo-skee-das-city). 
-The validity of the above assumptions will have to be checked after the model is fitted.
-All in all, the assumptions imply that:
+The constant variance assumption is also referred to as homoscedasticity
+(homo-ski-das-ti-city). The validity of the above assumptions will have to be
+checked after the model is fitted. All in all, the assumptions imply that:
 
 1. $E(Y_i | X_i) = \beta_0 + \beta_1 X_i$, for $i=1, \ldots, n$.
 2. $Var(Y_i | X_i) = Var(e_i) = \sigma^2$, for $i=1, \ldots, n$.
@@ -176,7 +169,7 @@ $$
 $$
 
 Once we have the estimates, we can use @eq-slr-model to compute *fitted* values
-for each observation, corresponding to our best guess of the mean of the
+for each observation. These correspond to our best guess of the mean of the
 distributions from which the observations arose:
 $$
 \hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i, \quad i = 1, \ldots, n
@@ -255,12 +248,12 @@ The coefficient of determination $R^2$ is defined as
 $$
 R^2 = 1 - \frac{SS_{Res}}{SS_T} = \frac{SS_{Reg}}{SS_T}
 $$
-It can be interpreted as the proportion of variation in $Yi$, explained by 
+It can be interpreted as the proportion of variation in $Y_i$, explained by 
 the inclusion of $X_i$. Since $0 \le SS_{Res} \le SS_T$, we can easily prove that 
 $0 \le R^2 \le 1$.  The larger the value of $R^2$ is, the better the model is.
 
 When we get to the case of multiple linear regression, take note that simply 
-including more variables in the model will increase $R^2$. This is undesirable; it 
+including more variables in the model can increase $R^2$. This is undesirable; it 
 is preferable to have a parsimonious model that explains the response variable well.
 
 
@@ -305,11 +298,11 @@ print(lm_flow_water.summary())
 
 #### SAS output
 
-![](figs/sas_concrete_flow_water_reg.png){fig-align="center" width=450}
+![SAS: Regression output flow versus water](figs/sas_concrete_flow_water_reg.png){fig-align="center" width=450}
 
 :::
 
-From the output, we can note that the *estimated* model for Flow ($Y$) against
+From the output, we note that the *estimated* model for Flow ($Y$) against
 Water ($X$) is:
 $$
 Y = -58.73 + 0.55 X
@@ -324,8 +317,8 @@ A simple interpretation[^09-interpret] of the model is as follows:
 > For every 1 unit increase in Water, there is an average associated increase in
 > Flow rate of 0.55 units.
 
-[^09-interpret]: This interpretation has to be taken very cautiously, especially when there are
-                 other explanatory variables in the model.
+[^09-interpret]: This interpretation has to be taken very cautiously, especially
+when there are other explanatory variables in the model.
       
 To obtain confidence intervals for the parameters, we can use the following code in
 R. The Python summary already contains the confidence intervals.
@@ -360,6 +353,11 @@ In this example, we shall fit a simple linear regression model to the bike
 data, *constrained to the non-working days*. In other words, we shall focus on 
 fitting just the blue line, from the blue points, in @fig-reg-casual.
 
+Take note that in this example, in the R and Python output, we print an analysis
+of variance table instead of using the `summary()` methods. The latter provide
+coefficient estimates, but the former output only returns a sum-of-squares
+breakdown.
+
 ::: {.panel-tabset}
 
 #### R code 
@@ -386,7 +384,7 @@ anova_tab
 
 #### SAS output
 
-![](figs/sas_bike_reg_casual_reg.png){fig-align="center" width=450}
+![SAS: Regression output registered versus casual bike users](figs/sas_bike_reg_casual_reg.png){fig-align="center" width=450}
 
 :::
 
@@ -439,13 +437,14 @@ up a new matrix of $X$-values corresponding to the desired range.
 ```{r r-concrete-pred}
 #| fig-align: center
 #| fig-height: 4
+#| fig-cap: "R: Confidence intervals flow versus water"
 
 #R 
 new_df <- data.frame(Water = seq(160, 240, by = 5))
 conf_intervals <- predict(lm_flow_water, new_df, interval="conf")
 
 plot(concrete$Water, concrete$FLOW.cm., ylim=c(0, 100),
-     xlab="Water", ylab="Flow", main="Confidence and Prediction Intervals")
+     xlab="Water", ylab="Flow", main="Confidence Bands for Flow vs. Water")
 abline(lm_flow_water, col="red")
 lines(new_df$Water, conf_intervals[,"lwr"], col="red", lty=2)
 lines(new_df$Water, conf_intervals[,"upr"], col="red", lty=2)
@@ -457,13 +456,14 @@ legend("bottomright", legend=c("Fitted line", "Lower/Upper CI"),
 
 ```{python py-concrete-pred}
 #| fig-align: center
+#| fig-cap: "Py: Confidence intervals flow versus water"
 # Python
 new_df = sm.add_constant(pd.DataFrame({'Water' : np.linspace(160,240, 10)}))
 
 predictions_out = lm_flow_water.get_prediction(new_df)
 
 ax = concrete.plot(x='Water', y='Flow', kind='scatter', alpha=0.5 )
-ax.set_title('Flow vs. Water');
+ax.set_title('Confidence Bands for Flow vs. Water');
 ax.plot(new_df.Water, predictions_out.conf_int()[:, 0].reshape(-1), 
         color='blue', linestyle='dashed');
 ax.plot(new_df.Water, predictions_out.conf_int()[:, 1].reshape(-1), 
@@ -473,7 +473,7 @@ ax.plot(new_df.Water, predictions_out.predicted, color='blue');
 
 #### SAS Output
 
-![](figs/sas_concrete_flow_water_reg_fitplot.png){fig-align="center" width=450}
+![SAS: Confidence intervals flow versus water](figs/sas_concrete_flow_water_reg_fitplot.png){fig-align="center" width=450}
 
 
 :::
@@ -574,7 +574,7 @@ $$
 
 However, note that $R^2$ can be inflated simply by adding more terms to the
 model (even insignificant terms). Thus, we use the adjusted $R^2$, which penalizes 
-us for adding more and more terms to the model:
+the model for adding more and more terms to the model:
 $$
 R^2_{adj} = 1 - \frac{SS_{Res}/(n-p)}{SS_T/(n-1)}
 $$
@@ -643,7 +643,7 @@ print(lm_flow_water_slag.summary())
 
 #### SAS output 
 
-![](figs/sas_concrete_flow_water_slag_reg.png){fig-align="center" width=450}
+![SAS: Regression output, flow vs water and slag](figs/sas_concrete_flow_water_slag_reg.png){fig-align="center" width=450}
 
 :::
 
