@@ -247,7 +247,7 @@ Now let us return to the student performance dataset.
 
 #### R code 
 
-```{r r-stud-perf-3}
+```{r}
 #| fig-align: center
 #| fig-cap: "R: Histogram of G3 scores"
 #| label: fig-r-histogram-g3
@@ -285,7 +285,7 @@ variable `G3` is quantitative, and the explanatory variable `Medu` is ordinal.
 
 #### R code 
 
-```{r r-stud-perf-4}
+```{r}
 #| fig-align: center
 #| fig-cap: "R: Lattice plot of G3 scores by Medu"
 #| label: fig-r-lattice-g3

@@ -574,7 +574,7 @@ hist(sampled_diff)
 
 :::
 
-### Bootstrapping
+### Bootstrapping {#sec-bootstrapping}
 
 The video on Canvas provides a very brief introduction to bootstrapping. One of
 the greatest benefits of the bootstrap is the ability to provide confidence
