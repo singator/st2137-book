@@ -7,10 +7,6 @@ title: "ANOVA"
 #| message: false
 #| warning: false
 library(knitr)
-# library(reticulate)
-# venv_paths <- read.csv("venv_paths.csv")
-# id <- match(Sys.info()["nodename"], venv_paths$nodename)
-# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction
@@ -19,33 +15,33 @@ In the previous topic, we learned how to run two-sample $t$-tests. The objective
 of these procedures is to compare the means from two groups. Frequently, however,
 the means of more than two groups need to be compared.
 
-In this topic, we introduce the *one-way analysis of variance* (ANOVA), which 
+In this topic, we introduce the *one-way analysis of variance* (ANOVA). It
 generalises the $t$-test methodology to more than 2 groups. Hypothesis tests in
-the ANOVA framework require the assumption of Normality. When this does not hold, 
-we turn to the Kruskal-Wallis test - the non-parametric version, to compare 
-distributions between groups.
+the ANOVA framework require the assumption of Normality. When this does not
+hold, we turn to the Kruskal-Wallis test - a non-parametric version of ANOVA, to
+compare distributions between groups.
 
 While the $F$-test in ANOVA provides a determination of whether or not the group
 means are different, in practice, we would always want to follow up with
-specific comparisons between groups as well. This topic covers how we can
-construct confidence intervals in those cases as well.
+specific comparisons between groups as well. This chapter also covers how we can
+construct confidence intervals in those cases.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-antibiotics-1}
 
 ### Effect of Antibiotics
 \index{Heifers!description}
 
-The following example was taken from @ekstrom2015statistical. An experiment with 
-dung from heifers[^08-heifers] was carried out in order to explore the influence of antibiotics
-on the decomposition of dung organic material. As part of the experiment, 36 heifers
-were randomly assigned into six groups. 
+The following example is taken from @ekstrom2015statistical. An experiment with
+dung from heifers[^08-heifers] was carried out in order to explore the influence
+of antibiotics on the decomposition of dung organic material. As part of the
+experiment, 36 heifers were randomly assigned into six groups.
 
 [^08-heifers]: A heifer is a young, female cow that has not had her first calf yet.
 
 Antibiotics of different types were added to the feed for heifers in five of the 
-groups. The remaining group served as a control group. For each heifer, a bag of 
-dung was dug into the soil, and after 8 weeks the amount of organic material was 
-measured for each bag.
+groups. The remaining group served as a control group. A bag of dung from each 
+heifer was dug into the soil, and after 8 weeks, the amount of organic material 
+remaining in each bag was measured.
 
 @fig-heifers-bp contains a boxplot of the data from each group.
 
@@ -54,11 +50,14 @@ measured for each bag.
 #| label: fig-heifers-bp
 #| echo: false
 #| fig-height: 5
+#| fig-cap: Boxplot for heifers data
+#| 
 library(lattice)
 heifers <- read.csv("data/antibio.csv")
 u_levels <- sort(unique(heifers$type))
 heifers$type <- factor(heifers$type, levels=u_levels[c(2, 1, 3, 4, 5, 6)])
 bwplot(org ~ as.factor(type), data=heifers, 
+       xlab="Antibiotics", ylab="Organic material remaning",
        main="Organic Weight after 8 weeks")
 ```
 
@@ -110,9 +109,9 @@ Y_{ij}  = \mu + \alpha_i + e_{ij},\; i=1,\ldots,k,\; j=1,\ldots,n_i
 * $e_{ij}$ represents random error about the mean $\mu + \alpha_i$ for an individual 
   observation from the $i$-th group.
 
-In terms of distributions, we assume that the $e_{ij}$ are i.i.d from a Normal 
-distribution with mean 0 and variance $\sigma^2$. This leads to the model for 
-each observation:
+In terms of distributions, we assume that the $e_{ij}$ are i.i.d from a Normal
+distribution with mean 0 and variance $\sigma^2$. This leads to the following
+model for each observation:
 
 $$
 Y_{ij} \sim N(\mu + \alpha_i,\; \sigma^2)
@@ -124,7 +123,7 @@ purposes, we need to constrain the parameters. There are two common constraints 
 and note that different software have different defaults:
 
 1. Setting $\sum_{i=1}^k \alpha_i = 0$, or
-2. Setting $\alpha_1= 0$.
+2. Setting the reference level $\alpha_1= 0$.
 
 Continuing on from @eq-yij, let us denote the mean for the $i$-th group as 
 $\overline{Y_i}$, and the overall mean of all observations as 
@@ -143,7 +142,7 @@ if the between-group variability is large and the within-group variability is
 small, then we have evidence that the group means are different.
 
 If we square both sides of @eq-y-dev and sum over all observations, we arrive 
-at the following equation; the essence of ANOVA:
+at the following equation, the essence of ANOVA:
 
 $$
 \sum_{i=1}^k \sum_{j=1}^{n_i} \left( Y_{ij} - \overline{\overline{Y}} \right)^2 =
@@ -197,28 +196,28 @@ degrees of freedom.
 
 These are the assumptions that will need to be validated.
 
-1. The observations are independent of each other. This is usually a characteristic 
+1. *The observations are independent of each other.* This is usually a characteristic 
    of the design of the experiment, and is not something we can always check from
    the data.
-2. The errors are Normally distributed. Residuals can be calculated as follows:
+2. *The errors are Normally distributed.* Residuals can be calculated as follows:
 $$
 Y_{ij} - \overline{Y_i}
 $$
    The distribution of these residuals should be checked for Normality.
-3. The variance within each group is the same. In ANOVA, the $MS_W$ is a pooled 
-   estimate (across the groups) that is used; in order for this to be valid,
-   the variance within each group should be identical. As in the 2-sample situation,
-   we shall avoid separate hypotheses tests and proceed with the rule-of-thumb
-   that if the ratio of the largest to smallest standard deviation is less than
-   2, we can proceed with the analysis.
+3. *The variance within each group is the same.* In ANOVA, the $MS_W$ is a
+   pooled estimate (across the groups) that is used; in order for this to be valid,
+   the variance within each group should be identical. Just as in the 2-sample
+   situation, we shall avoid separate hypotheses tests and proceed with the
+   rule-of-thumb that if the ratio of the largest to smallest standard deviation is
+   less than 2, we can proceed with the analysis.
    
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-antibiotics-2}
 
-### F-test
+### F-test for Heifers Data
 \index{Heifers!F-test}
 
-We being by applying the overall $F$-test to the heifers data, to assess if 
+We begin by applying the overall $F$-test to the heifers data, to assess if 
 there is any significant difference between the means.
 
 ::: {.panel-tabset}
@@ -254,7 +253,7 @@ print(anova_tab)
 
 #### SAS output
 
-![](figs/sas_anova_f_test.png){width=70% fig-align="center"}
+![SAS: F-test for heifers data](figs/sas_anova_f_test.png){width=70% fig-align="center"}
 
 :::
 
@@ -283,7 +282,7 @@ print(heifer_lm.summary())
 
 #### SAS output
 
-![](figs/sas_anova_heifer_group_means.png){width=70% fig-align="center"}
+![SAS: Group summaries for heifers data](figs/sas_anova_heifer_group_means.png){width=70% fig-align="center"}
 
 :::
 
@@ -303,14 +302,19 @@ $$
 2.895 + 0 = 2.895
 $$
 
-To check the assumptions, we can use the following code:
+To check the assumptions, we can use the following code, which results in the 
+two plots @fig-r-heifers-normality-1 and @fig-r-heifers-normality-2.
 
 ::: {.panel-tabset}
 
 #### R code 
 
-```{r r-normality}
+```{r}
 #| layout-ncol: 2
+#| fig-cap: 
+#|   - "R: Histogram for heifers"
+#|   - "R: QQ-plot for heifers"
+#| label: fig-r-heifers-normality
 # R
 r1 <- residuals(heifers_lm)
 hist(r1)
@@ -321,6 +325,7 @@ qqnorm(r1); qqline(r1)
 #### Python code 
 
 ```{python py-normality}
+#| fig-cap: "Py: Normality checks for heifers"
 # Python
 import matplotlib.pyplot as plt
 
@@ -377,7 +382,7 @@ the next few techniques, instead of introducing a new dataset.
 ### Enrofloxacin vs. Control
 \index{Heifers!comparing two groups}
 
-Let us attempt to answer question (2), that we had set out earlier in 
+Let us attempt to answer question (2) from the set of questions earlier in
 @exm-antibiotics-1.
 
 ::: {.panel-tabset}
@@ -417,8 +422,8 @@ print(f"""The 95% CI for the diff. between Enrofloxacin and control is
 
 #### SAS code 
 
-In order to get SAS to generate the estimate, modify the code to include 
-`clparm` in the `model` statement, and include the `estimate` statement.
+In order to get SAS to generate the estimate, modify the default ANOVA code to
+include `clparm` in the `model` statement, and include the `estimate` statement.
 
 ```{r sas-contrasts1}
 #| eval: false
@@ -478,7 +483,7 @@ $$
 ### Comparing collection of groups
 \index{Heifers!contrasts}
 
-Let sub-group 1 consist of Ivermectin and Fenbendazole. 
+Let sub-group (A) consist of Ivermectin and Fenbendazole. 
 Here is how we can compute a confidence interval for the difference between 
 this sub-group, and Enrofloxacin.
 
@@ -539,7 +544,7 @@ quit;
 
 ```
 
-![](figs/sas_anova_heifer_contrast2.png){width=70% fig-align="center"}
+![SAS: Contrast estimation for heifers data](figs/sas_anova_heifer_contrast2.png){width=70% fig-align="center"}
 
 :::
 
@@ -560,7 +565,7 @@ false positive increases greatly.
 The simplest method for correcting for multiple comparisons is to use the Bonferroni 
 correction. Suppose we wish to perform $m$ pairwise comparisons, either as a test or 
 by computing confidence intervals. If we wish to maintain the significance level
-of each test at $\alpha$, then we should perform each of the $m$ tests/confidence 
+of each test at $\alpha$, then we should perform each of the $m$ tests or confidence 
 intervals at $\alpha/m$.
 
 ### TukeyHSD
@@ -590,7 +595,7 @@ print(tk)
 
 #### SAS output 
 
-![](figs/sas_anova_heifer_hsd.png){width=70% fig-align="center"}
+![SAS: Multiple comparisons in heifers data](figs/sas_anova_heifer_hsd.png){width=70% fig-align="center"}
 
 ::: 
 
@@ -660,7 +665,7 @@ the p-value is {kw_out.pvalue:.3f}.""")
 
 #### SAS output
 
-![](figs/sas_kruskal_wallis_a.png){width=70% fig-align="center"}
+![SAS: Kruskal-Wallis output, heifers data](figs/sas_kruskal_wallis_a.png){width=70% fig-align="center"}
 
 :::
 
@@ -668,13 +673,13 @@ the p-value is {kw_out.pvalue:.3f}.""")
 
 ## Summary
 
-The purpose of this topic is to introduce you to the one-way ANOVA model. While
+The purpose of this topic was to introduce you to the one-way ANOVA model. While
 there are restrictive distributional assumptions that it entails, I once again
-urge you to look past, at the information the method conveys. It attempts to
-compare the within-group variance to the between-group variance. Try to avoid
-viewing statistical procedures as flowcharts. If an assumption does not hold, or
-a p-value is borderline significant, try to investigate further on how sensitive
-the result is to those assumptions.
+urge you to focus on the information the method conveys. It attempts to compare
+the within-group variance to the between-group variance. Try to avoid viewing
+statistical procedures as flowcharts. If an assumption does not hold, or a
+p-value is borderline significant, or try to identify which points lead to the
+result being significant (or not).
 
 Our job as analysts does not end after reporting the p-value from the $F$-test. We 
 should try to dig deeper to uncover which groups are the ones that are different 
@@ -697,6 +702,23 @@ Most of the theoretical portions in this topic were taken from the textbook
 2. [scipy stats](https://docs.scipy.org/doc/scipy/reference/stats.html) This website
    contains documentation on the distribution-related functions that we might 
    need from scipy stats, e.g. retrieving quantiles.
-3. [Contrast coding](https://stats.oarc.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/)
-4. [Type I,II,III SS](https://rcompanion.org/rcompanion/d_04.html)
+3. [Contrast coding](https://stats.oarc.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/): More information about how to set the constraints
+   for estimation in R.
+4. [Type I,II,III SS](https://rcompanion.org/rcompanion/d_04.html): When working with
+   ANOVA (especially with unbalanced models), you may come across different types of
+   Sum of Squares. You will learn more about this in ST4233.
 
+
+### Exercises
+
+1.  Compare the formula for confidence intervals in @sec-spec-grps with the 
+    formula in @sec-t-test-formulas. How are they different?
+2.  Consider the formula for test statistic in the F-test. Can you conceive of a 
+    robust version of it?
+3.  Assess if the average of (Alfacyp, Enroflox, Spiramycin) is significantly 
+    different from (Ivermectin, Fenbendazole) at 5% significance level.
+4.  Apply the Bonferroni correction to the following two comparisons:
+    1.  Alfacyp vs. Ivermectin
+    2.  Enrofloxacin vs. Fenbendazonle
+5.  Apply the ANOVA F-test to the `G3` scores, by `Medu`, for the student performance
+    dataset.

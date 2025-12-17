@@ -184,7 +184,7 @@ or senior-citizen status.
 smokers), and then a random sample from another group (say non-smokers). This would
 result in a situation where the independent 2-sample $t$-test is appropriate.
 
-#### Formal Set-up
+#### Formal Set-up {#sec-t-test-formulas}
 
 Formally speaking, this is how the independent 2-sample t-test works:
 
