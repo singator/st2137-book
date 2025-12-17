@@ -7,29 +7,18 @@ title: "Robust Statistics"
 #| message: false
 #| warning: false
 library(knitr)
-# library(reticulate)
 library(MASS)
-# venv_paths <- read.csv("venv_paths.csv")
-# id <- match(Sys.info()["nodename"], venv_paths$nodename)
-# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction {#sec-robust}
 
-Introductory statistics courses describe and discuss inferential methods based on 
-the assumption that data is Normally distributed. However, we never know the true 
-distribution from which our data has arisen; even from the sample, we may observe
-that it deviates from Normality in various ways. To begin with, we might observe 
-that the data has heavier tails than a Normal distribution. Second, the data could
-suggest that the originating distribution is heavily skewed, unlike the symmetric
-Normal. 
-
-Continuing to use Normal based methods will result in confidence intervals and
-hypothesis tests that have low power. Instead, statisticians have developed a
-suite of methods that are **robust** to the assumption of Normality. These
-techniques may be sub-optimal when the data is truly Normal, but they quickly
-outperform the Normal-based method as soon as the distribution starts to deviate
-from Normality.
+Introductory statistics courses describe and discuss inferential methods based
+on the assumption that data is Normally distributed. However, we never truly
+know the distribution from which our data has arisen. The sample itself may
+deviate from Normality in various ways. To begin with, we might observe that the
+data has heavier tails than a Normal distribution. Second, the data could
+suggest that the originating distribution is heavily skewed, unlike the
+symmetric Normal.
 
 A third way in which the Normal-based method could breakdown is when our dataset
 has extreme values, referred to as outliers. In such cases, many investigators
@@ -40,35 +29,41 @@ observations. This is not ideal for the following reasons:
 down-weighting the dubious observations.
 2. It can be difficult to spot or detect outliers in multivariate data.
 
-Robust statistical techniques are those that have high efficiency over a
-collection of distributions. Efficiency can be measured in terms of variance of
-a particular estimator, or in terms of power of a statistical test. In this
-topic, we shall introduce the concept of robustness and estimators of location
-and scale that have this property. Although we only touch on basic statistics
-in this topic, take note that robust techniques exist for regression and ANOVA
-as well. It is a vastly under-used technique.
+Continuing to use Normal based methods will result in confidence intervals and
+hypothesis tests that have low power. Instead, statisticians have developed a
+suite of methods that are **robust** to the assumption of Normality. These
+techniques may be sub-optimal when the data is truly Normal, but they quickly
+outperform the Normal-based method as soon as the distribution starts to deviate
+from Normality.
+
+In this chapter, we shall introduce the concept of robustness and estimators of
+location and scale that have this property. Although we only touch on basic
+statistics in this topic, take note that robust techniques exist for regression
+and ANOVA as well. It is a vastly under-used technique.
 
 ## Notation
 
 For the rest of this topic, let us settle on some notation. Suppose we have an
-i.i.d sample $X_i$ from a continuous pdf $f$, where $i=1,ldots,n$.
+i.i.d sample $X_i$ from a continuous pdf $f$, where $i=1,\ldots,n$.
 
-* We use $q_{f,p}$ to refer to the $p$-th quantile of $f$, i.e. 
+*   We use $q_{f,p}$ to refer to the $p$-th quantile of $f$, i.e. 
 $$
 P( X \le q_{f,p}) = p
 $$
-* For standard Normal quantiles, we use $z_p$.
+*   For standard Normal quantiles, we use $z_p$.
 $$
 \Phi(z_p) = P( Z \le z_p) = p
 $$
-* We denote the order statistics from the sample with $X_{(i)}$. In other words,
+*   We denote the order statistics from the sample with $X_{(i)}$. In other words,
 $$
 X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}
 $$
-
+    We denote the sample median as $X_{(1/2)}$.
+    
 ## Datasets
 
-For this topic, we shall use a couple of datasets that are clearly not Normal.
+For this topic, we shall work with a couple of datasets that are clearly not
+Normal.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-cu-1}
 
@@ -76,7 +71,7 @@ For this topic, we shall use a couple of datasets that are clearly not Normal.
 \index{Copper!histogram, outlier}
 
 The dataset `chem` comes from the package `MASS`. The data was recorded as part 
-of an analytical chemistry experiment -- the amount of copper ($\mu g^{-1}$) 
+of an analytical chemistry experiment -- the amount of copper ($\mu g$) 
 in wholemeal flour was measured for 24 samples.
 
 ```{r cu_1}
@@ -84,20 +79,19 @@ in wholemeal flour was measured for 24 samples.
 #| fig-align: center
 #| warning: false
 library(MASS)
-hist(chem, breaks = 20)
+hist(chem, breaks = 20, xlab="Amount of copper")
 sort(chem)
 mean(chem)
 ```
 
-Although 22 out of the 24 points are less than 4, the mean is 4.28. This statistic
-is clearly being affected by the largest two values. Removing them would yield a 
-summary statistic that is more representative of the majority of observations.
-This topic is about techniques that will work well even in the presence of such 
-large anomalous values.
+Although 22 out of the 24 points are less than 4, the mean is 4.28. This
+statistic is clearly being affected by the largest two values. This topic is
+about techniques that will work well even in the presence of such large
+anomalous values.
 
 :::
 
-The second dataset is also from a textbook:
+The second dataset is from a textbook on robust estimation techniques.
 
 ::: {style="background-color: #D5D1D1; padding: 20px" #exm-self-1}
 
@@ -114,7 +108,7 @@ portion of an apparatus in contact with a specified target.
 #| warning: false
 awareness <- c(77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 299, 306,
                376, 428, 515, 666, 1310, 2611)
-hist(awareness, breaks=10)
+hist(awareness, breaks=10, xlab="Timing")
 mean(awareness)
 ```
 
@@ -296,7 +290,8 @@ Observe that in @eq-norm-lik, we minimised the sum of squared errors, which
 arose from *minimising* 
 $$
 \sum_{i=1}^n - \log f (x_i - \mu)
-$$
+$$ 
+
 where $f$ is the standard normal pdf. Instead of using $\log f$, Huber proposed
 using alternative functions (let's call the function $\rho$) to derive
 estimators [@huber1992robust]. The new estimator corresponds to 
@@ -304,15 +299,16 @@ $$
 \arg \min_\mu \sum_{i=1}^n \rho (x_i - \mu)
 $$ {#eq-rho-min}
 
-There are constraints on the choice of $\rho$ above, but we can
-understand the resulting estimator through $\rho$. For instance, $\psi = \rho'$
+The choice of $\rho$ confers certain properties on the 
+resulting estimator. For instance, $\psi = \rho'$
 is referred to as the *influence function*, which measures the relative change in a
-statistic as a new observation is added. To find the $\hat{\mu}$ that minimised 
+statistic as a new observation is added. To find the $\hat{\mu}$ that minimises
 @eq-rho-min, it is equivalent to setting the derivative to zero and solving for 
 $\hat{\mu}$:
+
 $$
 \sum_{i=1}^n \psi (x_i - \mu) = 0 
-$$ {#eq-rho-min}
+$$ 
 
 Note that, in general, the use of the sample mean corresponds to the use of
 $\rho(x) = x^2$. In that case, $\psi=2x$ is unbounded, which results in high
@@ -557,7 +553,7 @@ mean(chem)
 mean(chem, trim = 0.1) # using gamma = 0.1
 
 library(DescTools)
-vals <- quantile(chem, probs=c(0.05, 0.95))
+vals <- quantile(chem, probs=c(0.1, 0.9))
 win_sample <- Winsorize(chem, vals) # gamma = 0.1
 mean(win_sample)
 ```
@@ -644,4 +640,13 @@ the notes, we shall investigate the value of these methods in our tutorials.
    mentioned above, along with others.
 2. [Scipy stats](https://docs.scipy.org/doc/scipy/reference/stats.html#statsrefmanual):
    This page contains information on the `median_abs_deviation()`, `trim_mean()`, 
-   `mstats.winsorize()` methods in Python.
+   and `mstats.winsorize()` methods in Python.
+   
+   
+## Exercises
+
+1.  List two ways in which data could possibly deviate from Normality.
+2.  Compute the trimmed mean for the `G3` variable in the student performance 
+    dataset, using $\gamma=0.1$.
+3.  Winsorise the `chem` dataset, with $\gamma=0.1$, and create QQ-plots for the 
+    original and new dataset.
