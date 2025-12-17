@@ -10,10 +10,6 @@ editor:
 #| message: false
 #| warning: false
 library(knitr)
-# library(reticulate)
-# venv_paths <- read.csv("venv_paths.csv")
-# id <- match(Sys.info()["nodename"], venv_paths$nodename)
-# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction {#sec-cda}
@@ -24,14 +20,14 @@ religion, race and type of residence.
 
 Categorical variables are typically modeled using discrete random variables,
 which are strictly defined in terms whether or not the support is countable. The
-alternative to categorical variables are quantitative variables, which are
-typically modeled using continuous random variables.
+alternative to categorical variables are quantitative variables, which were introduced 
+in the previous chapter.
 
 Another method for distinguishing between quantitative and categorical variables
 is to ask if there is a meaningful distance between any two points in the data.
 If such a distance is meaningful then we have quantitative data. For instance,
 it makes sense to compute the difference in systolic blood pressure between
-subjects but it does not make sense to consider the mathematical operation
+subjects, but it does not make sense to consider the mathematical operation
 ("smoker" - "non-smoker").
 
 It is important to identify which type of data we have (quantitative or
@@ -44,7 +40,7 @@ There are two sub-types of categorical variables:
 -   A categorical variable is *nominal* if the observations can be classified
     into categories, but the categories have no specific ordering.
 
-In this topic, we shall discuss techniques for identifying the presence, and for
+In this chapter, we shall discuss techniques for identifying the presence, and for
 measuring the strength, of the association between two categorical variables. We
 shall also demonstrate common visualisations used with categorical data.
 
@@ -99,7 +95,7 @@ contingency tables.
 
 ### Bar charts
 
-A common method for visualisation cross combinations of categorical data is to
+A common method for visualising cross combinations of categorical data is to
 use a bar chart.
 
 ::: {#exm-pol-assoc-3 style="background-color: #D5D1D1; padding: 20px"}
@@ -122,15 +118,18 @@ kable(political_tab)
 
 Here is R code to make a barchart for this data.
 
-```{r r-pol-3}
+```{r}
 #| fig-align: center
+#| fig-cap: "R: Stacked barchart for political association data"
 #| out-width: 65%
+#| label: fig-r-barchart-pol
 library(lattice)
 x <- matrix(c(762,327,468,484,239,477), ncol=3, byrow=TRUE)
 dimnames(x) <- list(c("female", "male"), 
                     c("Dem", "Ind", "Rep"))
 political_tab <- as.table(x)
 barchart(political_tab/rowSums(political_tab), 
+         main="Political association by gender",
          horizontal = FALSE, auto.key=TRUE)
 ```
 
@@ -165,6 +164,7 @@ slightly different from the one in @exm-pol-assoc-3 because it is not stacked.
 
 ```{python py-claritin-2}
 #| fig-align: center
+#| fig-cap: "Py: Barchart for Claritin data"
 #| out-width: 80%
 
 import numpy as np
@@ -177,7 +177,8 @@ xx = pd.DataFrame(claritin_prop,
                   columns=['nervous', 'not_nervous'], 
                   index=['claritin', 'placebo'])
 
-ax = xx.plot(kind='bar', stacked=False, rot=1.0, figsize=(10,4))
+ax = xx.plot(kind='bar', stacked=False, rot=1.0, figsize=(10,4), 
+             title='Nervousness by drug')
 ax.legend(loc='upper left');
 ```
 
@@ -195,23 +196,29 @@ mosaic plots for the political association data earlier.
 
 \index{Political association!mosaic plot}
 
-The colours in the output for the R code reflect the sizes of the standardised
-residuals. We shall discuss this in more detail in @sec-rc-tables.
+The colours in @fig-r-mosaic-pol reflect the sizes of the standardised residuals. We
+shall discuss this in more detail in @sec-rc-tables.
+
+The greater width of the tiles in the column for females reflects the larger 
+marginal count for females. Compare this visualisation with @fig-r-barchart-pol.
 
 ::: panel-tabset
 #### R code
 
-```{r r-pol-4}
+```{r}
 #| fig-align: center
+#| fig-cap: "R: Mosaic plot for political association data"
+#| label: fig-r-mosaic-pol
 #| out-width: 80%
 #| fig-height: 4.5
-mosaicplot(political_tab, shade=TRUE)
+mosaicplot(political_tab, shade=TRUE, main="Political association by gender")
 ```
 
 #### Python code
 
 ```{python py-pol-4}
 #| fig-align: center
+#| fig-cap: "Py: Mosaic plot for political association data"
 #| out-width: 80%
 from statsmodels.graphics.mosaicplot import mosaic
 import matplotlib.pyplot as plt
@@ -231,6 +238,7 @@ create boxplots or histograms. However, if the response variable is a the
 categorical one, we should really be making something along these lines:
 
 ::: {#exm-heart-1 style="background-color: #D5D1D1; padding: 20px"}
+### Heart Failure Dataset
 \index{Heart failure!conditional density plot}
 
 The dataset at [UCI
@@ -240,28 +248,36 @@ during the follow-up period; each patient had 13 clinical features recorded. The
 primary variable of interest was whether they died or not. Suppose we wished to
 plot how this varied with age (a quantitative variable):
 
-```{r r-cd-1}
+```{r}
 #| fig-align: center
+#| fig-cap: "R: Spine plot for heart failure data"
+#| label: fig-r-spine-heart
 #| out-width: 65%
 
 data_path <- file.path("data", "heart+failure+clinical+records", 
                        "heart_failure_clinical_records_dataset.csv")
 heart_failure <- read.csv(data_path)
-spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure,
+          ylab = "Death", xlab="Age", main="Proportion dying, by age")
 ```
 
 It reflects how the probability of an event varies with the quantitative
 explanatory variable. A smoothed version of this is known as the conditional
 density plot:
 
-```{r r-cd-2}
+```{r}
 #| fig-align: center
+#| fig-cap: "R: Conditional density plot for heart failure data"
+#| label: fig-r-cd-heart
 #| out-width: 65%
-cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure,
+       ylab = "Death", xlab="Age", main="Proportion dying, by age")
 ```
 
-From either plot, it is clear to see that there is an increased proportion of
-death during follow-up associated with older patients.
+From both @fig-r-spine-heart and @fig-r-cd-heart, it is clear to see that
+there is an increased proportion of death during follow-up associated with older
+patients.
+
 :::
 
 ## Tests for Independence
@@ -416,7 +432,7 @@ in the same way.
 
 If the marginal totals are fixed, and the two variables are independent, it can
 be shown that the individual cell counts arise from the hypergeometric
-distribution. The hypergeometric distribution is defined as follows.
+distribution, which is defined as follows:
 
 Suppose we have an urn with $m$ black balls and $n$ red balls. From this urn, we
 draw a random sample (without replacement) of size $k$. If we let $W$ be the
@@ -498,11 +514,10 @@ chisq.test(claritin_tab)$expected
 
 ### $\chi^2$-Test for $r \times c$ Tables {#sec-rc-tables}
 
-So far, we have considered the situation of two categorical variables where each
-one has only two outcomes (2x2 table). However, it is common that we want to
-check the association between two nominal variables where one of them or both
-have more than 2 outcomes. Consider data given in the table below where both
-variables are nominal.
+Thus far, we have considered the situation concerning categorical variables
+where each has only two possible outcomes (2x2 table). However, it is common
+to want to check the association between two nominal variables where one of
+them, or both, has more than 2 outcomes.
 
 ::: {#exm-pol-assoc-1 style="background-color: #D5D1D1; padding: 20px"}
 ### Political Association and Gender
@@ -554,7 +569,7 @@ chisq.test(political_tab)$stdres
 
 ## Measures of Association
 
-This sections covers bivariate measures of association for contingency tables.
+This sections covers bivariate measures of association for categorical variables.
 
 ### Odds Ratio
 
@@ -575,13 +590,14 @@ $$
 The odds ratio can take on any value from 0 to $\infty$.
 
 -   A value of 1 indicates no association between $X$ and $Y$. If $X$ and $Y$
-    were independent, this is what we would observe.
+    were independent, this is precisely what we would observe.
 -   Deviations from 1 indicate stronger association between the variables.
--   Note that deviations from 1 are not symmetric. For a given pair of
+-   Note that, for odds ratios, deviations from 1 are not symmetric. For a given pair of
     variables, an association of 0.25 or 4 is the same - it is just a matter of
     which variable we put in the numerator odds.
 
-Due to the above asymmetry, we often use the log-odds-ratio instead: $$
+Due to the above asymmetry, we often use the log-odds-ratio instead: 
+$$
 \log \frac{p_1/ (1-p_1)}{p_2/(1-p_2)} 
 $$
 
@@ -593,9 +609,9 @@ $$
 
 To obtain a confidence interval for the odds-ratio, we work with the log-odds
 ratio and then exponentiate the resulting interval. Here are the steps for a
-$2\times 2$:
+$2\times 2$ table:
 
-1.  The sample data in a 2x2 table can be labelled as
+1.  Suppose we label the observed counts in the table as 
     $n_{11}, n_{12}, n_{21}, n_{22}$.
 2.  The *sample* odds ratio is $$
     \widehat{OR} = \frac{n_{11} \times n_{22}}{n_{12} \times n_{21}}
@@ -607,11 +623,10 @@ $2\times 2$:
     \times ASE(\log \widehat{OR})
     $$
 
-where
-
--   the ASE (Asymptotic Standard Error) of the estimator is $$
-    \sqrt{\frac{1}{n_{11}} + \frac{1}{n_{12}} + \frac{1}{n_{21}} + \frac{1}{n_{22}}} 
-    $$
+where the ASE (Asymptotic Standard Error) of the estimator is 
+$$
+\sqrt{\frac{1}{n_{11}} + \frac{1}{n_{12}} + \frac{1}{n_{21}} + \frac{1}{n_{22}}} 
+$$
 
 :::: {#exm-chest-pain-4 style="background-color: #D5D1D1; padding: 20px"}
 ### Chest Pain and Gender Odds Ratio
@@ -680,7 +695,7 @@ measures of association based on $C$ and $D$:
     \tau_b = \frac{C - D}{A}
     $$ where $A$ is a normalising constant that results in a measure that works
     better with ties, and is less sensitive than $\gamma$ to the cut-points
-    defining the categories. $\gamma$ has the advantage that it is more easily
+    defining the categories. However, $\gamma$ has the advantage that it is more easily
     interpretable.
 
 For both measures, values close to 0 indicate a very weak trend, while values
@@ -754,33 +769,37 @@ do read up on
     categorical variables)
 3.  Polychoric correlation (for association between two ordinal variables)
 
-Also, take note of how log odds ratios, $\tau_b$ and $\gamma$ work - they range
-between -1 to 1 (in general), and values close to 0 reflect weak association.
-Values of $a$ and $-a$ indicate the same *strength*, but different direction of
-association. This allows the same intuition that Pearson's correlation does.
-When you are presented with new metrics, try to understand them by asking
-similar questions about them.
+Also, take note of how log odds ratios, $\tau_b$ and $\gamma$ work. Firstly,
+values close to 0 reflect weak association. Values of $a$ and $-a$ indicate the
+same *strength*, but different direction of association. This allows the same
+intuition that Pearson's correlation does. When you are presented with new
+metrics, try to understand them by asking similar questions about them.
 
 ## References
 
 ### Website References
 
 1.  Documentation pages from statsmodels:
-    -   [Mosaic
-        plots](https://www.statsmodels.org/stable/generated/statsmodels.graphics.mosaicplot.mosaic.html#statsmodels.graphics.mosaicplot.mosaic)
-    -   [Contingency
-        tables](https://www.statsmodels.org/stable/contingency_tables.html#module-statsmodels.stats.contingency_tables)
+    -   [Mosaic plots](https://www.statsmodels.org/stable/generated/statsmodels.graphics.mosaicplot.mosaic.html#statsmodels.graphics.mosaicplot.mosaic)
+    -   [Contingency tables](https://www.statsmodels.org/stable/contingency_tables.html#module-statsmodels.stats.contingency_tables)
 2.  Documentation pages from scipy:
-    -   [Fisher test with
-        scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.fisher_exact.html)
+    -   [Fisher test with scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.fisher_exact.html)
     -   [$\chi^2$-test](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html)
-3.  [Heart failure
-    data](https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records)
-4.  [More information on Kendall $\tau_b$
-    statistic](https://online.stat.psu.edu/stat509/lesson/18/18.3)
+3.  [Heart failure data](https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records)
+4.  [More information on Kendall $\tau_b$ statistic](https://online.stat.psu.edu/stat509/lesson/18/18.3)
 5.  The $\chi^2$ test we studied is a *test of independence*. It is a variant of
     the $\chi^2$ goodness-of-fit test, which is used to assess if data come from
-    a particular distribution. It's just in our case, the presumed distribution
-    is one with independence between the groups. Read more about the
-    [goodness-of-fit test
-    here](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/11%3A_Chi-Square_Tests_and_F-Tests/11.02%3A_Chi-Square_One-Sample_Goodness-of-Fit_Tests).
+    a particular distribution. In our case, the presumed distribution
+    is one where the variables are independent. Read more about the
+    [goodness-of-fit test here](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/11%3A_Chi-Square_Tests_and_F-Tests/11.02%3A_Chi-Square_One-Sample_Goodness-of-Fit_Tests).
+
+
+## Exercises
+
+1.  Use Python to create the spineplot for the heart failure data.
+2.  Write a function in Python that converts a contingency table into "long" format.
+3.  What is the interpretation of $\gamma$ implied by the text?
+4.  From the political association data, extract the standardised residuals (under
+    independence), and create a QQ-plot.
+5.  Apply the Fisher Exact test to the political association data. How does it work
+    in this case?

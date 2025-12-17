@@ -46,7 +46,7 @@ format:
     number-depth: 2 
     include-in-header: 
       text: | 
-        % \titlehead{\includegraphics[width=6in]{st2137_cover.png}}
+        \titlehead{\includegraphics[width=6in]{st2137_cover.png}}
         \usepackage{makeidx}
         \usepackage{tocbibind}
         \makeindex
