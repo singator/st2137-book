@@ -6,7 +6,6 @@ title: "Introduction to SAS"
 #| echo: false
 #| message: false
 #| warning: false
-library(tidyverse)
 library(knitr)
 ```
 
@@ -27,12 +26,12 @@ Once you have verified your account using the email that would be sent to you,
 the [following link](https://welcome.oda.sas.com/) should take you to the login 
 page shown in @fig-sas-1.
 
-![SAS Studio Login](figs/sas_welcome-01.png){#fig-sas-1 fig-alt="SAS login" fig-align="center" width=70%}
+![SAS: Login page](figs/sas_welcome-01.png){#fig-sas-1 fig-alt="SAS login" fig-align="center" width=70%}
 
 Subsequently logging in should take you to the landing page, where you can begin 
 writing SAS code and using SAS. This interface can be seen in @fig-sas-2.
 
-![SAS Studio](figs/sas_welcome-02.png){#fig-sas-2 fig-alt="SAS Studio" fig-align="center" width=70%}
+![SAS: Studio interface](figs/sas_welcome-02.png){#fig-sas-2 fig-alt="SAS Studio" fig-align="center" width=70%}
 
 {{< pagebreak >}}
 
@@ -74,7 +73,7 @@ RUN;
 To run the above program, click on the "Running Man" icon in SAS studio. You 
 should obtain the output shown in @fig-sas-3.
 
-![SAS output](figs/sas_ex-1.png){#fig-sas-3 fig-alt="SAS output" fig-align="center" width=70%}
+![SAS: Simple data creation](figs/sas_ex-1.png){#fig-sas-3 fig-alt="SAS output" fig-align="center" width=70%}
 
 This dataset has only one observation (row).
 
@@ -117,9 +116,9 @@ RUN;
 The output for the above code is shown in @fig-sas-4a and @fig-sas-4b.
 
 ::: {layout-nrow=2}
-![Dataset output](figs/sas_ex-2a.png){#fig-sas-4a fig-alt="DATA output" fig-align="center" width=70%}
+![SAS: Inline data created](figs/sas_ex-2a.png){#fig-sas-4a fig-alt="DATA output" fig-align="center" width=70%}
 
-![Proc output](figs/sas_ex-2b.png){#fig-sas-4b fig-alt="PROC output" fig-align="center" width=70%}
+![SAs: PROC MEANS output](figs/sas_ex-2b.png){#fig-sas-4b fig-alt="PROC output" fig-align="center" width=70%}
 :::
 
 In the statements above, the `$`'s in the INPUT statement inform SAS that the 
@@ -132,13 +131,14 @@ PROC MEANS creates basic summary statistics for the variables listed.
 To review, there are only 2 types of steps in SAS programs:
 
 ::: {layout-ncol=2}
-### DATA steps
+
+#### DATA steps
 
 - begin with DATA statements.
 - read and modify data.
 - create a SAS dataset.
 
-### PROC steps
+#### PROC steps
 
 - begin with PROC statements.
 - perform specific analysis or function.
@@ -205,12 +205,12 @@ Here is the data dictionary:
 | workingday  | yes: If day is neither weekend nor holiday is 1, no: Otherwise   |
 | weathersit  | Weather situation: clear: Clear, Few clouds, Partly cloudy, Partly cloudy; mist: Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist; light_precip: Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds; heavy_precip: Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog |
 | temp        | Normalized temperature in Celsius. Divided by 41 (max)                         |
-| atemp       | Normalized feeling temperature in Celsius. Divided by 50 (max)                |
+| atemp       | Normalized perceived temperature in Celsius. Divided by 50 (max)                |
 | hum         | Normalized humidity. Divided by 100 (max)                                |
-| windspeed   | Normalized wind speed. Divided by 67 (max)                                   |
-| casual      | Count of casual users                                                    |
-| registered  | Count of registered users                                              |
-| cnt         | Count of total rental bikes including both casual and registered             |
+| windspeed   | Normalized wind speed. Divided by 67 (max)                               |
+| casual      | Count of casual rental bike users                                        |
+| registered  | Count of registered rental bike users                                    |
+| cnt         | Count of total rental bikes including both casual and registered         |
 
 Our first step will be to load the dataset into SAS Studio.
 
@@ -223,8 +223,9 @@ To use our own datasets on SAS Studio, we have to execute the following steps:
 
 1. Create a new library. In SAS, a library is a collection of datasets. If 
    you already have a library created, you can simply import datasets into it.
-   The default library on SAS is called `WORK`. However, the datasets will be 
-   purged every time you sign out. Hence it is better to create a new one.
+   The default library on SAS is called `WORK`. However, the datasets in `WORK` will be 
+   purged every time you sign out. Hence it is better to create a new, dedicated 
+   library for this course.
 2. Import your dataset (csv, xlsx, etc.) into the library.
 3. After this, the data will be available for use with the reference name
    `<library-name>.<dataset-name>`.
@@ -234,9 +235,9 @@ icon (the one circled in red in @fig-sas-lib-1), and create a new library called
 "ST2137". You can use the default suggested path for the library.
 
 ::: {layout-ncol=2}
-![New library](figs/sas_library-02.png){#fig-sas-lib-1}
+![SAS: New library creation icon](figs/sas_library-02.png){#fig-sas-lib-1}
 
-![Upload data](figs/sas_servers_files-02.png){#fig-sas-lib-2}
+![SAS: Upload data icon](figs/sas_servers_files-02.png){#fig-sas-lib-2}
    
 :::
 Now expand the menu for "Server Files and Folders" and upload `bike2.csv` file
@@ -251,10 +252,10 @@ SAS studio!
 
 ## Summarising Numerical Data
 
-The SAS routines we are going to work with can be found in the "Tasks and Utilities"
-section (see highlighted tasks in @fig-sas-tasks-01).
+Most of the SAS routines we are going to work with can be found in the "Tasks
+and Utilities" section (see highlighted tasks in @fig-sas-tasks-01).
 
-![Common ST2137 Tasks](figs/sas_tasks-01.png){#fig-sas-tasks-01 fig-align="center" width=30%}
+![SAS: Common ST2137 procedures](figs/sas_tasks-01.png){#fig-sas-tasks-01 fig-align="center" width=30%}
 
 ### Numerical Summaries
 
@@ -269,9 +270,9 @@ by computing five-number summaries for each season.
 Under Tasks, go to Statistcs > Summary Statistics. Select `cnt` as the analysis
 variable, and `season` as the classification variable. Under the options tab,
 select the lower and upper quartiles, along with comparative boxplots. The
-output should look like this @fig-sas-bike-02:
+output should look like @fig-sas-bike-02:
 
-![Summaries, Bike data](figs/sas_bike_summaries-01.png){#fig-sas-bike-02 fig-align="center" width="60%"}
+![SAS: 5-number-summaries and boxplots for bike rental data](figs/sas_bike_summaries-01.png){#fig-sas-bike-02 fig-align="center" width="60%"}
 
 We observe that the median count is highest for fall, followed by summer, winter
 and lastly spring. The spreads, as measured by IQR, are similar across the
@@ -294,7 +295,7 @@ Specify `casual` on the x-axis, `registered` on the y-axis, and `workingday` as
 the Group. You should observe the plot created @fig-sas-bike-01:
 
 
-![Scatter plot, Bike Data](figs/sas_bike_scatter-01.png){#fig-sas-bike-01 fig-align="center" width="60%"}
+![SAS: Scatterplot for bike rental data](figs/sas_bike_scatter-01.png){#fig-sas-bike-01 fig-align="center" width="60%"}
 
 We can see that there seem to be two different relationships between the 
 counts of casual and registered users. The two relationships correspond to whether
@@ -314,10 +315,11 @@ by whether a day is a working day or not. To create a histogram, go to
 Tasks > Graph > Histogram. Select `casual` as the analysis variable, and 
 `workingday` as the group variable. 
 
-![Histograms, Bike Data](figs/sas_bike_hist-01.png){#fig-sas-hist-01 fig-align="center" width=35%}
+![SAS: Histograms for bike rental data](figs/sas_bike_hist-01.png){#fig-sas-hist-01 fig-align="center" width=35%}
 
-From @fig-sas-hist-01, we can see that the distribution is right-skewed in both cases. However, the
-range of counts for non-working days extends further, to about 3500. 
+From @fig-sas-hist-01, we can see that the distribution is right-skewed in both
+cases. However, the range of counts for non-working days extends further, to
+about 3500.
 
 :::
 
@@ -328,18 +330,18 @@ range of counts for non-working days extends further, to about 3500.
 
 ### Boxplots for Casual Users, by Season
 
-In @exm-bike-summ-1, we observed that total counts vary by users, and in 
+In @exm-bike-summ-1, we observed that total counts vary by season, and in 
 @exm-bike-hist-1, we observed that working days seem to have fewer casual
 users. Let us investigate if this difference is related to season.
 
-To create boxplots, go to Tasks > Box Plot. Select `casual` as the analysis 
-variable, `season` as the category and `workingday` as the subcategory. You should
-obtain a plot like this @fig-sas-box-01:
+To create boxplots, go to Tasks > Box Plot. Select `casual` as the analysis
+variable, `season` as the category and `workingday` as the subcategory. You
+should obtain the plot in @fig-sas-box-01.
 
-![Boxplots, Bike Data](figs/sas_bike_boxplot-01.png){#fig-sas-box-01 fig-align="center" width="60%"}
+![SAS: Boxplots for bike rentals, by season](figs/sas_bike_boxplot-01.png){#fig-sas-box-01 fig-align="center" width="60%"}
 
-In order to order the seasons according to the calendar, I had to add this line 
-to the code:
+To order the seasons according to the calendar, I had to add this line to the
+code:
 
 ```{r}
 #| echo: true
@@ -351,15 +353,15 @@ proc sgplot data=ST2137.BIKE2;
 run;
 ```
 
-There is little insight from the previous two examples. However, now try the 
-same plots, but on the log scale (modify the APPEARANCE tab and re-run).  You should
-now obtain @fig-sas-box-02:
+There is little further insight compared to the previous two examples. However,
+now try the same plots, but on the log scale (modify the APPEARANCE tab and
+re-run).  You should now obtain @fig-sas-box-02.
 
-![Boxplots log scale, Bike Data](figs/sas_bike_boxplot-02.png){#fig-sas-box-02 fig-align="center" width="60%"}
+![SAS: Boxplots for bike rentals on log-scale, by season](figs/sas_bike_boxplot-02.png){#fig-sas-box-02 fig-align="center" width="60%"}
 
-Now, we can observe that the difference within each season, is constant across 
-seasons. Because the difference in logarithms is constant, it means that, 
-on the original scale, it is a constant multiplicative factor that increases counts 
+Now, we can observe that the difference within each season is constant across
+seasons. Because the difference in logarithms is constant, it means that, on the
+original scale, it is a constant multiplicative factor that increases counts
 from workingday to non-working day.
 
 We have arrived at a more succint representation of the relationship by using
@@ -381,9 +383,9 @@ kernel density estimate, and the Normal quantile-quantile plot. You should obtai
 the following two charts:
 
 ::: {layout-ncol=2}
-![Histogram for humidity](figs/sas_bike_qq-01.png)
+![SAS: Histogram for humidity](figs/sas_bike_qq-01.png)
 
-![QQ-plot for humidity](figs/sas_bike_qq-02.png)
+![sAS: QQ-plot for humidity](figs/sas_bike_qq-02.png)
 :::
 
 The plot shows that humidity values are quite close to a Normal distribution, apart 
@@ -409,23 +411,24 @@ and select:
 * `paid` as the row variable.
 * Under OPTIONS, check the "Chi-square statistics" box.
 
-The following output should enable you to perform the test (@fig-sas-chisq-01 and 
-@fig-sas-chisq-02).
+The output in @fig-sas-chisq-01 and @fig-sas-chisq-02 should enable you to
+perform the test.
 
 ::: {layout="[[1,1], [1]]"}
-![Observed & Expected Counts](figs/sas_stud_chisq-01.png){#fig-sas-chisq-01}
+![SAS: Observed & expected counts, student performance data](figs/sas_stud_chisq-01.png){#fig-sas-chisq-01}
 
-![Test statistic, p-value](figs/sas_stud_chisq-02.png){#fig-sas-chisq-02}
+![SAS: Test statistics and p-values for student performance data](figs/sas_stud_chisq-02.png){#fig-sas-chisq-02}
 
-![Mosaic Plot](figs/sas_stud_mosaic-01.png){#fig-sas-mos-01}
+![SAS: Mosaic plot for student performance data](figs/sas_stud_mosaic-01.png){#fig-sas-mos-01}
 
-
-:::
 
 :::
 
-For measures of association, we only need to select the option for "Measures of Association"
-to generate the Kendall $\tau_b$ that we covered earlier.
+:::
+
+For measures of association, we only need to select the option for "Measures of
+Association" to generate the Kendall $\tau_b$ that we covered earlier in Chapter
+4.
 
 ::: {style="background-color: #D5D1D164; padding: 20px" #exm-stud-chisq-1}
 
@@ -435,7 +438,7 @@ to generate the Kendall $\tau_b$ that we covered earlier.
 Once we load the data ST2137.STUD_PERF, we go to Tasks > Table Analysis. After 
 selecting the two variables, we check the appropriate box to obtain @fig-sas-tau-01.
 
-![Walc vs Dalc](figs/sas_stud_tau-01.png){#fig-sas-tau-01 fig-align="center" width=60%}
+![SAS: Categorical variables' association, Walc by Dalc](figs/sas_stud_tau-01.png){#fig-sas-tau-01 fig-align="center" width=60%}
 
 You may observe that the particular associations computed and returned are similar
 to those by the `Desc` R package that we used in @exm-chest-pain-4.
