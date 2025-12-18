@@ -662,7 +662,8 @@ please be familiar with the basic building blocks of simulation studies:
 3. R software:
    * [simmer](https://r-simmer.org/) for discrete event simulation
 4. [scipy documentation](https://docs.scipy.org/doc/scipy/reference/stats.html#probability-distributions)
-5. [Introduction to Bootstrapping](https://online.stat.psu.edu/stat555/node/119/)
+5. [Introduction to Bootstrapping](https://online.stat.psu.edu/stat555/node/119/): A    
+   concise description of bootstrapping from Penn State Stats department.
 
 ## Exercises
 
