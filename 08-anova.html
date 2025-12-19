@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -308,21 +308,22 @@ window.Quarto = {
 <section id="introduction" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
 <p>In the previous topic, we learned how to run two-sample <span class="math inline">\(t\)</span>-tests. The objective of these procedures is to compare the means from two groups. Frequently, however, the means of more than two groups need to be compared.</p>
-<p>In this topic, we introduce the <em>one-way analysis of variance</em> (ANOVA), which generalises the <span class="math inline">\(t\)</span>-test methodology to more than 2 groups. Hypothesis tests in the ANOVA framework require the assumption of Normality. When this does not hold, we turn to the Kruskal-Wallis test - the non-parametric version, to compare distributions between groups.</p>
-<p>While the <span class="math inline">\(F\)</span>-test in ANOVA provides a determination of whether or not the group means are different, in practice, we would always want to follow up with specific comparisons between groups as well. This topic covers how we can construct confidence intervals in those cases as well.</p>
+<p>In this topic, we introduce the <em>one-way analysis of variance</em> (ANOVA). It generalises the <span class="math inline">\(t\)</span>-test methodology to more than 2 groups. Hypothesis tests in the ANOVA framework require the assumption of Normality. When this does not hold, we turn to the Kruskal-Wallis test - a non-parametric version of ANOVA, to compare distributions between groups.</p>
+<p>While the <span class="math inline">\(F\)</span>-test in ANOVA provides a determination of whether or not the group means are different, in practice, we would always want to follow up with specific comparisons between groups as well. This chapter also covers how we can construct confidence intervals in those cases.</p>
 <div id="exm-antibiotics-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 8.1 (Effect of Antibiotics)</strong></span> </p>
-<p>The following example was taken from <span class="citation" data-cites="ekstrom2015statistical">Ekstrøm and Sørensen (<a href="references.html#ref-ekstrom2015statistical" role="doc-biblioref">2015</a>)</span>. An experiment with dung from heifers<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> was carried out in order to explore the influence of antibiotics on the decomposition of dung organic material. As part of the experiment, 36 heifers were randomly assigned into six groups.</p>
-<p>Antibiotics of different types were added to the feed for heifers in five of the groups. The remaining group served as a control group. For each heifer, a bag of dung was dug into the soil, and after 8 weeks the amount of organic material was measured for each bag.</p>
+<p>The following example is taken from <span class="citation" data-cites="ekstrom2015statistical">Ekstrøm and Sørensen (<a href="references.html#ref-ekstrom2015statistical" role="doc-biblioref">2015</a>)</span>. An experiment with dung from heifers<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> was carried out in order to explore the influence of antibiotics on the decomposition of dung organic material. As part of the experiment, 36 heifers were randomly assigned into six groups.</p>
+<p>Antibiotics of different types were added to the feed for heifers in five of the groups. The remaining group served as a control group. A bag of dung from each heifer was dug into the soil, and after 8 weeks, the amount of organic material remaining in each bag was measured.</p>
 <p><a href="#fig-heifers-bp" class="quarto-xref">Figure&nbsp;<span>8.1</span></a> contains a boxplot of the data from each group.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-heifers-bp" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
+<div id="fig-heifers-bp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-heifers-bp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="08-anova_files/figure-html/fig-heifers-bp-1.png" id="fig-heifers-bp" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
+<img src="08-anova_files/figure-html/fig-heifers-bp-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-heifers-bp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heifers-bp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1: Boxplot for heifers data
 </figcaption>
 </figure>
 </div>
@@ -361,14 +362,14 @@ Y_{ij}  = \mu + \alpha_i + e_{ij},\; i=1,\ldots,k,\; j=1,\ldots,n_i
 <li><span class="math inline">\(\alpha_i\)</span> is a constant specific to the <span class="math inline">\(i\)</span>-th group. It represents the difference between the mean of the <span class="math inline">\(i\)</span>-th group and the overall mean.</li>
 <li><span class="math inline">\(e_{ij}\)</span> represents random error about the mean <span class="math inline">\(\mu + \alpha_i\)</span> for an individual observation from the <span class="math inline">\(i\)</span>-th group.</li>
 </ul>
-<p>In terms of distributions, we assume that the <span class="math inline">\(e_{ij}\)</span> are i.i.d from a Normal distribution with mean 0 and variance <span class="math inline">\(\sigma^2\)</span>. This leads to the model for each observation:</p>
+<p>In terms of distributions, we assume that the <span class="math inline">\(e_{ij}\)</span> are i.i.d from a Normal distribution with mean 0 and variance <span class="math inline">\(\sigma^2\)</span>. This leads to the following model for each observation:</p>
 <p><span id="eq-yij"><span class="math display">\[
 Y_{ij} \sim N(\mu + \alpha_i,\; \sigma^2)
 \tag{8.1}\]</span></span></p>
 <p>It is not possible to estimate both <span class="math inline">\(\mu\)</span> and all the <span class="math inline">\(k\)</span> different <span class="math inline">\(\alpha_i\)</span>’s, since we only have <span class="math inline">\(k\)</span> observed mean values for the <span class="math inline">\(k\)</span> groups. For identifiability purposes, we need to constrain the parameters. There are two common constraints used, and note that different software have different defaults:</p>
 <ol type="1">
 <li>Setting <span class="math inline">\(\sum_{i=1}^k \alpha_i = 0\)</span>, or</li>
-<li>Setting <span class="math inline">\(\alpha_1= 0\)</span>.</li>
+<li>Setting the reference level <span class="math inline">\(\alpha_1= 0\)</span>.</li>
 </ol>
 <p>Continuing on from <a href="#eq-yij" class="quarto-xref">Equation&nbsp;<span>8.1</span></a>, let us denote the mean for the <span class="math inline">\(i\)</span>-th group as <span class="math inline">\(\overline{Y_i}\)</span>, and the overall mean of all observations as <span class="math inline">\(\overline{\overline{Y}}\)</span>. We can then write the deviation of an individual observation from the overall mean as:</p>
 <p><span id="eq-y-dev"><span class="math display">\[
@@ -376,7 +377,7 @@ Y_{ij} - \overline{\overline{Y}} = \underbrace{(Y_{ij} - \overline{Y_i})}_{\text
 \underbrace{(\overline{Y_i} - \overline{\overline{Y}})}_{\text{between}}
 \tag{8.2}\]</span></span></p>
 <p>The first term on the right of the above equation is the source of <em>within-group variability</em>. The second term on the right gives rise to <em>between-group variability</em>. The intuition behind the ANOVA procedure is that if the between-group variability is large and the within-group variability is small, then we have evidence that the group means are different.</p>
-<p>If we square both sides of <a href="#eq-y-dev" class="quarto-xref">Equation&nbsp;<span>8.2</span></a> and sum over all observations, we arrive at the following equation; the essence of ANOVA:</p>
+<p>If we square both sides of <a href="#eq-y-dev" class="quarto-xref">Equation&nbsp;<span>8.2</span></a> and sum over all observations, we arrive at the following equation, the essence of ANOVA:</p>
 <p><span class="math display">\[
 \sum_{i=1}^k \sum_{j=1}^{n_i} \left( Y_{ij} - \overline{\overline{Y}} \right)^2 =
 \sum_{i=1}^k \sum_{j=1}^{n_i} \left( Y_{ij} - \overline{Y_i} \right)^2 +
@@ -418,15 +419,15 @@ F = \frac{MS_B}{MS_W}
 <h3 class="anchored" data-anchor-id="assumptions">Assumptions</h3>
 <p>These are the assumptions that will need to be validated.</p>
 <ol type="1">
-<li>The observations are independent of each other. This is usually a characteristic of the design of the experiment, and is not something we can always check from the data.</li>
-<li>The errors are Normally distributed. Residuals can be calculated as follows: <span class="math display">\[
+<li><em>The observations are independent of each other.</em> This is usually a characteristic of the design of the experiment, and is not something we can always check from the data.</li>
+<li><em>The errors are Normally distributed.</em> Residuals can be calculated as follows: <span class="math display">\[
 Y_{ij} - \overline{Y_i}
 \]</span> The distribution of these residuals should be checked for Normality.</li>
-<li>The variance within each group is the same. In ANOVA, the <span class="math inline">\(MS_W\)</span> is a pooled estimate (across the groups) that is used; in order for this to be valid, the variance within each group should be identical. As in the 2-sample situation, we shall avoid separate hypotheses tests and proceed with the rule-of-thumb that if the ratio of the largest to smallest standard deviation is less than 2, we can proceed with the analysis.</li>
+<li><em>The variance within each group is the same.</em> In ANOVA, the <span class="math inline">\(MS_W\)</span> is a pooled estimate (across the groups) that is used; in order for this to be valid, the variance within each group should be identical. Just as in the 2-sample situation, we shall avoid separate hypotheses tests and proceed with the rule-of-thumb that if the ratio of the largest to smallest standard deviation is less than 2, we can proceed with the analysis.</li>
 </ol>
 <div id="exm-antibiotics-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 8.2 (F-test)</strong></span> </p>
-<p>We being by applying the overall <span class="math inline">\(F\)</span>-test to the heifers data, to assess if there is any significant difference between the means.</p>
+<p><span class="theorem-title"><strong>Example 8.2 (F-test for Heifers Data)</strong></span> </p>
+<p>We begin by applying the overall <span class="math inline">\(F\)</span>-test to the heifers data, to assess if there is any significant difference between the means.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">SAS output</a></li></ul>
 <div class="tab-content">
@@ -474,7 +475,8 @@ Residual  28.0  0.415000  0.014821       NaN      NaN</code></pre>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_anova_f_test.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="figs/sas_anova_f_test.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>SAS: F-test for heifers data</figcaption>
 </figure>
 </div>
 </div>
@@ -525,8 +527,8 @@ F-statistic: 7.973 on 5 and 28 DF,  p-value: 8.953e-05</code></pre>
 Dep. Variable:                    org   R-squared:                       0.587
 Model:                            OLS   Adj. R-squared:                  0.514
 Method:                 Least Squares   F-statistic:                     7.973
-Date:                Sun, 14 Dec 2025   Prob (F-statistic):           8.95e-05
-Time:                        07:43:27   Log-Likelihood:                 26.655
+Date:                Thu, 18 Dec 2025   Prob (F-statistic):           8.95e-05
+Time:                        11:00:05   Log-Likelihood:                 26.655
 No. Observations:                  34   AIC:                            -41.31
 Df Residuals:                      28   BIC:                            -32.15
 Df Model:                           5                                         
@@ -555,7 +557,8 @@ Notes:
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_anova_heifer_group_means.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="figs/sas_anova_heifer_group_means.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>SAS: Group summaries for heifers data</figcaption>
 </figure>
 </div>
 </div>
@@ -567,7 +570,7 @@ Notes:
 \]</span> From the Python output, we can read off (the Intercept term) that the estimate for <code>Alfacyp</code> is precisely <span class="math display">\[
 2.895 + 0 = 2.895
 \]</span></p>
-<p>To check the assumptions, we can use the following code:</p>
+<p>To check the assumptions, we can use the following code, which results in the two plots <a href="#fig-r-heifers-normality-1" class="quarto-xref">Figure&nbsp;<span>8.2</span></a> and <a href="#fig-r-heifers-normality-2" class="quarto-xref">Figure&nbsp;<span>8.3</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li></ul>
 <div class="tab-content">
@@ -578,11 +581,29 @@ Notes:
 <span id="cb10-4"><a href="#cb10-4"></a><span class="fu">qqnorm</span>(r1); <span class="fu">qqline</span>(r1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="08-anova_files/figure-html/r-normality-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-r-heifers-normality-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-heifers-normality-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-anova_files/figure-html/fig-r-heifers-normality-1.png" class="img-fluid figure-img" width="672">
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="08-anova_files/figure-html/r-normality-2.png" class="img-fluid" width="672"></p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-heifers-normality-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.2: R: Histogram for heifers
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-r-heifers-normality-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-heifers-normality-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-anova_files/figure-html/fig-r-heifers-normality-2.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-heifers-normality-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.3: R: QQ-plot for heifers
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -598,9 +619,10 @@ Notes:
 <span id="cb11-7"><a href="#cb11-7"></a>tmp <span class="op">=</span> plt.subplot(<span class="dv">122</span>)</span>
 <span id="cb11-8"><a href="#cb11-8"></a>sm.qqplot(heifer_lm.resid, line<span class="op">=</span><span class="st">"q"</span>, ax<span class="op">=</span>tmp)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="08-anova_files/figure-html/py-normality-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Py: Normality checks for heifers</figcaption>
 </figure>
 </div>
 </div>
@@ -643,7 +665,7 @@ Important
 </div>
 <div id="exm-antibiotics-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 8.3 (Enrofloxacin vs.&nbsp;Control)</strong></span> </p>
-<p>Let us attempt to answer question (2), that we had set out earlier in <a href="#exm-antibiotics-1" class="quarto-xref">Example&nbsp;<span>8.1</span></a>.</p>
+<p>Let us attempt to answer question (2) from the set of questions earlier in <a href="#exm-antibiotics-1" class="quarto-xref">Example&nbsp;<span>8.1</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">SAS code</a></li></ul>
 <div class="tab-content">
@@ -686,7 +708,7 @@ Important
 </div>
 </div>
 <div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
-<p>In order to get SAS to generate the estimate, modify the code to include <code>clparm</code> in the <code>model</code> statement, and include the <code>estimate</code> statement.</p>
+<p>In order to get SAS to generate the estimate, modify the default ANOVA code to include <code>clparm</code> in the <code>model</code> statement, and include the <code>estimate</code> statement.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>proc glm data<span class="ot">=</span>ST2137.HEIFERS;</span>
 <span id="cb16-2"><a href="#cb16-2"></a>    class type;</span>
@@ -732,7 +754,7 @@ t_{n-k, \alpha/2}  \times
 </ol>
 <div id="exm-antibiotics-4" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 8.4 (Comparing collection of groups)</strong></span> </p>
-<p>Let sub-group 1 consist of Ivermectin and Fenbendazole. Here is how we can compute a confidence interval for the difference between this sub-group, and Enrofloxacin.</p>
+<p>Let sub-group (A) consist of Ivermectin and Fenbendazole. Here is how we can compute a confidence interval for the difference between this sub-group, and Enrofloxacin.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">SAS code</a></li></ul>
 <div class="tab-content">
@@ -793,7 +815,8 @@ t_{n-k, \alpha/2}  \times
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_anova_heifer_contrast2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="figs/sas_anova_heifer_contrast2.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>SAS: Contrast estimation for heifers data</figcaption>
 </figure>
 </div>
 </div>
@@ -806,7 +829,7 @@ t_{n-k, \alpha/2}  \times
 <p>The procedures in the previous two subsections correspond to contrasts that we had specified before collecting or studying the data. If, instead, we wished to perform particular comparisons after studying the group means, or if we wish to compute all pairwise contrasts, then we need to adjust for the fact that we are conducting multiple tests. If we do not do so, the chance of making at least one false positive increases greatly.</p>
 <section id="bonferroni" class="level3">
 <h3 class="anchored" data-anchor-id="bonferroni">Bonferroni</h3>
-<p>The simplest method for correcting for multiple comparisons is to use the Bonferroni correction. Suppose we wish to perform <span class="math inline">\(m\)</span> pairwise comparisons, either as a test or by computing confidence intervals. If we wish to maintain the significance level of each test at <span class="math inline">\(\alpha\)</span>, then we should perform each of the <span class="math inline">\(m\)</span> tests/confidence intervals at <span class="math inline">\(\alpha/m\)</span>.</p>
+<p>The simplest method for correcting for multiple comparisons is to use the Bonferroni correction. Suppose we wish to perform <span class="math inline">\(m\)</span> pairwise comparisons, either as a test or by computing confidence intervals. If we wish to maintain the significance level of each test at <span class="math inline">\(\alpha\)</span>, then we should perform each of the <span class="math inline">\(m\)</span> tests or confidence intervals at <span class="math inline">\(\alpha/m\)</span>.</p>
 </section>
 <section id="tukeyhsd" class="level3">
 <h3 class="anchored" data-anchor-id="tukeyhsd">TukeyHSD</h3>
@@ -878,7 +901,8 @@ Ivermect Spiramyc  -0.1467 0.4424 -0.3868  0.0935  False
 <div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_anova_heifer_hsd.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="figs/sas_anova_heifer_hsd.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>SAS: Multiple comparisons in heifers data</figcaption>
 </figure>
 </div>
 </div>
@@ -950,7 +974,8 @@ the p-value is 0.001.</code></pre>
 <div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_kruskal_wallis_a.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="figs/sas_kruskal_wallis_a.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>SAS: Kruskal-Wallis output, heifers data</figcaption>
 </figure>
 </div>
 </div>
@@ -961,7 +986,7 @@ the p-value is 0.001.</code></pre>
 </section>
 <section id="summary" class="level2" data-number="8.7">
 <h2 data-number="8.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">8.7</span> Summary</h2>
-<p>The purpose of this topic is to introduce you to the one-way ANOVA model. While there are restrictive distributional assumptions that it entails, I once again urge you to look past, at the information the method conveys. It attempts to compare the within-group variance to the between-group variance. Try to avoid viewing statistical procedures as flowcharts. If an assumption does not hold, or a p-value is borderline significant, try to investigate further on how sensitive the result is to those assumptions.</p>
+<p>The purpose of this topic was to introduce you to the one-way ANOVA model. While there are restrictive distributional assumptions that it entails, I once again urge you to focus on the information the method conveys. It attempts to compare the within-group variance to the between-group variance. Try to avoid viewing statistical procedures as flowcharts. If an assumption does not hold, or a p-value is borderline significant, or try to identify which points lead to the result being significant (or not).</p>
 <p>Our job as analysts does not end after reporting the p-value from the <span class="math inline">\(F\)</span>-test. We should try to dig deeper to uncover which groups are the ones that are different from the rest.</p>
 <p>Finally, take note that we should specify the contrasts we wish to test/estimate upfront, even before collecting the data. Only the Tukey comparison method (HSD) is valid if we perform multiple comparisons after inspecting the data.</p>
 <p>Most of the theoretical portions in this topic were taken from the textbook <span class="citation" data-cites="rosner2015fundamentals">Rosner (<a href="references.html#ref-rosner2015fundamentals" role="doc-biblioref">2015</a>)</span>.</p>
@@ -973,8 +998,22 @@ the p-value is 0.001.</code></pre>
 <ol type="1">
 <li><a href="https://statisticsbyjim.com/anova/welchs-anova-compared-to-classic-one-way-anova/">Welch’s ANOVA</a> This website discusses an alternative test when the equal variance assumption has not been satisfied. It is for information only; it will not be tested.</li>
 <li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html">scipy stats</a> This website contains documentation on the distribution-related functions that we might need from scipy stats, e.g.&nbsp;retrieving quantiles.</li>
-<li><a href="https://stats.oarc.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/">Contrast coding</a></li>
-<li><a href="https://rcompanion.org/rcompanion/d_04.html">Type I,II,III SS</a></li>
+<li><a href="https://stats.oarc.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/">Contrast coding</a>: More information about how to set the constraints for estimation in R.</li>
+<li><a href="https://rcompanion.org/rcompanion/d_04.html">Type I,II,III SS</a>: When working with ANOVA (especially with unbalanced models), you may come across different types of Sum of Squares. You will learn more about this in ST4233.</li>
+</ol>
+</section>
+<section id="exercises" class="level3">
+<h3 class="anchored" data-anchor-id="exercises">Exercises</h3>
+<ol type="1">
+<li>Compare the formula for confidence intervals in <a href="#sec-spec-grps" class="quarto-xref"><span>Section 8.3</span></a> with the formula in <a href="07-2_sample_tests.html#sec-t-test-formulas" class="quarto-xref"><span>Section 7.4.1.1</span></a>. How are they different?</li>
+<li>Consider the formula for test statistic in the F-test. Can you conceive of a robust version of it?</li>
+<li>Assess if the average of (Alfacyp, Enroflox, Spiramycin) is significantly different from (Ivermectin, Fenbendazole) at 5% significance level.</li>
+<li>Apply the Bonferroni correction to the following two comparisons:
+<ol type="1">
+<li>Alfacyp vs.&nbsp;Ivermectin</li>
+<li>Enrofloxacin vs.&nbsp;Fenbendazonle</li>
+</ol></li>
+<li>Apply the ANOVA F-test to the <code>G3</code> scores, by <code>Medu</code>, for the student performance dataset.</li>
 </ol>
 
 

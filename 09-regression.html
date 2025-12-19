@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -281,6 +281,7 @@ window.Quarto = {
   <li><a href="#residual-diagnostics" id="toc-residual-diagnostics" class="nav-link" data-scroll-target="#residual-diagnostics"><span class="header-section-number">9.7</span> Residual Diagnostics</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9.8</span> Further Reading</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.9</span> References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">9.10</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -321,9 +322,8 @@ window.Quarto = {
 <li>To predict the response variable for new values of the explanatory variables. This is referred to as <em>prediction</em>.</li>
 </ol>
 <p>In our course, we shall focus on the estimation aim, since prediction models require a paradigm of their own, and are best learnt alongside a larger suite of models e.g.&nbsp;decision trees, support vector machines, etc.</p>
-<p>In subsequent sections, we shall revisit a couple of datasets from earlier topics to run linear regression models on them.</p>
 <div id="exm-concrete-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
-<p><span class="theorem-title"><strong>Example 9.1 (Concrete Data: Flow on Water)</strong></span> Recall the concrete dataset that we first encountered in the topic on summarising data. We shall go on to fit a linear regression to understand the relationship between the output of the flow test, and the amount of water used to create the concrete.</p>
+<p><span class="theorem-title"><strong>Example 9.1 (Concrete Data: Flow on Water)</strong></span> Recall the concrete dataset that we first encountered in <a href="03-summarising_data.html#exm-concrete-intro" class="quarto-xref">Example&nbsp;<span>3.6</span></a>. The fitted regression model, that estimates the relationship between the output of the flow test, and the amount of water used to create the concrete, is shown in <a href="#fig-flow-water" class="quarto-xref">Figure&nbsp;<span>9.1</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-flow-water" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -371,7 +371,7 @@ Figure&nbsp;9.2: Scatterplot of registered vs.&nbsp;casual bike renters
 Y_i = \beta_0 + \beta_1 X_i + e_i
 \tag{9.1}\]</span></span> where</p>
 <ul>
-<li><span class="math inline">\(\beta_0\)</span> is intercept term,</li>
+<li><span class="math inline">\(\beta_0\)</span> is the intercept term,</li>
 <li><span class="math inline">\(\beta_1\)</span> is the slope, and</li>
 <li><span class="math inline">\(e_i\)</span> is an error term, specific to each individual in the dataset.</li>
 </ul>
@@ -379,7 +379,7 @@ Y_i = \beta_0 + \beta_1 X_i + e_i
 <p><span id="eq-error-term"><span class="math display">\[
 e_i \sim N(0, \sigma^2), \; i =1\ldots, n
 \tag{9.2}\]</span></span></p>
-<p>The constant variance assumption is also referred to as homoscedascity (homo-skee-das-city). The validity of the above assumptions will have to be checked after the model is fitted. All in all, the assumptions imply that:</p>
+<p>The constant variance assumption is also referred to as homoscedasticity (homo-ski-das-ti-city). The validity of the above assumptions will have to be checked after the model is fitted. All in all, the assumptions imply that:</p>
 <ol type="1">
 <li><span class="math inline">\(E(Y_i | X_i) = \beta_0 + \beta_1 X_i\)</span>, for <span class="math inline">\(i=1, \ldots, n\)</span>.</li>
 <li><span class="math inline">\(Var(Y_i | X_i) = Var(e_i) = \sigma^2\)</span>, for <span class="math inline">\(i=1, \ldots, n\)</span>.</li>
@@ -410,7 +410,7 @@ S_{XX} &amp;=&amp; \sum_{i=1}^n X_i^2 - \frac{(\sum_{i=1}^n X_i )^2}{n}
 \end{eqnarray*}\]</span> then a form convenient for computation of <span class="math inline">\(\hat{\beta_1}\)</span> is <span class="math display">\[
 \hat{\beta_1} = \frac{S_{XY}}{S_{XX}}
 \]</span></p>
-<p>Once we have the estimates, we can use <a href="#eq-slr-model" class="quarto-xref">Equation&nbsp;<span>9.1</span></a> to compute <em>fitted</em> values for each observation, corresponding to our best guess of the mean of the distributions from which the observations arose: <span class="math display">\[
+<p>Once we have the estimates, we can use <a href="#eq-slr-model" class="quarto-xref">Equation&nbsp;<span>9.1</span></a> to compute <em>fitted</em> values for each observation. These correspond to our best guess of the mean of the distributions from which the observations arose: <span class="math display">\[
 \hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i, \quad i = 1, \ldots, n
 \]</span> As always, we can form residuals as the deviations from fitted values. <span id="eq-res-def"><span class="math display">\[
 r_i = Y_i - \hat{Y}_i
@@ -457,8 +457,8 @@ T_0 = \frac{\hat{\beta_1}}{\sqrt{\hat{\sigma^2}/S_{XX}}}
 <p>The coefficient of determination <span class="math inline">\(R^2\)</span> is defined as</p>
 <p><span class="math display">\[
 R^2 = 1 - \frac{SS_{Res}}{SS_T} = \frac{SS_{Reg}}{SS_T}
-\]</span> It can be interpreted as the proportion of variation in <span class="math inline">\(Yi\)</span>, explained by the inclusion of <span class="math inline">\(X_i\)</span>. Since <span class="math inline">\(0 \le SS_{Res} \le SS_T\)</span>, we can easily prove that <span class="math inline">\(0 \le R^2 \le 1\)</span>. The larger the value of <span class="math inline">\(R^2\)</span> is, the better the model is.</p>
-<p>When we get to the case of multiple linear regression, take note that simply including more variables in the model will increase <span class="math inline">\(R^2\)</span>. This is undesirable; it is preferable to have a parsimonious model that explains the response variable well.</p>
+\]</span> It can be interpreted as the proportion of variation in <span class="math inline">\(Y_i\)</span>, explained by the inclusion of <span class="math inline">\(X_i\)</span>. Since <span class="math inline">\(0 \le SS_{Res} \le SS_T\)</span>, we can easily prove that <span class="math inline">\(0 \le R^2 \le 1\)</span>. The larger the value of <span class="math inline">\(R^2\)</span> is, the better the model is.</p>
+<p>When we get to the case of multiple linear regression, take note that simply including more variables in the model can increase <span class="math inline">\(R^2\)</span>. This is undesirable; it is preferable to have a parsimonious model that explains the response variable well.</p>
 <div id="exm-concrete-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 9.3 (Concrete Data Model)</strong></span> </p>
 <p>In this example, we focus on the estimation of the model parameters for the two variables we introduced in <a href="#exm-concrete-1" class="quarto-xref">Example&nbsp;<span>9.1</span></a></p>
@@ -515,8 +515,8 @@ F-statistic: 67.18 on 1 and 101 DF,  p-value: 8.097e-13</code></pre>
 Dep. Variable:                   Flow   R-squared:                       0.399
 Model:                            OLS   Adj. R-squared:                  0.394
 Method:                 Least Squares   F-statistic:                     67.18
-Date:                Sun, 14 Dec 2025   Prob (F-statistic):           8.10e-13
-Time:                        07:42:46   Log-Likelihood:                -414.60
+Date:                Fri, 19 Dec 2025   Prob (F-statistic):           8.10e-13
+Time:                        15:44:11   Log-Likelihood:                -414.60
 No. Observations:                 103   AIC:                             833.2
 Df Residuals:                     101   BIC:                             838.5
 Df Model:                           1                                         
@@ -543,13 +543,14 @@ strong multicollinearity or other numerical problems.</code></pre>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_concrete_flow_water_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<p><img src="figs/sas_concrete_flow_water_reg.png" class="img-fluid figure-img" width="450"></p>
+<figcaption>SAS: Regression output flow versus water</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<p>From the output, we can note that the <em>estimated</em> model for Flow (<span class="math inline">\(Y\)</span>) against Water (<span class="math inline">\(X\)</span>) is: <span class="math display">\[
+<p>From the output, we note that the <em>estimated</em> model for Flow (<span class="math inline">\(Y\)</span>) against Water (<span class="math inline">\(X\)</span>) is: <span class="math display">\[
 Y = -58.73 + 0.55 X
 \]</span> The estimates are <span class="math inline">\(\hat{\beta_0} = -58.73\)</span> and <span class="math inline">\(\hat{\beta_1} = 0.55\)</span>. This is the precise equation that was plotted in <a href="#fig-flow-water" class="quarto-xref">Figure&nbsp;<span>9.1</span></a>. The <span class="math inline">\(R^2\)</span> is labelled as “Multiple R-squared” in the R output. The value is 0.3995, which means that about 40% of the variation in <span class="math inline">\(Y\)</span> is explained by <span class="math inline">\(X\)</span>.</p>
 <p>A simple interpretation<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> of the model is as follows:</p>
@@ -583,6 +584,7 @@ Water         0.4164861   0.6824575</code></pre>
 <div id="exm-bike-2" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 9.4 (Bike Data F-test)</strong></span> </p>
 <p>In this example, we shall fit a simple linear regression model to the bike data, <em>constrained to the non-working days</em>. In other words, we shall focus on fitting just the blue line, from the blue points, in <a href="#fig-reg-casual" class="quarto-xref">Figure&nbsp;<span>9.2</span></a>.</p>
+<p>Take note that in this example, in the R and Python output, we print an analysis of variance table instead of using the <code>summary()</code> methods. The latter provide coefficient estimates, but the former output only returns a sum-of-squares breakdown.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">SAS output</a></li></ul>
 <div class="tab-content">
@@ -624,7 +626,8 @@ Residual  229.0  1.473870e+08  6.436112e+05         NaN           NaN</code></pr
 <div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_bike_reg_casual_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<p><img src="figs/sas_bike_reg_casual_reg.png" class="img-fluid figure-img" width="450"></p>
+<figcaption>SAS: Regression output registered versus casual bike users</figcaption>
 </figure>
 </div>
 </div>
@@ -655,7 +658,7 @@ E(Y | X) = \beta_0 + \beta_1 X
 <span id="cb11-3"><a href="#cb11-3"></a>conf_intervals <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_flow_water, new_df, <span class="at">interval=</span><span class="st">"conf"</span>)</span>
 <span id="cb11-4"><a href="#cb11-4"></a></span>
 <span id="cb11-5"><a href="#cb11-5"></a><span class="fu">plot</span>(concrete<span class="sc">$</span>Water, concrete<span class="sc">$</span>FLOW.cm., <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
-<span id="cb11-6"><a href="#cb11-6"></a>     <span class="at">xlab=</span><span class="st">"Water"</span>, <span class="at">ylab=</span><span class="st">"Flow"</span>, <span class="at">main=</span><span class="st">"Confidence and Prediction Intervals"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a>     <span class="at">xlab=</span><span class="st">"Water"</span>, <span class="at">ylab=</span><span class="st">"Flow"</span>, <span class="at">main=</span><span class="st">"Confidence Bands for Flow vs. Water"</span>)</span>
 <span id="cb11-7"><a href="#cb11-7"></a><span class="fu">abline</span>(lm_flow_water, <span class="at">col=</span><span class="st">"red"</span>)</span>
 <span id="cb11-8"><a href="#cb11-8"></a><span class="fu">lines</span>(new_df<span class="sc">$</span>Water, conf_intervals[,<span class="st">"lwr"</span>], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
 <span id="cb11-9"><a href="#cb11-9"></a><span class="fu">lines</span>(new_df<span class="sc">$</span>Water, conf_intervals[,<span class="st">"upr"</span>], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
@@ -664,7 +667,8 @@ E(Y | X) = \beta_0 + \beta_1 X
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="09-regression_files/figure-html/r-concrete-pred-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="09-regression_files/figure-html/r-concrete-pred-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>R: Confidence intervals flow versus water</figcaption>
 </figure>
 </div>
 </div>
@@ -678,7 +682,7 @@ E(Y | X) = \beta_0 + \beta_1 X
 <span id="cb12-4"><a href="#cb12-4"></a>predictions_out <span class="op">=</span> lm_flow_water.get_prediction(new_df)</span>
 <span id="cb12-5"><a href="#cb12-5"></a></span>
 <span id="cb12-6"><a href="#cb12-6"></a>ax <span class="op">=</span> concrete.plot(x<span class="op">=</span><span class="st">'Water'</span>, y<span class="op">=</span><span class="st">'Flow'</span>, kind<span class="op">=</span><span class="st">'scatter'</span>, alpha<span class="op">=</span><span class="fl">0.5</span> )</span>
-<span id="cb12-7"><a href="#cb12-7"></a>ax.set_title(<span class="st">'Flow vs. Water'</span>)<span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a>ax.set_title(<span class="st">'Confidence Bands for Flow vs. Water'</span>)<span class="op">;</span></span>
 <span id="cb12-8"><a href="#cb12-8"></a>ax.plot(new_df.Water, predictions_out.conf_int()[:, <span class="dv">0</span>].reshape(<span class="op">-</span><span class="dv">1</span>), </span>
 <span id="cb12-9"><a href="#cb12-9"></a>        color<span class="op">=</span><span class="st">'blue'</span>, linestyle<span class="op">=</span><span class="st">'dashed'</span>)<span class="op">;</span></span>
 <span id="cb12-10"><a href="#cb12-10"></a>ax.plot(new_df.Water, predictions_out.conf_int()[:, <span class="dv">1</span>].reshape(<span class="op">-</span><span class="dv">1</span>), </span>
@@ -687,7 +691,8 @@ E(Y | X) = \beta_0 + \beta_1 X
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="09-regression_files/figure-html/py-concrete-pred-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="09-regression_files/figure-html/py-concrete-pred-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Py: Confidence intervals flow versus water</figcaption>
 </figure>
 </div>
 </div>
@@ -696,7 +701,8 @@ E(Y | X) = \beta_0 + \beta_1 X
 <div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_concrete_flow_water_reg_fitplot.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<p><img src="figs/sas_concrete_flow_water_reg_fitplot.png" class="img-fluid figure-img" width="450"></p>
+<figcaption>SAS: Confidence intervals flow versus water</figcaption>
 </figure>
 </div>
 </div>
@@ -768,7 +774,7 @@ SS_E = S(\beta_0, \beta_1,\ldots,\beta_p) = \sum_{i=1}^n (Y_i - \beta_0 -
 <p>In the case of multiple linear regression, <span class="math inline">\(R^2\)</span> is calculated exactly as in simple linear regression, and its interpretation remains the same: <span class="math display">\[
 R^2 = 1 - \frac{SS_{Res}}{SS_T}
 \]</span></p>
-<p>However, note that <span class="math inline">\(R^2\)</span> can be inflated simply by adding more terms to the model (even insignificant terms). Thus, we use the adjusted <span class="math inline">\(R^2\)</span>, which penalizes us for adding more and more terms to the model: <span class="math display">\[
+<p>However, note that <span class="math inline">\(R^2\)</span> can be inflated simply by adding more terms to the model (even insignificant terms). Thus, we use the adjusted <span class="math inline">\(R^2\)</span>, which penalizes the model for adding more and more terms to the model: <span class="math display">\[
 R^2_{adj} = 1 - \frac{SS_{Res}/(n-p)}{SS_T/(n-1)}
 \]</span></p>
 </section>
@@ -836,8 +842,8 @@ F-statistic: 49.17 on 2 and 100 DF,  p-value: 1.347e-15</code></pre>
 Dep. Variable:                   Flow   R-squared:                       0.496
 Model:                            OLS   Adj. R-squared:                  0.486
 Method:                 Least Squares   F-statistic:                     49.17
-Date:                Sun, 14 Dec 2025   Prob (F-statistic):           1.35e-15
-Time:                        07:42:47   Log-Likelihood:                -405.59
+Date:                Fri, 19 Dec 2025   Prob (F-statistic):           1.35e-15
+Time:                        15:44:12   Log-Likelihood:                -405.59
 No. Observations:                 103   AIC:                             817.2
 Df Residuals:                     100   BIC:                             825.1
 Df Model:                           2                                         
@@ -865,7 +871,8 @@ strong multicollinearity or other numerical problems.</code></pre>
 <div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_concrete_flow_water_slag_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<p><img src="figs/sas_concrete_flow_water_slag_reg.png" class="img-fluid figure-img" width="450"></p>
+<figcaption>SAS: Regression output, flow vs water and slag</figcaption>
 </figure>
 </div>
 </div>
@@ -905,7 +912,7 @@ Y = (\beta_0 + \beta_3) + \beta_1 X_1 + \beta_2 X_2 + e
 <p>In general, if the categorical variable has <span class="math inline">\(a\)</span> levels, we will need <span class="math inline">\(a-1\)</span> columns of indicator variables to represent it. This is in contrast to machine learning models which use one-hot encoding. The latter encoding results in columns that are linearly dependent if we include an intercept term in the model.</p>
 <div id="exm-bike-3" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 9.7 (Bike Data Working Day)</strong></span> </p>
-<p>In this example, we shall improve on the simple linear regression model from <a href="#exm-bike-2" class="quarto-xref">Example&nbsp;<span>9.4</span></a>. Instead of a single model for just non-working days, we shall fit separate models for working and non-working days by including that variable as a categorical one.</p>
+<p>In this example, we shall improve on the simple linear regression model from <a href="#exm-bike-2" class="quarto-xref">Example&nbsp;<span>9.4</span></a>. Instead of a model for only non-working days, we shall fit a single model that encompasses working and non-working days, by including that variable as a categorical one.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">SAS output</a></li></ul>
 <div class="tab-content">
@@ -948,8 +955,8 @@ F-statistic: 378.7 on 2 and 728 DF,  p-value: &lt; 2.2e-16</code></pre>
 Dep. Variable:             registered   R-squared:                       0.510
 Model:                            OLS   Adj. R-squared:                  0.509
 Method:                 Least Squares   F-statistic:                     378.7
-Date:                Sun, 14 Dec 2025   Prob (F-statistic):          1.81e-113
-Time:                        07:42:47   Log-Likelihood:                -6150.8
+Date:                Fri, 19 Dec 2025   Prob (F-statistic):          1.81e-113
+Time:                        15:44:12   Log-Likelihood:                -6150.8
 No. Observations:                 731   AIC:                         1.231e+04
 Df Residuals:                     728   BIC:                         1.232e+04
 Df Model:                           2                                         
@@ -977,7 +984,8 @@ strong multicollinearity or other numerical problems.</code></pre>
 <div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_bike_reg_casual_workday_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<p><img src="figs/sas_bike_reg_casual_workday_reg.png" class="img-fluid figure-img" width="450"></p>
+<figcaption>SAS: Regression model, rental bike users on casual and working day</figcaption>
 </figure>
 </div>
 </div>
@@ -994,17 +1002,23 @@ Y =
 2935 + 1.72 X_1, &amp; \text{for working days}
 \end{cases}
 \]</span></p>
-<p>We can plot the two models on the scatterplot to see how they work better than the original model.</p>
+<p>We can plot the two models on the scatterplot to see how they work better than the original model (ref. <a href="#fig-r-bike-compare-models" class="quarto-xref">Figure&nbsp;<span>9.3</span></a>)</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="09-regression_files/figure-html/r-plot-bike-lm2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<div id="fig-r-bike-compare-models" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-bike-compare-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-regression_files/figure-html/fig-r-bike-compare-models-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-bike-compare-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.3: R: Comparing two linear regression models
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The dashed line corresponds to the earlier model, from <a href="#exm-bike-3" class="quarto-xref">Example&nbsp;<span>9.7</span></a>. With the new model, we have fitted separate intercepts to the two days, but the same slope. The benefit of fitting the model in this way, instead of breaking up the data into two portions and a different model on each one is that we use the entire dataset to estimate the variability. If we wish to fit separate intercepts <em>and</em> slopes, we need to include an <em>interaction term</em>, which is what the next subsection is about.</p>
+<p>The dashed line corresponds to the earlier model, from <a href="#exm-bike-3" class="quarto-xref">Example&nbsp;<span>9.7</span></a>. With the new model, we have fitted separate intercepts to the two days, but the same slope. The benefit of fitting the model in this way, instead of breaking up the data into two portions and a different model on each one is that we use the entire dataset to estimate the variability.</p>
+<p>If we wish to fit separate intercepts <em>and</em> slopes, we need to include an <em>interaction term</em>, which is what the next subsection is about.</p>
 </div>
 </section>
 </section>
@@ -1065,8 +1079,8 @@ F-statistic: 377.5 on 3 and 727 DF,  p-value: &lt; 2.2e-16</code></pre>
 Dep. Variable:             registered   R-squared:                       0.609
 Model:                            OLS   Adj. R-squared:                  0.607
 Method:                 Least Squares   F-statistic:                     377.5
-Date:                Sun, 14 Dec 2025   Prob (F-statistic):          9.38e-148
-Time:                        07:42:47   Log-Likelihood:                -6068.3
+Date:                Fri, 19 Dec 2025   Prob (F-statistic):          9.38e-148
+Time:                        15:44:13   Log-Likelihood:                -6068.3
 No. Observations:                 731   AIC:                         1.214e+04
 Df Residuals:                     727   BIC:                         1.216e+04
 Df Model:                           3                                         
@@ -1095,7 +1109,8 @@ strong multicollinearity or other numerical problems.</code></pre>
 <div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_bike_reg_casual_workday_interaction_reg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<p><img src="figs/sas_bike_reg_casual_workday_interaction_reg.png" class="img-fluid figure-img" width="450"></p>
+<figcaption>SAS: Regression model, interaction between working day and casual users</figcaption>
 </figure>
 </div>
 </div>
@@ -1109,12 +1124,13 @@ Y =
 2168 + 2.97 X_1, &amp; \text{for working days}
 \end{cases}
 \]</span></p>
-<p>Here is visualisation of the lines that have been estimated for each sub-group of day. This is the image that we had earlier on <a href="#fig-reg-casual" class="quarto-xref">Figure&nbsp;<span>9.2</span></a>.</p>
+<p>Here is visualisation of the lines that have been estimated for each sub-group of day. This is the image that we had earlier on in <a href="#fig-reg-casual" class="quarto-xref">Figure&nbsp;<span>9.2</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="09-regression_files/figure-html/r-plot-bike-lm3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="09-regression_files/figure-html/r-plot-bike-lm3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Scatterplot of regression model with interaction between working day and casual</figcaption>
 </figure>
 </div>
 </div>
@@ -1125,7 +1141,7 @@ Y =
 <h2 data-number="9.7" class="anchored" data-anchor-id="residual-diagnostics"><span class="header-section-number">9.7</span> Residual Diagnostics</h2>
 <p>Recall from <a href="#eq-res-def" class="quarto-xref">Equation&nbsp;<span>9.4</span></a> that residuals are computed as <span class="math display">\[
 r_i = Y_i - \hat{Y_i}
-\]</span> Residual analysis is a standard approach for identifying how we can improve a model. In the case of linear regression, we can use the residuals to assess if the distributional assumptions hold. We can also use residuals to identify influential points that are masking the general trend of other points. Finally, residuals can provided some direction on how to improve the model.</p>
+\]</span> Residual analysis is a standard approach for identifying how we can improve a model. In the case of linear regression, we can use the residuals to assess if the distributional assumptions hold. We can also use residuals to identify influential points that are masking the general trend of other points. Finally, residuals can provide direction on how to improve the model.</p>
 <section id="standardised-residuals" class="level3">
 <h3 class="anchored" data-anchor-id="standardised-residuals">Standardised Residuals</h3>
 <p>It can be shown that the variance of the residuals is in fact not constant! Let us define the hat-matrix as <span class="math display">\[
@@ -1154,11 +1170,21 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 <span id="cb25-4"><a href="#cb25-4"></a><span class="fu">qqline</span>(r_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="09-regression_files/figure-html/r-concrete-qq-1-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/r-concrete-qq-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>R: Residual histogram, flow vs.&nbsp;water and slag</figcaption>
+</figure>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="09-regression_files/figure-html/r-concrete-qq-1-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/r-concrete-qq-1-2.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>R: Residual QQ-plot, flow vs.&nbsp;water and slag</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1171,7 +1197,8 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="09-regression_files/figure-html/py-concrete-qq-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="09-regression_files/figure-html/py-concrete-qq-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Py: Residual histogram, flow vs.&nbsp;water and slag</figcaption>
 </figure>
 </div>
 </div>
@@ -1208,7 +1235,12 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 </ul>
 <p>Residuals are meant to contain only the information that our model cannot explain. Hence, if the model is good, the residuals should only contain random noise. There should be no apparent pattern to them. If we find such a pattern in one of the above plots, we would have some clue as to how we could improve the model.</p>
 <p>We typically inspect the plots for the following patterns:</p>
-<p><img src="figs/regression_residuals.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/regression_residuals.png" class="img-fluid figure-img"></p>
+<figcaption>Example residual diagnostic plots</figcaption>
+</figure>
+</div>
 <ol type="1">
 <li>A pattern like the one on the extreme left is ideal. Residuals are randomly distributed around zero; there is no pattern or trend in the plot.</li>
 <li>The second plot is something rarely seen. It would probably appear if we were to plot residuals against a <em>new</em> variable that is not currently in the model. If we observe this plot, we should then include this variable in the model.</li>
@@ -1217,7 +1249,7 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 </ol>
 <div id="exm-concrete-5" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 9.10 (Concrete Data Residual Plots)</strong></span> </p>
-<p>These are residual plots for the concrete data example.</p>
+<p>The residual plots for the concrete data example can be seen in <a href="#fig-r-residual-diagnostics" class="quarto-xref">Figure&nbsp;<span>9.4</span></a>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">R code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">SAS Plots</a></li></ul>
 <div class="tab-content">
@@ -1226,21 +1258,27 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>opar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
 <span id="cb28-2"><a href="#cb28-2"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="fu">fitted</span>(lm_flow_water_slag), r_s, <span class="at">main=</span><span class="st">"Fitted"</span>)</span>
 <span id="cb28-3"><a href="#cb28-3"></a><span class="fu">plot</span>(<span class="at">x=</span>concrete<span class="sc">$</span>Water, r_s, <span class="at">main=</span><span class="st">"X1"</span>)</span>
-<span id="cb28-4"><a href="#cb28-4"></a><span class="fu">plot</span>(<span class="at">x=</span>concrete<span class="sc">$</span>Slag, r_s, <span class="at">main=</span><span class="st">"X2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="fu">plot</span>(<span class="at">x=</span>concrete<span class="sc">$</span>Slag, r_s, <span class="at">main=</span><span class="st">"X2"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5"></a><span class="fu">par</span>(opar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="09-regression_files/figure-html/r-concrete-resids-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="960"></p>
+<div id="fig-r-residual-diagnostics" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-residual-diagnostics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-regression_files/figure-html/fig-r-residual-diagnostics-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-residual-diagnostics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.4: R: Residual diagnostic plots, flow vs.&nbsp;water and slag
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">par</span>(opar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figs/sas_concrete_flow_water_reg_res1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<p><img src="figs/sas_concrete_flow_water_reg_res1.png" class="img-fluid figure-img" width="450"></p>
+<figcaption>SAS: Residual diagnostic plots, residual vs.&nbsp;fitted</figcaption>
 </figure>
 </div>
 </div>
@@ -1266,8 +1304,8 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 <div class="tab-content">
 <div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>infl <span class="ot">&lt;-</span> <span class="fu">influence.measures</span>(lm_flow_water_slag)</span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="fu">summary</span>(infl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>infl <span class="ot">&lt;-</span> <span class="fu">influence.measures</span>(lm_flow_water_slag)</span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="fu">summary</span>(infl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Potentially influential observations of
      lm(formula = FLOW.cm. ~ Water + Slag, data = concrete) :
@@ -1284,9 +1322,14 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 <p>The set of 6 points above appear to be influencing the covariance matrix of the parameter estimates greatly. To proceed, we would typically leave these observations out one-at-a-time to study the impact on our eventual decision.</p>
 </div>
 <div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figs/sas_concrete_flow_water_reg_res2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
+<div id="fig-sas-all-diagnostics" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sas-all-diagnostics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figs/sas_concrete_flow_water_reg_res2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sas-all-diagnostics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.5: SAS: All diagnostic plots, flow vs.&nbsp;water and slag
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1315,6 +1358,22 @@ r_{i,std}  = \frac{r_i}{\hat{\sigma}\sqrt{1 - h_{ii}}}
 <li><a href="https://www.zeileis.org/teaching/AER/Ch-Validation-handout.pdf">Diagnostics</a></li>
 <li><a href="https://online.stat.psu.edu/stat462/node/120/">On residual plots</a></li>
 </ol>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="9.10">
+<h2 data-number="9.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">9.10</span> Exercises</h2>
+<ol type="1">
+<li>From <code>lm_reg_casual_3</code> in <a href="#exm-bike-4" class="quarto-xref">Example&nbsp;<span>9.8</span></a>, extract
+<ol type="1">
+<li>the estimate of <span class="math inline">\(\sigma^2\)</span>,</li>
+<li>the estimate of <span class="math inline">\(\beta_0\)</span>, and</li>
+<li>the adjusted <span class="math inline">\(R^2\)</span> value.</li>
+</ol></li>
+<li>In <a href="#exm-bike-2" class="quarto-xref">Example&nbsp;<span>9.4</span></a>, the Python output reports the kurtosis of the residuals as 2.740. Use R to reproduce this value.</li>
+<li>Refer to <a href="#fig-sas-all-diagnostics" class="quarto-xref">Figure&nbsp;<span>9.5</span></a>. Which points in the dataset correspond to high leverage and small residuals in the flow versus water and slag model? Remove these points, refit the model and study the changes to the model.</li>
+<li>Use the model from <a href="#exm-concrete-4" class="quarto-xref">Example&nbsp;<span>9.6</span></a> to create a scatterplot of flow versus water. Include the predicted means and confidence bands from the model for the median slag value from the dataset.</li>
+<li>For the <code>concrete</code> data, fit two models for Slump versus Water: one for water less than or equals to 200, and one for water more than 200.</li>
+</ol>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -1325,7 +1384,6 @@ Draper, Norman R, and Harry Smith. 1998. <em>Applied Regression Analysis</em>. V
 James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, et al. 2013. <em>An Introduction to Statistical Learning</em>. Vol. 112. Springer.
 </div>
 </div>
-</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

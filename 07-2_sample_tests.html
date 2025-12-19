@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -405,8 +405,8 @@ H_1: &amp; \mu_A &gt; \mu_B
 <li>In an observational study, we could draw a random sample from the population, and then record an explanatory categorical variable on each unit, such as the gender or senior-citizen status.</li>
 <li>In an observational study, we could draw a random sample from a group (say smokers), and then a random sample from another group (say non-smokers). This would result in a situation where the independent 2-sample <span class="math inline">\(t\)</span>-test is appropriate.</li>
 </ul>
-<section id="formal-set-up" class="level4">
-<h4 class="anchored" data-anchor-id="formal-set-up">Formal Set-up</h4>
+<section id="sec-t-test-formulas" class="level4">
+<h4 class="anchored" data-anchor-id="sec-t-test-formulas">Formal Set-up</h4>
 <p>Formally speaking, this is how the independent 2-sample t-test works:</p>
 <p>Suppose that <span class="math inline">\(X_1,X_2,\ldots,X_{n_1}\)</span> are independent observations from group 1, and <span class="math inline">\(Y_1, \ldots Y_{n_2}\)</span> are independent observations from group 2. It is assumed that</p>
 <p><span class="math display">\[\begin{eqnarray}
@@ -708,8 +708,8 @@ Figure&nbsp;7.5: SAS: Normality tests
 <p>Each measurement falls under one of two groups - “phone” or “radio”, but the measurements for driver <span class="math inline">\(i\)</span> are clearly related. Some people might just have a slower/faster baseline reaction time!</p>
 <p>This is a situation where a paired sample test is appropriate, not an independent sample test.</p>
 </div>
-<section id="formal-set-up-1" class="level4">
-<h4 class="anchored" data-anchor-id="formal-set-up-1">Formal Set-up</h4>
+<section id="formal-set-up" class="level4">
+<h4 class="anchored" data-anchor-id="formal-set-up">Formal Set-up</h4>
 <p>Suppose that we observe <span class="math inline">\(X_1, \ldots , X_n\)</span> independent observations from group 1 and <span class="math inline">\(Y_1, \ldots, Y_n\)</span> independent observations from group 2. However the pair <span class="math inline">\((X_i, Y_i)\)</span> are correlated. It is assumed that</p>
 <p><span class="math display">\[\begin{eqnarray}
 X_i &amp;\sim&amp; N(\mu_1,\, \sigma_1^2),\; i=1,\ldots,n \\
@@ -832,8 +832,8 @@ Figure&nbsp;7.7: SAS: Agreement plot
 <section id="sec-indep-nonpar" class="level3">
 <h3 class="anchored" data-anchor-id="sec-indep-nonpar">Independent Samples Test</h3>
 <p>The non-parametric analogue of the independent 2-sample test is the Wilcoxon Rank Sum (WRS) test (equivalent to the Mann-Whitney test).</p>
-<section id="formal-set-up-2" class="level4">
-<h4 class="anchored" data-anchor-id="formal-set-up-2">Formal Set-up</h4>
+<section id="formal-set-up-1" class="level4">
+<h4 class="anchored" data-anchor-id="formal-set-up-1">Formal Set-up</h4>
 <p>Suppose that we observe <span class="math inline">\(X_1, \ldots , X_{n_1}\)</span> independent observations from group 1 (with distribution <span class="math inline">\(F\)</span>) and <span class="math inline">\(Y_1, \ldots, Y_{n_2}\)</span> independent observations from group 2 (with distribution <span class="math inline">\(G\)</span>).</p>
 <p>The hypotheses associated with this test are:</p>
 <p><span class="math display">\[\begin{eqnarray*}
@@ -917,8 +917,8 @@ Figure&nbsp;7.8: SAS: Wilcoxon rank sum output
 <section id="sec-pair-nonpar" class="level3">
 <h3 class="anchored" data-anchor-id="sec-pair-nonpar">Paired Samples Test</h3>
 <p>The analogue of the paired sample <span class="math inline">\(t\)</span>-test is known as the Wilcoxon Sign Test (WST).</p>
-<section id="formal-set-up-3" class="level4">
-<h4 class="anchored" data-anchor-id="formal-set-up-3">Formal Set-up</h4>
+<section id="formal-set-up-2" class="level4">
+<h4 class="anchored" data-anchor-id="formal-set-up-2">Formal Set-up</h4>
 <p>Again, suppose that we observe <span class="math inline">\(X_1, \ldots , X_n\)</span> observations from group 1 and <span class="math inline">\(Y_1, \ldots, Y_n\)</span> observations from group 2. Groups 1 and 2 are paired (or correlated) in some way.</p>
 <p>Once again, we compute <span class="math inline">\(D_i = X_i - Y_i\)</span>. The null hypothesis is that</p>
 <p><span class="math display">\[\begin{eqnarray*}

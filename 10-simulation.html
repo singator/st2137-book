@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.52">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -260,6 +260,7 @@ window.Quarto = {
   <li><a href="#resampling-methods" id="toc-resampling-methods" class="nav-link" data-scroll-target="#resampling-methods"><span class="header-section-number">10.6</span> Resampling Methods</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.7</span> Summary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">10.8</span> References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.9</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -287,6 +288,7 @@ window.Quarto = {
 
 <section id="sec-simulation" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="sec-simulation"><span class="header-section-number">10.1</span> Introduction</h2>
+<p>This chapter covers the use of simulation techniques. We only cover Python and R code in this chapter.</p>
 <p>The objective of any simulation study is to estimate an expectation <span class="math inline">\(E(X)\)</span>. Simulation studies involve the use of a computer to generate independent copies of the random variable of interest <span class="math inline">\(X\)</span>. Here are a couple of examples where simulation studies would be applicable.</p>
 <div id="exm-ins-01" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 10.1 (Insurance Claims)</strong></span> Before the financial year begins, an insurance company has to decide how much cash to keep, in order to pay out the claims for that year. Suppose that claims are independent of each other and are distributed as <span class="math inline">\(Exp(1/200)\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> dollars. Also suppose that the number of claims in a year is a Poisson random variable with mean 8.2.</p>
@@ -342,12 +344,12 @@ E(\bar{X}) = E(X), \quad E(s^2) = \sigma^2
 <p><span class="math display">\[
 \bar{X} \pm z_{1-\alpha/2} \frac{s}{\sqrt{n}}
 \]</span></p>
-<p>When our goal is to estimate a probability <span class="math inline">\(p\)</span>, we have to introduce a corresponding indicator variable <span class="math inline">\(X\)</span> such that</p>
+<p>When our goal is to estimate the probability of an event <span class="math inline">\(A\)</span>, we have to introduce a corresponding indicator variable <span class="math inline">\(X\)</span> such that</p>
 <p><span class="math display">\[
 X =
 \begin{cases}
-1 &amp; \text{with probability $p$} \\
-0 &amp; \text{with probability $1- p$}
+1 &amp; \text{when $A$ occurs} \\
+0 &amp; \text{when $A^c$ occurs}
 \end{cases}
 \]</span></p>
 <p>In this case, the formula for the CI becomes <span class="math display">\[
@@ -415,7 +417,8 @@ X =
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="10-simulation_files/figure-html/r-rng-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="10-simulation_files/figure-html/r-rng-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>R: Histograms of simulated variables</figcaption>
 </figure>
 </div>
 </div>
@@ -477,9 +480,10 @@ X =
 <span id="cb3-20"><a href="#cb3-20"></a>r <span class="op">=</span> binom.rvs(<span class="dv">2</span>, <span class="fl">0.3</span>, size<span class="op">=</span><span class="dv">50</span>, random_state<span class="op">=</span>rng)</span>
 <span id="cb3-21"><a href="#cb3-21"></a>ax1.hist(r)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="10-simulation_files/figure-html/py-rng-1-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Py: Histograms of simulated variables</figcaption>
 </figure>
 </div>
 </div>
@@ -655,18 +659,19 @@ Important
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">def</span> generate_one_test(n<span class="op">=</span><span class="dv">100</span>):</span>
-<span id="cb14-2"><a href="#cb14-2"></a>    X <span class="op">=</span> norm.rvs(<span class="dv">0</span>, <span class="dv">1</span>, size<span class="op">=</span>n, random_state<span class="op">=</span>rng)</span>
-<span id="cb14-3"><a href="#cb14-3"></a>    Y <span class="op">=</span> norm.rvs(<span class="dv">0</span>, <span class="dv">1</span>, size<span class="op">=</span>n, random_state<span class="op">=</span>rng)</span>
-<span id="cb14-4"><a href="#cb14-4"></a>    t_test <span class="op">=</span> stats.ttest_ind(X, Y, equal_var<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-5"><a href="#cb14-5"></a>    <span class="cf">if</span> t_test.pvalue <span class="op">&lt;</span> <span class="fl">0.10</span>:</span>
-<span id="cb14-6"><a href="#cb14-6"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a>    <span class="cf">else</span>:</span>
-<span id="cb14-8"><a href="#cb14-8"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a>output_vec <span class="op">=</span> np.array([generate_one_test() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2000</span>)])</span>
-<span id="cb14-10"><a href="#cb14-10"></a>output_vec.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2137</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">def</span> generate_one_test(n<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb14-3"><a href="#cb14-3"></a>    X <span class="op">=</span> norm.rvs(<span class="dv">0</span>, <span class="dv">1</span>, size<span class="op">=</span>n, random_state<span class="op">=</span>rng)</span>
+<span id="cb14-4"><a href="#cb14-4"></a>    Y <span class="op">=</span> norm.rvs(<span class="dv">0</span>, <span class="dv">1</span>, size<span class="op">=</span>n, random_state<span class="op">=</span>rng)</span>
+<span id="cb14-5"><a href="#cb14-5"></a>    t_test <span class="op">=</span> stats.ttest_ind(X, Y, equal_var<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-6"><a href="#cb14-6"></a>    <span class="cf">if</span> t_test.pvalue <span class="op">&lt;</span> <span class="fl">0.10</span>:</span>
+<span id="cb14-7"><a href="#cb14-7"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>    <span class="cf">else</span>:</span>
+<span id="cb14-9"><a href="#cb14-9"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a>output_vec <span class="op">=</span> np.array([generate_one_test() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2000</span>)])</span>
+<span id="cb14-11"><a href="#cb14-11"></a>output_vec.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>np.float64(0.0955)</code></pre>
+<pre><code>np.float64(0.0975)</code></pre>
 </div>
 </div>
 </div>
@@ -722,7 +727,7 @@ h(X) =
 <span id="cb18-9"><a href="#cb18-9"></a>CI <span class="op">=</span> [Xbar <span class="op">-</span> t<span class="op">*</span>s<span class="op">/</span>np.sqrt(n), Xbar <span class="op">+</span> t<span class="op">*</span>s<span class="op">/</span>np.sqrt(n)]</span>
 <span id="cb18-10"><a href="#cb18-10"></a><span class="bu">print</span>(<span class="ss">f"The 90% CI for the mean is (</span><span class="sc">{</span>CI[<span class="dv">0</span>]<span class="sc">: .3f}</span><span class="ss">, </span><span class="sc">{</span>CI[<span class="dv">1</span>]<span class="sc">: .3f}</span><span class="ss">)."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The 90% CI for the mean is ( 9623.651,  9658.579).</code></pre>
+<pre><code>The 90% CI for the mean is ( 9615.583,  9650.393).</code></pre>
 </div>
 </div>
 </div>
@@ -789,7 +794,8 @@ mean of x mean of y
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="10-simulation_files/figure-html/abalone-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="10-simulation_files/figure-html/abalone-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Histogram of statistic from permuted datasets</figcaption>
 </figure>
 </div>
 </div>
@@ -802,7 +808,7 @@ mean of x mean of y
 </section>
 <section id="sec-bootstrapping" class="level3">
 <h3 class="anchored" data-anchor-id="sec-bootstrapping">Bootstrapping</h3>
-<p>The video on Canvas provides a very brief introduction to bootstrapping. One of the greatest benefits of the bootstrap is the ability to provide confidence intervals for estimators for which we may not have the know-how to derive analytic or asymptotic results.</p>
+<p>The video on Canvas provides a very brief introduction to bootstrapping. One of the greatest benefits of the bootstrap is the ability to provide confidence intervals for estimators for which we may not know how to derive analytic or asymptotic results.</p>
 <p>Consider obtaining a confidence interval for the trimmed mean, that we encountered in <a href="05-robust_statistics.html#sec-robust" class="quarto-xref"><span>Section 5.1</span></a>.</p>
 <div id="exm-chem-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 10.9</strong></span> </p>
@@ -854,7 +860,7 @@ Level     Percentile            BCa
 Calculations and Intervals on Original Scale</code></pre>
 </div>
 </div>
-<p>The boot function requires a function (<code>stat_fn</code>) that computes the statistic from the bootstrapped sample. Note that the intervals returned from the trimmed mean are much narrower.</p>
+<p>The boot function requires a function (<code>stat_fn</code>) that computes the statistic from the bootstrapped sample. Note that the intervals returned from the trimmed mean are much narrower. Moreover, from <a href="05-robust_statistics.html#exm-cu-2" class="quarto-xref">Example&nbsp;<span>5.5</span></a>, we know the trimmed mean for the <code>chem</code> dataset is 3.205. Hence the above output shows that the bootstrap intervals are asymmetric, reflecting the skewness of the distribution of the statistic.</p>
 </div>
 </section>
 </section>
@@ -894,11 +900,24 @@ Calculations and Intervals on Original Scale</code></pre>
 <li><a href="https://r-simmer.org/">simmer</a> for discrete event simulation</li>
 </ul></li>
 <li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html#probability-distributions">scipy documentation</a></li>
-<li><a href="https://online.stat.psu.edu/stat555/node/119/">Introduction to Bootstrapping</a></li>
+<li><a href="https://online.stat.psu.edu/stat555/node/119/">Introduction to Bootstrapping</a>: A<br>
+concise description of bootstrapping from Penn State Stats department.</li>
+</ol>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.9</span> Exercises</h2>
+<ol type="1">
+<li>Obtain a bootstrap confidence interval for the MAD of the <code>awareness</code> dataset from chapter 5.</li>
+<li>Obtain a bootstrap confidence interval for the trimmed mean of the <code>awareness</code> dataset from chapter 5.</li>
+<li>Use Monte Carlo simulation to estimate <span class="math display">\[
+\int_0^2 x^2 dx
+\]</span></li>
+<li>In <a href="#exm-newspaper-1" class="quarto-xref">Example&nbsp;<span>10.7</span></a>, what price should the newspapers be sold at in order to achieve an average profit of $10K per day? Assume all other variables retain their distributions.</li>
+<li>Outline a simulation experiment to assess what happens if we run an independent <span class="math inline">\(t\)</span>-test on paired data.</li>
 </ol>
 
 
-</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
