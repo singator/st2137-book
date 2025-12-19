@@ -1092,7 +1092,7 @@ observations out one-at-a-time to study the impact on our eventual decision.
 
 #### SAS Output 
 
-![SAS: All diagnostic plots, flow vs. water and slag](figs/sas_concrete_flow_water_reg_res2.png){fig-align="center" width=450}
+![SAS: All diagnostic plots, flow vs. water and slag](figs/sas_concrete_flow_water_reg_res2.png){#fig-sas-all-diagnostics fig-align="center" width=450}
 
 ::: 
 
@@ -1127,4 +1127,16 @@ books for this topic.
 ## Exercises
 
 1.  From `lm_reg_casual_3` in @exm-bike-4, extract
-    1. 
+    1. the estimate of $\sigma^2$,
+    2. the estimate of $\beta_0$, and 
+    3. the adjusted $R^2$ value.
+2.  In @exm-bike-2, the Python output reports the kurtosis of the residuals as 
+    2.740. Use R to reproduce this value.
+3.  Refer to @fig-sas-all-diagnostics. Which points in the dataset correspond to 
+    high leverage and small residuals in the flow versus water and slag model? 
+    Remove these points, refit the model and study the changes to the model.
+4.  Use the model from @exm-concrete-4 to create a scatterplot of flow versus water.
+    Include the predicted means and confidence bands from the model for the median
+    slag value from the dataset.
+5.  For the `concrete` data, fit two models for Slump versus Water: one for water
+    less than or equals to 200, and one for water more than 200.
