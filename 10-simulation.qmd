@@ -7,13 +7,12 @@ title: "Simulation"
 #| message: false
 #| warning: false
 library(knitr)
-# library(reticulate)
-# venv_paths <- read.csv("venv_paths.csv")
-# id <- match(Sys.info()["nodename"], venv_paths$nodename)
-# use_virtualenv(venv_paths$path[id])
 ```
 
 ## Introduction {#sec-simulation}
+
+This chapter covers the use of simulation techniques. We only cover Python and R
+code in this chapter.
 
 The objective of any simulation study is to estimate an expectation $E(X)$.
 Simulation studies involve the use of a computer to generate independent copies 
@@ -143,14 +142,14 @@ $$
 \bar{X} \pm z_{1-\alpha/2} \frac{s}{\sqrt{n}}
 $$
 
-When our goal is to estimate a probability $p$, we have to introduce a
-corresponding indicator variable $X$ such that 
+When our goal is to estimate the probability of an event $A$, we have to
+introduce a corresponding indicator variable $X$ such that
 
 $$
 X = 
 \begin{cases}
-1 & \text{with probability $p$} \\
-0 & \text{with probability $1- p$}
+1 & \text{when $A$ occurs} \\
+0 & \text{when $A^c$ occurs}
 \end{cases}
 $$
 
@@ -196,6 +195,7 @@ random). Here are a few such functions:
 
 ```{r r-rng-1}
 #| fig-align: center
+#| fig-cap: "R: Histograms of simulated variables"
 #R 
 set.seed(2137)
 
@@ -228,6 +228,7 @@ in spirit to R.
 | `binom` | Binomial |
 
 ```{python py-rng-1}
+#| fig-cap: "Py: Histograms of simulated variables"
 #Python
 import numpy as np
 import pandas as pd
@@ -435,6 +436,7 @@ mean(output_vec)
 #### Python code
 
 ```{python py-test-1}
+rng = np.random.default_rng(2137)
 def generate_one_test(n=100):
     X = norm.rvs(0, 1, size=n, random_state=rng)
     Y = norm.rvs(0, 1, size=n, random_state=rng)
@@ -553,7 +555,7 @@ This would be the procedure for a permutation test:
 
 ```{r abalone-2}
 #| fig-align: center
-#| 
+#| fig-cap: "Histogram of statistic from permuted datasets"
 d1 <- mean(x)  - mean(y)
 print(d1)
 
@@ -578,7 +580,7 @@ hist(sampled_diff)
 
 The video on Canvas provides a very brief introduction to bootstrapping. One of
 the greatest benefits of the bootstrap is the ability to provide confidence
-intervals for estimators for which we may not have the know-how to derive
+intervals for estimators for which we may not know how to derive
 analytic or asymptotic results.
 
 Consider obtaining a confidence interval for the trimmed mean, that we
@@ -613,8 +615,11 @@ boot.ci(boot.out = boot_out, type=c("perc", "bca"))
 ```
 
 The boot function requires a function (`stat_fn`) that computes the statistic
-from the bootstrapped sample.  Note that the intervals returned  from the trimmed 
-mean are much narrower.
+from the bootstrapped sample.  Note that the intervals returned  from the
+trimmed mean are much narrower. Moreover, from @exm-cu-2, we know the trimmed
+mean for the `chem` dataset is 3.205. Hence the above output shows that the
+bootstrap intervals are asymmetric, reflecting the skewness of the distribution
+of the statistic.
 
 :::
 
@@ -657,4 +662,21 @@ please be familiar with the basic building blocks of simulation studies:
 3. R software:
    * [simmer](https://r-simmer.org/) for discrete event simulation
 4. [scipy documentation](https://docs.scipy.org/doc/scipy/reference/stats.html#probability-distributions)
-5. [Introduction to Bootstrapping](https://online.stat.psu.edu/stat555/node/119/)
+5. [Introduction to Bootstrapping](https://online.stat.psu.edu/stat555/node/119/): A    
+   concise description of bootstrapping from Penn State Stats department.
+
+## Exercises
+
+1.  Obtain a bootstrap confidence interval for the MAD of the `awareness` dataset
+    from chapter 5.
+2.  Obtain a bootstrap confidence interval for the trimmed mean of the
+    `awareness` dataset from chapter 5.
+3.  Use Monte Carlo simulation to estimate 
+$$
+\int_0^2 x^2 dx
+$$
+4.  In @exm-newspaper-1, what price should the newspapers be sold at in order to
+    achieve an average profit of $10K per day? Assume all other variables retain
+    their distributions.
+5.  Outline a simulation experiment to assess what happens if we run an independent
+    $t$-test on paired data.
