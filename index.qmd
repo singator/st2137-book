@@ -55,5 +55,7 @@ So long, and thanks for reading!
 Vik
 
 <https://singator.github.io/st2137-book/>
+
 <https://github.com/singator/st2137-book>
+
 <https://blog.nus.edu.sg/stavg/textbooks/>
