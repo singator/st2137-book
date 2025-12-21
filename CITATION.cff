@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+title: "Statistical Computing and Programming"
+authors:
+  - family-names: Gopal
+    given-names: Vik
+    orcid: "https://orcid.org/0000-0002-7232-2063"
+    affiliation: National University of Singapore
+  - family-names: Pham Thi Kim Cuc
+    given-names: Daisy
+    affiliation: National University of Singapore
+version: "v0.1"
+date-released: "2025-12-22"
+doi: 10.5281/zenodo.17969651
+url: https://singator.github.io/st2137-book/
+license: CC-BY-SA-4.0

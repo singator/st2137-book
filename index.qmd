@@ -44,12 +44,16 @@ hope you find joy in working with data, R, Python and SAS during this course!
 
 If you find something useful in this textbook, please do let me know at
 vik.gopal@nus.edu.sg. The book, along with slides and scripts/notebooks can all
-be found in the
-[github repository](https://github.com/singator/st2137-book). If you need more
-details about anything, do feel free to write as well.
+be found in the [github repository](https://github.com/singator/st2137-book).
+If you need more details about anything, do feel free to write as well. Please
+cite this book as:
+
+Gopal, V. and Pham, T.K.C. (2025) *Statistical Computing and Programming.* Zenodo. doi:10.5281/zenodo.17969651.
 
 So long, and thanks for reading!
 
 Vik
 
-<https://blog.nus.edu.sg/stavg>
+<https://singator.github.io/st2137-book/>
+<https://github.com/singator/st2137-book>
+<https://blog.nus.edu.sg/stavg/textbooks/>
