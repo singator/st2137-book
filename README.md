@@ -18,10 +18,6 @@ Here is a brief outline of the steps, for those who wish to create/render a vers
 
 ## License
 
-- Code snippets: Licensed under the [MIT License](./LICENSE-CODE).
-
-## License
-
 - Text, figures, and other content: © 2025 Vik Gopal, Daisy Pham Thi Kim Cuc. Licensed under
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by/4.0/). 
 - Code snippets: Licensed under the [MIT License](./LICENSE-CODE).
