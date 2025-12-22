@@ -1,39 +1,37 @@
-## ----setup--------------------------------------------------------------------------------------
+## ----setup-----------------------------------------------------------------------------------------
 #| echo: false
 #| message: false
 #| warning: false
 library(knitr)
-library(reticulate)
 library(MASS)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 
 
-## ----cu_1---------------------------------------------------------------------------------------
+## ----cu_1------------------------------------------------------------------------------------------
 #| fig-cap: "Copper measurements dataset"
 #| fig-align: center
 #| warning: false
 library(MASS)
-hist(chem, breaks = 20)
+hist(chem, breaks = 20, xlab="Amount of copper")
 sort(chem)
 mean(chem)
 
 
-## ----self_1-------------------------------------------------------------------------------------
+## ----self_1----------------------------------------------------------------------------------------
 #| fig-cap: "Self-awareness study timing"
 #| fig-align: center
 #| warning: false
 awareness <- c(77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 299, 306,
                376, 428, 515, 666, 1310, 2611)
-hist(awareness, breaks=10)
+hist(awareness, breaks=10, xlab="Timing")
 mean(awareness)
 
 
-## ----r-demo-cn----------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 #| echo: false
+#| fig-cap: "Contaminated Normal"
+#| label: fig-cont-normal
 #| fig-align: center
-#| out-width: 75%
+#| fig-width: 7
 
 x <- seq(-3, 3, length=100)
 y1 <- dnorm(x)
@@ -45,7 +43,7 @@ legend("topright", legend=c("Normal", "Contaminated Normal,\nEpsilon=0.01"), col
 
 
 
-## ----r-loc-copper-------------------------------------------------------------------------------
+## ----r-loc-copper----------------------------------------------------------------------------------
 #| collapse: true
 
 mean(chem)
@@ -53,7 +51,7 @@ mean(chem)
 mean(chem, trim = 0.1) # using gamma = 0.1
 
 library(DescTools)
-vals = quantile(chem, probs=c(0.05, 0.95))
+vals <- quantile(chem, probs=c(0.1, 0.9))
 win_sample <- Winsorize(chem, vals) # gamma = 0.1
 mean(win_sample)
 
@@ -70,7 +68,7 @@ mean(win_sample)
 ## 
 ## stats.mstats.winsorize(chem.chem, limits=0.1).mean()
 
-## ----r-scale-self-------------------------------------------------------------------------------
+## ----r-scale-self----------------------------------------------------------------------------------
 #| collapse: true
 
 sd(awareness)
@@ -80,11 +78,20 @@ mad(awareness, constant=1)
 IQR(awareness)
 
 
-## awareness = np.array([77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 299, 306,
-##                       376, 428, 515, 666, 1310, 2611])
+## awareness = np.array([77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296,
+##                       299, 306, 376, 428, 515, 666, 1310, 2611])
 ## 
 ## awareness.std()
 ## 
 ## stats.median_abs_deviation(awareness)
 ## 
 ## stats.iqr(awareness)
+
+## --------------------------------------------------------------------------------------------------
+#| eval: false
+# mad2 <- function(x) {
+#   deviations <- abs(x - mean(x))
+#   median(deviations)
+# }
+# 
+

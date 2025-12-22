@@ -1,16 +1,13 @@
-## ----setup--------------------------------------------------------------------------------------
+## ----setup-----------------------------------------------------------------------------------------
 #| echo: false
 #| message: false
 #| warning: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 
 
-## ----r-rng-1------------------------------------------------------------------------------------
+## ----r-rng-1---------------------------------------------------------------------------------------
 #| fig-align: center
+#| fig-cap: "R: Histograms of simulated variables"
 #R 
 set.seed(2137)
 
@@ -50,7 +47,7 @@ par(opar)
 ## r = binom.rvs(2, 0.3, size=50, random_state=rng)
 ## ax1.hist(r);
 
-## ----r-mc-1-------------------------------------------------------------------------------------
+## ----r-mc-1----------------------------------------------------------------------------------------
 set.seed(2138)
 X <- runif(50000, 0, 1)
 hX <- exp(2*X)
@@ -63,14 +60,14 @@ hX <- exp(2*X)
 ## hX = np.exp(2*X)
 ## hX.mean()
 
-## ----r-ci-95------------------------------------------------------------------------------------
+## ----r-ci-95---------------------------------------------------------------------------------------
 # R 
 set.seed(2139)
 output_vec <- rep(0, length=100)
 n <- 20
 lambda <- 0.5
 for(i in 1:length(output_vec)) {
-  X <- rpois(15, .5)
+  X <- rpois(n, .5)
   Xbar <- mean(X)
   s <- sd(X)
   t <- qt(0.975, n-1)
@@ -87,7 +84,7 @@ mean(output_vec)
 ## n = 20
 ## lambda_ = 0.5
 ## for i in range(100):
-##     X = poisson.rvs(0.5, size=15, random_state=rng)
+##     X = poisson.rvs(0.5, size=n, random_state=rng)
 ##     Xbar = X.mean()
 ##     s = X.std()
 ##     t = norm.ppf(0.975)
@@ -97,7 +94,7 @@ mean(output_vec)
 ## output_vec.mean()
 ## 
 
-## ----r-test-1-----------------------------------------------------------------------------------
+## ----r-test-1--------------------------------------------------------------------------------------
 generate_one_test <- function(n=100) {
   X <- rnorm(n)
   Y <- rnorm(n)
@@ -116,6 +113,7 @@ output_vec <- vapply(1:2000,
 mean(output_vec)
 
 
+## rng = np.random.default_rng(2137)
 ## def generate_one_test(n=100):
 ##     X = norm.rvs(0, 1, size=n, random_state=rng)
 ##     Y = norm.rvs(0, 1, size=n, random_state=rng)
@@ -127,7 +125,7 @@ mean(output_vec)
 ## output_vec = np.array([generate_one_test() for j in range(2000)])
 ## output_vec.mean()
 
-## ----r-newspaper-1------------------------------------------------------------------------------
+## ----r-newspaper-1---------------------------------------------------------------------------------
 # R code to estimate the expected daily profit
 set.seed(2141)
 n <- 10000
@@ -154,17 +152,17 @@ cat("The 90% CI for the mean is (", format(CI[1], digits=2, nsmall=2), ", ",
 ## CI = [Xbar - t*s/np.sqrt(n), Xbar + t*s/np.sqrt(n)]
 ## print(f"The 90% CI for the mean is ({CI[0]: .3f}, {CI[1]: .3f}).")
 
-## ----r-abalone-1--------------------------------------------------------------------------------
+## ----r-abalone-1-----------------------------------------------------------------------------------
 abl <- read.csv("data/abalone_sub.csv")
 x <- abl$viscera[abl$gender == "M"]
 y <- abl$viscera[abl$gender == "F"]
 
-t.test(x, y)
+t.test(x, y, var.equal=TRUE)
 
 
-## ----abalone-2----------------------------------------------------------------------------------
+## ----abalone-2-------------------------------------------------------------------------------------
 #| fig-align: center
-#|
+#| fig-cap: "Histogram of statistic from permuted datasets"
 d1 <- mean(x)  - mean(y)
 print(d1)
 
@@ -182,7 +180,7 @@ hist(sampled_diff)
 (p_val <- 2*mean(sampled_diff > d1))
 
 
-## -----------------------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 library(MASS)
 
 mean(chem)
@@ -190,7 +188,7 @@ t.test(chem)
 ## [1] 4.280417
 
 
-## -----------------------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 library(boot)
 
 stat_fn <- function(d, i) {

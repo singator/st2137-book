@@ -1,16 +1,12 @@
-## ----setup--------------------------------------------------------------------------------------
+## ----setup-----------------------------------------------------------------------------------------
 #| echo: false
 #| message: false
 #| warning: false
-library(tidyverse)
-library(knitr)
-library(reticulate)
-venv_paths <- read.csv("venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
+#library(tidyverse)
+#library(knitr)
 
 
-## ----r-stud-perf-1------------------------------------------------------------------------------
+## ----r-stud-perf-1---------------------------------------------------------------------------------
 #| warning: false
 #| message: false
 stud_perf <- read.table("data/student/student-mat.csv", sep=";", 
@@ -26,36 +22,44 @@ sum(is.na(stud_perf$G3))
 ## stud_perf.G3.describe()
 ## #stud_perf.G3.info()
 
-## ----r-stud-perf-2------------------------------------------------------------------------------
+## ----r-stud-perf-2---------------------------------------------------------------------------------
 round(aggregate(G3 ~ Medu, data=stud_perf, FUN=summary), 2)
 table(stud_perf$Medu)
 
 
 ## stud_perf[['Medu', 'G3']].groupby('Medu').describe()
 
-## ----r-stud-perf-3------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 #| fig-align: center
+#| fig-cap: "R: Histogram of G3 scores"
+#| label: fig-r-histogram-g3
 #| out-width: "70%"
-hist(stud_perf$G3, main="G3 histogram")
+hist(stud_perf$G3, main="G3 histogram", xlab="G3 scores")
 
 
 ## fig = stud_perf.G3.hist(grid=False)
-## fig.set_title('G3 histogram');
+## fig.set_title('G3 histogram')
+## fig.set_xlabel('G3 scores');
 
-## ----r-stud-perf-4------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 #| fig-align: center
-#| out-width: "70%"
+#| fig-cap: "R: Lattice plot of G3 scores by Medu"
+#| label: fig-r-lattice-g3
+#| out-width: "80%"
 library(lattice)
-histogram(~G3 | Medu, data=stud_perf, type="density")
+histogram(~G3 | Medu, data=stud_perf, type="density",
+          main="G3 scores, by Medu levels", as.table=TRUE)
 
 
 ## stud_perf.G3.hist(by=stud_perf.Medu, figsize=(15,10), density=True,
 ##                   layout=(2,3));
 
-## ----r-stud-perf-5------------------------------------------------------------------------------
+## ----r-stud-perf-5---------------------------------------------------------------------------------
 #| fig-align: center
-#| out-width: "70%"
-densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
+#| fig-cap: "R: Estimated densities for G3 scores, by Medu"
+#| out-width: "80%"
+densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, 
+            main="G3 scores, by Medu", bw=1.5)
 
 
 ## import matplotlib.pyplot as plt
@@ -63,18 +67,22 @@ densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
 ## out2 = stud_perf.groupby("Medu")
 ## for y,df0 in enumerate(out2):
 ##     tmp = plt.subplot(2, 3, y+1)
-##     df0[1].G3.plot(kind='kde')#(kind="kde", ax=tmp)
+##     df0[1].G3.plot(kind='kde')
 ##     tmp.set_title(df0[0])
 
-## ----r-stud-perf-6------------------------------------------------------------------------------
+## ----r-stud-perf-6---------------------------------------------------------------------------------
 #| fig-align: center
+#| fig-cap: "R: Boxplot of G3 scores, by gout variable"
 #| out-width: "70%"
-bwplot(G3 ~ goout, horizontal = FALSE, data=stud_perf)
+bwplot(G3 ~ goout, horizontal = FALSE, main="G3 scores, by goout", 
+       xlab="No. of times the student goes out per week",
+       data=stud_perf)
 
 
-## stud_perf.plot.box(column='G3', by='goout')
+## stud_perf.plot.box(column='G3', by='goout',
+##                    xlabel='No. of times student goes out per week');
 
-## ----qq-eg-1------------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 #| echo: false
 #| label: fig-qq-1
 #| layout-ncol: 2
@@ -94,16 +102,17 @@ qqline(Y)
 
 
 
-## -----------------------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 concrete <- read.csv("data/concrete+slump+test/slump_test.data")
 names(concrete)[c(1,11)] <- c("id", "Comp.Strength")
 
 
 ## concrete = pd.read_csv("data/concrete+slump+test/slump_test.data")
-## concrete.rename(columns={'No':'id', 'Compressive Strength (28-day)(Mpa)':'Comp_Strength'},
+## concrete.rename(columns={'No':'id',
+##                          'Compressive Strength (28-day)(Mpa)':'Comp_Strength'},
 ##                 inplace=True)
 
-## -----------------------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------------------------
 #| echo: false
 #| out-width: "70%"
 #| fig-align: center
@@ -121,8 +130,9 @@ y_vals <- dnorm(x_vals, mean=x_mean, sd=x_sd)
 lines(x_vals, y_vals, col="blue", lty=2)
 
 
-## ----r-concrete-1-------------------------------------------------------------------------------
+## ----r-concrete-1----------------------------------------------------------------------------------
 #| fig-align: center
+#| fig-cap: "R: QQ plot for compressive strength"
 #| out-width: "70%"
 qqnorm(concrete$Comp.Strength)
 qqline(concrete$Comp.Strength)
@@ -132,9 +142,12 @@ qqline(concrete$Comp.Strength)
 ## import statsmodels.api as sm
 ## sm.qqplot(concrete.Comp_Strength, line="q");
 
-## ----r-concrete-2-------------------------------------------------------------------------------
+## ----r-concrete-2----------------------------------------------------------------------------------
 #| fig-align: center
+#| fig-cap: "R: Scatterplot matrix for concrete dataset"
 #| out-width: "100%"
+#| fig-width: 12
+#| fig-height: 12
 col_to_use <- c("Cement", "Slag", "Comp.Strength", "Water", "SLUMP.cm.",
                 "FLOW.cm.")
 pairs(concrete[, col_to_use], panel = panel.smooth)
@@ -144,13 +157,17 @@ pairs(concrete[, col_to_use], panel = panel.smooth)
 ##                                      'SLUMP(cm)', 'FLOW(cm)']],
 ##                            figsize=(12,12));
 
-## ----r-concrete-3-------------------------------------------------------------------------------
+## ----r-concrete-3----------------------------------------------------------------------------------
 #| fig-align: center
+#| fig-cap: "R: Heatmap of correlation matrix for concrete data"
 #| message: false
 #| warning: false
+#| fig-width: 6
+#| fig-height: 5
 
 library(psych)
-corPlot(cor(concrete[, col_to_use]), cex=0.8, show.legend = FALSE)
+corPlot(cor(concrete[, col_to_use]), cex=0.8, cex.axis=0.6, 
+        show.legend = FALSE)
 
 
 ## corr = concrete[['Cement', 'Slag', 'Comp_Strength', 'Water',

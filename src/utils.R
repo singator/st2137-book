@@ -1,4 +1,4 @@
-#library(autoharp)
+library(autoharp)
 
 qmd_nb <- function(infile, outfile) {
   py_chunks <- extract_chunks(infile, "python")
