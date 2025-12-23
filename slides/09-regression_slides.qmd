@@ -6,7 +6,7 @@ format:
     theme: Boadilla
     navigation: empty
     colortheme: lily
-    footer: "ST2137-2420"
+    footer: "ST2137-2520"
 
 execute:
   echo: true
@@ -15,10 +15,6 @@ execute:
 ```{r}
 #| echo: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("../venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 ```
 
 ## Examples  {.smaller}
@@ -683,6 +679,22 @@ Y =
 2168 + 2.97 X_1, & \text{for working days}
 \end{cases}
 $$
+
+## Model comparison
+
+```{r r-plot-bike-lm3}
+#| echo: false
+#| fig-align: center
+#| fig-cap: Scatterplot of regression model with interaction between working day and casual
+
+plot(x=bike2$casual, y=bike2$registered, 
+     col=ifelse(bike2$workingday == "yes", "salmon", "deepskyblue4"),
+     main="Interaction model", cex=0.8,
+     xlab="Casual", ylab="Registered")
+est_coef <- coef(lm_reg_casual3)
+abline(est_coef[1], est_coef[2], col="deepskyblue4")
+abline(est_coef[1]+est_coef[3], est_coef[2]+est_coef[4], col="salmon")
+```
 
 ## Why Analyse Residuals?  {.smaller}
 

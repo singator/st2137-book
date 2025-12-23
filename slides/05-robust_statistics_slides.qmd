@@ -6,7 +6,7 @@ format:
     theme: Boadilla
     navigation: empty
     colortheme: lily
-    footer: "ST2137-2420"
+    footer: "ST2137-2520"
 
 execute:
   echo: true
@@ -15,10 +15,6 @@ execute:
 ```{r}
 #| echo: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("../venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 ```
 
 ## Traditional Approaches {.smaller}
@@ -72,7 +68,7 @@ $$
 #| echo: false
 #| warning: false
 library(MASS)
-hist(chem, breaks = 20)
+hist(chem, breaks = 20, xlab="Amount of copper")
 #sort(chem)
 mean(chem)
 ```
@@ -99,7 +95,7 @@ large anomalous values.
 #| warning: false
 awareness <- c(77, 87, 88, 114, 151, 210, 219, 246, 253, 262, 296, 299, 306,
                376, 428, 515, 666, 1310, 2611)
-hist(awareness, breaks=10)
+hist(awareness, breaks=10, xlab="Timing")
 mean(awareness)
 ```
 
@@ -420,7 +416,7 @@ mean(chem)
 mean(chem, trim = 0.1) # using gamma = 0.1
 
 library(DescTools)
-vals <- quantile(chem, probs=c(0.05, 0.95))
+vals <- quantile(chem, probs=c(0.1, 0.9))
 win_sample <- Winsorize(chem, vals) # gamma = 0.1
 mean(win_sample)
 ```

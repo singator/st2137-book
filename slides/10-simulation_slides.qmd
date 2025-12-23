@@ -6,7 +6,7 @@ format:
     theme: Boadilla
     navigation: empty
     colortheme: lily
-    footer: "ST2137-2420"
+    footer: "ST2137-2520"
 
 execute:
   echo: true
@@ -15,10 +15,6 @@ execute:
 ```{r}
 #| echo: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("../venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 ```
 
 ## Objective of Simulation Studies {.smaller}
@@ -264,7 +260,7 @@ output_vec <- rep(0, length=100)
 n <- 20
 lambda <- 0.5
 for(i in 1:length(output_vec)) {
-  X <- rpois(15, .5)
+  X <- rpois(n, .5)
   Xbar <- mean(X)
   s <- sd(X)
   t <- qt(0.975, n-1)
@@ -402,4 +398,72 @@ s = hX.std()
 t = norm.ppf(0.95)
 CI = [Xbar - t*s/np.sqrt(n), Xbar + t*s/np.sqrt(n)]
 print(f"The 90% CI for the mean is ({CI[0]: .3f}, {CI[1]: .3f}).")
+```
+
+## Permutation test
+The permutation test is applicable in such a situation. It makes no distributional
+assumptions whatsoever on the data. Here is pseudo-code for how it works:
+
+1. Compute the difference in group means. This observed difference is the test 
+   statistic.
+2. Treating the observed values as fixed, combine the two vectors of observations.
+3. Permute the observations, and then re-assign them to the two groups.
+4. Compute the difference between the group means.
+5. Repeat steps 2 - 4 multiple times (order of 1000). 
+
+
+## Abalone data permutation {.smaller}
+
+```{r abalone-2a}
+abl <- read.csv("data/abalone_sub.csv")
+x <- abl$viscera[abl$gender == "M"]
+y <- abl$viscera[abl$gender == "F"]
+d1 <- mean(x)  - mean(y)
+print(d1)
+```
+
+## Abalone data permutation {.smaller}
+
+```{r abalone-2b}
+generate_one_perm <- function(x, y) {
+  n1 <- length(x)
+  n2 <- length(y)
+  xy <- c(x,y)
+  xy_sample <- sample(xy)
+  d1 <- mean(xy_sample[1:n1]) - mean(xy_sample[-(1:n1)])
+  d1
+}
+```
+
+## Abalone data permutation {.smaller}
+
+```{r abalone-2c}
+sampled_diff <- replicate(2000, generate_one_perm(x,y))
+hist(sampled_diff)
+
+(p_val <- 2*mean(sampled_diff > d1))
+```
+
+## Bootstrapping {.smaller}
+
+```{r}
+library(MASS)
+
+mean(chem)
+t.test(chem)
+## [1] 4.280417
+```
+
+## Bootstrapping {.smaller}
+
+```{r}
+library(boot)
+
+stat_fn <- function(d, i) {
+  b <- mean(d[i], trim=0.1)
+  b
+}
+boot_out <- boot(chem, stat_fn, R = 1999, stype="i")
+# Returns two types of bootstrap intervals:
+boot.ci(boot.out = boot_out, type=c("perc", "bca"))
 ```

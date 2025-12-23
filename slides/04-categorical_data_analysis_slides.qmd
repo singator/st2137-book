@@ -6,7 +6,7 @@ format:
     theme: Boadilla
     navigation: empty
     colortheme: lily
-    footer: "ST2137-2420"
+    footer: "ST2137-2520"
 
 execute:
   echo: true
@@ -15,10 +15,6 @@ execute:
 ```{r}
 #| echo: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("../venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 ```
 
 ## Categorical Variables {.smaller}
@@ -101,7 +97,8 @@ print(political_tab)
 #| out-width: 50%
 library(lattice)
 barchart(political_tab/rowSums(political_tab), 
-         horizontal = FALSE)
+         main="Political association by gender",
+         horizontal = FALSE, auto.key=TRUE)
 ```
 
 However, the downside is that it does not reflect that the marginal count for 
@@ -149,7 +146,9 @@ xx = pd.DataFrame(claritin_prop,
 ```{python py-claritin-2b}
 #| fig-align: center
 #| out-width: 50%
-xx.plot(kind='bar', stacked=True)
+ax = xx.plot(kind='bar', stacked=False, rot=1.0, figsize=(10,4), 
+             title='Nervousness by drug')
+ax.legend(loc='upper left');
 ```
 
 ## Political Association and Gender Mosaic Plot {.smaller}
@@ -161,7 +160,7 @@ xx.plot(kind='bar', stacked=True)
 ```{r r-pol-4}
 #| fig-align: center
 #| out-width: 50%
-mosaicplot(political_tab, shade=TRUE)
+mosaicplot(political_tab, shade=TRUE, main="Political association by gender")
 ```
 
 ## Political Association and Gender Mosaic Plot {.smaller}
@@ -204,7 +203,8 @@ mosaic(political_tab, statistic=True, gap=0.05);
 #| fig-align: center
 #| out-width: 65%
 heart_failure <- read.csv("data/heart+failure+clinical+records/heart_failure_clinical_records_dataset.csv")
-spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure,
+          ylab = "Death", xlab="Age", main="Proportion dying, by age")
 ```
 
 ## Heart failure records {.smaller}
@@ -212,7 +212,8 @@ spineplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
 ```{r r-cd-2}
 #| fig-align: center
 #| out-width: 65%
-cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure)
+cdplot(as.factor(DEATH_EVENT) ~ age, data=heart_failure,
+       ylab = "Death", xlab="Age", main="Proportion dying, by age")
 ```
 
 
@@ -356,7 +357,9 @@ fisher.test(claritin_tab)
 ```{python py-claritin-1}
 claritin_tab = np.array([[4, 184], [2, 260]])
 
-stats.fisher_exact(claritin_tab)
+fe_output = stats.fisher_exact(claritin_tab)
+
+print(f"The p-value for the test is {fe_output.pvalue:.4f}.")
 ```
 
 ## Claritin and Nervousness {.smaller}

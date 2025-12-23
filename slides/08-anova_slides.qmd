@@ -6,7 +6,7 @@ format:
     theme: Boadilla
     navigation: empty
     colortheme: lily
-    footer: "ST2137-2420"
+    footer: "ST2137-2520"
 
 execute:
   echo: true
@@ -15,10 +15,6 @@ execute:
 ```{r}
 #| echo: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("../venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 ```
 
 ## Motivation {.smaller}
@@ -50,6 +46,7 @@ heifers <- read.csv("data/antibio.csv")
 u_levels <- sort(unique(heifers$type))
 heifers$type <- factor(heifers$type, levels=u_levels[c(2, 1, 3, 4, 5, 6)])
 bwplot(org ~ as.factor(type), data=heifers, 
+       xlab="Antibiotics", ylab="Organic material remaning",
        main="Organic Weight after 8 weeks")
 ```
 

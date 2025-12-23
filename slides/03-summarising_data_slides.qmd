@@ -6,7 +6,7 @@ format:
     theme: Boadilla
     navigation: empty
     colortheme: lily
-    footer: "ST2137-2420"
+    footer: "ST2137-2520"
 
 execute:
   echo: true
@@ -15,10 +15,6 @@ execute:
 ```{r}
 #| echo: false
 library(knitr)
-library(reticulate)
-venv_paths <- read.csv("../venv_paths.csv")
-id <- match(Sys.info()["nodename"], venv_paths$nodename)
-use_virtualenv(venv_paths$path[id])
 ```
 
 ## Our goals {.smaller} 
@@ -137,7 +133,7 @@ When we create a histogram, here are some things that we look for:
 ```{r r-stud-perf-3}
 #| fig-align: center
 #| out-width: "50%"
-hist(stud_perf$G3, main="G3 histogram")
+hist(stud_perf$G3, main="G3 histogram", xlab="G3 scores")
 ```
 
 ## Student Performance: Histograms
@@ -148,7 +144,8 @@ hist(stud_perf$G3, main="G3 histogram")
 #| fig-align: center
 #| out-width: "50%"
 fig = stud_perf.G3.hist(grid=False)
-fig.set_title('G3 histogram');
+fig.set_title('G3 histogram')
+fig.set_xlabel('G3 scores');
 ```
 
 ## Conditioning on Another Variable  {.smaller}
@@ -159,7 +156,8 @@ fig.set_title('G3 histogram');
 #| fig-align: center
 #| out-width: "50%"
 library(lattice)
-histogram(~G3 | Medu, data=stud_perf, type="density")
+histogram(~G3 | Medu, data=stud_perf, type="density",
+          main="G3 scores, by Medu levels", as.table=TRUE)
 ```
 
 ## Conditioning on Another Variable  {.smaller}
@@ -201,7 +199,8 @@ $$
 ```{r r-stud-perf-5}
 #| fig-align: center
 #| out-width: "50%"
-densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, bw=1.5)
+densityplot(~G3, groups=Medu, data=stud_perf, auto.key = TRUE, 
+            main="G3 scores, by Medu", bw=1.5)
 ```
 
 ## Student Performance: Density Estimates {.smaller}
@@ -247,6 +246,26 @@ Here are the steps for drawing a boxplot:
 :::
 
 ::::
+
+## Boxplots {.smaller}
+
+#### R code 
+
+```{r r-stud-perf-6}
+bwplot(G3 ~ goout, horizontal = FALSE, main="G3 scores, by goout", 
+       xlab="No. of times the student goes out per week",
+       data=stud_perf)
+```
+
+## Boxplots {.smaller}
+
+#### Python code
+
+```{python py-stud-perf-6}
+stud_perf.plot.box(column='G3', by='goout', 
+                   xlabel='No. of times student goes out per week');
+```
+
 
 ## QQ-plots {.smaller}
 

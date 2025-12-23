@@ -6,7 +6,7 @@ format:
     theme: Boadilla
     navigation: empty
     colortheme: lily
-    footer: "ST2137-2420"
+    footer: "ST2137-2520"
 
 execute:
   echo: true
@@ -27,7 +27,7 @@ library(knitr)
 *  R was first released on 29 Feb 2000, with its latest version as of December 2023 being 4.3.2.
 
 ::: {.callout-important}
-For our class, please ensure that you have version 4.4.1 or later.
+For our class, please ensure that you have version 4.5.1 or later.
 :::
 
 ## Rstudio interface {.smaller}
@@ -40,7 +40,7 @@ For our class, please ensure that you have version 4.4.1 or later.
 
 ## Basic Objects in R {.smaller}
 
-* **Vector**: A set of elements of the same mode (logical; numeric; character).
+* **Vector**: A set of elements of the same mode (logical; numeric; character; factor).
 * **Matrix**: A set of elements appearing in rows and columns, where the
 elements are of the same mode.
 * **Dataframe**: This is similar to the matrix object in that it is
@@ -73,6 +73,17 @@ string_vec
 logical_vec <- c(TRUE, TRUE, FALSE)
 logical_vec
 ```
+
+## Vectors with `c()` {.smaller}
+
+```{r r-data-struc-1c}
+#| echo: true
+
+# creating factors:
+factors_vec <- factor(c("male", "male", "female"))
+factors_vec
+```
+
 
 ## Repeating with `rep()` {.smaller}
 
@@ -142,7 +153,7 @@ b <- c(5,6,7,8)
 ab_row <- rbind(a,b)
 ab_row
 
-ab_col <- cbind(ab_row, c(9,10))
+ab_col <- cbind(m1, c(7,8))
 ab_col
 ```
 
@@ -439,7 +450,7 @@ data2[order(data2$CA1), ]
 #| echo: true
 
 # arranges in reverse order:
-data2[rev(order(data2$CA1)), ] 
+data2[order(data2$CA1, decreasing = TRUE), ] 
 ```
 
 :::
