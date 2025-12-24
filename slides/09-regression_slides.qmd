@@ -435,7 +435,7 @@ $$
 $$
 * Finally, we estimate $\sigma^2$ using 
 $$
-\hat{\sigma^2} = \frac{SS_{Res}}{n-p} = \frac{\textbf{r}' \textbf{r}}{n-p}
+\hat{\sigma^2} = \frac{SS_{Res}}{n-p-1} = \frac{\textbf{r}' \textbf{r}}{n-p-1}
 $$
 
 ## Coefficient of Determination, $R^2$  {.smaller}
