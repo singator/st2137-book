@@ -709,7 +709,7 @@ Most of the theoretical portions in this topic were taken from the textbook
    Sum of Squares. You will learn more about this in ST4233.
 
 
-### Exercises
+## Exercises
 
 1.  Compare the formula for confidence intervals in @sec-spec-grps with the 
     formula in @sec-t-test-formulas. How are they different?
