@@ -19,14 +19,13 @@ book:
     - 09-regression.qmd
     - 10-simulation.qmd
     - references.qmd
-
-bibliography: references.bib
-
-website:
   cookie-consent: true
   google-analytics:
     tracking-id: "G-37NYQNXWRB"
     anonymize-ip: true
+
+
+bibliography: references.bib
 
 format:
   html:
