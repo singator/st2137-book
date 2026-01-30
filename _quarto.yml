@@ -22,6 +22,12 @@ book:
 
 bibliography: references.bib
 
+website:
+  cookie-consent: true
+  google-analytics:
+    tracking-id: "G-37NYQNXWRB"
+    anonymize-ip: true
+
 format:
   html:
     css: style.css
