@@ -124,14 +124,14 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-37NYQNXWRB"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J93EWPPL3L"></script>
 
 <script type="text/plain" cookie-consent="tracking">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'G-37NYQNXWRB', { 'anonymize_ip': true});
+gtag('config', 'G-J93EWPPL3L', { 'anonymize_ip': true});
 </script>
 
 <script type="text/javascript" charset="UTF-8">
@@ -851,10 +851,8 @@ Note
 </tbody>
 </table>
 <p>Note that, assuming the marginal counts are fixed, knowledge of one of the four entries in the table is sufficient to compute all the counts in the table.</p>
-<p>The test statistic is the observed count, <span class="math inline">\(w\)</span>, in this cell. The <span class="math inline">\(p\)</span>-value is calculated as</p>
-<p><span class="math display">\[
-P(W \le w)
-\]</span> In practice, instead of summing over all values, the <span class="math inline">\(p\)</span>-value is obtained by simulating tables with the same marginals as the observed dataset, and estimating the above probability.</p>
+<p>For the purpose of calculating <span class="math inline">\(p\)</span>-values, a table is considered ‘more extreme’ than the one observed, if its probability is less than or equal to that of the observed table. The <span class="math inline">\(p\)</span>-value is the sum of all such probabilities.</p>
+<p>In practice, instead of summing over all values, the <span class="math inline">\(p\)</span>-value is obtained by simulating tables with the same marginals as the observed dataset, and estimating the above probability.</p>
 <p>Using Fisher’s test sidesteps the need for a large sample size (which is required for the <span class="math inline">\(\chi^2\)</span> approximation to hold); hence the “Exact” in the name of the test.</p>
 <div id="exm-claritin-1" class="theorem example" style="background-color: #D5D1D1; padding: 20px">
 <p><span class="theorem-title"><strong>Example 4.8 (Claritin and Nervousness)</strong></span> </p>
