@@ -462,12 +462,10 @@ $c_{1 \cdot}$ from these $r_{1\cdot} + r_{2 \cdot}$ balls.
 Note that, assuming the marginal counts are fixed, knowledge of one of the four 
 entries in the table is sufficient to compute all the counts in the table.
 
-The test statistic is the observed count, $w$, in this cell. The $p$-value is calculated
-as
+For the purpose of calculating $p$-values, a table is considered 'more extreme'
+than the one observed, if its probability is less than or equal to that of the 
+observed table. The $p$-value is the sum of all such probabilities.
 
-$$
-P(W \le w)
-$$
 In practice, instead of summing over all values, the $p$-value is obtained by
 simulating tables with the same marginals as the observed dataset, and estimating 
 the above probability.
