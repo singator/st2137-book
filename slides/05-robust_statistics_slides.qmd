@@ -269,11 +269,11 @@ $$ {#eq-tm-pop}
   value $\gamma \in (0, 0.2]$.  
 
   1. Compute the value $g = \lfloor \gamma n \rfloor$.
-  2. Replace the smallest $g$ values in the sample with $X_{(g+1)}$ and the largest 
-     $g$ values with $X_{(n-g)}$.
+  2. Replace the smallest $g$ values in the sample with $X_{(g)}$ and the largest 
+     $g$ values with $X_{(n-g+1)}$.
   3. Compute the arithmetic mean of the resulting $n$ values.
   $$
-  X_w = \frac{g\cdot X_{(g+1)} + X_{(g+1)} + \cdots + X_{(n-g)} + g \cdot X_{(n-g)}}{n}
+  X_w = \frac{g\cdot X_{(g)} + X_{(g+1)} + \cdots + X_{(n-g)} + g \cdot X_{(n-g+1)}}{n}
   $$
 
 ## Take note:  {.smaller}
