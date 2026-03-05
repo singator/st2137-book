@@ -118,7 +118,7 @@ The output for the above code is shown in @fig-sas-4a and @fig-sas-4b.
 ::: {layout-nrow=2}
 ![SAS: Inline data created](figs/sas_ex-2a.png){#fig-sas-4a fig-alt="DATA output" fig-align="center" width=70%}
 
-![SAs: PROC MEANS output](figs/sas_ex-2b.png){#fig-sas-4b fig-alt="PROC output" fig-align="center" width=70%}
+![SAS: PROC MEANS output](figs/sas_ex-2b.png){#fig-sas-4b fig-alt="PROC output" fig-align="center" width=70%}
 :::
 
 In the statements above, the `$`'s in the INPUT statement inform SAS that the 
@@ -144,6 +144,8 @@ To review, there are only 2 types of steps in SAS programs:
 - perform specific analysis or function.
 - produce reports or results.
 :::
+
+\pagebreak
 
 ## Basic Rules for SAS Programs
 
@@ -197,12 +199,12 @@ Here is the data dictionary:
 |-------------|--------------------------------------------------------------------------------------------------|
 | instant     | Record index                                                                                     |
 | dteday      | Date                                                                                             |
-| season      | spring, summer, fall, winter)                                                |
-| yr          | Year (0: 2011, 1: 2012)                                                                           |
-| mnth        | Abbreviated month                                                                                   |
-| holiday     | Whether the day is a holiday or not |
-| weekday     | Abbreviated day of the week                                                   |
-| workingday  | yes: If day is neither weekend nor holiday is 1, no: Otherwise   |
+| season      | spring, summer, fall, winter                                                                     |
+| yr          | Year (0: 2011, 1: 2012)                                                                          |
+| mnth        | Abbreviated month                                                                                |
+| holiday     | Whether the day is a holiday or not                                                              |
+| weekday     | Abbreviated day of the week                                                                      |
+| workingday  | yes: If day is neither weekend nor holiday is 1, no: Otherwise                                   |
 | weathersit  | Weather situation: clear: Clear, Few clouds, Partly cloudy, Partly cloudy; mist: Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist; light_precip: Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds; heavy_precip: Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog |
 | temp        | Normalized temperature in Celsius. Divided by 41 (max)                         |
 | atemp       | Normalized perceived temperature in Celsius. Divided by 50 (max)                |
@@ -385,7 +387,7 @@ the following two charts:
 ::: {layout-ncol=2}
 ![SAS: Histogram for humidity](figs/sas_bike_qq-01.png)
 
-![sAS: QQ-plot for humidity](figs/sas_bike_qq-02.png)
+![SAS: QQ-plot for humidity](figs/sas_bike_qq-02.png)
 :::
 
 The plot shows that humidity values are quite close to a Normal distribution, apart 
